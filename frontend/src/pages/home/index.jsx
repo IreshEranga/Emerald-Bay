@@ -9,7 +9,9 @@ const Home = () => {
   }));
   //
   return (
+    
     <div className="container d-flex flex-column align-items-center">
+      {/** 
       <h1 className="text-center mt-5">Suppliers Management</h1>
       {!isAuthenticated ? (
         <div className="flex-row d-flex justify-content-center mt-5 w-100">
@@ -33,7 +35,8 @@ const Home = () => {
             Logout
           </button>
         </div>
-      )}
+      )}    */}
+      <h1>Emerald Bay Restaurant</h1>
     </div>
   );
 };
