@@ -12,6 +12,8 @@ import {
 } from "../pages";
 
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
+import Delivery_rider from "../pages/delivery_rider"
+
 
 const AppRoutes = () => {
   return (
@@ -44,7 +46,7 @@ const AppRoutes = () => {
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
             <Route path="/deliveryManager" element={<DeliveryManagerSideBar />} />
-            <Route path="/admin/suppliers" element={<Supplier />} />
+            <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
           </Route>
 
 

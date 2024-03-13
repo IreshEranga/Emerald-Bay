@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EMERALDBAYLOGO from "../../../assets/EMERALDBAYLOGO.png";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
-import Supplier from "../../supplier";
+import Delivery_rider from "../../delivery_rider";
 import Category from "../../category";
 import StockRequest from "../../stock_request";
 import DeliveryManagerDashboard from "./deliveyManagerDashBoard.jsx";
@@ -28,10 +28,10 @@ const DeliveryManagerSideBar = () => {
             <DeliveryManagerDashboard />
           </>
         );
-      case "Suppliers":
+      case "Riders":
         return (
           <>
-            <Supplier />
+            <Delivery_rider />
           </>
         );
       case "Categories":
