@@ -94,24 +94,24 @@ const DeliveryManagerSideBar = () => {
           </li>
           <li>
             <a
-              href="#suppliers"
+              href="#riders"
               className={`nav-link ${
-                activeContent === "Suppliers" ? "active" : "link-dark"
+                activeContent === "Riders" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Suppliers")}
+              onClick={() => handleLinkClick("Riders")}
             >
-              Supplier Management
+              Delivery Rider Management
             </a>
           </li>
           <li>
             <a
-              href="#categories"
+              href="#orders"
               className={`nav-link ${
-                activeContent === "Categories" ? "active" : "link-dark"
+                activeContent === "Orders" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Categories")}
+              onClick={() => handleLinkClick("Orders")}
             >
-              Category Management
+              Orders
             </a>
           </li>
           <li>

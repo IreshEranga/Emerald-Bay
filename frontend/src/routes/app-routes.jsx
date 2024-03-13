@@ -46,6 +46,9 @@ const AppRoutes = () => {
             <Route path="/deliveryManager" element={<DeliveryManagerSideBar />} />
             <Route path="/admin/suppliers" element={<Supplier />} />
           </Route>
+
+
+
         </Routes>
       </Router>
     </>
