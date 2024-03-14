@@ -26,7 +26,7 @@ const index = () => {
         <div key={index} className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
-              <h5 className="card-title">🚵 Total Orders</h5>
+              <h5 className="card-title">🚵 Total Riders</h5>
               <p className="card-text fs-4 fw-bold">
                 {supplierData?.data?.supplierCount}
               </p>
@@ -36,7 +36,7 @@ const index = () => {
         <div key={index} className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
-              <h5 className="card-title">📦 Cancel Orders</h5>
+              <h5 className="card-title">📦 Total Deliveries</h5>
               <p className="card-text fs-4 fw-bold">
                 {categoryData?.data?.categoryCount}
               </p>
