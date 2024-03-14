@@ -12,6 +12,7 @@ import {
 } from "../pages";
 
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
+import ReservationManagerSideBar from "../pages/reservation_manager/dashboard/ReservationManagerSideBar"
 
 const AppRoutes = () => {
   return (
@@ -44,6 +45,14 @@ const AppRoutes = () => {
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
             <Route path="/deliveryManager" element={<DeliveryManagerSideBar />} />
+            <Route path="/admin/suppliers" element={<Supplier />} />
+          </Route>
+
+          {/* Reservation Manager Private Routes */}
+          <Route
+            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
+          >
+            <Route path="/reservationManager" element={<ReservationManagerSideBar />} />
             <Route path="/admin/suppliers" element={<Supplier />} />
           </Route>
         </Routes>
