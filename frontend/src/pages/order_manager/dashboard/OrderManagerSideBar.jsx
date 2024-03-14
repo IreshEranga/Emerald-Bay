@@ -5,11 +5,11 @@ import { useAuthStore } from "../../../store/useAuthStore";
 import Delivery_rider from "../../delivery_rider";
 import Category from "../../category";
 import StockRequest from "../../stock_request";
-import DeliveryManagerDashboard from "./deliveyManagerDashBoard.jsx";
+import OrderManagerDashBoard from "./OrderManagerDashBoard.jsx";
 
 
 //
-const DeliveryManagerSideBar = () => {
+const OrderManagerSideBar = () => {
   const [activeContent, setActiveContent] = useState("Dashboard");
   //
   const handleLinkClick = (content) => {
@@ -25,7 +25,7 @@ const DeliveryManagerSideBar = () => {
       case "Dashboard":
         return (
           <>
-            <DeliveryManagerDashboard />
+            <OrderManagerDashBoard />
           </>
         );
       case "Riders":
@@ -100,7 +100,7 @@ const DeliveryManagerSideBar = () => {
               }`}
               onClick={() => handleLinkClick("Riders")}
             >
-              Delivery Rider Management
+              Menu
             </a>
           </li>
           <li>
@@ -142,4 +142,4 @@ const DeliveryManagerSideBar = () => {
   );
 };
 //
-export default DeliveryManagerSideBar;
+export default OrderManagerSideBar;

@@ -100,7 +100,7 @@ const ReservationManagerSideBar = () => {
               }`}
               onClick={() => handleLinkClick("Suppliers")}
             >
-              Supplier Management
+              Reserve Management
             </a>
           </li>
           <li>
