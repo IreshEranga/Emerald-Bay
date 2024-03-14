@@ -12,6 +12,7 @@ import {
 } from "../pages";
 
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
+import OrderManagerSideBar from "../pages/order_manager/dashboard/OrderManagerSideBar"
 import Delivery_rider from "../pages/delivery_rider"
 
 
@@ -49,7 +50,13 @@ const AppRoutes = () => {
             <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
           </Route>
 
-
+          {/* Order Manager Private Routes */}
+          <Route
+            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
+          >
+            <Route path="/orderManager" element={<OrderManagerSideBar />} />
+            <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
+          </Route>
 
         </Routes>
       </Router>
