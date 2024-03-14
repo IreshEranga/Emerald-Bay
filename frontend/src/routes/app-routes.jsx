@@ -11,6 +11,9 @@ import {
   SupplierDashboard,
 } from "../pages";
 
+import Customeraffairsidebar from "../pages/customer_affaies_manager/dashboard/customer_affairs_sidebar"
+// import Customeraffairsdashboard from "../pages/customer_affaies_manager/dashboard/customer_affairs_dashboard"
+
 const AppRoutes = () => {
   return (
     <>
@@ -34,6 +37,15 @@ const AppRoutes = () => {
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/suppliers" element={<Supplier />} />
+          </Route>
+
+        {/* customer affairs manager Private Routes */}
+
+          <Route
+            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
+          >
+            <Route path="/customeraffairsmanager" element={<Customeraffairsidebar />} />
             <Route path="/admin/suppliers" element={<Supplier />} />
           </Route>
         </Routes>
