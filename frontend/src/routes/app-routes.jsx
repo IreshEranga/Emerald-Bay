@@ -14,6 +14,7 @@ import {
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
 import ReservationManagerSideBar from "../pages/reservation_manager/dashboard/ReservationManagerSideBar"
 import OrderManagerSideBar from "../pages/order_manager/dashboard/OrderManagerSideBar"
+import CustomerManagerSideBar from "../pages/customerManager/dashboard/CustomerManagerSideBar"
 import Delivery_rider from "../pages/delivery_rider"
 import EmployeeManagerSideBar from "../pages/Employee_Manager/Dashboard/EmployeeManagerSideBar";
 
@@ -76,6 +77,14 @@ const AppRoutes = () => {
           </Route>
 
 
+
+          {/* Customer Manager Private Routes */}
+          <Route
+            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
+          >
+            <Route path="/customerManager" element={<CustomerManagerSideBar />} />
+            <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
+          </Route>
 
         </Routes>
       </Router>
