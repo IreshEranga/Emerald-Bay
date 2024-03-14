@@ -58,6 +58,8 @@ const AppRoutes = () => {
             <Route path="/reservationManager" element={<ReservationManagerSideBar />} />
             <Route path="/admin/suppliers" element={<Supplier />} />
           </Route>
+          
+
           {/* Order Manager Private Routes */}
           <Route
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
