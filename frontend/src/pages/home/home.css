@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
+
+.welcome {
+    background-image: url(../../assets/IMG_506.jpg);
+    padding: 50px;
+    padding-bottom: 1200px;
+    background-size: cover; /* Adjust the background size */
+    width: 1550px; /* Set the width */
+    height: 600px; /* Set the height */
+    opacity: 0.8;
+}
+
+.welcome h1{
+    padding-top: 250px;
+    color: rgb(255, 255, 255);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: 900;
+    font-size: 80px;
+    text-align: center;
+}
+
+.welcome h3{
+    background-color: rgb(59, 58, 58);
+    padding: 20px;
+    opacity: 0.8;
+    margin-top: 300px;
+    color: white;
+    font-weight: 1000;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.aboutsec{
+    box-sizing: border-box;
+    border: 1px solid black;
+    margin-left: 150px;
+    display: flex;
+    justify-content: space-between;
+    background-color: bisque;
+}
+
+.abouth3{
+    font-family: 'Brush Script MT';
+    text-align: left;
+    margin:20px 0 0 40px;
+    font-weight: 500;
+}
+
+.abouth1{
+    text-align: left;
+    font-weight: 800;
+    margin: 40px 0 20px 80px;
+}
+  
+.leftsection {
+    width: 40%;
+    padding-right: 2rem;
+    box-sizing: border-box;
+}
+  
+.rightsection {
+    width: 55%;
+    padding-left: 2rem;
+    box-sizing: border-box;
+}
+
+.aboutdescription{
+    text-align: left;
+    margin: 20px 10px 10px 50px;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.rightsection img{
+    margin-top: 50px;
+    border-radius: 20px;
+    margin-bottom: 50px;
+}
+
+.offersec, .review1{
+    box-sizing: border-box;
+    
+    /*border: 1px solid black;*/
+    margin-right: 150px;
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-between;
+   /* background-image: url('../images/foodstock.png');
+    background-color: rgba(255, 255, 255, 0.5);*/
+}
+
+.offerh1{
+    margin-top: 35px;
+}
+
+.offerh12{
+    font-family: Georgia, serif;
+    font-weight: 700;
+    color: white;
+}
+
+.flavours-line {
+    border: none;
+    border-top: 20px solid rgb(255, 255, 0); /* Adjust the thickness and color as needed */
+    width: 100px; /* Adjust the width as needed */
+    margin-top: 15px; 
+    margin-left: 400px;
+}
+
+.offerp{
+    color: white;
+    font-weight: 300;
+    text-align: left;
+    font-size: 25px;
+    margin-left: 100px;
+    padding: 20px;
+}
+  
+/*
+.review1{
+    background-image: url(../images/IMG_503.jpeg);
+    width: 100%;
+}*/
+
+.reviewtag{
+    box-sizing: border-box;
+    background-color: rgb(238, 155, 11);
+    border-radius: 20px;
+    margin-top: 75px;
+}
+
+.righthand{
+    
+    padding-left: 2rem;
+    box-sizing: border-box;
+}
+
+.reviewtag .reviewname h1{
+    color: black;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 20px;
+}
+
+.reviewtype h2{
+    color: white;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 20px;
+    font-family: monospace;
+}
+
+.reviewdescription{
+    font-style: italic;
+    font-size: 25px;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: left;
+    padding: 10px 20px;
+    color: white;
+}
+
+/*gmap*/
+.gmapframe, #gmapcanvas{
+    height: 75vh;
+    width: 67.vh;
+    border-radius: 5px;
+    margin-top: 80px;
+    position:relative;
+    margin-left: 380px;
+}
+
+.contactform{
+    border: 1px solid ;
+    background-color: orange;
+    padding-bottom: 50px;
+    padding-top: 100px;
+    margin-top: -480px;
+}
+
+.leftupper h2 {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-size: 55px;
+  font-style: normal;
+  color: white;
+  padding-right: 550px;
+}
+
+.leftupper h1{
+    font-family:monospace;
+    font-weight: 900;
+    font-size: 80px;
+    color: white;
+    padding-right: 750px;
+    
+}
+
+.boder{
+    border: 15px solid white;
+    width: 200px;
+    margin-left: 290px;
+}
+
+.lower{
+    margin-top: 50px;
+    width: 50%;
+    margin-left: 30px;
+    
+}
+
+.adrs{
+    padding-top: 15px;
+    padding-right: 950px;
+}
