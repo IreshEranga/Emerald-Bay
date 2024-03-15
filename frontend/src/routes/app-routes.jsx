@@ -12,7 +12,11 @@ import {
 } from "../pages";
 
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
+import ReservationManagerSideBar from "../pages/reservation_manager/dashboard/ReservationManagerSideBar"
+import OrderManagerSideBar from "../pages/order_manager/dashboard/OrderManagerSideBar"
+import CustomerManagerSideBar from "../pages/customerManager/dashboard/CustomerManagerSideBar"
 import Delivery_rider from "../pages/delivery_rider"
+import EmployeeManagerSideBar from "../pages/Employee_Manager/Dashboard/EmployeeManagerSideBar";
 
 
 const AppRoutes = () => {
@@ -49,7 +53,38 @@ const AppRoutes = () => {
             <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
           </Route>
 
+          {/* Reservation Manager Private Routes */}
+          <Route
+            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
+          >
+            <Route path="/reservationManager" element={<ReservationManagerSideBar />} />
+            <Route path="/admin/suppliers" element={<Supplier />} />
+          </Route>
+          
 
+          {/* Order Manager Private Routes */}
+          <Route
+            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
+          >
+            <Route path="/orderManager" element={<OrderManagerSideBar />} />
+            <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
+          </Route>
+          {/* Employee Manager Private Routes */}
+          <Route
+            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
+          >
+            <Route path="/employeeManager" element={<EmployeeManagerSideBar />} />
+          </Route>
+
+
+
+          {/* Customer Manager Private Routes */}
+          <Route
+            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
+          >
+            <Route path="/customerManager" element={<CustomerManagerSideBar />} />
+            <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
+          </Route>
 
         </Routes>
       </Router>
