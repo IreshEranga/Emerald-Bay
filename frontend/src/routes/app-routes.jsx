@@ -19,6 +19,7 @@ import Delivery_rider from "../pages/delivery_rider"
 import EmployeeManagerSideBar from "../pages/Employee_Manager/Dashboard/EmployeeManagerSideBar";
 
 
+
 const AppRoutes = () => {
   return (
     <>
@@ -58,7 +59,7 @@ const AppRoutes = () => {
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
             <Route path="/reservationManager" element={<ReservationManagerSideBar />} />
-            <Route path="/admin/suppliers" element={<Supplier />} />
+            
           </Route>
           
 
