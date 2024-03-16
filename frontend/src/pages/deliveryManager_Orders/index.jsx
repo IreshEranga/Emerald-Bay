@@ -68,6 +68,9 @@ return (
                             <tr key={category._id}>
                               <td>{category.name}</td>
                               <td>{category.description}</td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                               <td>
                                 <Button
                                   className="m-1 px-3"
