@@ -106,7 +106,7 @@ function NavBar({ isAuthenticated, user, logout }) {
           <img src={logo} alt="logo" width={'200px'} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
+        <Navbar.Collapse id="navbarScroll" style={{marginLeft:'250px'}}>
           <Nav className="me-auto my-2 my-lg-0 ms-auto" style={{ maxHeight: '100px', gap: '40px', textAlign: 'left' }} navbarScroll>
             <Nav.Link href="#action1">Home</Nav.Link>
             <Nav.Link href="#action2">About</Nav.Link>
@@ -117,7 +117,7 @@ function NavBar({ isAuthenticated, user, logout }) {
           </Nav>
           <div className="container d-flex flex-column align-items-center">
             {!isAuthenticated ? (
-              <Button variant="primary" className="m-2" href="/login">
+              <Button variant="primary" className="m-2" href="/login" style={{marginLeft:'50px'}}>
                 Login
               </Button>
             ) : (
