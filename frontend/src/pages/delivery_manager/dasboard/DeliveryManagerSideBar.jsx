@@ -3,7 +3,7 @@ import EMERALDBAYLOGO from "../../../assets/EMERALDBAYLOGO.png";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
 import Delivery_rider from "../../delivery_rider";
-import Category from "../../category";
+import DeliveryManager_Orders from "../../deliveryManager_Orders";
 import StockRequest from "../../stock_request";
 import DeliveryManagerDashboard from "./deliveyManagerDashBoard.jsx";
 
@@ -34,18 +34,18 @@ const DeliveryManagerSideBar = () => {
             <Delivery_rider />
           </>
         );
-      case "Categories":
+      case "Orders":
         return (
           <>
-            <Category />
+            <DeliveryManager_Orders />
           </>
-        );
+        );/*
       case "StockRequest":
         return (
           <>
             <StockRequest />
           </>
-        );
+        );*/
       case "Account":
         return <p>This is the Account page content.</p>;
       default:

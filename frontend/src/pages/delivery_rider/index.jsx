@@ -91,8 +91,8 @@ const index = () => {
             "Address",
             "Contact",
             "Email",
-            "Category",
-            "Available Stock",
+            "Total Deliveries",
+            "",
             "Actions",
           ]}
           children={

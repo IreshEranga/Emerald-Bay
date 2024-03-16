@@ -17,7 +17,7 @@ import OrderManagerSideBar from "../pages/order_manager/dashboard/OrderManagerSi
 import CustomerManagerSideBar from "../pages/customerManager/dashboard/CustomerManagerSideBar"
 import Delivery_rider from "../pages/delivery_rider"
 import EmployeeManagerSideBar from "../pages/Employee_Manager/Dashboard/EmployeeManagerSideBar";
-
+import DeliveryManager_Orders from "../pages/deliveryManager_Orders"
 
 
 const AppRoutes = () => {
@@ -52,6 +52,7 @@ const AppRoutes = () => {
           >
             <Route path="/deliveryManager" element={<DeliveryManagerSideBar />} />
             <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
+            <Route path="/deliveryManager/orders" element={<DeliveryManager_Orders />} />
           </Route>
 
           {/* Reservation Manager Private Routes */}
