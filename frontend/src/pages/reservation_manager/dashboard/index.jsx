@@ -1,5 +1,6 @@
 import ReservationManagerSideBar from "./ReservationManagerSideBar";
 
+
 const index = () => {
   return (
     <>
