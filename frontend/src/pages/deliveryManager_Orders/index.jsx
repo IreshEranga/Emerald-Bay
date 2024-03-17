@@ -143,7 +143,7 @@ return (
             <section className='ongoingOrders'>
               {/*<h1 className='name'>Ongoing Orders</h1> */}
               {/* Content for ongoing orders */}
-              <div className="ongoingordercard">
+             {/*} <div className="ongoingordercard">
                   <div className="section1">
                           <h3 className='orderid'>Order Id : order id</h3>
                           <h3 className='cusid'>Customer Id : id</h3>
@@ -154,7 +154,12 @@ return (
                           <h3 className="address">Address : Address</h3>
                           <h3 className="rider">Rider: RiderName</h3>
                       </div>
-                  </div>
+          </div>*/}
+                <div className="ongoingOrdertable">
+                          <BootstrapTable 
+                        headers={["Order ID","Customer ID","Customer Name","Address","Rider","Action"]}
+                      />
+                </div>
             </section>
           )}
         </div>
