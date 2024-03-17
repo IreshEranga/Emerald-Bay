@@ -4,6 +4,7 @@ import { useCategoryCount } from "../../../hooks/useCategoryData";
 import { useStockRequestCount } from "../../../hooks/useStockRequestData";
 import { useAuthStore } from "../../../store/useAuthStore";
 
+
 const index = () => {
   const { user } = useAuthStore((state) => ({
     user: state.user,
@@ -26,7 +27,7 @@ const index = () => {
         <div key={index} className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
-              <h5 className="card-title">🚵 Total Riders</h5>
+              <h5 className="card-title">🛎 Total Table Reservations</h5>
               <p className="card-text fs-4 fw-bold">
                 {supplierData?.data?.supplierCount}
               </p>
@@ -36,7 +37,7 @@ const index = () => {
         <div key={index} className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
-              <h5 className="card-title">📦 Total Deliveries</h5>
+              <h5 className="card-title">👑 Total VIP Room Reservations</h5>
               <p className="card-text fs-4 fw-bold">
                 {categoryData?.data?.categoryCount}
               </p>
@@ -46,7 +47,7 @@ const index = () => {
         <div key={index} className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
-              <h5 className="card-title">💢 Total Order Requests</h5>
+              <h5 className="card-title">🎊 Total Outdoor Events</h5>
               <p className="card-text fs-4 fw-bold">
                 {stockRequestData?.data?.stockRequestCount}
               </p>

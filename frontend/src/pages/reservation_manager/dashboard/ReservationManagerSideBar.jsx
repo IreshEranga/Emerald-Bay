@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import EMERALDBAYLOGO from "../../../assets/EMERALDBAYLOGO.png";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
-import Supplier from "../../supplier";
-import Category from "../../category";
-import StockRequest from "../../stock_request";
+import Table_Reservations from "../../Table_Reservations";
+import VIP_Rooms from "../../VIP_Rooms";
+import Outdoor_Events from "../../Outdoor_Events";
 import ReservationManagerDashboard from "./ReservationManagerDashBoard.jsx";
 
 
@@ -19,6 +19,7 @@ const ReservationManagerSideBar = () => {
   const { logout } = useAuthStore((state) => ({
     logout: state.logout,
   }));
+
   //
   const renderContent = () => {
     switch (activeContent) {
@@ -28,22 +29,22 @@ const ReservationManagerSideBar = () => {
             <ReservationManagerDashboard />
           </>
         );
-      case "Suppliers":
+      case "Table_Reservations":
         return (
           <>
-            <Supplier />
+            <Table_Reservations />
           </>
         );
-      case "Categories":
+      case "VIP_Rooms":
         return (
           <>
-            <Category />
+            <VIP_Rooms />
           </>
         );
-      case "StockRequest":
+      case "Outdoor_Events":
         return (
           <>
-            <StockRequest />
+            <Outdoor_Events />
           </>
         );
       case "Account":
@@ -94,35 +95,35 @@ const ReservationManagerSideBar = () => {
           </li>
           <li>
             <a
-              href="#suppliers"
+              href="#tables"
               className={`nav-link ${
-                activeContent === "Suppliers" ? "active" : "link-dark"
+                activeContent === "Table_Reservations" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Suppliers")}
+              onClick={() => handleLinkClick("Table_Reservations")}
             >
-              Reserve Management
+              Table Reservations
             </a>
           </li>
           <li>
             <a
-              href="#categories"
+              href="#rooms"
               className={`nav-link ${
-                activeContent === "Categories" ? "active" : "link-dark"
+                activeContent === "VIP_Rooms" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Categories")}
+              onClick={() => handleLinkClick("VIP_Rooms")}
             >
-              Category Management
+              VIP Room Reservations
             </a>
           </li>
           <li>
             <a
-              href="#stock-requests"
+              href="#events"
               className={`nav-link ${
-                activeContent === "StockRequest" ? "active" : "link-dark"
+                activeContent === "Outdoor_Events" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("StockRequest")}
+              onClick={() => handleLinkClick("Outdoor_Events")}
             >
-              Stock Requests
+              Outdoor Events
             </a>
           </li>
         </ul>
