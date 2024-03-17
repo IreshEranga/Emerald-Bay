@@ -18,7 +18,10 @@ import CustomerManagerSideBar from "../pages/customerManager/dashboard/CustomerM
 import Delivery_rider from "../pages/delivery_rider"
 import EmployeeManagerSideBar from "../pages/Employee_Manager/Dashboard/EmployeeManagerSideBar";
 import DeliveryManager_Orders from "../pages/deliveryManager_Orders"
-
+import Table_Reservations from "../pages/Table_Reservations"
+import VIP_Rooms from "../pages/VIP_Rooms"
+import Outdoor_Events from "../pages/Outdoor_Events"
+//import TableReservationsDashboard from "../pages/Table_Reservations/Dashboard";
 
 const AppRoutes = () => {
   return (
