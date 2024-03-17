@@ -25,6 +25,7 @@ const AppRoutes = () => {
     <>
       <Router>
         <Routes>
+          
           <Route path="/" element={<Home />} />
 
           {/* Check Login Status */}
@@ -38,7 +39,7 @@ const AppRoutes = () => {
             {/* <Route path="/supplier/profile" element={<SupplierProfile />} /> */}
           </Route>
 
-          {/* Admin Private Routes */}
+          {/* Supplier Manager Private Routes */}
           <Route
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
@@ -60,17 +61,18 @@ const AppRoutes = () => {
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
             <Route path="/reservationManager" element={<ReservationManagerSideBar />} />
-            
+            <Route path="/reservationManager/tables" element={<Table_Reservations />} />
+            <Route path="/reservationManager/rooms" element={<VIP_Rooms />} />
+            <Route path="/reservationManager/events" element={<Outdoor_Events />} />
           </Route>
           
-
           {/* Order Manager Private Routes */}
           <Route
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
             <Route path="/orderManager" element={<OrderManagerSideBar />} />
-            <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
           </Route>
+
           {/* Employee Manager Private Routes */}
           <Route
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
@@ -78,14 +80,11 @@ const AppRoutes = () => {
             <Route path="/employeeManager" element={<EmployeeManagerSideBar />} />
           </Route>
 
-
-
           {/* Customer Manager Private Routes */}
           <Route
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
             <Route path="/customerManager" element={<CustomerManagerSideBar />} />
-            <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
           </Route>
 
         </Routes>
