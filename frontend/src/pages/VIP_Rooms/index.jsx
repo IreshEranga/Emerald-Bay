@@ -89,11 +89,11 @@ const index = () => {
           headers={[
             "Image",
             "Name",
-            "Address",
             "Contact",
             "Email",
-            "Category",
-            "Available Stock",
+            "Date",
+            "Time",
+            "Room No",
             "Actions",
           ]}
           children={
@@ -113,11 +113,11 @@ const index = () => {
                   )}
                 </td>
                 <td>{supplier.name}</td>
-                <td>{supplier.address}</td>
                 <td>{supplier.contact}</td>
                 <td>{supplier.email}</td>
-                <td>{supplier.category.name}</td>
-                <td>{supplier.available_stock}</td>
+                <td>{supplier.date}</td>
+                <td>{supplier.time}</td>
+                <td>{supplier.room_number}</td>
                 <td>
                   <Button
                     className="m-1 px-3"
