@@ -107,7 +107,7 @@ return (
              {/* <h1 className='name'>Pending Orders</h1> */}
               {/* Content for pending orders */}
 
-                <div className="ordercard">
+                {/*<div className="ordercard">
 
                     <div className="section1">
                         <h3 className='orderid'>Order Id : order id</h3>
@@ -122,20 +122,28 @@ return (
                                 <option value="">Select a rider</option>
                                 <option value="rider1">Rider 1</option>
                                 <option value="rider2">Rider 2</option>
-                                {/* Add more options as needed */}
+                                
                             </select>
 
                             <button type="submit" class="btn btn-secondary btn-sm submitbtn">Submit</button>
                     </div>
 
-                </div>
+          </div>*/}
+
+          <div className="pendingordertable">
+            <BootstrapTable 
+              headers={["Order ID","Customer ID","Customer Name","Address","Action"]}
+            />
+
+            
+          </div>
             </section>
           )}
           {activeSection === 'ongoing' && (
             <section className='ongoingOrders'>
               {/*<h1 className='name'>Ongoing Orders</h1> */}
               {/* Content for ongoing orders */}
-              <div className="ongoingordercard">
+             {/*} <div className="ongoingordercard">
                   <div className="section1">
                           <h3 className='orderid'>Order Id : order id</h3>
                           <h3 className='cusid'>Customer Id : id</h3>
@@ -146,7 +154,12 @@ return (
                           <h3 className="address">Address : Address</h3>
                           <h3 className="rider">Rider: RiderName</h3>
                       </div>
-                  </div>
+          </div>*/}
+                <div className="ongoingOrdertable">
+                          <BootstrapTable 
+                        headers={["Order ID","Customer ID","Customer Name","Address","Rider","Action"]}
+                      />
+                </div>
             </section>
           )}
         </div>
