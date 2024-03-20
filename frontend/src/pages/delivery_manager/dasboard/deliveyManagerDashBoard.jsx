@@ -1,5 +1,5 @@
 import React from "react";
-import { useSupplierCount } from "../../../hooks/useSupplierData";
+import { useRiderCount } from "../../../hooks/useRiderData";
 import { useCategoryCount } from "../../../hooks/useCategoryData";
 import { useStockRequestCount } from "../../../hooks/useStockRequestData";
 import { useAuthStore } from "../../../store/useAuthStore";
@@ -10,7 +10,7 @@ const index = () => {
   }));
   
   // Get the data from the react-query hook
-  const { data: supplierData } = useSupplierCount();
+  const { data: riderData } = useRiderCount();
   const { data: categoryData } = useCategoryCount();
   const { data: stockRequestData } = useStockRequestCount();
   //
@@ -28,7 +28,7 @@ const index = () => {
             <div className="card-body">
               <h5 className="card-title">🚵 Total Riders</h5>
               <p className="card-text fs-4 fw-bold">
-                {supplierData?.data?.supplierCount}
+                {riderData?.data?.riderCount}
               </p>
             </div>
           </div>
