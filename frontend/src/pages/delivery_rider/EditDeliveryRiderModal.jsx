@@ -1,26 +1,25 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { useSupplierStore } from "../../store/useSupplierStore";
-import { useSupplierData } from "../../hooks/useSupplierData";
+import { useRiderStore } from "../../store/useRiderStore";
+import { useRiderData } from "../../hooks/useRiderData";
 import { BootstrapModal } from "../../components";
 import Toast from "../../utils/toast";
-import SupplierAPI from "../../api/SupplierAPI";
+import RiderAPI from "../../api/RiderAPI";
 import { handleUpload } from "../../utils/HandleUpload";
-import { useCategoryData } from "../../hooks/useCategoryData";
 
-const EditSupplierModal = () => {
+const EditDeliveryRiderrModal = () => {
   // Get the state and actions from the store
-  const { isEditSupplierModalOpen, closeEditSupplierModal, selectedSupplier } =
-    useSupplierStore((state) => ({
-      isEditSupplierModalOpen: state.isEditSupplierModalOpen,
-      closeEditSupplierModal: state.closeEditSupplierModal,
-      selectedSupplier: state.selectedSupplier,
+  const { isEditDeliveryRiderModalOpen, closeEditDeliveryRiderModal, selectedRider } =
+    useRiderStore((state) => ({
+      isEditDeliveryRiderModalOpen: state.isEditDeliveryRiderModalOpen,
+      closeEditDeliveryRiderModal: state.closeEditDeliveryRiderModal,
+      selectedRider: state.selectedRider,
     }));
 
   // Get refetch function from react-query hook
-  const { refetch } = useSupplierData();
-  const { data: categories, refetch: refetchCategories } = useCategoryData();
+  const { refetch } = useRiderData();
+ 
 
   // React hook form setup
   const {
@@ -48,15 +47,15 @@ const EditSupplierModal = () => {
   }
 
   // Update mutation
-  const { mutate } = useMutation(SupplierAPI.update, {
+  const { mutate } = useMutation(RiderAPI.update, {
     onSuccess: () => {
       // reset the percent and image state
       setPercent(0);
       setImage("");
       // close the modal and refetch the data
       refetch();
-      closeEditSupplierModal();
-      Toast({ type: "success", message: "Supplier updated successfully" });
+      closeEditDeliveryRiderModal();
+      Toast({ type: "success", message: "Rider updated successfully" });
     },
   });
 
@@ -66,28 +65,28 @@ const EditSupplierModal = () => {
       data.image = image;
     }
     //
-    mutate({ id: selectedSupplier._id, data });
+    mutate({ id: selectedRider._id, data });
   };
 
   useEffect(() => {
     // Set the form values when the selectedSupplier changes
-    if (selectedSupplier) {
-      setValue("name", selectedSupplier.name);
-      setValue("address", selectedSupplier.address);
-      setValue("contact", selectedSupplier.contact);
-      setValue("email", selectedSupplier.email);
-      setValue("category", selectedSupplier.category._id);
+    if (selectedRider) {
+      setValue("name", selectedRider.name);
+      setValue("address", selectedRider.address);
+      setValue("contact", selectedRider.contact);
+      setValue("email", selectedRider.email);
+      
     }
-  }, [selectedSupplier, setValue]);
+  }, [selectedRider, setValue]);
 
   const phoneNumberPattern =
     /^\+?([0-9]{1,3})?[-. ]?([0-9]{3})[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
   return (
     <BootstrapModal
-      show={isEditSupplierModalOpen}
-      handleClose={closeEditSupplierModal}
-      title={`Edit Supplier: ${selectedSupplier?.name}`}
+      show={isEditDeliveryRiderModalOpen}
+      handleClose={closeEditDeliveryRiderModal}
+      title={`Edit Delivery Rider: ${selectedRider?.name}`}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-3">
@@ -164,8 +163,8 @@ const EditSupplierModal = () => {
           </label>
           <br />
           <img
-            src={selectedSupplier?.image}
-            alt={selectedSupplier?.name}
+            src={selectedRider?.image}
+            alt={selectedRider?.name}
             width="50"
             height="50"
           />
@@ -206,28 +205,6 @@ const EditSupplierModal = () => {
           </div>
         </div>
 
-        {/* Category Select Dropdown */}
-        <div className="mb-3">
-          <label htmlFor="category" className="form-label">
-            Category
-          </label>
-          <select
-            className="form-control"
-            id="category"
-            name="category"
-            {...register("category", { required: true })}
-          >
-            {categories &&
-              categories.data.categories.map((category) => (
-                <option key={category._id} value={category._id}>
-                  {category.name}
-                </option>
-              ))}
-          </select>
-          {errors.category && (
-            <small className="form-text text-danger">Category is required</small>
-          )}
-        </div>
 
         <hr />
 
@@ -239,4 +216,4 @@ const EditSupplierModal = () => {
   );
 };
 
-export default EditSupplierModal;
+export default EditDeliveryRiderrModal;
