@@ -1,26 +1,26 @@
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { useSupplierStore } from "../../store/useSupplierStore";
-import { useSupplierData } from "../../hooks/useSupplierData";
+import { useRiderStore } from "../../store/useRiderStore";
+import { useRiderData } from "../../hooks/useRiderData";
 import { BootstrapModal } from "../../components";
-import SupplierAPI from "../../api/SupplierAPI";
+import RiderAPI from "../../api/RiderAPI";
 import { useState } from "react";
 import { handleUpload } from "../../utils/HandleUpload";
 import Toast from "../../utils/toast";
-import { useCategoryData } from "../../hooks/useCategoryData";
+
 
 const AddDeliveryRiderModal = () => {
   // Get the state and actions from the store
-  const { isAddSupplierModalOpen, closeAddSupplierModal } = useSupplierStore(
+  const { isAddDeliveryRiderModalOpen, closeAddDeliveryRiderModal } = useRiderStore(
     (state) => ({
-      isAddSupplierModalOpen: state.isAddSupplierModalOpen,
-      closeAddSupplierModal: state.closeAddSupplierModal,
+      isAddDeliveryRiderModalOpen: state.isAddDeliveryRiderModalOpen,
+      closeAddDeliveryRiderModal: state.closeAddDeliveryRiderModal,
     })
   );
 
   // Get refetch function from react-query hook
-  const { refetch } = useSupplierData();
-  const { data: categories, refetch: refetchCategories } = useCategoryData();
+  const { refetch } = useRiderData();
+  //const { data: categories, refetch: refetchCategories } = useCategoryData();
 
   // React hook form setup
   const {
@@ -47,15 +47,15 @@ const AddDeliveryRiderModal = () => {
   }
 
   // Create mutation
-  const { mutate } = useMutation(SupplierAPI.create, {
+  const { mutate } = useMutation(RiderAPI.create, {
     onSuccess: () => {
       // reset the percent and image state
       setPercent(0);
       setImage("");
       // close the modal and refetch the data
-      closeAddSupplierModal();
+      closeAddDeliveryRiderModal();
       refetch();
-      Toast({ type: "success", message: "Supplier created successfully" });
+      Toast({ type: "success", message: "Delivery Rider created successfully" });
     },
     onError: (error) => {
       Toast({ type: "error", message: error.message });
@@ -78,11 +78,26 @@ const AddDeliveryRiderModal = () => {
 
   return (
     <BootstrapModal
-      show={isAddSupplierModalOpen}
-      handleClose={closeAddSupplierModal}
+      show={isAddDeliveryRiderModalOpen}
+      handleClose={closeAddDeliveryRiderModal}
       title="Add Delivery Rider"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="form-group">
+
+        <label htmlFor="employeeid">Employee ID</label>
+          <input
+            type="text"
+            className="form-control"
+            id="employeeid"
+            name="employeeid"
+            {...register("employeeid", { required: true })}
+          />
+          {errors.employeeid && (
+            <small className="form-text text-danger">Employee ID is required</small>
+          )}
+        </div>
+
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
@@ -96,6 +111,8 @@ const AddDeliveryRiderModal = () => {
             <small className="form-text text-danger">Name is required</small>
           )}
         </div>
+
+
         <div className="form-group">
           <label htmlFor="address">Address</label>
           <textarea
@@ -116,7 +133,7 @@ const AddDeliveryRiderModal = () => {
             id="contact"
             name="contact"
             {...register("contact", {
-              required: "Phone number is required",
+              required: "Contact number is required",
               pattern: {
                 value: phoneNumberPattern,
                 message: "Invalid phone number format",
@@ -142,7 +159,7 @@ const AddDeliveryRiderModal = () => {
         </div>
 
         <div className="form-group mb-3">
-          <label htmlFor="image">Supplier Image</label>
+          <label htmlFor="image">Rider Image</label>
           <input
             type="file"
             className="form-control"
@@ -178,7 +195,7 @@ const AddDeliveryRiderModal = () => {
           </div>
         </div>
 
-        {/* Category Select Dropdown */}
+        {/* Category Select Dropdown 
         <div className="form-group">
           <label htmlFor="category">Category</label>
           <select
@@ -198,7 +215,7 @@ const AddDeliveryRiderModal = () => {
           {errors.category && (
             <small className="form-text text-danger">Category is required</small>
           )}
-        </div>
+        </div>*/}
 
         <button
           type="submit"
