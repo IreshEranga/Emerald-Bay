@@ -1,10 +1,12 @@
+import React, { useState } from 'react';
+import axios from 'axios';
 import Button from "react-bootstrap/Button";
 import { useMutation } from "@tanstack/react-query";
-import { useSupplierStore } from "../../store/useSupplierStore";
-import { useSupplierData } from "../../hooks/useSupplierData";
+import { useRiderStore } from "../../store/useRiderStore";
+import { useRiderData } from "../../hooks/useRiderData";
 import { confirmMessage } from "../../utils/Alert";
 import Toast from "../../utils/toast";
-import SupplierAPI from "../../api/SupplierAPI";
+import RiderAPI from "../../api/RiderAPI";
 import AddDeliveryRiderModal from "./AddDeliveryRiderModal";
 import EditDeliveryRiderModal from "./EditDeliveryRiderModal";
 import { BootstrapTable } from "../../components";
@@ -17,21 +19,21 @@ import { MdEditSquare } from "react-icons/md";
 
 const index = () => {
   // Get the state and actions from the store
-  const { openAddSupplierModal, openEditSupplierModal, setSelectedSupplier } =
-    useSupplierStore((state) => ({
-      openAddSupplierModal: state.openAddSupplierModal,
-      openEditSupplierModal: state.openEditSupplierModal,
-      setSelectedSupplier: state.setSelectedSupplier,
+  const { openAddDeliveryRiderModal, openEditDeliveryRiderModal, setSelectedRider } =
+    useRiderStore((state) => ({
+      openAddDeliveryRiderModal: state.openAddDeliveryRiderModal,
+      openEditDeliveryRiderModal: state.openEditDeliveryRiderModal,
+      setSelectedRider: state.setSelectedRider,
     }));
 
   // Get the data from the react-query hook
-  const { data, refetch } = useSupplierData();
+  const { data, refetch } = useRiderData();
 
   // Delete mutation
-  const { mutate } = useMutation(SupplierAPI.delete, {
+  const { mutate } = useMutation(RiderAPI.delete, {
     onSuccess: () => {
       refetch();
-      Toast({ type: "success", message: "Supplier deleted successfully" });
+      Toast({ type: "success", message: "Rider deleted successfully" });
     },
     onError: (error) => {
       Toast({ type: "error", message: error?.response?.data?.message });
@@ -46,24 +48,24 @@ const index = () => {
   };
 
   // Edit function
-  const handleEdit = (supplier) => {
-    setSelectedSupplier(supplier);
-    openEditSupplierModal();
+  const handleEdit = (rider) => {
+    setSelectedRider(rider);
+    openEditDeliveryRiderModal();
   };
 
   // PDF report function
   const downloadPDF = () => {
-    // Calclating the total suppliers
-    const suppliers = data.data.suppliers;
-    const supplierCount = suppliers.length;
+    // Calclating the total riders
+    const riders = data.data.riders;
+    const riderCount = riders.length;
     //
-    const additionalInfo = `Total Suppliers: ${supplierCount}`;
+    const additionalInfo = `Total Riders: ${riderCount}`;
     //
     generatePDF(
       additionalInfo,
-      ["name", "address", "contact", "email"],
-      data.data.suppliers,
-      "suppliers-report"
+      ["name", "address", "contact", "email", "rides"],
+      data.data.riders,
+      "Delivery_riders-report"
     );
   };
 
@@ -74,8 +76,8 @@ const index = () => {
 
       <h1 className="mb-5">Riders</h1>
 
-      <Button variant="primary" className="m-1" onClick={openAddSupplierModal}>
-        <IoMdAddCircleOutline className="mb-1" /> <span>Add Rider</span>
+      <Button variant="primary" className="m-1" onClick={openAddDeliveryRiderModal}>
+        <IoMdAddCircleOutline className="mb-1" /> <span>Add a Rider</span>
       </Button>
 
       {/* Download PDF report */}
@@ -87,23 +89,23 @@ const index = () => {
         <BootstrapTable
           headers={[
             "Image",
+            "Employee ID",
             "Name",
             "Address",
             "Contact",
             "Email",
             "Total Deliveries",
-            "",
             "Actions",
           ]}
           children={
             data &&
-            data.data.suppliers.map((supplier) => (
-              <tr key={supplier._id}>
+            data.data.riders.map((rider) => (
+              <tr key={rider._id}>
                 <td>
-                  {supplier.image ? (
+                  {rider.image ? (
                     <img
-                      src={supplier.image}
-                      alt={supplier.name}
+                      src={rider.image}
+                      alt={rider.name}
                       width="50"
                       height="50"
                     />
@@ -111,17 +113,17 @@ const index = () => {
                     <BsCircle size={30} />
                   )}
                 </td>
-                <td>{supplier.name}</td>
-                <td>{supplier.address}</td>
-                <td>{supplier.contact}</td>
-                <td>{supplier.email}</td>
-                <td>{supplier.category.name}</td>
-                <td>{supplier.available_stock}</td>
+                <td>{rider.employeeid}</td>
+                <td>{rider.name}</td>
+                <td>{rider.address}</td>
+                <td>{rider.contact}</td>
+                <td>{rider.email}</td>
+                <td>{rider.rides}</td>
                 <td>
                   <Button
                     className="m-1 px-3"
                     variant="danger"
-                    onClick={() => onDelete(supplier._id)}
+                    onClick={() => onDelete(rider._id)}
                     size="sm"
                   >
                     <AiTwotoneDelete className="mb-1 mx-1" />
@@ -130,7 +132,7 @@ const index = () => {
                   <Button
                     className="m-1 px-3"
                     variant="info"
-                    onClick={() => handleEdit(supplier)}
+                    onClick={() => handleEdit(rider)}
                     size="sm"
                   >
                     <MdEditSquare className="mb-1 mx-1" />
