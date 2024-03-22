@@ -8,6 +8,8 @@ const sendEmail = require("../util/sendEmail");
 
 const deliveryRiderController = {
 
+  
+
   createRiders: async (req, res) => {
     try {
       const { name, email, password } = req.body;
