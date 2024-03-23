@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuthStore } from "../../store/useAuthStore";
+import {useNavigate} from 'react-router-dom';
 
 const Home = () => {
   const { isAuthenticated, logout, user } = useAuthStore((state) => ({
@@ -8,6 +9,13 @@ const Home = () => {
     user: state.user,
   }));
   //
+  const navigate = useNavigate();
+
+  // Define the function to navigate to the feedback page
+  const handleFeedback = () => {
+    console.log("feedback");
+    navigate('/feedback')
+  }
   return (
     
     <div className="container d-flex flex-column align-items-center">
@@ -37,6 +45,7 @@ const Home = () => {
         </div>
       )}    */}
       <h1>Emerald Bay Restaurant</h1>
+      <button onClick={() => handleFeedback()}>Feedback</button>
     </div>
   );
 };

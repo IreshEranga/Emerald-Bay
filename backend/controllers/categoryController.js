@@ -2,6 +2,7 @@ const Category = require("../models/Category");
 const User = require("../models/User");
 
 const categoryController = {
+  
   createCategory: async (req, res) => {
     try {
       const { name, description } = req.body;

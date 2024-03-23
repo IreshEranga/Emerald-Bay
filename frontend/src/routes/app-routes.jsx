@@ -16,6 +16,7 @@ import ReservationManagerSideBar from "../pages/reservation_manager/dashboard/Re
 import OrderManagerSideBar from "../pages/order_manager/dashboard/OrderManagerSideBar"
 import Delivery_rider from "../pages/delivery_rider"
 import EmployeeManagerSideBar from "../pages/Employee_Manager/Dashboard/EmployeeManagerSideBar";
+import FeedbackForm from "../pages/customer_affairs/feedbackpage";
 
 
 const AppRoutes = () => {
@@ -29,6 +30,7 @@ const AppRoutes = () => {
           <Route element={<CheckLoginStatus />}>
             <Route path="/login" element={<Login />} />
           </Route>
+          <Route path="/feedback" element={< FeedbackForm/>} />
 
           {/* Supplier Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.SUPPLIER]} />}>
@@ -37,12 +39,12 @@ const AppRoutes = () => {
           </Route>
 
           {/* Admin Private Routes */}
-          <Route
+          {/* <Route
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
-          >
+          > */}
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/suppliers" element={<Supplier />} />
-          </Route>
+          {/* </Route> */}
 
           {/* Delivery Manager Private Routes */}
           <Route
@@ -69,11 +71,11 @@ const AppRoutes = () => {
             <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
           </Route>
           {/* Employee Manager Private Routes */}
-          <Route
+          {/* <Route
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
-          >
+          > */}
             <Route path="/employeeManager" element={<EmployeeManagerSideBar />} />
-          </Route>
+          {/* </Route> */}
 
 
 

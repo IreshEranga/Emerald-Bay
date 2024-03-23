@@ -6,6 +6,7 @@ import Supplier from "../../supplier";
 import Category from "../../category";
 import StockRequest from "../../stock_request";
 import Dashboard from "./Dashboard";
+import FeedbackForm from "../../customer_affairs/feedbacklist";
 //
 const AdminSidebar = () => {
   const [activeContent, setActiveContent] = useState("Dashboard");
@@ -44,6 +45,13 @@ const AdminSidebar = () => {
             <StockRequest />
           </>
         );
+        case "CustomerAffairs":
+          return (
+            <>
+              {/* <StockRequest /> */}
+              <FeedbackForm />
+            </>
+          );
       case "Account":
         return <p>This is the Account page content.</p>;
       default:
@@ -121,6 +129,17 @@ const AdminSidebar = () => {
               onClick={() => handleLinkClick("StockRequest")}
             >
               Stock Requests
+            </a>
+          </li>
+          <li>
+            <a
+              href="#customer-affairs"
+              className={`nav-link ${
+                activeContent === "CustomerAffairs" ? "active" : "link-dark"
+              }`}
+              onClick={() => handleLinkClick("CustomerAffairs")}
+            >
+              Customer Affairs
             </a>
           </li>
         </ul>
