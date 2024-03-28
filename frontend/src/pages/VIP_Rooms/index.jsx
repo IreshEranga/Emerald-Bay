@@ -1,10 +1,10 @@
 import Button from "react-bootstrap/Button";
 import { useMutation } from "@tanstack/react-query";
-import { useSupplierStore } from "../../store/useSupplierStore";
-import { useSupplierData } from "../../hooks/useSupplierData";
+import { useVIPRoomStore } from "../../store/useVIPRoomStore";
+import { useRoomData } from "../../hooks/useRoomData";
 import { confirmMessage } from "../../utils/Alert";
 import Toast from "../../utils/toast";
-import SupplierAPI from "../../api/SupplierAPI";
+import VIPRoomAPI from "../../api/VIPRoomAPI";
 import { BootstrapTable } from "../../components";
 import { BsCircle } from "react-icons/bs";
 import { generatePDF } from "../../utils/GeneratePDF";
@@ -18,21 +18,21 @@ import EditRoomReservations from "./EditRoomReservations";
 
 const index = () => {
   // Get the state and actions from the store
-  const { openAddSupplierModal, openEditSupplierModal, setSelectedSupplier } =
-    useSupplierStore((state) => ({
-      openAddSupplierModal: state.openAddSupplierModal,
-      openEditSupplierModal: state.openEditSupplierModal,
-      setSelectedSupplier: state.setSelectedSupplier,
+  const { openAddRoomReservations, openEditRoomReservations, setSelectedRoom } =
+    useVIPRoomStore((state) => ({
+      openAddRoomReservations: state.openAddRoomReservations,
+      openEditRoomReservations: state.openEditRoomReservations,
+      setSelectedSupplier: state.setSelectedRoom,
     }));
 
   // Get the data from the react-query hook
-  const { data, refetch } = useSupplierData();
+  const { data, refetch } = useRoomData();
 
   // Delete mutation
-  const { mutate } = useMutation(SupplierAPI.delete, {
+  const { mutate } = useMutation(VIPRoomAPI.delete, {
     onSuccess: () => {
       refetch();
-      Toast({ type: "success", message: "Supplier deleted successfully" });
+      Toast({ type: "success", message: "Room Reservation deleted successfully" });
     },
     onError: (error) => {
       Toast({ type: "error", message: error?.response?.data?.message });
@@ -41,30 +41,30 @@ const index = () => {
 
   // Delete function
   const onDelete = (id) => {
-    confirmMessage("Are you sure?", "This action cannot be undone.", () => {
+    confirmMessage("Are you sure to delete room reservation?", "This action cannot be undone.", () => {
       mutate(id);
     });
   };
 
   // Edit function
-  const handleEdit = (supplier) => {
-    setSelectedSupplier(supplier);
-    openEditSupplierModal();
+  const handleEdit = (vipRoom) => {
+    setSelectedRoom(vipRoom);
+    openEditRoomReservations();
   };
 
   // PDF report function
   const downloadPDF = () => {
-    // Calclating the total suppliers
-    const suppliers = data.data.suppliers;
-    const supplierCount = suppliers.length;
+    // Calclating the total room reservations
+    const vipRooms = data.data.vipRoom;
+    const vipRoomCount = vipRooms.length;
     //
-    const additionalInfo = `Total Suppliers: ${supplierCount}`;
+    const additionalInfo = `Total Room Reservations: ${vipRoomCount}`;
     //
     generatePDF(
       additionalInfo,
-      ["name", "address", "contact", "email"],
-      data.data.suppliers,
-      "suppliers-report"
+      ["name", "contact", "email", "date", "time"],
+      data.data.vipRooms,
+      "VIP Room Reservation Report"
     );
   };
 
@@ -75,7 +75,7 @@ const index = () => {
 
       <h1 className="mb-5">VIP Room Reservations</h1>
 
-      <Button variant="primary" className="m-1" onClick={openAddSupplierModal}>
+      <Button variant="primary" className="m-1" onClick={openAddRoomReservations}>
         <IoMdAddCircleOutline className="mb-1" /> <span>Add VIP Room Reservation</span>
       </Button>
 
@@ -87,42 +87,30 @@ const index = () => {
       <div className="mt-5">
         <BootstrapTable
           headers={[
-            "Image",
+            /*"Image",*/
             "Name",
             "Contact",
             "Email",
             "Date",
             "Time",
-            "Room No",
             "Actions",
           ]}
           children={
             data &&
-            data.data.suppliers.map((supplier) => (
-              <tr key={supplier._id}>
-                <td>
-                  {supplier.image ? (
-                    <img
-                      src={supplier.image}
-                      alt={supplier.name}
-                      width="50"
-                      height="50"
-                    />
-                  ) : (
-                    <BsCircle size={30} />
-                  )}
-                </td>
-                <td>{supplier.name}</td>
-                <td>{supplier.contact}</td>
-                <td>{supplier.email}</td>
-                <td>{supplier.date}</td>
-                <td>{supplier.time}</td>
-                <td>{supplier.room_number}</td>
+            data.data.vipRooms.map((vipRoom) => (
+              <tr key={vipRoom._id}>
+               
+                <td>{vipRoom.name}</td>
+                <td>{vipRoom.contact}</td>
+                <td>{vipRoom.email}</td>
+                <td>{vipRoom.date}</td>
+                <td>{vipRoom.time}</td>
+                <td>{vipRoom.room_number}</td>
                 <td>
                   <Button
                     className="m-1 px-3"
                     variant="danger"
-                    onClick={() => onDelete(supplier._id)}
+                    onClick={() => onDelete(vipRoom._id)}
                     size="sm"
                   >
                     <AiTwotoneDelete className="mb-1 mx-1" />
@@ -131,7 +119,7 @@ const index = () => {
                   <Button
                     className="m-1 px-3"
                     variant="info"
-                    onClick={() => handleEdit(supplier)}
+                    onClick={() => handleEdit(vipRoom)}
                     size="sm"
                   >
                     <MdEditSquare className="mb-1 mx-1" />
