@@ -59,22 +59,26 @@ const index = () => {
     const riders = data.data.riders;
     const riderCount = riders.length;
     //
+    //const title = "EMERALD BAY RESTAURANT";
     const additionalInfo = `Total Riders: ${riderCount}`;
     //
     generatePDF(
+      //title,
       additionalInfo,
       ["name", "address", "contact", "email", "rides"],
       data.data.riders,
-      "Delivery_riders-report"
+      "Delivery_riders_report"
     );
   };
 
   return (
-    <div className="container mt-5">
+    <div className="ridercontainer">
+      
+      <div className="container mt-5" style={{backgroundColor:"white"}}>
       <AddDeliveryRiderModal />
       <EditDeliveryRiderModal />
 
-      <h1 className="mb-5">Riders</h1>
+      <h1 className="mb-5" style={{fontFamily:'monospace'}}>Riders</h1>
 
       <Button variant="primary" className="m-1" onClick={openAddDeliveryRiderModal}>
         <IoMdAddCircleOutline className="mb-1" /> <span>Add a Rider</span>
@@ -144,6 +148,7 @@ const index = () => {
           }
         />
       </div>
+    </div>
     </div>
   );
 };
