@@ -15,7 +15,8 @@ const index = () => {
   const { data: stockRequestData } = useStockRequestCount();
   //
   return (
-    <div className="container mt-4">
+    <div className="maincontainer" >
+      <div className="container mt-4">
       {user && (
         <div className="alert alert-primary" role="alert">
           You are logged in as <strong>{user.role}</strong>
@@ -54,6 +55,7 @@ const index = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
