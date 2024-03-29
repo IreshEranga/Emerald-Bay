@@ -16,12 +16,17 @@ import ReservationManagerSideBar from "../pages/reservation_manager/dashboard/Re
 import OrderManagerSideBar from "../pages/order_manager/dashboard/OrderManagerSideBar"
 import CustomerManagerSideBar from "../pages/customerManager/dashboard/CustomerManagerSideBar"
 import Delivery_rider from "../pages/delivery_rider"
-import EmployeeManagerSideBar from "../pages/Employee_Manager/Dashboard/EmployeeManagerSideBar";
+import EmployeeManagerSideBar from "../pages/Employee_Manager/Dashboard/EmployeeManagerSideBar"
 import DeliveryManager_Orders from "../pages/deliveryManager_Orders"
 import Table_Reservations from "../pages/Table_Reservations"
 import VIP_Rooms from "../pages/VIP_Rooms"
 import Outdoor_Events from "../pages/Outdoor_Events"
+import AboutUs from '../pages/AboutUs/AboutUs'
+import Reservations from '../pages/Reservations/Reservations'
+import Menu from "../pages/Menu/Menu"
+import Gallery from "../pages/Gallery/Gallery";
 //import TableReservationsDashboard from "../pages/Table_Reservations/Dashboard";
+
 
 const AppRoutes = () => {
   return (
@@ -30,6 +35,10 @@ const AppRoutes = () => {
         <Routes>
           
           <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/reservations" element={<Reservations />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/gallery" element={<Gallery />} />
 
           {/* Check Login Status */}
           <Route element={<CheckLoginStatus />}>
