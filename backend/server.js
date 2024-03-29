@@ -12,6 +12,8 @@ const supplierRoutes = require("./routes/supplierRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const stockRequestRoutes = require("./routes/stockRequestRoutes");
 const riderRoutes = require("./routes/riderRoutes");
+const employeeRoutes = require("./routes/employeeRoutes");
+
 
 // express app
 const app = express();
@@ -30,6 +32,10 @@ app.use("/api/stock-requests", stockRequestRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/riders",riderRoutes);
 
+
+
+ app.use("/employee",employeeRoutes);
+
 // connect to db
 mongoose
   .connect(process.env.MONGO_URI)
@@ -43,3 +49,6 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+
+  
