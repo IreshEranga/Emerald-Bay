@@ -8,6 +8,7 @@ import VIPRoomAPI from "../../api/VIPRoomAPI";
 import Toast from "../../utils/toast";
 import { useCategoryData } from "../../hooks/useCategoryData";
 
+
 const AddRoomReservations = () => {
   // Get the state and actions from the store
   const { isAddRoomReservationsOpen, closeAddRoomReservations } = useVIPRoomStore(
@@ -30,8 +31,6 @@ const AddRoomReservations = () => {
     //setPercent(0);
     //setImage("");
   };
-
-
 
   // React hook form setup
   const {
