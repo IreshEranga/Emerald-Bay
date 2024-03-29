@@ -97,6 +97,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import logo from '../assets/EMERALDBAYLOGO.png';
+import {LinkContainer} from 'react-router-bootstrap';
 
 
 function NavBar({ isAuthenticated, user, logout }) {
