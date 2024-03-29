@@ -70,11 +70,9 @@ const Reservations = () => {
     
               <NavBar />
 
-     <div className="welcome">
-          <h1>EMERALD BAY RESTAURANT</h1>
-          <h3>Bringing the authentic Sri Lankan culinary experience to the Heart of Mirissa.🌴 </h3>
+    <div className="reservations">
     </div>
- 
+
     <div className="reservations-container"><br></br><br></br>
       <h2>DINE AT ONE OF THE BEST RESTAURANTS IN MIRISSA.<br></br>
         AN EXCLUSIVE CULINARY JOURNEY</h2><br></br><br></br>

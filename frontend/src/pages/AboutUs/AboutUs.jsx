@@ -5,6 +5,7 @@ import aboutimg from '../../assets/IMG_501.avif';
 import foodstock from '../../assets/foodstock.png';
 import './AboutUs.css';
 
+
 const AboutUs = () => {
     const { isAuthenticated, logout, user } = useAuthStore((state) => ({
         isAuthenticated: state.isAuthenticated,
