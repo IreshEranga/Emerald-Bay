@@ -4,7 +4,7 @@ import NavBar from '../../components/Navbar';
 import './Menu.css';
 
 
-const Menu = () => {
+/*const Menu = () => {
     const { isAuthenticated, logout, user } = useAuthStore((state) => ({
         isAuthenticated: state.isAuthenticated,
         logout: state.logout,
@@ -43,9 +43,9 @@ const Menu = () => {
             </div>
           )}   
           
-          </div>*/}
+          </div>*/
     
-    <div className="welcome">
+    /*<div className="welcome">
               <h1>EMERALD BAY RESTAURANT</h1>
               <h3>Bringing the authentic Sri Lankan culinary experience to the Heart of Mirissa.🌴 </h3>
             </div>
@@ -56,6 +56,60 @@ const Menu = () => {
 
 
   );
-};
+};*/
+
+//export default Menu;
+
+
+const Menu = () => {
+    return (   
+        <div style={{backgroundColor:'black'}}>
+    
+              <NavBar />
+
+        <div className="menu-container">
+            <section className="menu-section">
+                <h2>Side Dishes</h2>
+                <ul className="menu-items">
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                    <li>Item 3</li>
+                    {/* Add more items as needed */}
+                </ul>
+            </section>
+
+            <section className="menu-section">
+                <h2>Beverages</h2>
+                <ul className="menu-items">
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                    <li>Item 3</li>
+                    {/* Add more items as needed */}
+                </ul>
+            </section>
+
+            <section className="menu-section">
+                <h2>Salads</h2>
+                <ul className="menu-items">
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                    <li>Item 3</li>
+                    {/* Add more items as needed */}
+                </ul>
+            </section>
+
+            <section className="menu-section">
+                <h2>Rices</h2>
+                <ul className="menu-items">
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                    <li>Item 3</li>
+                    {/* Add more items as needed */}
+                </ul>
+            </section>
+        </div>
+        </div>
+    );
+}
 
 export default Menu;

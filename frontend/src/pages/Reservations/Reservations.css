@@ -1,0 +1,64 @@
+/* frontend/src/pages/Reservations/Reservations.css */
+
+.reservations-container {
+    padding: 20px;
+    background-color: white;
+  }
+
+  .reservations-container h2 {
+    text-align: center;
+    color: black;
+  }
+  
+  /*.reservation-categories {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .reservation-category {
+    width: 30%;
+    margin-bottom: 20px;
+    text-align: center;
+  }*/
+  
+  .reservation-categories {
+    display: flex;
+    flex-direction: column; /* Change flex-direction to column */
+    align-items: center; /* Center-align the items */
+    background-color: black;
+  }
+  
+  .reservation-category {
+    width: 80%; /* Adjust the width as needed */
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .reservation-category img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .reservation-category h3 {
+    margin-top: 10px;
+    color: wheat;
+  }
+  
+  .reservation-category p {
+    margin-bottom: 10px;
+    color: white;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }  
