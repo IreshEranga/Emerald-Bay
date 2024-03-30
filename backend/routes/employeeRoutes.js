@@ -4,30 +4,35 @@ const router = require("express").Router();
 let Employee = require("../models/Employee");
 
 
-//add student
+//add employee
 router.route("/add").post((req,res)=>{
-    //create a new student object with the data from the request body
+    //create a new employee object with the data from the request body
 
-    const userId = req.body.userId;
+    const EmpID = req.body.EmpID;
     const name = req.body.name;
     const email = req.body.email;
+    const role = req.body.role;
+   // const salary = req.body.salary;
 
     //convert request to a number 
-    const mobile = Number(req.body.mobile);
+    const salary = Number(req.body.salary);
+    const phone = Number(req.body.phone);
 
     const newEmployee = new Employee({
-        userId,
+        EmpID,
         name,
         email,
-        mobile
+        phone,
+        role,
+        salary
     });
 
-    
+
 
     newEmployee.save()
     //if insert success  //js promise
         .then(()=>{
-            res.json("Student Added ");
+            res.json("Employee Added ");
         })
         //if unsucces
         .catch((err)=>{
@@ -35,7 +40,7 @@ router.route("/add").post((req,res)=>{
         })
 })
 
-//get students
+//get employees
 router.route("/").get((req, res) => {
     //return all students in the database
     Employee.find()
@@ -77,28 +82,30 @@ router.route("/update/:id").put(async (req,res)=>{
     
 })*/
 
-// update student
-router.route("/update/:userId").put(async (req, res) => {
-    let userId = req.params.userId;
+// update employee
+router.route("/update/:EmpID").put(async (req, res) => {
+    let EmpID = req.params.EmpID;
 
     // destructure the request body
-    const { name, email, mobile } = req.body;
+    const { name, email,phone, role,salary } = req.body;
 
     const updateEmployee = {
-        userId,
+        EmpID,
         name,
         email,
-        mobile
+        phone,
+        role,
+        salary
     };
 
     try {
-        const updateEmployee = await Em.findOneAndUpdate({ userId }, updateEmployee, { new: true });
+        const updateEmployee = await Em.findOneAndUpdate({ EmpID }, updateEmployee, { new: true });
 
         if (!updatedEmployee) {
-            return res.status(404).send({ status: "User not found" });
+            return res.status(404).send({ status: "Employee not found" });
         }
 
-        res.status(200).send({ status: "User updated", user: updatedEmployee });
+        res.status(200).send({ status: "Employee updated", employee: updatedEmployee });
     } catch (err) {
         console.log(err);
         res.status(500).send({ status: "Error with updating data" });
@@ -106,17 +113,17 @@ router.route("/update/:userId").put(async (req, res) => {
 });
 
 
-//delete student
-router.route("/delete/:userId").delete(async (req,res)=>{
-    let userId=req.params.userId;
+//delete employee
+router.route("/delete/:EmpID").delete(async (req,res)=>{
+    let EmpID=req.params.EmpID;
     
-    await Employee.findOneAndDelete({userId:userId})
+    await Employee.findOneAndDelete({EmpID:EmpID})
     .then(()=>{
-        res.status(200).send({status:"User deleted"})
+        res.status(200).send({status:"Employee deleted"})
     })
     .catch((err)=>{
         console.log(err.message);
-        res.status(500).send({status:"Error with delete student", error : err.message});
+        res.status(500).send({status:"Error with delete employee", error : err.message});
     })
 
 
@@ -139,21 +146,21 @@ router.route("/get/:userId").get(async (req,res)=>{
      })
 })*/
 
-// fetch data from one student
-router.route("/get/:userId").get(async (req, res) => {
-    let userId = req.params.userId;
+// fetch data from one employee
+router.route("/get/:EmpID").get(async (req, res) => {
+    let EmpID = req.params.EmpID;
 
     try {
-        const user = await Employee.findOne({ userId: userId });
+        const employee = await Employee.findOne({ EmpID: EmpID });
 
-        if (!user) {
-            return res.status(404).send({ status: "Student not found" });
+        if (!employee) {
+            return res.status(404).send({ status: "Employee not found" });
         }
 
-        res.status(200).send({ status: "Student fetched", user: user });
+        res.status(200).send({ status: "Employee fetched", employee: employee });
     } catch (err) {
         console.log(err.message);
-        res.status(500).send({ status: "Error with getting student", error: err.message });
+        res.status(500).send({ status: "Error with getting employee", error: err.message });
     }
 });
 
