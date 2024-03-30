@@ -113,7 +113,7 @@ function FormExample() {
             </Form.Group>
           </Row>
 
-          <Button type="submit" style={{fontSize:'30px', marginLeft:'500px'}}>Submit</Button>
+          <Button type="submit" style={{fontSize:'30px', marginLeft:'500px', width:'250px'}}>Submit</Button>
         </Form>
       )}
     </Formik>
