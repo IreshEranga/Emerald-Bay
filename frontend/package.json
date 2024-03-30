@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.1",
     "@tanstack/react-query": "^4.29.7",
     "@tanstack/react-query-devtools": "^4.29.7",
     "@testing-library/jest-dom": "^5.17.0",
@@ -15,6 +16,7 @@
     "html-entities": "^2.5.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.29",
+    "mdb-react-ui-kit": "^7.2.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
     "react-dom": "^18.2.0",
