@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {Link } from "react-router-dom";
-import { useAuthStore } from "../../store/useAuthStore";
+//import { useAuthStore } from "../../store/useAuthStore";
 import NavBar from '../../components/Navbar';
 import './Reservations.css';
 import TableReservation from '../../assets/IMG_9975.jpg';

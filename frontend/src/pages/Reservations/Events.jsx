@@ -78,7 +78,7 @@ const Events = () => {
     }
 
     return (
-        <div className="vip-room-reservation">
+        <div className="vip-room-reservation" style={{backgroundImage: `url(../../assets/IMG_0001.jpg)`}}>
             <h2 className="center-heading">Plan An Event</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">

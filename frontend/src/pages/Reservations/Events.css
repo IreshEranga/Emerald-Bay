@@ -8,14 +8,6 @@
     background-color: #f9f9f9;
 }
 
-body {
-    background-image: url(../../assets/IMG_0001.jpg); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
-}
-
 .center-heading {
     text-align: center;
 }
