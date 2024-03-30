@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const employeeSchema = new Schema({
 
-    userId: {
+    EmpID: {
         type: String,
         required: true
     },
@@ -17,7 +17,15 @@ const employeeSchema = new Schema({
         type: String,
         required: true
     },
-    mobile: {
+    phone: {
+        type: Number,
+        required: true
+    },
+    role: {
+        type: String,
+        required: true
+    },
+    salary: {
         type: Number,
         required: true
     },
