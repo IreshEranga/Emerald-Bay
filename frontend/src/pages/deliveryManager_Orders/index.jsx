@@ -30,7 +30,8 @@ return (
         
 
         <div className="orderdash">
-          <h1 className='name'>Orders</h1>
+          <h1 className='name' style={{fontFamily:'monospace', textAlign:'left'}}>Orders</h1>
+          <div className="orderimg"><img src="" alt="" /></div>
 
           <div className="orderstatus">
             <button onClick={() => handleSectionChange('completed')} className={`btn ${activeSection === 'completed' ? 'btn-success' : 'btn-outline-primary'}`}>Completed</button>
@@ -132,7 +133,7 @@ return (
 
           <div className="pendingordertable">
             <BootstrapTable 
-              headers={["Order ID","Customer ID","Customer Name","Address","Action"]}
+              headers={["Order ID","Customer ID","Customer Name","Address","Rider","Action"]}
             />
 
             
