@@ -16,6 +16,8 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { IoMdDownload } from "react-icons/io";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { MdEditSquare } from "react-icons/md";
+import riderimg1 from "../../assets/riderimg1.png"
+
 
 const index = () => {
   // Get the state and actions from the store
@@ -88,6 +90,8 @@ const index = () => {
       <Button variant="success" className="m-1" onClick={downloadPDF}>
         <IoMdDownload className="mb-1" /> <span>Download Report</span>
       </Button>
+
+      <div className="riderimg" style={{marginLeft:'450px', marginTop:'-200px', marginBottom:'-60px'}}><img src={riderimg1} alt="rider"  /></div>
 
       <div className="mt-5">
         <BootstrapTable
