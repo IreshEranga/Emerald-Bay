@@ -3,6 +3,7 @@ import { useAuthStore } from "../../store/useAuthStore";
 import NavBar from '../../components/Navbar'; 
 import aboutimg from '../../assets/IMG_501.avif';
 import foodstock from '../../assets/foodstock.png';
+import restaurantImage from '../../assets/IMG_9995.jpg';
 import './AboutUs.css';
 
 
@@ -47,52 +48,32 @@ const AboutUs = () => {
           
           </div>*/}
     
-    <div className="welcome">
-              <h1>EMERALD BAY RESTAURANT</h1>
-              <h3>Bringing the authentic Sri Lankan culinary experience to the Heart of Mirissa.🌴 </h3>
-            </div>
-    
             <div className="about-us-container">
-      <h1>About Us</h1>
-      <p>Welcome to our restaurant! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel ultricies risus.</p>
-    </div>
-    
-            <div className="aboutsec">
-              <div className="leftsection">
-                <h3 className='abouth3'>Two Simple reasons , One Simple Answer</h3>
-                <h1 className='abouth1'>Why EMERALD BAY?</h1>
-                <p className="aboutdescription">
-                Designed to be the Culinary epicenter, We try to uphold the traditions of the Local Household while bringing out the avours of Sri Lanka with a bounty of fresh seasonal ingredients. We take extra care to deliver fresh farm produce to a local classy table cuisine with an emphasis on seasonal & locally sourced ingredients and with the freshest Seafood.
-                </p>
-              </div>
-    
-              <div className="rightsection">
-                <img src={aboutimg} alt="about food" style={{width:'800px'}} />
-              </div>
+            <div className="about-us-content">
+                <img src={restaurantImage} alt="Restaurant" className="restaurant-image" /><br></br><br></br>
+                <div className="restaurant-details">
+                    <h1>AbOUT OUR RESTAURANT</h1><br></br>
+                    <p>Welcome to our restaurant! We strive to provide a unique dining experience for all our guests.</p>
+                    <p>Our chefs are passionate about crafting delicious dishes using the freshest ingredients sourced locally whenever possible.</p>
+                    <p>From appetizers to desserts, we aim to tantalize your taste buds with our diverse menu options.</p>
+                    <p>At our restaurant, we believe in creating memorable moments for our customers, whether it's a romantic dinner for two or a lively gathering with friends and family.</p>
+                    <p>Come join us and embark on a culinary journey that promises to delight your senses.</p>
+                </div><br></br>
+                <div className="contact-details"><br></br>
+                    <h2>Contact Us</h2><br></br>
+                    <p><strong>Address:</strong> Badugoda Junction, Harbour Road, Mirissa.</p>
+                    <p><strong>Phone:</strong><a href="tel:0705320812" class="contact-link">+94 772120231</a></p>
+                    <p><strong>Email:</strong> <a href="mailto:kaviniwickramasooriya@email.com" class="contact-link">kaviniwickramasooriya@email.com</a></p>
+                    <p><strong>Facebook:</strong> <a href="https://www.facebook.com/profile.php?id=61552540748705&mibextid=LQQJ4d" class="social-link">Emerald Bay Resort</a></p>                   
+                </div><br></br>
             </div>
-    
-            <div className="offersec">
-              
-              <div className="leftsection">
-              <img  src={foodstock} style={{width:'1000px', height:'500px'}} alt='foodstock'/>
-              </div>
-    
-              <div className="rightsection" style={{backgroundColor:'black'}}>
-               <h1 className='offerh1' style={{fontFamily:'cursive', fontWeight:'1000', color:'yellow'}}>We Offer</h1> <br />
-               <br />
-               <h1 className='offerh12'>WONDERFUL <br /> FLAVOURS</h1>
-               <hr className="flavours-line" />
-               <p className="offerp">
-               We want you to sit down and enjoy your meal just like the way you enjoy your homemade dishes! We have embarked on this journey and e are glad that you have taken the time off of your schedule to know our story to experience our experience.
-               </p>
-              </div>
-              
-            </div>
+      
     
           <br />
             
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
        
+    </div>
     </div>
 
 

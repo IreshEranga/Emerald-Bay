@@ -1,8 +1,8 @@
 .reservations {
-  background-image: url(../../assets/IMG_9995.jpg);
+  background-image: url(../../assets/IMG_0003.jpg);
   background-size: cover; /* Adjust the background size */
   /*width: 650px; Set the width */
-  height:500px;
+  height:600px;
 }
 
 .reservations-container {

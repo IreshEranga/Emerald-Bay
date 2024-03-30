@@ -15,18 +15,21 @@ const Gallery = () => {
       const [selectedImage, setSelectedImage] = useState(null);
     
       const images = [
-        { id: 1, src: require('../../assets/IMG_0219.jpg'), category: 'Food' },
+        { id: 1, src: require('../../assets/IMG_0219.jpg'), category: 'Interior' },
         { id: 2, src: require('../../assets/IMG_9985.jpg'), category: 'Interior' },
         { id: 3, src: require('../../assets/IMG_0500.jpg'), category: 'Food' },
         { id: 4, src: require('../../assets/IMG_0236.jpg'), category: 'Food' },
         { id: 5, src: require('../../assets/IMG_501.avif'), category: 'Interior' },
-        { id: 6, src: require('../../assets/IMG_9943.jpg'), category: 'Food' },
+        { id: 6, src: require('../../assets/IMG_9943.jpg'), category: 'Interior' },
         { id: 7, src: require('../../assets/IMG_503.jpeg'), category: 'Food' },
-        { id: 8, src: require('../../assets/IMG_9975.jpg'), category: 'Food' },
-        { id: 9, src: require('../../assets/IMG_9995.jpg'), category: 'Food' },
+        { id: 8, src: require('../../assets/IMG_9975.jpg'), category: 'Interior' },
+        { id: 9, src: require('../../assets/IMG_0002.jpg'), category: 'Food' },
         { id: 10, src: require('../../assets/IMG_0250.jpg'), category: 'Food' },
-        { id: 11, src: require('../../assets/IMG_0228.jpg'), category: 'Food' },
-        { id: 12, src: require('../../assets/IMG_9981.jpg'), category: 'Food' }
+        { id: 11, src: require('../../assets/IMG_0228.jpg'), category: 'Interior' },
+        { id: 12, src: require('../../assets/IMG_9981.jpg'), category: 'Food' },
+        { id: 13, src: require('../../assets/IMG_0004.jpg'), category: 'Food' },
+        { id: 14, src: require('../../assets/foodstock.webp'), category: 'Food' },
+        { id: 15, src: require('../../assets/IMG_0005.jpg'), category: 'Food' }
         // Add more images with appropriate src and category
       ];
     
@@ -45,7 +48,7 @@ const Gallery = () => {
         <div style={{backgroundColor:'black'}}>
     
               <NavBar />
-        <div className="gallery-container">
+        <div className="gallery-container"><br></br>
         <h2>SOME OF OUR HIGHLIGHTS</h2><br></br>
         <div className="gallery">
           <div className={`modal ${modalOpen ? 'open' : ''}`} onClick={closeModal}>
@@ -63,7 +66,7 @@ const Gallery = () => {
                 <img src={image.src} alt={`Image ${image.id}`} className="gallery-image" />
               </div>
             ))}
-          </div>
+          </div><br></br>
         </div>
         </div>
         </div>
