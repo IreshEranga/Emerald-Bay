@@ -5,6 +5,7 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import { MdEditSquare } from "react-icons/md";
 import { BootstrapTable } from "../../components";
 import { useCategoryData } from "../../hooks/useCategoryData";
+import orderimg from "../../assets/order.png";
 
 const index = () => {
   
@@ -31,9 +32,9 @@ return (
 
         <div className="orderdash">
           <h1 className='name' style={{fontFamily:'monospace', textAlign:'left'}}>Orders</h1>
-          <div className="orderimg"><img src="" alt="" /></div>
+          <div className="orderimg" style={{marginLeft:'550px', marginTop:'-150px'}}><img src={orderimg} alt="order" /></div>
 
-          <div className="orderstatus">
+          <div className="orderstatus" style={{marginTop:"-120px",marginLeft:'-50px'}}>
             <button onClick={() => handleSectionChange('completed')} className={`btn ${activeSection === 'completed' ? 'btn-success' : 'btn-outline-primary'}`}>Completed</button>
             <button onClick={() => handleSectionChange('pending')} className={`btn ${activeSection === 'pending' ? 'btn-warning' : 'btn-outline-primary'}`}>Pending</button>
             <button onClick={() => handleSectionChange('ongoing')} className={`btn ${activeSection === 'ongoing' ? 'btn-danger' : 'btn-outline-primary'}`}>Ongoing</button>
