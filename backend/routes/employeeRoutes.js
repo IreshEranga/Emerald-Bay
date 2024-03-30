@@ -22,6 +22,8 @@ router.route("/add").post((req,res)=>{
         mobile
     });
 
+    
+
     newEmployee.save()
     //if insert success  //js promise
         .then(()=>{
