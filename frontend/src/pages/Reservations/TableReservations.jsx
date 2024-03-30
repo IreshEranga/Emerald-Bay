@@ -78,6 +78,7 @@ const TableReservations = () => {
     }
 
     return (
+        <div className="outer-container1">
         <div className="vip-room-reservation">
             <h2 className="center-heading">Reserve A Table</h2>
             <form onSubmit={handleSubmit}>
@@ -112,6 +113,7 @@ const TableReservations = () => {
                 </div>
                 <button type="submit">Submit</button>
             </form>
+        </div>
         </div>
     );
 };

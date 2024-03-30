@@ -13,6 +13,8 @@
   .reservations-container h2 {
     text-align: center;
     color: black;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 40px;
   }
   
   /*.reservation-categories {
@@ -48,11 +50,14 @@
   .reservation-category h3 {
     margin-top: 10px;
     color: wheat;
+    font-size: 35px;
   }
   
   .reservation-category p {
     margin-bottom: 10px;
     color: white;
+    font-size: 18px;
+    font-family:'Courier New', Courier, monospace;
   }
   
   button {
