@@ -29,6 +29,9 @@ import VIPRoomReservations from "../pages/Reservations/VIPRoomReservations";
 import Events from "../pages/Reservations/Events";
 import TableReservations from "../pages/Reservations/TableReservations";
 import Register from "../pages/Register/Register";
+import Userprofile from "../pages/Userprofile/Userprofile";
+
+
 
 const AppRoutes = () => {
   return (
@@ -45,7 +48,9 @@ const AppRoutes = () => {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/userProfile" element={<Userprofile />} />
           
+
           {/* Check Login Status */}
           <Route element={<CheckLoginStatus />}>
             <Route path="/login" element={<Login />} />
