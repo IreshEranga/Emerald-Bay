@@ -28,6 +28,7 @@ import Gallery from "../pages/Gallery/Gallery";
 import VIPRoomReservations from "../pages/Reservations/VIPRoomReservations";
 import Events from "../pages/Reservations/Events";
 import TableReservations from "../pages/Reservations/TableReservations";
+import Register from "../pages/Register/Register";
 
 
 const AppRoutes = () => {
@@ -44,6 +45,7 @@ const AppRoutes = () => {
           <Route path="/events" element={<Events />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/register" element={<Register />} />
 
           {/* Check Login Status */}
           <Route element={<CheckLoginStatus />}>
