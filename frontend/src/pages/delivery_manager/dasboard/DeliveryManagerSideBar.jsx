@@ -114,17 +114,6 @@ const DeliveryManagerSideBar = () => {
               Orders
             </a>
           </li>
-          <li>
-            <a
-              href="#stock-requests"
-              className={`nav-link ${
-                activeContent === "StockRequest" ? "active" : "link-dark"
-              }`}
-              onClick={() => handleLinkClick("StockRequest")}
-            >
-              Stock Requests
-            </a>
-          </li>
         </ul>
         <div className="mt-auto">
           <button

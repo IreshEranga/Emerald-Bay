@@ -3,9 +3,9 @@ import {Link } from "react-router-dom";
 //import { useAuthStore } from "../../store/useAuthStore";
 import NavBar from '../../components/Navbar';
 import './Reservations.css';
-import TableReservation from '../../assets/IMG_9975.jpg';
-import VIPRoom from '../../assets/IMG_9981.jpg';
-import Events from '../../assets/IMG_0001.jpg';
+import TableReservation from '../../assets/IMG_9943.jpg';
+import VIPRoom from '../../assets/IMG_0004.jpg';
+import Events from '../../assets/IMG_0005.jpg';
 
 
 /*const Reservations = () => {
@@ -99,10 +99,10 @@ Sample a variety of flavours from around the world whether for breakfast or dinn
           <br></br><Link to="/vip-room-reservations"><button>Book Now</button></Link>
         </div><br></br><br></br>
         <div className="reservation-category"><br></br><br></br>
-          <h3>Outdoor Events</h3><br></br>
+          <h3>Events</h3><br></br>
           <img src={Events} style={{width:'650px', alignContent:'center'}} alt="Events" />
           <br></br><br></br><br></br>
-          <p>Set under plush greenery, surrounded by decades-old trees decorated in fairy lights, this beautiful venue offers a very relaxed environment that is ideal for cocktails, private parties and intimate dinners.<br></br> Host your event in our outdoor space.</p>
+          <p>This is a beautiful venue offers located at poolside a very relaxed environment that is ideal for cocktails, private parties and intimate dinners.<br></br> Host your event in our outdoor space.</p>
           <br></br><Link to="/events"><button>Book Now</button></Link><br></br><br></br>
         </div>
       </div>

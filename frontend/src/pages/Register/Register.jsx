@@ -27,6 +27,7 @@ const Register = () => {
   };
 
   return (
+
     <Container className='all'>
       <Row className="justify-content-md-center-5">
         <Col xs={12} md={6}>
@@ -121,6 +122,7 @@ const Register = () => {
     </Container>
   );
 };
+
 
 
 

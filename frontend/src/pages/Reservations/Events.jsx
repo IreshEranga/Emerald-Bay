@@ -78,7 +78,8 @@ const Events = () => {
     }
 
     return (
-        <div className="vip-room-reservation" style={{backgroundImage: `url(../../assets/IMG_0001.jpg)`}}>
+        <div className="outer-container3">
+        <div className="vip-room-reservation">
             <h2 className="center-heading">Plan An Event</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -102,16 +103,11 @@ const Events = () => {
                 </div>
                 <div className="form-group">
                     <label>Time:</label>
-                    <select name="time" value={formData.time} onChange={handleChange} required>
-                        <option value="">Select Time</option>
-                        {generateTimeSlots().map((slot, index) => (
-                            <option key={index} value={slot}>{slot}</option>
-                        ))}
-                    </select>
-                    <p style={{ color: 'green' }}>One reservation is only available for two hours.</p>
+                    <input type="time" value={formData.time} onChange={handleChange} required/>
                 </div>
                 <button type="submit">Submit</button>
             </form>
+        </div>
         </div>
     );
 };

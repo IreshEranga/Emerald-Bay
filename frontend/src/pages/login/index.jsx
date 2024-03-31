@@ -120,7 +120,9 @@ const index = () => {
                   disabled={isLoading}
                 >
                   {isLoading ? "Loading..." : "Login"}
-                </button>
+                </button><br></br><br></br>
+                <p className="fst-normal">Don't have an account?    
+               <a href="/register" className="text-decoration-none">Register here</a></p>
               </form>
             </div>
           </div>
