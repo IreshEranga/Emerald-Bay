@@ -39,7 +39,7 @@ input[type="time"] {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
+/*
 button {
     display: block;
     width: 100%;
@@ -53,7 +53,7 @@ button {
 
 button:hover {
     background-color: #0056b3;
-}
+}*/
 
 .error {
     color: red;

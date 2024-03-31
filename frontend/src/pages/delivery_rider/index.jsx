@@ -82,12 +82,12 @@ const index = () => {
 
       <h1 className="mb-5" style={{fontFamily:'monospace'}}>Riders</h1>
 
-      <Button variant="primary" className="m-1" onClick={openAddDeliveryRiderModal}>
+      <Button variant="primary" className="m-1" onClick={openAddDeliveryRiderModal} style={{width:'200px'}}>
         <IoMdAddCircleOutline className="mb-1" /> <span>Add a Rider</span>
       </Button>
 
       {/* Download PDF report */}
-      <Button variant="success" className="m-1" onClick={downloadPDF}>
+      <Button variant="success" className="m-1" onClick={downloadPDF} style={{width:'200px'}}>
         <IoMdDownload className="mb-1" /> <span>Download Report</span>
       </Button>
 
