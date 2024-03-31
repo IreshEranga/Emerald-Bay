@@ -81,7 +81,7 @@ const AddEvent = () => {
     <BootstrapModal
       show={isAddSupplierModalOpen}
       handleClose={closeAddSupplierModal}
-      title="Add Delivery Rider"
+      title="Plan An Event"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">

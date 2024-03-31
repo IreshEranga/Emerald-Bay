@@ -67,10 +67,10 @@ const TableReservations = () => {
     }
 
     function generateTimeSlots() {
-        const startTime = 10; // Start from 10:00 AM
-        const endTime = 20; // End at 8:00 PM
+        const startTime = 8; // Start from 08:00 AM
+        const endTime = 21; // End at 8:00 PM
         const slots = [];
-        for (let i = startTime; i <= endTime; i += 2) {
+        for (let i = startTime; i <= endTime; i += 1) {
             const hour = (i < 10) ? `0${i}` : `${i}`;
             slots.push(`${hour}:00`);
         }
@@ -83,35 +83,35 @@ const TableReservations = () => {
             <h2 className="center-heading">Reserve A Table</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Name:</label>
+                    <label>Name :</label>
                     <input type="text" name="name" value={formData.name} onChange={handleChange} required />
                     {errors.name && <span className="error">{errors.name}</span>}
                 </div>
                 <div className="form-group">
-                    <label>Contact Number:</label>
+                    <label>Contact Number :</label>
                     <input type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleChange} required />
                     {errors.contactNumber && <span className="error">{errors.contactNumber}</span>}
                 </div>
                 <div className="form-group">
-                    <label>Email:</label>
+                    <label>Email :</label>
                     <input type="email" name="email" value={formData.email} onChange={handleChange} required />
                     {errors.email && <span className="error">{errors.email}</span>}
                 </div>
                 <div className="form-group">
-                    <label>Date:</label>
+                    <label>Date :</label>
                     <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
-                    <label>Time:</label>
+                    <label>Time :</label>
                     <select name="time" value={formData.time} onChange={handleChange} required>
                         <option value="">Select Time</option>
                         {generateTimeSlots().map((slot, index) => (
                             <option key={index} value={slot}>{slot}</option>
                         ))}
                     </select>
-                    <p style={{ color: 'green' }}>One reservation is only available for two hours.</p>
+                    <p style={{ color: 'green' }}>One reservation is only available for one hour.</p>
                 </div>
-                <button type="submit">Submit</button>
+                <button className='btn' type="submit" style={{width: '250px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft:'55px'}}>Check Availability</button>
             </form>
         </div>
         </div>

@@ -39,10 +39,10 @@ input[type="time"] {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-/*
-button {
-    display: block;
-    width: 100%;
+
+/*.btn {
+    /*display: block;*/
+    /*width: 250px;
     padding: 10px;
     background-color: #007bff;
     color: #fff;
@@ -51,10 +51,11 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0056b3;
-}
-*/
+ button.btn:hover {
+    background-color: white;
+    color: #007bff;
+}*/
+
 .error {
     color: red;
     font-size: 0.8em;

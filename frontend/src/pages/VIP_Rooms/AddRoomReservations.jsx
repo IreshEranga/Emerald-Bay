@@ -72,7 +72,7 @@ const AddRoomReservations = () => {
     <BootstrapModal
       show={isAddRoomReservationsOpen}
       handleClose={closeAddRoomReservations}
-      title="Add Room Reservation"
+      title="Reserve VIP Room"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">

@@ -34,10 +34,10 @@ const Register = () => {
           <h2 className="mb-4">Registration Form</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="name">
-              <Form.Label >Name:</Form.Label>
+              <Form.Label >Full Name :</Form.Label>
               <Form.Control className='name1'
                 type="text" 
-                placeholder="Enter name" 
+                placeholder="Enter full name" 
                 name="name" 
                 value={formData.name} 
                 onChange={handleChange} 
@@ -46,7 +46,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group controlId="email">
-              <Form.Label>Email:</Form.Label>
+              <Form.Label>Email :</Form.Label>
               <Form.Control className='name2'
                 type="email" 
                 placeholder="Enter email" 
@@ -58,7 +58,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group controlId="address">
-              <Form.Label>Address:</Form.Label>
+              <Form.Label>Address :</Form.Label>
               <Form.Control  className='name3'
                 type="text" 
                 placeholder="Enter address" 
@@ -82,12 +82,12 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group controlId="formFile" className="mb-3">
-        <Form.Label>Add your image:</Form.Label>
+        <Form.Label>Add Your Image :</Form.Label>
         <Form.Control type="file" />
       </Form.Group>
 
             <Form.Group controlId="password">
-              <Form.Label>Password:</Form.Label>
+              <Form.Label>Password :</Form.Label>
               <Form.Control  className='name5'
                 type="password" 
                 placeholder="Enter password" 
@@ -99,7 +99,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group controlId="confirmPassword">
-              <Form.Label>Re-enter Password:</Form.Label>
+              <Form.Label>Re-enter Password :</Form.Label>
               <Form.Control  className='name6'
                 type="password" 
                 placeholder="Re-enter password" 
@@ -111,11 +111,12 @@ const Register = () => {
             </Form.Group>
 <br></br>
 
-<p>Have an Account? <Link to="/login">Login here</Link> </p>
+<p>Have an Account? <Link to="/login"> Login here</Link> </p>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" style={{width: '200px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft:'170px'}}>
               Sign Up
             </Button>
+            
           </Form>
         </Col>
       </Row>
