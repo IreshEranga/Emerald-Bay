@@ -121,7 +121,7 @@ const index = () => {
                 >
                   {isLoading ? "Loading..." : "Login"}
                 </button><br></br><br></br>
-                <p className="fst-normal">Don't have an account?    
+                <p className="fst-normal">Don't have an Account?    
                <a href="/register" className="text-decoration-none"> Register here</a></p>
               </form>
             </div>
