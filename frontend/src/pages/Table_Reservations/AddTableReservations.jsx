@@ -81,7 +81,7 @@ const AddTableReservations = () => {
     <BootstrapModal
       show={isAddSupplierModalOpen}
       handleClose={closeAddSupplierModal}
-      title="Add Delivery Rider"
+      title="Reserve A Table"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">

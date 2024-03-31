@@ -80,7 +80,7 @@ const index = () => {
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
-                    Email
+                    Email :
                   </label>
                   <input
                     type="email"
@@ -98,7 +98,7 @@ const index = () => {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="password" className="form-label">
-                    Password
+                    Password :
                   </label>
                   <input
                     type="password"
@@ -121,8 +121,8 @@ const index = () => {
                 >
                   {isLoading ? "Loading..." : "Login"}
                 </button><br></br><br></br>
-                <p className="fst-normal">Don't have an account?    
-               <a href="/register" className="text-decoration-none">Register here</a></p>
+                <p className="fst-normal">Don't have an Account?    
+               <a href="/register" className="text-decoration-none"> Register here</a></p>
               </form>
             </div>
           </div>
