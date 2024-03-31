@@ -1,39 +1,127 @@
-
-import React from 'react'
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBCard,
-  MDBCardBody,
-  MDBInput,
-  MDBCheckbox
-}
-from 'mdb-react-ui-kit';
+import './Register.css';
+import React, { useState } from 'react';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 const Register = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    address: '',
+    phoneNumber: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log(formData);
+  };
+
   return (
-    <MDBContainer fluid className='d-flex align-items-center justify-content-center bg-image' style={{backgroundImage: 'url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)'}}>
-    <div className='mask gradient-custom-3'></div>
-    <MDBCard className='m-5' style={{maxWidth: '600px'}}>
-      <MDBCardBody className='px-5'>
-        <h2 className="text-uppercase text-center mb-5">Create an account</h2>
-        <MDBInput wrapperClass='mb-4' label=' Name' size='lg' id='form1' type='text'/>
-        <MDBInput wrapperClass='mb-4' label=' Address' size='lg' id='form2' type='text'/>
-        <MDBInput wrapperClass='mb-4' label=' Email' size='lg' id='form2' type='email'/>
-        <MDBInput wrapperClass='mb-4' label=' Phone Number' size='lg' id='form2' type='tel'/>
-        <MDBInput wrapperClass='mb-4' label='Password' size='lg' id='form3' type='password'/>
-        <MDBInput wrapperClass='mb-4' label='ReEnter  password' size='lg' id='form4' type='password'/>
-        <div className='d-flex flex-row justify-content-center mb-4'>
-          <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='I agree all statements in Terms of service' />
-        </div>
-        <MDBBtn className=' fw-bold' size='lg'>Register</MDBBtn>
-        <br></br>
-        <br></br>
-        <p className="fst-normal">Have already an account?    
-        <a href="#" className="text-decoration-none">Login here</a></p>
-      </MDBCardBody>
-    </MDBCard>
-  </MDBContainer>);
-}
+    <Container className='all'>
+      <Row className="justify-content-md-center-5">
+        <Col xs={12} md={6}>
+          <h2 className="mb-4">Registration Form</h2>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="name">
+              <Form.Label >Name:</Form.Label>
+              <Form.Control className='name1'
+                type="text" 
+                placeholder="Enter name" 
+                name="name" 
+                value={formData.name} 
+                onChange={handleChange} 
+                required 
+              />
+            </Form.Group>
+
+            <Form.Group controlId="email">
+              <Form.Label>Email:</Form.Label>
+              <Form.Control className='name2'
+                type="email" 
+                placeholder="Enter email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange} 
+                required 
+              />
+            </Form.Group>
+
+            <Form.Group controlId="address">
+              <Form.Label>Address:</Form.Label>
+              <Form.Control  className='name3'
+                type="text" 
+                placeholder="Enter address" 
+                name="address" 
+                value={formData.address} 
+                onChange={handleChange} 
+                required 
+              />
+            </Form.Group>
+
+            <Form.Group controlId="phoneNumber">
+              <Form.Label>Phone Number:</Form.Label>
+              <Form.Control  className='name4'
+                type="text" 
+                placeholder="Enter phone number" 
+                name="phoneNumber" 
+                value={formData.phoneNumber} 
+                onChange={handleChange} 
+                required 
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formFile" className="mb-3">
+        <Form.Label>Add your image:</Form.Label>
+        <Form.Control type="file" />
+      </Form.Group>
+
+            <Form.Group controlId="password">
+              <Form.Label>Password:</Form.Label>
+              <Form.Control  className='name5'
+                type="password" 
+                placeholder="Enter password" 
+                name="password" 
+                value={formData.password} 
+                onChange={handleChange} 
+                required 
+              />
+            </Form.Group>
+
+            <Form.Group controlId="confirmPassword">
+              <Form.Label>Re-enter Password:</Form.Label>
+              <Form.Control  className='name6'
+                type="password" 
+                placeholder="Re-enter password" 
+                name="confirmPassword" 
+                value={formData.confirmPassword} 
+                onChange={handleChange} 
+                required 
+              />
+            </Form.Group>
+<br></br>
+
+<p>Have an Account? <Link to="/login">Login here</Link> </p>
+
+            <Button variant="primary" type="submit">
+              Sign Up
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
 
 
 

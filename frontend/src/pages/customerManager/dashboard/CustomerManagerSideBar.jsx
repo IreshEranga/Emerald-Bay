@@ -34,26 +34,7 @@ const CustomerManagerSideBar = () => {
             <Delivery_rider />
           </>
         );
-      case "Categories":
-        return (
-          <>
-            <Category />
-          </>
-        );
-      case "StockRequest":
-        return (
-          <>
-            <StockRequest />
-          </>
-        );
-      case "Account":
-        return <p>This is the Account page content.</p>;
-      default:
-        return (
-          <p>
-            Welcome to the application. Please select a link from the sidebar.
-          </p>
-        );
+      
     }
   };
 
@@ -100,31 +81,21 @@ const CustomerManagerSideBar = () => {
               }`}
               onClick={() => handleLinkClick("Riders")}
             >
-              Customer Management
+              Customers
             </a>
           </li>
           <li>
             <a
-              href="#orders"
+              href="#riders"
               className={`nav-link ${
                 activeContent === "Orders" ? "active" : "link-dark"
               }`}
               onClick={() => handleLinkClick("Orders")}
             >
-              Orders
+              Loyalty Customers
             </a>
           </li>
-          <li>
-            <a
-              href="#stock-requests"
-              className={`nav-link ${
-                activeContent === "StockRequest" ? "active" : "link-dark"
-              }`}
-              onClick={() => handleLinkClick("StockRequest")}
-            >
-              Stock Requests
-            </a>
-          </li>
+       
         </ul>
         <div className="mt-auto">
           <button
