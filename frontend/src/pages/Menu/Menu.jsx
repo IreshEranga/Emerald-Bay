@@ -62,54 +62,78 @@ import './Menu.css';
 
 
 const Menu = () => {
-    return (   
-        <div style={{backgroundColor:'black'}}>
+  return (
+
+    <div style={{backgroundColor:'black'}}>
     
               <NavBar />
 
-        <div className="menu-container">
-            <section className="menu-section">
-                <h2>Side Dishes</h2>
-                <ul className="menu-items">
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    {/* Add more items as needed */}
-                </ul>
-            </section>
-
-            <section className="menu-section">
-                <h2>Beverages</h2>
-                <ul className="menu-items">
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    {/* Add more items as needed */}
-                </ul>
-            </section>
-
-            <section className="menu-section">
-                <h2>Salads</h2>
-                <ul className="menu-items">
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    {/* Add more items as needed */}
-                </ul>
-            </section>
-
-            <section className="menu-section">
-                <h2>Rices</h2>
-                <ul className="menu-items">
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    {/* Add more items as needed */}
-                </ul>
-            </section>
-        </div>
-        </div>
-    );
-}
+    <div className="outer-container5">
+    <div className="menu-container"><br></br><br></br>
+      <h1 className="menu-title">Our Menu</h1><br></br>
+      <div className="category"><br></br>
+        <h2 className="center-heading1">Beverages</h2>
+        <ul className="menu-list">
+          <li className="menu-item">Coffee <span className="price">$2.50</span></li>
+          <li className="menu-item">Tea <span className="price">$2.00</span></li>
+          <li className="menu-item">Soda <span className="price">$1.75</span></li>
+          <li className="menu-item">Smoothies <span className="price">$4.00</span></li>
+          <li className="menu-item">Mocktails <span className="price">$5.00</span></li>
+        </ul>
+      </div>
+      <div className="category"><br></br>
+        <h2 className="center-heading1">Side Dishes</h2>
+        <ul className="menu-list">
+          <li className="menu-item">Fries <span className="price">$3.00</span></li>
+          <li className="menu-item">Onion Rings <span className="price">$3.50</span></li>
+          <li className="menu-item">Mozzarella Sticks <span className="price">$4.50</span></li>
+          <li className="menu-item">Garlic Bread <span className="price">$2.75</span></li>
+          <li className="menu-item">Chicken Wings <span className="price">$6.00</span></li>
+        </ul>
+      </div>
+      <div className="category"><br></br>
+        <h2 className="center-heading1">Soups</h2>
+        <ul className="menu-list">
+          <li className="menu-item">Chicken Soup<span className="price">$2.00</span></li>
+          <li className="menu-item">Roasted Pumpkin Soup<span className="price">$1.50</span></li>
+          <li className="menu-item">Vegetable Soup<span className="price">$1.00</span></li>
+          <li className="menu-item">Seafood Soup<span className="price">$4.50</span></li>
+          <li className="menu-item">Cream Soup<span className="price">$2.75</span></li>
+        </ul>
+      </div>
+      <div className="category"><br></br>
+        <h2 className="center-heading1">Salads</h2>
+        <ul className="menu-list">
+          <li className="menu-item">Garden Salad<span className="price">$2.50</span></li>
+          <li className="menu-item">Caesar Salad<span className="price">$4.00</span></li>
+          <li className="menu-item">Greek Salad<span className="price">$2.75</span></li>
+          <li className="menu-item">Cobb Salad<span className="price">$6.00</span></li>
+          <li className="menu-item">Caprese Salad<span className="price">$3.00</span></li>
+        </ul>
+      </div><div className="category"><br></br>
+        <h2 className="center-heading1">Rices</h2>
+        <ul className="menu-list">
+          <li className="menu-item">Steamed Rice<span className="price">$3.00</span></li>
+          <li className="menu-item">Fried Rice<span className="price">$2.50</span></li>
+          <li className="menu-item">Vegetable Pilaf<span className="price">$5.00</span></li>
+          <li className="menu-item">Coconut Rice<span className="price">$7.50</span></li>
+          <li className="menu-item">Spanish Rice<span className="price">$4.75</span></li>
+        </ul>
+      </div>
+      <div className="category"><br></br>
+        <h2 className="center-heading1">Desserts</h2>
+        <ul className="menu-list">
+          <li className="menu-item">Ice Cream<span className="price">$4.00</span></li>
+          <li className="menu-item">Fruit Platter<span className="price">$3.50</span></li>
+          <li className="menu-item">Watalappan<span className="price">$3.00</span></li>
+          <li className="menu-item">Cream Caramel<span className="price">$3.50</span></li>
+          <li className="menu-item">Curd And Treacle<span className="price">$2.75</span></li>
+        </ul>
+      </div><br></br>
+      </div>
+      </div>
+    </div>
+  );
+};
 
 export default Menu;
