@@ -29,7 +29,7 @@ const Register = () => {
         <br></br>
         <br></br>
         <p className="fst-normal">Have already an account?    
-        <a href="#" className="text-decoration-none">Login here</a></p>
+        <a href="/login" className="text-decoration-none">Login here</a></p>
       </MDBCardBody>
     </MDBCard>
   </MDBContainer>);
