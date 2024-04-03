@@ -13,6 +13,7 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const stockRequestRoutes = require("./routes/stockRequestRoutes");
 const riderRoutes = require("./routes/riderRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 
 // express app
@@ -35,6 +36,7 @@ app.use("/api/riders",riderRoutes);
 
 
  app.use("/employee",employeeRoutes);
+ app.use("/order",orderRoutes);
 
 // connect to db
 mongoose
