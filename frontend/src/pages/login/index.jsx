@@ -73,17 +73,17 @@ const index = () => {
   };
 
   return (
-    <div style={{backgroundColor:'black'}}>
+    <div style={{backgroundColor:'white'}}>
     
               <NavBar />
               
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-6">
-          <div className="card">
+          <div className="card" style={{border:'2px solid black'}}>
             <h1 className="card-header text-center">Login</h1>
             <div className="card-body">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} >
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
                     Email :

@@ -2,6 +2,8 @@ import './Register.css';
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import NavBar from '../../components/Navbar';
+
 const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -29,7 +31,8 @@ const Register = () => {
   return (
 
     <Container className='all'>
-      <Row className="justify-content-md-center-5">
+      <NavBar/>
+      <Row className="justify-content-md-center-5" style={{border:'1px solid black', marginTop:'15px'}}>
         <Col xs={12} md={6}>
           <h2 className="mb-4">Registration Form</h2>
           <Form onSubmit={handleSubmit}>
