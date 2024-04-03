@@ -1,18 +1,19 @@
-import React, { useState }  from 'react'
+import React, { useState, useEffect }  from 'react'
 import "./index.css"
 import Button from "react-bootstrap/Button";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { MdEditSquare } from "react-icons/md";
 import { BootstrapTable } from "../../components";
-import { useCategoryData } from "../../hooks/useCategoryData";
+//import { useCategoryData } from "../../hooks/useCategoryData";
 import orderimg from "../../assets/order.png";
 
 const index = () => {
   
       // Get the data from the react-query hook
-  const { data, refetch } = useCategoryData();
+  //const { data, refetch } = useCategoryData();
 
         // State to manage the current active section
+  const [orders, setOrders] = useState([]);
   const [activeSection, setActiveSection] = useState('completed');
   const [selectedRider, setSelectedRider] = useState('');
 
@@ -24,6 +25,27 @@ const index = () => {
   const handleRiderChange = (event) => {
     setSelectedRider(event.target.value);
   };
+
+  useEffect(() => {
+    // Function to fetch orders from your API or database
+    const fetchOrders = async () => {
+      try {
+        // Make a fetch call or use axios or any other library to fetch data
+        const response = await fetch('http://localhost:8000/order');
+        const data = await response.json();
+        setOrders(data);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+
+    fetchOrders(); // Call the fetchOrders function when the component mounts
+  }, []);
+
+
+  const pendingOrders = orders.filter(order => order.status === 'pending');
+  const completedOrders = orders.filter(order => order.status === 'completed');
+  const ongoingOrders = orders.filter(order => order.status === 'ongoing');
 
 return (
     <div style={{ display: 'flex' }}>
@@ -65,19 +87,18 @@ return (
                       <BootstrapTable
                         headers={["Order ID", "Customer ID","Customer Name","Address","Rider", "Actions"]}
                         children={
-                          data &&
-                          data.data.categories.map((category) => (
-                            <tr key={category._id}>
-                              <td>{category.name}</td>
-                              <td>{category.description}</td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                          completedOrders.map((order) => (
+                            <tr key={order._id}>
+                              <td>{order.orderid}</td>
+                              <td>{order.customerid}</td>
+                              <td>{order.customername}</td>
+                              <td>{order.deliveryaddress}</td>
+                              <td>{order.rider}</td>
                               <td>
                                 <Button
                                   className="m-1 px-3"
                                   variant="danger"
-                                  onClick={() => onDelete(category._id)}
+                                  onClick={() => onDelete(order._id)}
                                   size="sm"
                                 >
                                   <AiTwotoneDelete className="mb-1 mx-1" />
@@ -86,7 +107,7 @@ return (
                                 <Button
                                   className="m-1 px-3"
                                   variant="info"
-                                  onClick={() => handleEdit(category)}
+                                  onClick={() => handleEdit(order)}
                                   size="sm"
                                 >
                                   <MdEditSquare className="mb-1 mx-1" />
@@ -134,7 +155,38 @@ return (
 
           <div className="pendingordertable">
             <BootstrapTable 
-              headers={["Order ID","Customer ID","Customer Name","Address","Rider","Action"]}
+              headers={["Order ID","Customer ID","Customer Name","Address","Rider","Actions"]}
+              children={
+                pendingOrders.map((order) => (
+                  <tr key={order._id}>
+                    <td>{order.orderid}</td>
+                    <td>{order.customerid}</td>
+                    <td>{order.customername}</td>
+                    <td>{order.deliveryaddress}</td>
+                    <td>{order.rider}</td>
+                    <td>
+                      <Button
+                        className="m-1 px-3"
+                        variant="danger"
+                        onClick={() => onDelete(order._id)}
+                        size="sm"
+                      >
+                        <AiTwotoneDelete className="mb-1 mx-1" />
+                        <span>Delete</span>
+                      </Button>
+                      <Button
+                        className="m-1 px-3"
+                        variant="info"
+                        onClick={() => handleEdit(order)}
+                        size="sm"
+                      >
+                        <MdEditSquare className="mb-1 mx-1" />
+                        <span>Edit</span>
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              }
             />
 
             
@@ -160,6 +212,37 @@ return (
                 <div className="ongoingOrdertable">
                           <BootstrapTable 
                         headers={["Order ID","Customer ID","Customer Name","Address","Rider","Action"]}
+                        children={
+                          ongoingOrders.map((order) => (
+                            <tr key={order._id}>
+                              <td>{order.orderid}</td>
+                              <td>{order.customerid}</td>
+                              <td>{order.customername}</td>
+                              <td>{order.deliveryaddress}</td>
+                              <td>{order.rider}</td>
+                              <td>
+                                <Button
+                                  className="m-1 px-3"
+                                  variant="danger"
+                                  onClick={() => onDelete(order._id)}
+                                  size="sm"
+                                >
+                                  <AiTwotoneDelete className="mb-1 mx-1" />
+                                  <span>Delete</span>
+                                </Button>
+                                <Button
+                                  className="m-1 px-3"
+                                  variant="info"
+                                  onClick={() => handleEdit(order)}
+                                  size="sm"
+                                >
+                                  <MdEditSquare className="mb-1 mx-1" />
+                                  <span>Edit</span>
+                                </Button>
+                              </td>
+                            </tr>
+                          ))
+                        }
                       />
                 </div>
             </section>
