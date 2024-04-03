@@ -102,7 +102,7 @@ import {LinkContainer} from 'react-router-bootstrap';
 
 function NavBar({ isAuthenticated, user, logout }) {
   return (
-    <Navbar bg="dark" expand="lg" className="bg-body-tertiary" style={{ fontSize: '25px' }}>
+    <Navbar bg="dark" expand="lg" className="bg-body-tertiary" style={{ fontSize: '25px' , height:'200px' }}>
       <Container fluid>
         <Navbar.Brand href="#">
           <img src={logo} alt="logo" width={'200px'} />
