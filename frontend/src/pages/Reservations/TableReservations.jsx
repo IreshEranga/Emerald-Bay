@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './TableReservations.css';
+import TableSeatsReservation from '../../assets/restaurant seat reservation.png';
 
 
 const TableReservations = () => {
@@ -78,9 +79,10 @@ const TableReservations = () => {
     }
 
     return (
-        <div className="outer-container1">
-        <div className="vip-room-reservation">
-            <h2 className="center-heading">Reserve A Table</h2>
+        <div className="outer-container1"><br></br>
+        <div className="table-reservation">
+            <h2 className="center-heading">Reserve A Table</h2><br></br>
+            <img src={TableSeatsReservation} style={{width:'360px', alignContent:'center'}} alt="TableSeatsReservation" /><br></br><br></br>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Name :</label>
@@ -102,7 +104,7 @@ const TableReservations = () => {
                     <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
                 </div>
                 <div className="form-group">
-                    <label>Time :</label>
+                    <label>Time : </label>
                     <select name="time" value={formData.time} onChange={handleChange} required>
                         <option value="">Select Time</option>
                         {generateTimeSlots().map((slot, index) => (
@@ -113,7 +115,7 @@ const TableReservations = () => {
                 </div>
                 <button className='btn' type="submit" style={{width: '250px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft:'55px'}}>Check Availability</button>
             </form>
-        </div>
+        </div><br></br>
         </div>
     );
 };

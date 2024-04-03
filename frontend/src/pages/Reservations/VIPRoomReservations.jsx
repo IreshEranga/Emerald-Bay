@@ -8,7 +8,8 @@ const VIPRoomReservations = () => {
         contactNumber: '',
         email: '',
         date: getTodayDate(),
-        time: ''
+        time: '',
+        guests: 1 // Default value for number of guests
     });
     const [errors, setErrors] = useState({});
 
@@ -16,7 +17,7 @@ const VIPRoomReservations = () => {
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
-            [name]: value
+            [name]: name === "guests" ? parseInt(value) : value // Convert value to integer for guests
         }));
     };
 
@@ -49,6 +50,9 @@ const VIPRoomReservations = () => {
         } else if (!emailRegex.test(data.email.trim())) {
             errors.email = "Invalid email address";
         }
+        if (data.guests < 1 || data.guests > 20) {
+            errors.guests = "Number of guests must be between 1 and 20";
+        }
         return errors;
     };
 
@@ -78,42 +82,48 @@ const VIPRoomReservations = () => {
     }
 
     return (
-        <div className="outer-container2">
-        <div className="vip-room-reservation">
-            <h2 className="center-heading">Reserve VIP Room</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Name :</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-                    {errors.name && <span className="error">{errors.name}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Contact Number :</label>
-                    <input type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleChange} required />
-                    {errors.contactNumber && <span className="error">{errors.contactNumber}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Email :</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-                    {errors.email && <span className="error">{errors.email}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Date :</label>
-                    <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
-                </div>
-                <div className="form-group">
-                    <label>Time :</label>
-                    <select name="time" value={formData.time} onChange={handleChange} required>
-                        <option value="">Select Time</option>
-                        {generateTimeSlots().map((slot, index) => (
-                            <option key={index} value={slot}>{slot}</option>
-                        ))}
-                    </select>
-                    <p style={{ color: 'green' }}>One reservation is only available for two hours.</p>
-                </div>
-                <button className='btn' type="submit" style={{width: '250px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft:'55px'}}>Submit</button>
-            </form>
-        </div>
+        <div className="outer-container2"><br></br>
+            <div className="vip-room-reservation">
+                <h2 className="center-heading">Reserve VIP Room</h2><br></br>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>Name :</label>
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                        {errors.name && <span className="error">{errors.name}</span>}
+                    </div>
+                    <div className="form-group">
+                        <label>Contact Number :</label>
+                        <input type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleChange} required />
+                        {errors.contactNumber && <span className="error">{errors.contactNumber}</span>}
+                    </div>
+                    <div className="form-group">
+                        <label>Email :</label>
+                        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                        {errors.email && <span className="error">{errors.email}</span>}
+                    </div>
+                    <div className="form-group">
+                        <label>Number of Guests :</label>
+                        <input type="number" name="guests" value={formData.guests} onChange={handleChange} min={1} max={20} required />
+                        {errors.guests && <span className="error">{errors.guests}</span>}
+                    </div>
+                    <div className="form-group">
+                        <label>Date :</label>
+                        <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
+                    </div>
+                    <div className="form-group">
+                        <label>Time :</label>
+                        <select name="time" value={formData.time} onChange={handleChange} required>
+                            <option value="">Select Time</option>
+                            {generateTimeSlots().map((slot, index) => (
+                                <option key={index} value={slot}>{slot}</option>
+                            ))}
+                        </select>
+                        <p style={{ color: 'green' }}>One reservation is only available for two hours.</p>
+                    </div>
+
+                    <button className='btn' type="submit" style={{width: '250px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft:'55px'}}>Submit</button>
+                </form>
+            </div><br></br>
         </div>
     );
 };
