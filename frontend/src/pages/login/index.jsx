@@ -5,6 +5,8 @@ import { useAuthStore } from "../../store/useAuthStore";
 import { errorMessage, successMessage } from "../../utils/Alert";
 import { useNavigate } from "react-router-dom";
 import { USER_ROLES } from "../../constants/roles";
+import NavBar from '../../components/Navbar'; 
+
 
 const index = () => {
   const navigate = useNavigate();
@@ -71,6 +73,10 @@ const index = () => {
   };
 
   return (
+    <div style={{backgroundColor:'black'}}>
+    
+              <NavBar />
+              
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-6">
@@ -125,8 +131,9 @@ const index = () => {
                <a href="/register" className="text-decoration-none"> Register here</a></p>
               </form>
             </div>
-          </div>
+          </div><br></br>
         </div>
+      </div>
       </div>
     </div>
   );
