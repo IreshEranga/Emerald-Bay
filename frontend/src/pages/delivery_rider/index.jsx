@@ -16,7 +16,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { IoMdDownload } from "react-icons/io";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { MdEditSquare } from "react-icons/md";
-import riderimg1 from "../../assets/riderimg1.png"
+
 
 
 const index = () => {
@@ -73,6 +73,19 @@ const index = () => {
     );
   };
 
+  // Search state and function
+  const [searchQuery, setSearchQuery] = useState('');
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  // Filtered data
+  const filteredData = data && data.data.riders.filter(rider => 
+    rider.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    rider.employeeid.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    rider.address.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="ridercontainer">
       
@@ -82,6 +95,21 @@ const index = () => {
 
       <h1 className="mb-5" style={{fontFamily:'monospace'}}>Riders</h1>
 
+      {/*<input type="search" name=""id="" value={searchQuery} onChange={handleSearch} placeholder='Search by Name or Employee ID' style={{width:"420px", border:'1ps solid gray'}}/>*/}
+      <input
+        type="search"
+        name="search"
+        id="search"
+        value={searchQuery}
+        onChange={handleSearch}
+        placeholder="Search by Name , Employee ID or Address"
+        style={{ width: "420px", border: '1px solid gray', padding: '10px', borderRadius: '30px', position:'absolute', marginLeft:'600px', marginTop:'-90px' }}
+      />
+      
+     
+      
+      
+      
       <Button variant="primary" className="m-1" onClick={openAddDeliveryRiderModal} style={{width:'200px'}}>
         <IoMdAddCircleOutline className="mb-1" /> <span>Add a Rider</span>
       </Button>
@@ -91,7 +119,7 @@ const index = () => {
         <IoMdDownload className="mb-1" /> <span>Download Report</span>
       </Button>
 
-      <div className="riderimg" style={{marginLeft:'450px', marginTop:'-200px', marginBottom:'-60px'}}><img src={riderimg1} alt="rider"  /></div>
+      {/*<div className="riderimg" style={{marginLeft:'450px', marginTop:'-200px', marginBottom:'-60px'}}><img src={riderimg1} alt="rider"  /></div>*/}
 
       <div className="mt-5">
         <BootstrapTable
@@ -106,8 +134,8 @@ const index = () => {
             "Actions",
           ]}
           children={
-            data &&
-            data.data.riders.map((rider) => (
+            filteredData &&
+            filteredData.map((rider) => (
               <tr key={rider._id}>
                 <td>
                   {rider.image ? (
