@@ -18,6 +18,8 @@ const riderSchema = new mongoose.Schema(
         rides: { //type: Schema.Types.ObjectId, ref: "Order"
                 type: Number,
                 default:0, },
+        status:{type:String,
+                default:"Available"},
 
     },
     {

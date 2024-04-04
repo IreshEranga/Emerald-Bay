@@ -93,18 +93,20 @@ const index = () => {
       <AddDeliveryRiderModal />
       <EditDeliveryRiderModal />
 
-      <h1 className="mb-5" style={{fontFamily:'monospace'}}>Riders</h1>
+      <div className="front" style={{display:'flex'}}>
+              <h1 className="mb-5" style={{fontFamily:'monospace'}}>Riders</h1>
 
-      {/*<input type="search" name=""id="" value={searchQuery} onChange={handleSearch} placeholder='Search by Name or Employee ID' style={{width:"420px", border:'1ps solid gray'}}/>*/}
-      <input
-        type="search"
-        name="search"
-        id="search"
-        value={searchQuery}
-        onChange={handleSearch}
-        placeholder="Search by Name , Employee ID or Address"
-        style={{ width: "420px", border: '1px solid gray', padding: '10px', borderRadius: '30px', position:'absolute', marginLeft:'600px', marginTop:'-90px' }}
-      />
+                  {/*<input type="search" name=""id="" value={searchQuery} onChange={handleSearch} placeholder='Search by Name or Employee ID' style={{width:"420px", border:'1ps solid gray'}}/>*/}
+                  <input
+                    type="search"
+                    name="search"
+                    id="search"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                    placeholder="Search by Name , Employee ID or Address"
+                    style={{ width: "420px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'600px', marginTop:'0', zIndex:'1', height:'20px' }}
+                  />
+      </div>
       
      
       
@@ -121,7 +123,7 @@ const index = () => {
 
       {/*<div className="riderimg" style={{marginLeft:'450px', marginTop:'-200px', marginBottom:'-60px'}}><img src={riderimg1} alt="rider"  /></div>*/}
 
-      <div className="mt-5">
+      <div className="mt-5" style={{zIndex:'5'}}>
         <BootstrapTable
           headers={[
             "Image",
@@ -131,6 +133,7 @@ const index = () => {
             "Contact",
             "Email",
             "Total Deliveries",
+            "Status",
             "Actions",
           ]}
           children={
@@ -155,6 +158,7 @@ const index = () => {
                 <td>{rider.contact}</td>
                 <td>{rider.email}</td>
                 <td>{rider.rides}</td>
+                <td>{rider.status}</td>
                 <td>
                   <Button
                     className="m-1 px-3"

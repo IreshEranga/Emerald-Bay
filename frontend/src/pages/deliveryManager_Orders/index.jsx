@@ -54,9 +54,9 @@ return (
 
         <div className="orderdash">
           <h1 className='name' style={{fontFamily:'monospace', textAlign:'left'}}>Orders</h1>
-          <div className="orderimg" style={{marginLeft:'550px', marginTop:'-150px'}}><img src={orderimg} alt="order" /></div>
+          {/*<div className="orderimg" style={{marginLeft:'550px', marginTop:'-150px'}}><img src={orderimg} alt="order" /></div>*/}
 
-          <div className="orderstatus" style={{marginTop:"-120px",marginLeft:'-50px'}}>
+          <div className="orderstatus" style={{marginTop:"0px",marginLeft:'-50px'}}>
             <button onClick={() => handleSectionChange('completed')} className={`btn ${activeSection === 'completed' ? 'btn-success' : 'btn-outline-primary'}`}>Completed</button>
             <button onClick={() => handleSectionChange('pending')} className={`btn ${activeSection === 'pending' ? 'btn-warning' : 'btn-outline-primary'}`}>Pending</button>
             <button onClick={() => handleSectionChange('ongoing')} className={`btn ${activeSection === 'ongoing' ? 'btn-danger' : 'btn-outline-primary'}`}>Ongoing</button>
@@ -65,22 +65,7 @@ return (
           {/* Conditional rendering based on active section */}
           {activeSection === 'completed' && (
             <section className='completedOrders'>
-              {/**{/*<h1 className='name'>Completed Orders</h1> */}
-
-                {/*completed order details */ }
-
-               {/* <div className="completeordercard">
-                  <div className="section1">
-                          <h3 className='orderid'>Order Id : order id</h3>
-                          <h3 className='cusid'>Customer Id : id</h3>
-                          
-                          <h3 className="cusname">Customer Name : name</h3>
-                  </div>
-                      <div className="section2">
-                          <h3 className="address">Address : Address</h3>
-                          <h3 className="rider">Rider: RiderName</h3>
-                      </div>
-                  </div> */}
+              
 
                   <div className="completeordertable">
                   
@@ -127,31 +112,7 @@ return (
           )}
           {activeSection === 'pending' && (
             <section className='pendingOrders'>
-             {/* <h1 className='name'>Pending Orders</h1> */}
-              {/* Content for pending orders */}
-
-                {/*<div className="ordercard">
-
-                    <div className="section1">
-                        <h3 className='orderid'>Order Id : order id</h3>
-                        <h3 className='cusid'>Customer Id : id</h3>
-                        
-                        <h3 className="cusname">Customer Name : name</h3>
-                    </div>
-                    <div className="section2">
-                        <h3 className="address">Address : Address</h3>
-                        <label htmlFor="riderSelect"><h3>Assign a Rider:</h3></label>
-                            <select id="riderSelect" value={selectedRider}  onChange={handleRiderChange}>
-                                <option value="">Select a rider</option>
-                                <option value="rider1">Rider 1</option>
-                                <option value="rider2">Rider 2</option>
-                                
-                            </select>
-
-                            <button type="submit" class="btn btn-secondary btn-sm submitbtn">Submit</button>
-                    </div>
-
-          </div>*/}
+            
 
           <div className="pendingordertable">
             <BootstrapTable 
@@ -195,20 +156,7 @@ return (
           )}
           {activeSection === 'ongoing' && (
             <section className='ongoingOrders'>
-              {/*<h1 className='name'>Ongoing Orders</h1> */}
-              {/* Content for ongoing orders */}
-             {/*} <div className="ongoingordercard">
-                  <div className="section1">
-                          <h3 className='orderid'>Order Id : order id</h3>
-                          <h3 className='cusid'>Customer Id : id</h3>
-                          
-                          <h3 className="cusname">Customer Name : name</h3>
-                  </div>
-                      <div className="section2">
-                          <h3 className="address">Address : Address</h3>
-                          <h3 className="rider">Rider: RiderName</h3>
-                      </div>
-          </div>*/}
+              
                 <div className="ongoingOrdertable">
                           <BootstrapTable 
                         headers={["Order ID","Customer ID","Customer Name","Address","Rider","Action"]}
