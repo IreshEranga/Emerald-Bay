@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import './VIPRoomReservations.css';
+import axios from 'axios';
 
 
 const VIPRoomReservations = () => {
     const [formData, setFormData] = useState({
         name: '',
-        contactNumber: '',
+        phone: '',
         email: '',
+        guests: '1', // Default value for number of guests
         date: getTodayDate(),
         time: '',
-        guests: 1 // Default value for number of guests
     });
     const [errors, setErrors] = useState({});
 
@@ -21,13 +22,24 @@ const VIPRoomReservations = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const errorsObj = validateForm(formData);
         if (Object.keys(errorsObj).length === 0) {
-            // Submit the form if there are no errors
-            console.log(formData);
-            // You can add your submission logic here, like sending the data to a server
+            try {
+                const response = await axios.post('http://localhost:8000/vipRoomReservation/create', formData);
+                console.log(response.data); // Assuming the backend responds with data
+                // Handle success or further actions here
+                if (response.ok) {
+                    console.log('Reservation submitted successfully');
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error submitting reservation:', errorData);
+                } 
+            } catch (error) {
+                console.error('Error submitting reservation:', error);
+                // Handle error state or display an error message
+            }
         } else {
             setErrors(errorsObj);
         }
@@ -40,10 +52,10 @@ const VIPRoomReservations = () => {
         if (!data.name.trim()) {
             errors.name = "Name is required";
         }
-        if (!data.contactNumber.trim()) {
-            errors.contactNumber = "Contact number is required";
-        } else if (!/^\d{10}$/.test(data.contactNumber.trim())) {
-            errors.contactNumber = "Invalid contact number";
+        if (!data.phone.trim()) {
+            errors.phone = "Contact number is required";
+        } else if (!/^\d{10}$/.test(data.phone.trim())) {
+            errors.phone = "Invalid contact number";
         }
         if (!data.email.trim()) {
             errors.email = "Email is required";
@@ -72,7 +84,7 @@ const VIPRoomReservations = () => {
 
     function generateTimeSlots() {
         const startTime = 10; // Start from 10:00 AM
-        const endTime = 20; // End at 8:00 PM
+        const endTime = 20; // End at 08:00 PM
         const slots = [];
         for (let i = startTime; i <= endTime; i += 2) {
             const hour = (i < 10) ? `0${i}` : `${i}`;
@@ -86,15 +98,15 @@ const VIPRoomReservations = () => {
             <div className="vip-room-reservation">
                 <h2 className="center-heading">Reserve VIP Room</h2><br></br>
                 <form onSubmit={handleSubmit}>
-                    <div className="form-group">
+                <div className="form-group">
                         <label>Name :</label>
                         <input type="text" name="name" value={formData.name} onChange={handleChange} required />
                         {errors.name && <span className="error">{errors.name}</span>}
                     </div>
                     <div className="form-group">
                         <label>Contact Number :</label>
-                        <input type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleChange} required />
-                        {errors.contactNumber && <span className="error">{errors.contactNumber}</span>}
+                        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+                        {errors.phone && <span className="error">{errors.phone}</span>}
                     </div>
                     <div className="form-group">
                         <label>Email :</label>

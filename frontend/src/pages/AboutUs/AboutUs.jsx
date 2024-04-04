@@ -1,8 +1,6 @@
 import React from "react";
 import { useAuthStore } from "../../store/useAuthStore";
 import NavBar from '../../components/Navbar'; 
-import aboutimg from '../../assets/IMG_501.avif';
-import foodstock from '../../assets/foodstock.png';
 import restaurantImage from '../../assets/IMG_9995.jpg';
 import './AboutUs.css';
 
@@ -52,7 +50,7 @@ const AboutUs = () => {
             <div className="about-us-content">
                 <img src={restaurantImage} alt="Restaurant" className="restaurant-image" /><br></br><br></br>
                 <div className="restaurant-details">
-                    <h1>AbOUT OUR RESTAURANT</h1><br></br>
+                    <h1>ABOUT OUR RESTAURANT</h1><br></br>
                     <p>Welcome to our restaurant! We strive to provide a unique dining experience for all our guests.</p>
                     <p>Our chefs are passionate about crafting delicious dishes using the freshest ingredients sourced locally whenever possible.</p>
                     <p>From appetizers to desserts, we aim to tantalize your taste buds with our diverse menu options.</p>

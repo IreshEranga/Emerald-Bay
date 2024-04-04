@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import './Events.css';
+import axios from 'axios';
 
 
 const Events = () => {
     const [formData, setFormData] = useState({
         name: '',
-        contactNumber: '',
+        phone: '',
         email: '',
+        guests: '1', // Default value for number of guests
         date: getTodayDate(),
         time: '',
-        guests: 1 // Default value for number of guests
     });
     const [errors, setErrors] = useState({});
 
@@ -21,13 +22,24 @@ const Events = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const errorsObj = validateForm(formData);
         if (Object.keys(errorsObj).length === 0) {
-            // Submit the form if there are no errors
-            console.log(formData);
-            // You can add your submission logic here, like sending the data to a server
+            try {
+                const response = await axios.post('http://localhost:8000/event/create', formData);
+                console.log(response.data); // Assuming the backend responds with data
+                // Handle success or further actions here
+                if (response.ok) {
+                    console.log('Reservation submitted successfully');
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error submitting reservation:', errorData);
+                } 
+            } catch (error) {
+                console.error('Error submitting reservation:', error);
+                // Handle error state or display an error message
+            }
         } else {
             setErrors(errorsObj);
         }
@@ -40,18 +52,18 @@ const Events = () => {
         if (!data.name.trim()) {
             errors.name = "Name is required";
         }
-        if (!data.contactNumber.trim()) {
-            errors.contactNumber = "Contact number is required";
-        } else if (!/^\d{10}$/.test(data.contactNumber.trim())) {
-            errors.contactNumber = "Invalid contact number";
+        if (!data.phone.trim()) {
+            errors.phone = "Contact number is required";
+        } else if (!/^\d{10}$/.test(data.phone.trim())) {
+            errors.phone = "Invalid contact number";
         }
         if (!data.email.trim()) {
             errors.email = "Email is required";
         } else if (!emailRegex.test(data.email.trim())) {
             errors.email = "Invalid email address";
         }
-        if (data.guests < 1 || data.guests > 20) {
-            errors.guests = "Number of guests must be between 1 and 20";
+        if (data.guests < 1 || data.guests > 50) {
+            errors.guests = "Number of guests must be between 1 and 50";
         }
         return errors;
     };
@@ -82,8 +94,8 @@ const Events = () => {
                     </div>
                     <div className="form-group">
                         <label>Contact Number :</label>
-                        <input type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleChange} required />
-                        {errors.contactNumber && <span className="error">{errors.contactNumber}</span>}
+                        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+                        {errors.phone && <span className="error">{errors.phone}</span>}
                     </div>
                     <div className="form-group">
                         <label>Email :</label>
@@ -101,7 +113,14 @@ const Events = () => {
                     </div>
                     <div className="form-group">
                         <label>Time :</label>
-                        <input type="time" value={formData.time} onChange={handleChange} required/>
+                        <select name="time" value={formData.time} onChange={handleChange} required>
+                            <option value="">Select Time</option>
+                            {Array.from(Array(25), (_, i) => i).map(hour => (
+                                <option key={hour} value={`${hour.toString().padStart(2, '0')}:00`}>
+                                    {`${hour.toString().padStart(2, '0')}:00`}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     
                     <button className='btn' type="submit" style={{width: '250px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft:'55px'}}>Submit</button>

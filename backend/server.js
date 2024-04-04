@@ -14,13 +14,18 @@ const stockRequestRoutes = require("./routes/stockRequestRoutes");
 const riderRoutes = require("./routes/riderRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const orderRoutes = require("./routes/orderRoutes");
-
+const tableReservationRoutes = require("./routes/tableReservationRoutes");
+const vipRoomReservationRoutes = require("./routes/vipRoomReservationRoutes");
+const eventRoutes = require("./routes/eventRoutes");
 
 // express app
 const app = express();
 
 // middleware
 app.use(express.json());
+
+// Parse JSON requests
+app.use(bodyParser.json()); 
 
 // cors
 app.use(cors());
@@ -32,11 +37,11 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/stock-requests", stockRequestRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/riders",riderRoutes);
-
-
-
- app.use("/employee",employeeRoutes);
- app.use("/order",orderRoutes);
+app.use("/employee",employeeRoutes);
+app.use("/order",orderRoutes);
+app.use("/tableReservation",tableReservationRoutes);
+app.use("/vipRoomReservation",vipRoomReservationRoutes);
+app.use("/event",eventRoutes);
 
 // connect to db
 mongoose
@@ -51,6 +56,3 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
-
-  
