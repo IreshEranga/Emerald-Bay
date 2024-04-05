@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema(
       ref: "Category",
     },
     available_stock: { type: Number, default: 0 },
+    status:{type:String},
+    rides:{type:Number , default:0},
   },
   {
     timestamps: true,
