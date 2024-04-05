@@ -10,12 +10,9 @@ import {
   AdminDashboard,
   Supplier,
   SupplierDashboard,
-<<<<<<< Updated upstream
   Delivery_riderDashboard,
-=======
   
   
->>>>>>> Stashed changes
 } from "../pages";
 
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
