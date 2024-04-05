@@ -41,6 +41,10 @@
     border: 3px solid #4682b4;
   }
   
+  .past {
+    border: 3px solid #1d6030;
+  }
+  
   .modal {
     display: none;
     position: fixed;

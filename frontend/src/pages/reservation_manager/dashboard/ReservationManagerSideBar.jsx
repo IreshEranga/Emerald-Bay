@@ -77,7 +77,7 @@ const ReservationManagerSideBar = () => {
           <img
             src={EMERALDBAYLOGO}
             alt="Emerald Bay"
-            style={{ maxWidth: "100%", maxHeight: "60px" }}
+            style={{ maxWidth: "100%", maxHeight: "100px" }}
           />
         </a>
         <hr />
