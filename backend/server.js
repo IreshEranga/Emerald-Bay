@@ -37,11 +37,15 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/stock-requests", stockRequestRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/riders",riderRoutes);
-app.use("/employee",employeeRoutes);
-app.use("/order",orderRoutes);
-app.use("/tableReservation",tableReservationRoutes);
+
+
+
+ app.use("/employee",employeeRoutes);
+ app.use("/api/order",orderRoutes);
+ app.use("/tableReservation",tableReservationRoutes);
 app.use("/vipRoomReservation",vipRoomReservationRoutes);
 app.use("/event",eventRoutes);
+
 
 // connect to db
 mongoose
