@@ -5,7 +5,7 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import { MdEditSquare } from "react-icons/md";
 import { BootstrapTable } from "../../components";
 //import { useCategoryData } from "../../hooks/useCategoryData";
-import orderimg from "../../assets/order.png";
+
 
 const index = () => {
   
