@@ -117,7 +117,7 @@ const authController = {
       const { employeeid, name,email, address, contact,image } = req.body;
       const role = USER_ROLES.RIDER;
 
-      const existingRider = await Rider.findOne({ email });
+      const existingRider = await User.findOne({ email });
       if (existingRider) {
         return res.status(409).json({
           success: false,
@@ -129,7 +129,7 @@ const authController = {
       const password = Math.random().toString(36).slice(-8);
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const newRider = new Rider({
+      const newRider = new User({
         employeeid,
         name,
         email,
