@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Events.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
@@ -85,6 +87,7 @@ const Events = () => {
     return (
         <div className="outer-container3"><br></br>
             <div className="events">
+            <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} />
                 <h2 className="center-heading">Plan An Event</h2><br></br>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
