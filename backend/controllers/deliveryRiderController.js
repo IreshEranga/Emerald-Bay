@@ -1,5 +1,6 @@
 require("dotenv").config();
 const Rider = require("../models/Rider");
+const User = require("../models/User");
 //const Order = require("../models/Order");
 const USER_ROLES = require("../constants/roles");
 const bcrypt = require("bcrypt");
@@ -69,7 +70,7 @@ const deliveryRiderController = {
       });
     }
   },
-  
+
 
     //get riders
     getRiders: async(req,res) => {
@@ -226,6 +227,21 @@ const deliveryRiderController = {
           });
         }
       },
+
+/*
+      getAvailableRiders: async (req, res) => {
+        try {
+          const availableRiders = await Rider.find({ status: "Available" }).select("-password");
+          res.status(200).json({ success: true, availableRiders });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({
+            success: false,
+            error,
+            message: "Internal server error",
+          });
+        }
+      },*/
     
 };
 

@@ -9,6 +9,7 @@ import {
   AdminDashboard,
   Supplier,
   SupplierDashboard,
+  Delivery_riderDashboard,
 } from "../pages";
 
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
@@ -77,6 +78,12 @@ const AppRoutes = () => {
             <Route path="/deliveryManager" element={<DeliveryManagerSideBar />} />
             <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
             <Route path="/deliveryManager/orders" element={<DeliveryManager_Orders />} />
+          </Route>
+
+          {/* Delivery Rider Private Routes */}
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.SUPPLIER]} />}>
+            <Route path="/rider" element={<Delivery_riderDashboard />} />
+            {/* <Route path="/supplier/profile" element={<SupplierProfile />} /> */}
           </Route>
 
           {/* Reservation Manager Private Routes */}
