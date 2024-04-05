@@ -45,10 +45,11 @@ module.exports = router;
 const express = require("express");
 const deliveryRiderController = require("../controllers/deliveryRiderController");
 const authMiddleware = require("../middleware/authMiddleware");
+const Rider = require("../models/Rider");
 
 const router = express.Router();
 
-router.post("/add", authMiddleware(["ADMIN"]), deliveryRiderController.createRiders);
+//router.post("/add", authMiddleware(["ADMIN"]), deliveryRiderController.createRiders);
 router.get("/", authMiddleware(["ADMIN"]), deliveryRiderController.getRiders);
 /*router.patch(
   "/stock",
@@ -76,5 +77,19 @@ router.get(
   authMiddleware(["ADMIN"]),
   deliveryRiderController.getRiderCount
 );
+
+router.route("/get/available").get(async (req, res) => {
+  try {
+    const availableRiders = await Rider.find({ status: "Available" }).select("-password");
+    res.status(200).json({ success: true, availableRiders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error,
+      message: "Internal server error",
+    });
+  }
+});
 
 module.exports = router;
