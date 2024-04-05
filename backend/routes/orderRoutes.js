@@ -116,6 +116,8 @@ router.route("/update/:id").put(async (req,res)=>{
         res.status(500).send({ status: "Error with updating data" });
     }
 });*/
+
+/*
 router.route("/update/:orderid").put(async (req, res) => {
     const orderid = req.params.orderid;
     const { deliveryaddress, items, totalprice, rider,status } = req.body;
@@ -136,7 +138,30 @@ router.route("/update/:orderid").put(async (req, res) => {
         console.log(err);
         res.status(500).json({ error: "Error updating order" });
     }
+});*/
+
+router.route("/update/:orderid").put(async (req, res) => {
+    const orderid = req.params.orderid;
+    const { rider, status } = req.body;
+
+    try {
+        const updatedOrder = await Order.findOneAndUpdate(
+            { orderid },
+            { rider, status },
+            { new: true }
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        res.status(200).json({ status: "Order updated", order: updatedOrder });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Error updating order" });
+    }
 });
+
 
 
 //delete employee

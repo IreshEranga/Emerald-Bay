@@ -9,7 +9,10 @@ const orderSchema = new mongoose.Schema(
         deliveryaddress:{type:String, required:true},
         items:[{}],
         totalprice:{type:Number,default:0},
-        status:{type:String},
+        status:{type:String,
+            type: String,
+           enum: ["pending", "ongoing", "completed"],
+            default: "pending",},
         rider:{type: String}
 
     },
