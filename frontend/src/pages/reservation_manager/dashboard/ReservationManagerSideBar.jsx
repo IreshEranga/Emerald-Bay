@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import EMERALDBAYLOGO from "../../../assets/EMERALDBAYLOGO.png";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
-import Table_Reservations from "../../Table_Reservations";
-import VIP_Rooms from "../../VIP_Rooms";
-import Outdoor_Events from "../../Outdoor_Events";
+/*import Table_Reservations from "../../Table_Reservations";*/
+import TableReservations from './tableReservations.jsx';
+import VIPRoomReservations from "./vipRoomReservations.jsx";
+import Events from "./events.jsx";
 import ReservationManagerDashboard from "./ReservationManagerDashBoard.jsx";
 
 
@@ -32,19 +33,19 @@ const ReservationManagerSideBar = () => {
       case "Table_Reservations":
         return (
           <>
-            <Table_Reservations />
+            <TableReservations />
           </>
         );
       case "VIP_Rooms":
         return (
           <>
-            <VIP_Rooms />
+            <VIPRoomReservations />
           </>
         );
       case "Outdoor_Events":
         return (
           <>
-            <Outdoor_Events />
+            <Events />
           </>
         );
       case "Account":

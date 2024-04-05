@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import {Link } from "react-router-dom";
-//import { useAuthStore } from "../../store/useAuthStore";
+import {Link } from "react-router-dom";  // Assuming you are using React Router for navigation
 import NavBar from '../../components/Navbar';
 import './Reservations.css';
 import TableReservation from '../../assets/IMG_9943.jpg';
 import VIPRoom from '../../assets/IMG_0004.jpg';
 import Events from '../../assets/IMG_0005.jpg';
+//import { useAuthStore } from "../../store/useAuthStore";
 
 
 /*const Reservations = () => {
@@ -64,12 +64,6 @@ export default Reservations;*/
 
 
 const Reservations = () => {
-  const [showReservationForm, setShowReservationForm] = useState(false);
-
-  const handleBookNow = () => {
-      setShowReservationForm(true);
-  };
-
   return (
 
     <div style={{backgroundColor:'black'}}>
@@ -107,7 +101,7 @@ const Reservations = () => {
           <br></br><br></br><br></br>
           <p>This is a beautiful venue offers located at poolside a very relaxed environment that is ideal for cocktails, private parties and intimate dinners.<br></br> Host your event in our outdoor space.</p>
           <br></br><Link to="/events"><button className='btn'  style={{width: '250px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>Book Now</button></Link><br></br><br></br>
-        </div>
+        </div><br></br>
       </div>
     </div>
     </div>
