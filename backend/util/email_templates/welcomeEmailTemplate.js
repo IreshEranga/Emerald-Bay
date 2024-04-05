@@ -13,7 +13,7 @@ const welcomeEmailTemplate = (userName, email, password) => `
     <div class="container">
         <h1 class="welcome">Welcome to Emerald Bay Restaurant, ${userName}!</h1>
         <p>Hi ${userName},</p>
-        <p>We're excited to have you on board. We're happy to inform you that you are added to our supplier list.</p>
+        <p>We're excited to have you on board. We're happy to inform you that you are added to our Emerald Bay Group.</p>
         <p>Here are your login credentials:</p>
         <p>Email: ${email}</p>
         <p
