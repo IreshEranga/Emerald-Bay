@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './VIPRoomReservations.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
@@ -96,6 +98,7 @@ const VIPRoomReservations = () => {
     return (
         <div className="outer-container2"><br></br>
             <div className="vip-room-reservation">
+            <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} />
                 <h2 className="center-heading">Reserve VIP Room</h2><br></br>
                 <form onSubmit={handleSubmit}>
                 <div className="form-group">

@@ -18,16 +18,16 @@ import CustomerManagerSideBar from "../pages/customerManager/dashboard/CustomerM
 import EmployeeManagerSideBar from "../pages/Employee_Manager/Dashboard/EmployeeManagerSideBar"
 import Delivery_rider from "../pages/delivery_rider"
 import DeliveryManager_Orders from "../pages/deliveryManager_Orders"
-import Table_Reservations from "../pages/Table_Reservations"
-import VIP_Rooms from "../pages/VIP_Rooms"
-import Outdoor_Events from "../pages/Outdoor_Events"
+import Table_Reservations from "../pages/reservation_manager/dashboard/tableReservations"
+import VIP_Rooms from "../pages/reservation_manager/dashboard/vipRoomReservations"
+import Outdoor_Events from "../pages/reservation_manager/dashboard/events"
 import Reservations from '../pages/Reservations/Reservations'
-import AboutUs from '../pages/AboutUs/AboutUs'
-import Menu from "../pages/Menu/Menu"
-import Gallery from "../pages/Gallery/Gallery";
 import VIPRoomReservations from "../pages/Reservations/VIPRoomReservations";
 import Events from "../pages/Reservations/Events";
 import TableReservations from "../pages/Reservations/TableReservations";
+import AboutUs from '../pages/AboutUs/AboutUs'
+import Menu from "../pages/Menu/Menu"
+import Gallery from "../pages/Gallery/Gallery";
 import Register from "../pages/Register/Register";
 import Userprofile from "../pages/Userprofile/Userprofile";
 

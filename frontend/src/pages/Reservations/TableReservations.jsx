@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './TableReservations.css';
 import TableSeatsReservation from '../../assets/restaurant seat reservation.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
@@ -97,7 +99,8 @@ const TableReservations = () => {
     return (
         <div className="outer-container1">
             <div className="table-reservation">
-                <h2 className="center-heading">Reserve A Table</h2>
+            <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} />
+                <h2 className="center-heading">Reserve A Table</h2>               
                 <img src={TableSeatsReservation} style={{width:'360px', alignContent:'center'}} alt="TableSeatsReservation" /><br /><br />
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
