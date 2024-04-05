@@ -81,7 +81,7 @@ const AppRoutes = () => {
           </Route>
 
           {/* Delivery Rider Private Routes */}
-          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.SUPPLIER]} />}>
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.RIDER]} />}>
             <Route path="/rider" element={<Delivery_riderDashboard />} />
             {/* <Route path="/supplier/profile" element={<SupplierProfile />} /> */}
           </Route>
