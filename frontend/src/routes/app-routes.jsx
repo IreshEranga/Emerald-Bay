@@ -3,13 +3,19 @@ import PrivateRoute from "./PrivateRoute";
 import CheckLoginStatus from "./CheckLoginStatus";
 import { USER_ROLES } from "../constants/roles";
 
+
 import {
   Home,
   Login,
   AdminDashboard,
   Supplier,
   SupplierDashboard,
+<<<<<<< Updated upstream
   Delivery_riderDashboard,
+=======
+  
+  
+>>>>>>> Stashed changes
 } from "../pages";
 
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
@@ -31,7 +37,9 @@ import Menu from "../pages/Menu/Menu"
 import Gallery from "../pages/Gallery/Gallery";
 import Register from "../pages/Register/Register";
 import Userprofile from "../pages/Userprofile/Userprofile";
+import Employee from "../pages/Employee";
 
+//import TableReservationsDashboard from "../pages/Table_Reservations/Dashboard";
 
 
 const AppRoutes = () => {
@@ -108,13 +116,15 @@ const AppRoutes = () => {
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
             <Route path="/employeeManager" element={<EmployeeManagerSideBar />} />
+            <Route path="/employeeManager/employees" element={<Employee />} />
           </Route>
 
-          {/* Customer Manager Private Routes */}
+          {/* Employee Manager Private Routes */}
           <Route
-            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
+            element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />} 
           >
             <Route path="/customerManager" element={<CustomerManagerSideBar />} />
+            
           </Route>
 
         </Routes>

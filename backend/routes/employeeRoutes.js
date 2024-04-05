@@ -12,6 +12,8 @@ router.route("/add").post((req,res)=>{
     const name = req.body.name;
     const email = req.body.email;
     const role = req.body.role;
+    const address = req.body.address;
+    const Totemployees = req.body.Totemployees;
    // const salary = req.body.salary;
 
     //convert request to a number 
@@ -24,7 +26,9 @@ router.route("/add").post((req,res)=>{
         email,
         phone,
         role,
-        salary
+        salary,
+        address,
+        Totemployees,
     });
 
 
@@ -87,7 +91,8 @@ router.route("/update/:EmpID").put(async (req, res) => {
     let EmpID = req.params.EmpID;
 
     // destructure the request body
-    const { name, email,phone, role,salary } = req.body;
+    const { name, email,phone, role,salary,address,
+        Totemployees, } = req.body;
 
     const updateEmployee = {
         EmpID,
@@ -95,11 +100,13 @@ router.route("/update/:EmpID").put(async (req, res) => {
         email,
         phone,
         role,
-        salary
+        salary,
+        address,
+        Totemployees,
     };
 
     try {
-        const updateEmployee = await Em.findOneAndUpdate({ EmpID }, updateEmployee, { new: true });
+        const updatedEmployee = await Em.findOneAndUpdate({ EmpID }, updatedEmployee, { new: true });
 
         if (!updatedEmployee) {
             return res.status(404).send({ status: "Employee not found" });

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EMERALDBAYLOGO from "../../../assets/EMERALDBAYLOGO.png";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
-import Delivery_rider from "../../delivery_rider";
+import Employee from "../../Employee";
 import Category from "../../category";
 import StockRequest from "../../stock_request";
 import EmployeeManagerDashboard from "./EmployeeManagerDashboard.jsx";
@@ -28,22 +28,22 @@ const EmployeeManagerSideBar = () => {
             <EmployeeManagerDashboard />
           </>
         );
-      case "Riders":
+      case "Employees":
         return (
           <>
-            <Delivery_rider />
+            <Employee />
           </>
         );
-      case "Categories":
+      case "leaves":
         return (
           <>
-            <Category />
+            <Leaves />
           </>
         );
-      case "StockRequest":
+      case "Attendance":
         return (
           <>
-            <StockRequest />
+            <Attendance />
           </>
         );
       case "Account":
@@ -94,13 +94,13 @@ const EmployeeManagerSideBar = () => {
           </li>
           <li>
             <a
-              href="#riders"
+              href="#employees"
               className={`nav-link ${
-                activeContent === "Riders" ? "active" : "link-dark"
+                activeContent === "Employees" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Riders")}
+              onClick={() => handleLinkClick("Employees")}
             >
-              Delivery Rider Management
+              Employee Management
             </a>
           </li>
           <li>
@@ -111,7 +111,7 @@ const EmployeeManagerSideBar = () => {
               }`}
               onClick={() => handleLinkClick("Orders")}
             >
-              Orders
+              Leaves
             </a>
           </li>
           <li>
@@ -122,7 +122,7 @@ const EmployeeManagerSideBar = () => {
               }`}
               onClick={() => handleLinkClick("StockRequest")}
             >
-              Stock Requests
+              Attendance
             </a>
           </li>
         </ul>
