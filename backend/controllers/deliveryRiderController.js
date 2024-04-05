@@ -9,73 +9,10 @@ const sendEmail = require("../util/sendEmail");
 
 const deliveryRiderController = {
 
-  
-
-  createRiders: async (req, res) => {
-    try {
-      const { name, email, password } = req.body;
-  
-      // Check if required fields are provided
-      if (!name || !email ) {
-        return res.status(400).json({
-          success: false,
-          message: "Name and email are required fields",
-        });
-      }
-  
-      // Check if the rider with the provided email already exists
-      const existingRider = await Rider.findOne({ email });
-      if (existingRider) {
-        return res.status(400).json({
-          success: false,
-          message: "Rider with this email already exists",
-        });
-      }
-  
-      // Hash the password before saving it
-      const hashedPassword = await bcrypt.hash(password, 10);
-  
-      // Create a new rider object
-      const newRider = new Rider({
-        employeeid,
-        name,
-        email,
-        password: hashedPassword,
-        role: USER_ROLES.RIDER,
-        address,
-        contact,
-        image, // Assuming you have defined USER_ROLES
-        // Add other rider properties here if needed
-      });
-  
-      // Save the new rider to the database
-      const savedRider = await newRider.save();
-      
-      // Send welcome email to the supplier
-      const emailTemplate = welcomeEmailTemplate(name, email, password);
-      //
-      sendEmail(email, "Welcome to Emerald Bay!", emailTemplate);
-
-      res.status(201).json({
-        success: true,
-        rider: savedRider,
-        message: "Rider created successfully",
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        success: false,
-        error,
-        message: "Internal server error",
-      });
-    }
-  },
-
-
     //get riders
-    getRiders: async(req,res) => {
+  getRiders: async(req,res) => {
         try {
-            const riders = await Rider.find({role:USER_ROLES.RIDER})
+            const riders = await User.find({role:USER_ROLES.RIDER})
                 .select("-password")
                // .populate("Order");
 
@@ -95,7 +32,7 @@ const deliveryRiderController = {
         try {
           const riderId = req.params.id;
     
-          const rider = await Rider.findOne({
+          const rider = await User.findOne({
             _id: riderId,
             role: USER_ROLES.RIDER,
           }).select("-password");
@@ -122,7 +59,7 @@ const deliveryRiderController = {
     updateRider: async (req, res) => {
         try {
           const riderId = req.params.id;
-          const rider = await Rider.findOne({
+          const rider = await User.findOne({
             _id: riderId,
             role: USER_ROLES.RIDER,
           });
@@ -139,7 +76,7 @@ const deliveryRiderController = {
             req.body.password = await bcrypt.hash(req.body.password, 10);
           }
     
-          const updateRider = await Rider.findOneAndUpdate(
+          const updateRider = await User.findOneAndUpdate(
             { _id: riderId, role: USER_ROLES.RIDER },
             req.body,
             {
@@ -167,7 +104,7 @@ const deliveryRiderController = {
         try {
           const riderId = req.params.id;
     
-          const rider = await Rider.findOne({
+          const rider = await User.findOne({
             _id: riderId,
             role: USER_ROLES.RIDER,
           });
@@ -213,7 +150,7 @@ const deliveryRiderController = {
     //get rider count
     getRiderCount: async (req, res) => {
         try {
-          const riderCount = await Rider.find({
+          const riderCount = await User.find({
             role: USER_ROLES.RIDER,
           }).countDocuments();
     
