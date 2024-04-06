@@ -2,6 +2,22 @@ const router = require("express").Router();
 const TableReservation = require("../models/TableReservation");
 
 
+// Check table availability
+router.post("/checkAvailability", async (req, res) => {
+    try {
+        const { tableNo, date, time } = req.body;
+        const existingReservation = await TableReservation.findOne({ tableNo, date, time });
+        if (existingReservation) {
+            res.json({ available: false });
+        } else {
+            res.json({ available: true });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error checking table availability" });
+    }
+});
+
 // Create a table reservation
 router.post("/create", async (req, res) => {
     try {
