@@ -1,20 +1,16 @@
 import React from "react";
-import { useSupplierCount } from "../../../hooks/useSupplierData";
-import { useCategoryCount } from "../../../hooks/useCategoryData";
-import { useStockRequestCount } from "../../../hooks/useStockRequestData";
+/*import { useVIPRoomReservationCount } from "../../../hooks/useVIPRoomReservationData";*/ // Import custom hook for VIP room reservation count
 import { useAuthStore } from "../../../store/useAuthStore";
 
 
-const index = () => {
+const ReservationManagerDashboard = () => {
   const { user } = useAuthStore((state) => ({
     user: state.user,
   }));
   
-  // Get the data from the react-query hook
-  const { data: supplierData } = useSupplierCount();
-  const { data: categoryData } = useCategoryCount();
-  const { data: stockRequestData } = useStockRequestCount();
-  
+  //Get the count of VIP room reservations
+  /*const { data: vipRoomReservationData } = useVIPRoomReservationCount();*/
+
   return (
     <div className="container mt-4">
       {user && (
@@ -24,32 +20,32 @@ const index = () => {
       )}
 
       <div className="row">
-        <div key={index} className="col-md-3 mb-4">
+        <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
               <h5 className="card-title">🛎 Total Table Reservations</h5>
               <p className="card-text fs-4 fw-bold">
-                {supplierData?.data?.supplierCount}
+                {/* Display table reservation count */}
               </p>
             </div>
           </div>
         </div>
-        <div key={index} className="col-md-3 mb-4">
+        <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
               <h5 className="card-title">👑 Total VIP Room Reservations</h5>
               <p className="card-text fs-4 fw-bold">
-                {categoryData?.data?.categoryCount}
+                 {/* Display VIP room reservation count */}
               </p>
             </div>
           </div>
         </div>
-        <div key={index} className="col-md-3 mb-4">
+        <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
-              <h5 className="card-title">🎊 Total Outdoor Events</h5>
+              <h5 className="card-title">🎊 Total Events</h5>
               <p className="card-text fs-4 fw-bold">
-                {stockRequestData?.data?.stockRequestCount}
+                {/* Display events count */}
               </p>
             </div>
           </div>
@@ -59,4 +55,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ReservationManagerDashboard;

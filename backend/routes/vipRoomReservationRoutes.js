@@ -41,6 +41,17 @@ router.get("/", async (req, res) => {
     }
 });
 
+// Route to get count of VIP room reservations
+router.get('/count', async (req, res) => {
+    try {
+      const count = await VIPRoomReservation.countDocuments(); // Count the documents in the VIPRoomReservation collection
+      res.json({ count });
+    } catch (error) {
+      console.error('Error fetching count:', error);
+      res.status(500).json({ error: 'Error fetching count' });
+    }
+  });
+
 // Update a vip room reservation
 router.put("/update/:id", async (req, res) => {
     const id = req.params.id;
