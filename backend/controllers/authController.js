@@ -12,7 +12,7 @@ const authController = {
     try {
       const { email, password } = req.body;
 
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email })|| await Rider.findOne({email});
       if (!user) {
         return res.status(401).json({
           success: false,
@@ -117,7 +117,7 @@ const authController = {
       const { employeeid, name,email, address, contact,image } = req.body;
       const role = USER_ROLES.RIDER;
 
-      const existingRider = await User.findOne({ email });
+      const existingRider = await Rider.findOne({ email });
       if (existingRider) {
         return res.status(409).json({
           success: false,
@@ -129,7 +129,7 @@ const authController = {
       const password = Math.random().toString(36).slice(-8);
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const newRider = new User({
+      const newRider = new Rider({
         employeeid,
         name,
         email,
