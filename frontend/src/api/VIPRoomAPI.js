@@ -1,48 +1,17 @@
-import api from "./api";
+import axios from 'axios';
 
-class VIPRoomAPI {
-  // Create reservation
-  static create(values) {
-    return api.post("/auth/room/add", values);
+
+const VIPRoomAPI = {
+  // Function to fetch the count of VIP room reservations
+  getCount: async () => {
+    try {
+      const response = await axios.get('/api/vipRoomReservations/count');
+      return response.data.count;
+    } catch (error) {
+      // Handle error
+      throw new Error('Error fetching VIP room reservation count');
+    }
   }
-
-  // Get all reservation
-  static getAll() {
-    return api.get("/api/rooms");
-  }
-
-  // Get reservation by id
-  static getById(id) {
-    return api.get(`/api/rooms/${id}`);
-  }
-
-  // Update reservation
-  static update(values) {
-    const { id, data } = values;
-    return api.patch(`/api/rooms/${id}`, data);
-  }
-
-  // Delete reservation
-  static delete(id) {
-    return api.delete(`/api/rooms/${id}`);
-  }
-
-  // Get reservation count
-  static getCount() {
-    return api.get("/api/rooms/get/count");
-  }
-
-  // Update  stock
-  /*
-  static updateStock(values) {
-    const { data } = values;
-    return api.patch("/api/suppliers/stock", data);
-  }
-
-  // Get available stock
-  static getAvailableStock() {
-    return api.get("/api/suppliers/stock");
-  }*/
-}
+};
 
 export default VIPRoomAPI;
