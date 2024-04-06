@@ -2,6 +2,22 @@ const router = require("express").Router();
 const VIPRoomReservation = require("../models/VIPRoomReservation");
 
 
+// Check vip room availability
+router.post("/checkAvailability", async (req, res) => {
+    try {
+        const { date, time } = req.body;
+        const existingReservation = await VIPRoomReservation.findOne({ date, time });
+        if (existingReservation) {
+            res.json({ available: false });
+        } else {
+            res.json({ available: true });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error checking vip room availability" });
+    }
+});
+
 // Create a vip room reservation
 router.post("/create", async (req, res) => {
     try {

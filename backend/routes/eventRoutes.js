@@ -2,6 +2,22 @@ const router = require("express").Router();
 const Event = require("../models/Event");
 
 
+// Check event availability
+router.post("/checkAvailability", async (req, res) => {
+    try {
+        const { date, time } = req.body;
+        const existingReservation = await Event.findOne({ date, time });
+        if (existingReservation) {
+            res.json({ available: false });
+        } else {
+            res.json({ available: true });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error checking event availability" });
+    }
+});
+
 // Create a event
 router.post("/create", async (req, res) => {
     try {

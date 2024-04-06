@@ -3,8 +3,9 @@ import './TableReservations.css';
 import TableSeatsReservation from '../../assets/restaurant seat reservation.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import Toast from "../../utils/toast";
+import toast from 'react-hot-toast'; // Import toast function from react-hot-toast
 import axios from 'axios';
+
 
 const TableReservations = () => {
     const [formData, setFormData] = useState({
@@ -19,11 +20,9 @@ const TableReservations = () => {
     const [availability, setAvailability] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
-    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
     useEffect(() => {
         setAvailability(false); // Reset availability state on form change
-        setShowSuccessMessage(false); // Reset success message on form change
     }, [formData]);
 
     const handleChange = (e) => {
@@ -33,6 +32,26 @@ const TableReservations = () => {
             [name]: value
         }));
     };
+
+    function getTodayDate() {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const year = today.getFullYear();
+    
+        return `${day}/${month}/${year}`;
+    }    
+
+    function generateTimeSlots() {
+        const startTime = 8; // Start from 08:00 AM
+        const endTime = 21; // End at 09:00 PM
+        const slots = [];
+        for (let i = startTime; i <= endTime; i += 1) {
+            const hour = (i < 10) ? `0${i}` : `${i}`;
+            slots.push(`${hour}:00`);
+        }
+        return slots;
+    }
 
     const validateForm = (data) => {
         const errors = {};
@@ -56,31 +75,6 @@ const TableReservations = () => {
         }
         return errors;
     };
-
-    function getTodayDate() {
-        const today = new Date();
-        const year = today.getFullYear();
-        let month = today.getMonth() + 1;
-        let day = today.getDate();
-        if (month < 10) {
-            month = '0' + month;
-        }
-        if (day < 10) {
-            day = '0' + day;
-        }
-        return `${year}-${month}-${day}`;
-    }
-
-    function generateTimeSlots() {
-        const startTime = 8; // Start from 08:00 AM
-        const endTime = 21; // End at 09:00 PM
-        const slots = [];
-        for (let i = startTime; i <= endTime; i += 1) {
-            const hour = (i < 10) ? `0${i}` : `${i}`;
-            slots.push(`${hour}:00`);
-        }
-        return slots;
-    }
 
     const handleCheckAvailability = async (e) => {
         e.preventDefault();
@@ -111,51 +105,22 @@ const TableReservations = () => {
             try {
                 const response = await axios.post('http://localhost:8000/tableReservation/create', formData);
                 console.log(response.data); // Assuming the backend responds with data
-                if (response.ok) {
-                    console.log('Reservation submitted successfully');
-                    setShowSuccessMessage(true);
-                    resetForm();
-                } else {
-                    const errorData = await response.json();
-                    console.error('Error submitting reservation:', errorData);
-                } 
+                /*resetForm();*/
+                toast.success('Table booked successfully!'); // Display success toast
+                setTimeout(() => {
+                    window.history.back(); // Go back after a delay
+                }, 3000); // Adjust the delay time as needed
             } catch (error) {
                 console.error('Error submitting reservation:', error);
                 // Handle error state or display an error message
+                toast.error('Error booking table. Please try again later.');
             }
         } else {
             setErrors(errorsObj);
         }
     };
-    /*
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const errorsObj = validateForm(formData);
-        if (Object.keys(errorsObj).length === 0) {
-          try {
-            const response = await axios.post('http://localhost:8000/tableReservation/create', formData);
-            console.log(response.data); // Assuming the backend responds with data
-            if (response.ok) {
-              console.log('Reservation submitted successfully');
-              setShowSuccessMessage(true);
-              resetForm();
-              Toast.success('Table booked successfully!');
-              
-            } else {
-              const errorData = await response.json();
-              console.error('Error submitting reservation:', errorData);
-              Toast.error('Error submitting reservation. Please try again.');
-            }
-          } catch (error) {
-            console.error('Error submitting reservation:', error);
-            Toast.error('Error submitting reservation. Please try again.');
-          }
-        } else {
-          setErrors(errorsObj);
-        }
-      };
-*/
-    const resetForm = () => {
+
+    /*const resetForm = () => {
         setFormData({
             name: '',
             phone: '',
@@ -166,7 +131,7 @@ const TableReservations = () => {
         });
         setAvailability(false);
         setErrors({});
-    };
+    };*/
 
     return (
         <div className="outer-container1">
@@ -223,10 +188,8 @@ const TableReservations = () => {
                 {showAvailabilityMessage && !loading &&
                     <p style={{ color: 'red' }}>This table is not available. Please select another table or try a different date/time.</p>
                 }
-                {showSuccessMessage &&
-                    <p style={{ color: 'green' }}>Table booked successfully!</p> && <Toast message="Table booked successfully!" type="success" />
-                }
             </div>
+            {/* Remove the toast rendering */}<br></br>
         </div>
     );
 };
