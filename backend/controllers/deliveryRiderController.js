@@ -12,7 +12,7 @@ const deliveryRiderController = {
     //get riders
   getRiders: async(req,res) => {
         try {
-            const riders = await User.find({role:USER_ROLES.RIDER})
+            const riders = await Rider.find({role:USER_ROLES.RIDER})
                 .select("-password")
                // .populate("Order");
 
@@ -32,7 +32,7 @@ const deliveryRiderController = {
         try {
           const riderId = req.params.id;
     
-          const rider = await User.findOne({
+          const rider = await Rider.findOne({
             _id: riderId,
             role: USER_ROLES.RIDER,
           }).select("-password");
@@ -59,7 +59,7 @@ const deliveryRiderController = {
     updateRider: async (req, res) => {
         try {
           const riderId = req.params.id;
-          const rider = await User.findOne({
+          const rider = await Rider.findOne({
             _id: riderId,
             role: USER_ROLES.RIDER,
           });
@@ -76,7 +76,7 @@ const deliveryRiderController = {
             req.body.password = await bcrypt.hash(req.body.password, 10);
           }
     
-          const updateRider = await User.findOneAndUpdate(
+          const updateRider = await Rider.findOneAndUpdate(
             { _id: riderId, role: USER_ROLES.RIDER },
             req.body,
             {
@@ -104,7 +104,7 @@ const deliveryRiderController = {
         try {
           const riderId = req.params.id;
     
-          const rider = await User.findOne({
+          const rider = await Rider.findOne({
             _id: riderId,
             role: USER_ROLES.RIDER,
           });
@@ -150,7 +150,7 @@ const deliveryRiderController = {
     //get rider count
     getRiderCount: async (req, res) => {
         try {
-          const riderCount = await User.find({
+          const riderCount = await Rider.find({
             role: USER_ROLES.RIDER,
           }).countDocuments();
     
