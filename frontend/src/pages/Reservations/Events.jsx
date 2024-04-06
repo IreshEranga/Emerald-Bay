@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import './Events.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import toast from 'react-hot-toast'; // Import toast function from react-hot-toast
 import axios from 'axios';
 
 
@@ -15,6 +16,13 @@ const Events = () => {
         time: '',
     });
     const [errors, setErrors] = useState({});
+    const [availability, setAvailability] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
+
+    useEffect(() => {
+        setAvailability(false); // Reset availability state on form change
+    }, [formData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,29 +32,15 @@ const Events = () => {
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const errorsObj = validateForm(formData);
-        if (Object.keys(errorsObj).length === 0) {
-            try {
-                const response = await axios.post('http://localhost:8000/event/create', formData);
-                console.log(response.data); // Assuming the backend responds with data
-                // Handle success or further actions here
-                if (response.ok) {
-                    console.log('Reservation submitted successfully');
-                } else {
-                    const errorData = await response.json();
-                    console.error('Error submitting reservation:', errorData);
-                } 
-            } catch (error) {
-                console.error('Error submitting reservation:', error);
-                // Handle error state or display an error message
-            }
-        } else {
-            setErrors(errorsObj);
-        }
-    };
-
+    function getTodayDate() {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const year = today.getFullYear();
+    
+        return `${day}/${month}/${year}`;
+    }   
+    
     const validateForm = (data) => {
         const errors = {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -70,26 +64,69 @@ const Events = () => {
         return errors;
     };
 
-    function getTodayDate() {
-        const today = new Date();
-        const year = today.getFullYear();
-        let month = today.getMonth() + 1;
-        let day = today.getDate();
-        if (month < 10) {
-            month = '0' + month;
+    const handleCheckAvailability = async (e) => {
+        e.preventDefault();
+        setShowAvailabilityMessage(false);
+        setLoading(true);
+        const errorsObj = validateForm(formData);
+        if (Object.keys(errorsObj).length === 0) {
+            try {
+                const response = await axios.post('http://localhost:8000/event/checkAvailability', formData);
+                console.log(response.data); // Assuming the backend responds with data
+                setAvailability(response.data.available);
+                setShowAvailabilityMessage(!response.data.available); // Show message only if not available
+            } catch (error) {
+                console.error('Error checking availability:', error);
+                // Handle error state or display an error message
+            } finally {
+                setLoading(false);
+            }
+        } else {
+            setErrors(errorsObj);
         }
-        if (day < 10) {
-            day = '0' + day;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const errorsObj = validateForm(formData);
+        if (Object.keys(errorsObj).length === 0) {
+            try {
+                const response = await axios.post('http://localhost:8000/event/create', formData);
+                console.log(response.data); // Assuming the backend responds with data
+                /*resetForm();*/
+                toast.success('Event reserved successfully!'); // Display success toast
+                setTimeout(() => {
+                    window.history.back(); // Go back after a delay
+                }, 3000); // Adjust the delay time as needed
+            } catch (error) {
+                console.error('Error submitting reservation:', error);
+                // Handle error state or display an error message
+                toast.error('Error booking table. Please try again later.');
+            }
+        } else {
+            setErrors(errorsObj);
         }
-        return `${year}-${month}-${day}`;
-    }
+    };
+
+    /*const resetForm = () => {
+        setFormData({
+            name: '',
+            phone: '',
+            email: '',
+            tableNo: '',
+            date: getTodayDate(),
+            time: ''
+        });
+        setAvailability(false);
+        setErrors({});
+    };*/
 
     return (
         <div className="outer-container3"><br></br>
             <div className="events">
             <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} />
                 <h2 className="center-heading">Plan An Event</h2><br></br>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleCheckAvailability}>
                     <div className="form-group">
                         <label>Name :</label>
                         <input type="text" name="name" value={formData.name} onChange={handleChange} required />
@@ -125,10 +162,16 @@ const Events = () => {
                             ))}
                         </select>
                     </div>
-                    
-                    <button className='btn' type="submit" style={{width: '250px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft:'55px'}}>Submit</button>
+                    <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
                 </form>
-            </div><br></br>
+                {availability &&
+                    <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Book Event</button>
+                }
+                {showAvailabilityMessage && !loading &&
+                    <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
+                }
+            </div>
+            {/* Remove the toast rendering */}<br></br>
         </div>
     );
 };
