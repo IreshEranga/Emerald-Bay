@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TableReservations.css';
 import TableSeatsReservation from '../../assets/restaurant seat reservation.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Toast from "../../utils/toast";
 import axios from 'axios';
-
 
 const TableReservations = () => {
     const [formData, setFormData] = useState({
@@ -16,6 +16,15 @@ const TableReservations = () => {
         time: ''
     });
     const [errors, setErrors] = useState({});
+    const [availability, setAvailability] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+    useEffect(() => {
+        setAvailability(false); // Reset availability state on form change
+        setShowSuccessMessage(false); // Reset success message on form change
+    }, [formData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -73,6 +82,28 @@ const TableReservations = () => {
         return slots;
     }
 
+    const handleCheckAvailability = async (e) => {
+        e.preventDefault();
+        setShowAvailabilityMessage(false);
+        setLoading(true);
+        const errorsObj = validateForm(formData);
+        if (Object.keys(errorsObj).length === 0) {
+            try {
+                const response = await axios.post('http://localhost:8000/tableReservation/checkAvailability', formData);
+                console.log(response.data); // Assuming the backend responds with data
+                setAvailability(response.data.available);
+                setShowAvailabilityMessage(!response.data.available); // Show message only if not available
+            } catch (error) {
+                console.error('Error checking availability:', error);
+                // Handle error state or display an error message
+            } finally {
+                setLoading(false);
+            }
+        } else {
+            setErrors(errorsObj);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const errorsObj = validateForm(formData);
@@ -80,9 +111,10 @@ const TableReservations = () => {
             try {
                 const response = await axios.post('http://localhost:8000/tableReservation/create', formData);
                 console.log(response.data); // Assuming the backend responds with data
-                // Handle success or further actions here
                 if (response.ok) {
                     console.log('Reservation submitted successfully');
+                    setShowSuccessMessage(true);
+                    resetForm();
                 } else {
                     const errorData = await response.json();
                     console.error('Error submitting reservation:', errorData);
@@ -95,14 +127,54 @@ const TableReservations = () => {
             setErrors(errorsObj);
         }
     };
+    /*
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const errorsObj = validateForm(formData);
+        if (Object.keys(errorsObj).length === 0) {
+          try {
+            const response = await axios.post('http://localhost:8000/tableReservation/create', formData);
+            console.log(response.data); // Assuming the backend responds with data
+            if (response.ok) {
+              console.log('Reservation submitted successfully');
+              setShowSuccessMessage(true);
+              resetForm();
+              Toast.success('Table booked successfully!');
+              
+            } else {
+              const errorData = await response.json();
+              console.error('Error submitting reservation:', errorData);
+              Toast.error('Error submitting reservation. Please try again.');
+            }
+          } catch (error) {
+            console.error('Error submitting reservation:', error);
+            Toast.error('Error submitting reservation. Please try again.');
+          }
+        } else {
+          setErrors(errorsObj);
+        }
+      };
+*/
+    const resetForm = () => {
+        setFormData({
+            name: '',
+            phone: '',
+            email: '',
+            tableNo: '',
+            date: getTodayDate(),
+            time: ''
+        });
+        setAvailability(false);
+        setErrors({});
+    };
 
     return (
         <div className="outer-container1">
             <div className="table-reservation">
-            <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} />
-                <h2 className="center-heading">Reserve A Table</h2>               
-                <img src={TableSeatsReservation} style={{width:'360px', alignContent:'center'}} alt="TableSeatsReservation" /><br /><br />
-                <form onSubmit={handleSubmit}>
+                <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} />
+                <h2 className="center-heading">Reserve A Table</h2>
+                <img src={TableSeatsReservation} style={{ width: '360px', alignContent: 'center' }} alt="TableSeatsReservation" /><br /><br />
+                <form onSubmit={handleCheckAvailability}>
                     <div className="form-group">
                         <label>Name :</label>
                         <input type="text" name="name" value={formData.name} onChange={handleChange} required />
@@ -119,16 +191,6 @@ const TableReservations = () => {
                         {errors.email && <span className="error">{errors.email}</span>}
                     </div>
                     <div className="form-group">
-                        <label>Table Number : </label>
-                        <select name="tableNo" value={formData.tableNo} onChange={handleChange} required>
-                            <option value=""> Select Table Number </option>
-                            {[...Array(13).keys()].map(num => (
-                                <option key={num + 1} value={num + 1}>{num + 1}</option>
-                            ))}
-                        </select>
-                        {errors.tableNo && <span className="error">{errors.tableNo}</span>}
-                    </div>
-                    <div className="form-group">
                         <label>Date :</label>
                         <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
                     </div>
@@ -142,8 +204,28 @@ const TableReservations = () => {
                         </select>
                         <p style={{ color: 'green' }}>One reservation is only available for one hour.</p>
                     </div>
-                    <button className='btn' type="submit" style={{width: '250px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft:'55px'}}>Check Availability</button>
+                    <div className="form-group">
+                        <label>Table Number : </label>
+                        <select name="tableNo" value={formData.tableNo} onChange={handleChange} required>
+                            <option value=""> Select Table No </option>
+                            {[...Array(13).keys()].map(num => (
+                                <option key={num + 1} value={num + 1}>{num + 1}</option>
+                            ))}
+                        </select>
+                        {errors.tableNo && <span className="error">{errors.tableNo}</span>}
+                        <p style={{ color: 'green' }}>Please select a table using table layout.</p>
+                    </div>
+                    <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
                 </form>
+                {availability &&
+                    <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Book Table</button>
+                }
+                {showAvailabilityMessage && !loading &&
+                    <p style={{ color: 'red' }}>This table is not available. Please select another table or try a different date/time.</p>
+                }
+                {showSuccessMessage &&
+                    <p style={{ color: 'green' }}>Table booked successfully!</p> && <Toast message="Table booked successfully!" type="success" />
+                }
             </div>
         </div>
     );
