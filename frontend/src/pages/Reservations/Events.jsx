@@ -7,6 +7,10 @@ import axios from 'axios';
 
 
 const Events = () => {
+    const [errors, setErrors] = useState({});
+    const [availability, setAvailability] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
@@ -15,11 +19,7 @@ const Events = () => {
         date: getTodayDate(),
         time: '',
     });
-    const [errors, setErrors] = useState({});
-    const [availability, setAvailability] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
-
+    
     useEffect(() => {
         setAvailability(false); // Reset availability state on form change
     }, [formData]);
@@ -32,6 +32,7 @@ const Events = () => {
         }));
     };
 
+    //function to get date
     function getTodayDate() {
         const today = new Date();
         const day = String(today.getDate()).padStart(2, '0');
@@ -41,6 +42,7 @@ const Events = () => {
         return `${day}/${month}/${year}`;
     }   
     
+    //form validation
     const validateForm = (data) => {
         const errors = {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,6 +66,7 @@ const Events = () => {
         return errors;
     };
 
+    //function to check availability
     const handleCheckAvailability = async (e) => {
         e.preventDefault();
         setShowAvailabilityMessage(false);
@@ -86,6 +89,7 @@ const Events = () => {
         }
     };
 
+    // Function to handle form submission (for create)
     const handleSubmit = async (e) => {
         e.preventDefault();
         const errorsObj = validateForm(formData);
@@ -163,15 +167,14 @@ const Events = () => {
                         </select>
                     </div>
                     <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
-                </form>
-                {availability &&
+                    {availability &&
                     <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Book Event</button>
-                }
-                {showAvailabilityMessage && !loading &&
-                    <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
-                }
-            </div>
-            {/* Remove the toast rendering */}<br></br>
+                    }
+                    {showAvailabilityMessage && !loading &&
+                        <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
+                    }
+                </form>
+            </div><br></br>
         </div>
     );
 };

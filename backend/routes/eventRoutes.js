@@ -5,8 +5,12 @@ const Event = require("../models/Event");
 // Check event availability
 router.post("/checkAvailability", async (req, res) => {
     try {
-        const { date, time } = req.body;
-        const existingReservation = await Event.findOne({ date, time });
+        const { date, time, excludeReservationId } = req.body;
+        const query = { date, time };
+        if (excludeReservationId) {
+            query._id = { $ne: excludeReservationId };
+        }
+        const existingReservation = await Event.findOne(query);
         if (existingReservation) {
             res.json({ available: false });
         } else {

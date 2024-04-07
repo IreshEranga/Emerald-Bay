@@ -7,6 +7,10 @@ import axios from 'axios';
 
 
 const VIPRoomReservations = () => {
+    const [errors, setErrors] = useState({});
+    const [availability, setAvailability] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
@@ -15,10 +19,6 @@ const VIPRoomReservations = () => {
         date: getTodayDate(),
         time: '',
     });
-    const [errors, setErrors] = useState({});
-    const [availability, setAvailability] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
 
     useEffect(() => {
         setAvailability(false); // Reset availability state on form change
@@ -32,6 +32,7 @@ const VIPRoomReservations = () => {
         }));
     };
 
+    //function to get date
     function getTodayDate() {
         const today = new Date();
         const day = String(today.getDate()).padStart(2, '0');
@@ -41,6 +42,7 @@ const VIPRoomReservations = () => {
         return `${day}/${month}/${year}`;
     }    
 
+    //function to get time
     function generateTimeSlots() {
         const startTime = 10; // Start from 10:00 AM
         const endTime = 20; // End at 08:00 PM
@@ -52,6 +54,7 @@ const VIPRoomReservations = () => {
         return slots;
     }
 
+    //form validation
     const validateForm = (data) => {
         const errors = {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,6 +78,7 @@ const VIPRoomReservations = () => {
         return errors;
     };
     
+    //function to check availability
     const handleCheckAvailability = async (e) => {
         e.preventDefault();
         setShowAvailabilityMessage(false);
@@ -97,6 +101,7 @@ const VIPRoomReservations = () => {
         }
     };
 
+    // Function to handle form submission (for create)
     const handleSubmit = async (e) => {
         e.preventDefault();
         const errorsObj = validateForm(formData);
@@ -173,15 +178,14 @@ const VIPRoomReservations = () => {
                         <p style={{ color: 'green' }}>One reservation is only available for two hours.</p>
                     </div>
                     <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
-                </form>
-                {availability &&
+                    {availability &&
                     <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Book VIP Room</button>
-                }
-                {showAvailabilityMessage && !loading &&
-                    <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
-                }
-            </div>
-            {/* Remove the toast rendering */}<br></br>
+                    }
+                    {showAvailabilityMessage && !loading &&
+                        <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
+                    }
+                </form>
+            </div><br></br>
         </div>
     );
 };

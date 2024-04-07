@@ -5,8 +5,12 @@ const VIPRoomReservation = require("../models/VIPRoomReservation");
 // Check vip room availability
 router.post("/checkAvailability", async (req, res) => {
     try {
-        const { date, time } = req.body;
-        const existingReservation = await VIPRoomReservation.findOne({ date, time });
+        const { date, time, excludeReservationId } = req.body;
+        const query = { date, time };
+        if (excludeReservationId) {
+            query._id = { $ne: excludeReservationId };
+        }
+        const existingReservation = await VIPRoomReservation.findOne(query);
         if (existingReservation) {
             res.json({ available: false });
         } else {
