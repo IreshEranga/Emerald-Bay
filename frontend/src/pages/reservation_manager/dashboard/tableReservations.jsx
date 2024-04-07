@@ -14,6 +14,7 @@ const TableReservations = () => {
   const [availability, setAvailability] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -22,23 +23,56 @@ const TableReservations = () => {
     date: "",
     time: ""
   });
-  const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    // Fetch table reservations data when component mounts
     fetchTableReservations();
     setAvailability(false); // Reset availability state on form change
   }, []);
 
+  // Function to fetch table reservations data
   const fetchTableReservations = async () => {
     try {
       const response = await axios.get("http://localhost:8000/tableReservation");
       setTableReservations(response.data);
+      // Initially setting filteredReservations to all reservations
       setFilteredReservations(response.data);
     } catch (error) {
       console.error("Error fetching table reservations:", error);
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+        ...prevState,
+        [name]: value
+    }));
+  };
+
+  //function to get date
+  function getTodayDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = today.getFullYear();
+
+    return `${year}-${month}-${day}`;
+  }    
+
+  //function to get time
+  function generateTimeSlots() {
+    const startTime = 8; // Start from 08:00 AM
+    const endTime = 21; // End at 09:00 PM
+    const slots = [];
+    for (let i = startTime; i <= endTime; i += 1) {
+        const hour = (i < 10) ? `0${i}` : `${i}`;
+        slots.push(`${hour}:00`);
+    }
+    return slots;
+  }
+
+  //form validation
   const validateForm = (data) => {
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,47 +96,7 @@ const TableReservations = () => {
     return errors;
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-        ...prevState,
-        [name]: value
-    }));
-  };
-
-  function getTodayDate() {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    const year = today.getFullYear();
-
-    return `${year}-${month}-${day}`;
-  }    
-
-  function generateTimeSlots() {
-    const startTime = 8; // Start from 08:00 AM
-    const endTime = 21; // End at 09:00 PM
-    const slots = [];
-    for (let i = startTime; i <= endTime; i += 1) {
-        const hour = (i < 10) ? `0${i}` : `${i}`;
-        slots.push(`${hour}:00`);
-    }
-    return slots;
-  }
-
-  const handleSearch = (event) => {
-    const query = event.target.value;
-    setSearchQuery(query);
-
-    const filteredData = tableReservations.filter((reservation) => {
-      return (
-        reservation.name.toLowerCase().includes(query.toLowerCase()) ||
-        reservation._id.toLowerCase().includes(query.toLowerCase())
-      );
-    });
-    setFilteredReservations(filteredData);
-  };
-
+  //function to check availability
   const handleCheckAvailability = async (e) => {
     e.preventDefault();
     setShowAvailabilityMessage(false);
@@ -125,6 +119,49 @@ const TableReservations = () => {
     }
   };
 
+  // Function to handle edit
+  const handleEdit = (reservation) => {
+    setEditReservation(reservation);
+    setFormData({
+      name: reservation.name,
+      phone: reservation.phone,
+      email: reservation.email,
+      guests: reservation.guests,
+      date: reservation.date,
+      time: reservation.time
+    });
+  };
+  
+  // Function to handle form submission (for update)
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (editReservation) {
+      // Update reservation
+      try {
+        // Update the editReservation state with new data
+        const updatedReservation = {
+          ...editReservation,
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          guests: formData.guests,
+          date: formData.date,
+          time: formData.time
+  };
+        
+        await axios.put(`http://localhost:8000/tableReservation/update/${editReservation._id}`, updatedReservation);
+        toast.success('Reservation updated successfully!'); // Display success toast
+        setEditReservation(null); // Reset editReservation state
+        fetchTableReservations(); // Refresh data after update
+      } catch (error) {
+        console.error("Error updating table reservation:", error);
+      }
+    } else {
+      // Logic for creating a new reservation
+    }
+  };
+
+  // Function to handle delete
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8000/tableReservation/delete/${id}`);
@@ -134,34 +171,22 @@ const TableReservations = () => {
     }
   };
 
-  const handleEdit = (reservation) => {
-    setEditReservation(reservation);
-    setFormData({
-      name: reservation.name,
-      phone: reservation.phone,
-      email: reservation.email,
-      tableNo: reservation.tableNo,
-      date: reservation.date,
-      time: reservation.time
+  // Function to handle search
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    const filteredData = tableReservations.filter((reservation) => {
+      return (
+        reservation.name.toLowerCase().includes(query.toLowerCase()) ||
+        reservation._id.toLowerCase().includes(query.toLowerCase()) ||
+        reservation.date.includes(query)
+      );
     });
+    setFilteredReservations(filteredData);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (editReservation) {
-      try {
-        await axios.put(`http://localhost:8000/tableReservation/update/${editReservation._id}`, formData);
-        toast.success('Reservation updated successfully!'); // Display success toast
-        setEditReservation(null);
-        fetchTableReservations();
-      } catch (error) {
-        console.error("Error updating table reservation:", error);
-      }
-    } else {
-      // Logic for creating a new reservation
-    }
-  };
-
+  // Function to download PDF report
   const downloadPDF = () => {
     console.log("Downloading PDF report...");
   };
@@ -172,30 +197,34 @@ const TableReservations = () => {
         Table Reservations
       </h1>
 
+      {/* Add reservation */}
       <Link to="/table-reservations">
         <Button variant="primary" className="m-1">
           <IoMdAddCircleOutline className="mb-1" /> <span>Add Table Reservation</span>
         </Button>
       </Link>
 
+      {/* Download PDF report */}
       <Button variant="success" className="m-1" onClick={downloadPDF}>
         <IoMdDownload className="mb-1" /> <span>Download Report</span>
       </Button>
 
+      {/* Search Form */}
       <Form className="mt-3">
         <Form.Group controlId="searchQuery">
           <Form.Control
             type="text"
-            placeholder="Search by reservation ID or name"
+            placeholder="Search by reservation ID or Name or Date"
             value={searchQuery}
             onChange={handleSearch}
           />
         </Form.Group>
       </Form>
 
+      {/* Table to display previous vip room reservations */}
       <Table striped bordered hover className="mt-4">
         <thead>
-          <tr>
+          <tr align='center'>
             <th>Res. ID</th>
             <th>Name</th>
             <th>Phone</th>
@@ -217,9 +246,11 @@ const TableReservations = () => {
               <td>{reservation.date}</td>
               <td>{reservation.time}</td>
               <td style={{ display: "flex" }}>
+                {/* Edit button */}
                 <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'20px'}}>
                   <IoMdCreate />
                 </Button>
+                {/* Delete button */}
                 <Button variant="danger" onClick={() => handleDelete(reservation._id)} style={{marginRight:'20px'}}>
                   <IoMdTrash />
                 </Button>
@@ -229,6 +260,7 @@ const TableReservations = () => {
         </tbody>
       </Table>
 
+      {/* Reservation Form (to display when editing) */}
       {editReservation && (
         <div className="mt-4"><br></br>
           <h2 align="center" style={{color:'green'}}>Edit Reservation</h2>
@@ -276,7 +308,7 @@ const TableReservations = () => {
             </div>
             <button className='btn' type="submit" style={{ width: '200px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '160px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
             {availability &&
-              <button className='btn' onClick={handleSubmit} style={{ width: '200px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '160px'}}>Book Table</button>
+              <button className='btn' onClick={handleSubmit} style={{ width: '200px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '160px'}}>Update Reservation</button>
             }
             {showAvailabilityMessage && !loading &&
               <p style={{ color: 'red' }}>This table is not available. Please select another table or try a different date/time.</p>
