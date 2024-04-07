@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Table } from "react-bootstrap";
-import { IoMdAddCircleOutline, IoMdDownload } from "react-icons/io";
+import { Button, Table, Form } from "react-bootstrap";
+import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
 import axios from "axios";
 
 
 const VIPRoomReservations = () => {
   const [vipRoomReservations, setVIPRoomReservations] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredReservations, setFilteredReservations] = useState([]);
+  const [editReservation, setEditReservation] = useState(null); // State to hold reservation being edited
 
   useEffect(() => {
     // Fetch vip room reservations data when component mounts
@@ -18,11 +21,61 @@ const VIPRoomReservations = () => {
     try {
       const response = await axios.get("http://localhost:8000/vipRoomReservation");
       setVIPRoomReservations(response.data);
+      // Initially setting filteredReservations to all reservations
+      setFilteredReservations(response.data);
     } catch (error) {
       console.error("Error fetching vip room reservations:", error);
     }
   };
 
+  // Function to handle search
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    const filteredData = vipRoomReservations.filter((reservation) => {
+      return (
+        reservation.name.toLowerCase().includes(query.toLowerCase()) ||
+        reservation._id.toLowerCase().includes(query.toLowerCase()) ||
+        reservation.date.includes(query)
+      );
+    });
+    setFilteredReservations(filteredData);
+  };
+
+  // Function to handle edit
+  const handleEdit = (reservation) => {
+    setEditReservation(reservation); // Set the reservation being edited
+  };
+
+  // Function to handle form submission (for update or create)
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (editReservation) {
+      // Update reservation
+      try {
+        await axios.put(`http://localhost:8000/vipRoomReservation/update/${editReservation._id}`, editReservation);
+        setEditReservation(null); // Reset editReservation state
+        fetchVIPRoomReservations(); // Refresh data after update
+      } catch (error) {
+        console.error("Error updating vip room reservation:", error);
+      }
+    } else {
+      // Create new reservation
+      // Add your logic here for creating a new reservation
+    }
+  };
+
+  // Function to handle delete
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/vipRoomReservation/delete/${id}`);
+      fetchVIPRoomReservations(); // Refresh data after deletion
+    } catch (error) {
+      console.error("Error deleting table reservation:", error);
+    }
+  };
+  
   // Function to download PDF report
   const downloadPDF = () => {
     // Implement your PDF download logic here
@@ -30,10 +83,10 @@ const VIPRoomReservations = () => {
   };
 
   return (
-    <div className="container mt-5">
-      
+    <div className="container mt-5">    
       <h1 className="mb-5" style={{textAlign:"center"}}>VIP Room Reservations</h1>
 
+      {/* Add reservation */}
       <Link to="/vip-room-reservations">
         <Button variant="primary" className="m-1">
           <IoMdAddCircleOutline className="mb-1" /> <span>Add VIP Room Reservation</span>
@@ -45,10 +98,22 @@ const VIPRoomReservations = () => {
         <IoMdDownload className="mb-1" /> <span>Download Report</span>
       </Button>
 
+      {/* Search Form */}
+      <Form className="mt-3">
+        <Form.Group controlId="searchQuery">
+          <Form.Control
+            type="text"
+            placeholder="Search by Reservation ID or Name or Date"
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+        </Form.Group>
+      </Form>
+
       {/* Table to display previous vip room reservations */}
       <Table striped bordered hover className="mt-4">
         <thead>
-          <tr>
+          <tr align='center'>
             <th>Res. ID</th>
             <th>Name</th>
             <th>Phone</th>
@@ -56,23 +121,93 @@ const VIPRoomReservations = () => {
             <th>Guests</th>
             <th>Date</th>
             <th>Time</th>
+            <th>Action</th> {/* Added Action column */}
           </tr>
         </thead>
         <tbody>
-          {vipRoomReservations.map((reservation, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
+          {filteredReservations.map((reservation) => (
+            <tr key={reservation._id}>
+              <td>{reservation._id}</td>
               <td>{reservation.name}</td>
               <td>{reservation.phone}</td>
               <td>{reservation.email}</td>
               <td>{reservation.guests}</td>
               <td>{reservation.date}</td>
               <td>{reservation.time}</td>
+              <td style={{display:'flex'}}>
+                {/* Edit button */}
+                <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight: '10px'}}>
+                  <IoMdCreate />
+                </Button>
+                {/* Delete button */}
+                <Button variant="danger" onClick={() => handleDelete(reservation._id)}>
+                  <IoMdTrash />
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
 
+      {/* Reservation Form (to display when editing) */}
+      {editReservation && (
+        <div className="mt-4">
+          <h2 align="center">Edit Reservation</h2>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={editReservation.name}
+                onChange={(e) => setEditReservation({ ...editReservation, name: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId="formPhone">
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                type="text"
+                value={editReservation.phone}
+                onChange={(e) => setEditReservation({ ...editReservation, phone: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId="formEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                value={editReservation.email}
+                onChange={(e) => setEditReservation({ ...editReservation, email: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId="formGuests">
+              <Form.Label>Number of Guests</Form.Label>
+              <Form.Control
+                type="text"
+                value={editReservation.guests}
+                onChange={(e) => setEditReservation({ ...editReservation, guests: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId="formDate">
+              <Form.Label>Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={editReservation.date}
+                onChange={(e) => setEditReservation({ ...editReservation, date: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId="formTime">
+              <Form.Label>Time</Form.Label>
+              <Form.Control
+                type="time"
+                value={editReservation.time}
+                onChange={(e) => setEditReservation({ ...editReservation, time: e.target.value })}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Update Reservation
+            </Button>
+          </Form>
+        </div>
+      )}
     </div>
   );
 };

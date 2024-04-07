@@ -109,7 +109,7 @@ const TableReservations = () => {
                 toast.success('Table booked successfully!'); // Display success toast
                 setTimeout(() => {
                     window.history.back(); // Go back after a delay
-                }, 3000); // Adjust the delay time as needed
+                }, 1000); // Adjust the delay time as needed
             } catch (error) {
                 console.error('Error submitting reservation:', error);
                 // Handle error state or display an error message
@@ -134,7 +134,7 @@ const TableReservations = () => {
     };*/
 
     return (
-        <div className="outer-container1">
+        <div className="outer-container1"><br></br>
             <div className="table-reservation">
                 <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} />
                 <h2 className="center-heading">Reserve A Table</h2>

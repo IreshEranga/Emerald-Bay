@@ -108,7 +108,7 @@ const VIPRoomReservations = () => {
                 toast.success('VIP Room booked successfully!'); // Display success toast
                 setTimeout(() => {
                     window.history.back(); // Go back after a delay
-                }, 3000); // Adjust the delay time as needed
+                }, 1000); // Adjust the delay time as needed
             } catch (error) {
                 console.error('Error submitting reservation:', error);
                 // Handle error state or display an error message
