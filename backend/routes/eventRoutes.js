@@ -62,7 +62,7 @@ router.get("/search", async (req, res) => {
 // Route to get count of Events
 router.get('/count', async (req, res) => {
     try {
-      const count = await VIPRoomReservation.countDocuments(); // Count the documents in the VIPRoomReservation collection
+      const count = await Event.countDocuments(); // Count the documents in the event collection
       res.json({ count });
     } catch (error) {
       console.error('Error fetching count:', error);
