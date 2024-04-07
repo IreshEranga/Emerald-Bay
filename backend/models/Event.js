@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const eventSchema = new Schema(
     {
+        reservationId: {
+            type: String,
+            required: true,
+            unique: true
+        },
         name: {
             type: String,
             required: true

@@ -170,7 +170,7 @@ const Events = () => {
     const filteredData = events.filter((reservation) => {
       return (
         reservation.name.toLowerCase().includes(query.toLowerCase()) ||
-        reservation._id.toLowerCase().includes(query.toLowerCase()) ||
+        reservation.reservationId.toLowerCase().includes(query.toLowerCase()) ||
         reservation.date.includes(query)
       );
     });
@@ -227,8 +227,8 @@ const Events = () => {
         </thead>
         <tbody>
           {filteredReservations.map((reservation, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
+            <tr key={reservation._id}>
+              <td>{reservation.reservationId}</td>
               <td>{reservation.name}</td>
               <td>{reservation.phone}</td>
               <td>{reservation.email}</td>

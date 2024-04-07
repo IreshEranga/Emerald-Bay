@@ -179,7 +179,7 @@ const TableReservations = () => {
     const filteredData = tableReservations.filter((reservation) => {
       return (
         reservation.name.toLowerCase().includes(query.toLowerCase()) ||
-        reservation._id.toLowerCase().includes(query.toLowerCase()) ||
+        reservation.reservationId.toLowerCase().includes(query.toLowerCase()) ||
         reservation.date.includes(query)
       );
     });
@@ -238,7 +238,7 @@ const TableReservations = () => {
         <tbody>
           {filteredReservations.map((reservation) => (
             <tr key={reservation._id}>
-              <td>{reservation._id}</td>
+              <td>{reservation.reservationId}</td>
               <td>{reservation.name}</td>
               <td>{reservation.phone}</td>
               <td>{reservation.email}</td>
