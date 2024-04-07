@@ -41,6 +41,31 @@ router.get("/", async (req, res) => {
     }
 });
 
+// Route to get count of table reservations
+router.get('/count', async (req, res) => {
+    try {
+      const count = await TableReservation.countDocuments(); // Count the documents in the Table Reservation collection
+      res.json({ count });
+    } catch (error) {
+      console.error('Error fetching count:', error);
+      res.status(500).json({ error: 'Error fetching count' });
+    }
+});
+
+// Search table reservations by reservation ID or name
+router.get("/search", async (req, res) => {
+    try {
+      const query = req.query.query;
+      const reservations = await TableReservation.find({
+        $or: [{ _id: query }, { name: { $regex: query, $options: "i" } }]
+      });
+      res.json(reservations);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error searching table reservations" });
+    }
+});
+
 // Update a table reservation
 router.put("/update/:id", async (req, res) => {
     const id = req.params.id;
@@ -62,21 +87,6 @@ router.delete("/delete/:id", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error deleting table reservation" });
-    }
-});
-
-// Get a table reservation by ID
-router.get("/get/:id", async (req, res) => {
-    const id = req.params.id;
-    try {
-        const tableReservation = await TableReservation.findById(id);
-        if (!tableReservation) {
-            return res.status(404).json({ error: "Table reservation not found" });
-        }
-        res.json(tableReservation);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error retrieving table reservation" });
     }
 });
 

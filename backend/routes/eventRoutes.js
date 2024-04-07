@@ -41,6 +41,31 @@ router.get("/", async (req, res) => {
     }
 });
 
+// Search events by reservation ID or name
+router.get("/search", async (req, res) => {
+    try {
+      const query = req.query.query;
+      const reservations = await Event.find({
+        $or: [{ _id: query }, { name: { $regex: query, $options: "i" } }]
+      });
+      res.json(reservations);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error searching events" });
+    }
+});
+
+// Route to get count of Events
+router.get('/count', async (req, res) => {
+    try {
+      const count = await VIPRoomReservation.countDocuments(); // Count the documents in the VIPRoomReservation collection
+      res.json({ count });
+    } catch (error) {
+      console.error('Error fetching count:', error);
+      res.status(500).json({ error: 'Error fetching count' });
+    }
+});
+
 // Update an event
 router.put("/update/:id", async (req, res) => {
     const id = req.params.id;

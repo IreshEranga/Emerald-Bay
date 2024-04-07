@@ -41,6 +41,20 @@ router.get("/", async (req, res) => {
     }
 });
 
+// Search table reservations by reservation ID or name
+router.get("/search", async (req, res) => {
+    try {
+      const query = req.query.query;
+      const reservations = await TableReservation.find({
+        $or: [{ _id: query }, { name: { $regex: query, $options: "i" } }]
+      });
+      res.json(reservations);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error searching table reservations" });
+    }
+});
+
 // Route to get count of VIP room reservations
 router.get('/count', async (req, res) => {
     try {
@@ -50,7 +64,21 @@ router.get('/count', async (req, res) => {
       console.error('Error fetching count:', error);
       res.status(500).json({ error: 'Error fetching count' });
     }
-  });
+});
+
+// Search vip room reservations by reservation ID or name
+router.get("/search", async (req, res) => {
+    try {
+      const query = req.query.query;
+      const reservations = await VIPRoomReservation.find({
+        $or: [{ _id: query }, { name: { $regex: query, $options: "i" } }]
+      });
+      res.json(reservations);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error searching vip room reservations" });
+    }
+});
 
 // Update a vip room reservation
 router.put("/update/:id", async (req, res) => {
@@ -76,19 +104,5 @@ router.delete("/delete/:id", async (req, res) => {
     }
 });
 
-// Get a vip room reservation by ID
-router.get("/get/:id", async (req, res) => {
-    const id = req.params.id;
-    try {
-        const vipRoomReservation = await VIPRoomReservation.findById(id);
-        if (!vipRoomReservation) {
-            return res.status(404).json({ error: "VIP Room reservation not found" });
-        }
-        res.json(vipRoomReservation);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error retrieving vip room reservation" });
-    }
-});
 
 module.exports = router;
