@@ -41,14 +41,14 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Route to get count of table reservations
+// Get count of all table reservations
 router.get('/count', async (req, res) => {
     try {
-      const count = await TableReservation.countDocuments(); // Count the documents in the Table Reservation collection
-      res.json({ count });
+        const count = await TableReservation.countDocuments(); // Count the documents in the Table Reservations collection
+        res.json({ count });
     } catch (error) {
-      console.error('Error fetching count:', error);
-      res.status(500).json({ error: 'Error fetching count' });
+        console.error('Error fetching count:', error);
+        res.status(500).json({ error: 'Error fetching count' });
     }
 });
 

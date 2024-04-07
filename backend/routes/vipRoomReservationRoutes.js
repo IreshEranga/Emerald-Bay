@@ -62,7 +62,7 @@ router.get("/search", async (req, res) => {
 // Route to get count of VIP room reservations
 router.get('/count', async (req, res) => {
     try {
-      const count = await VIPRoomReservation.countDocuments(); // Count the documents in the VIPRoomReservation collection
+      const count = await VIPRoomReservation.countDocuments(); // Count the documents in the VIP Room Reservations collection
       res.json({ count });
     } catch (error) {
       console.error('Error fetching count:', error);
