@@ -36,6 +36,13 @@ class OrderAPI {
   static deliverRequestForRider() {
     return api.get("/api/orders/get/deliverRequestForRider");
   }
+
+  // Assign Rider and Update Order Status
+  static assignRider(values) {
+    const { id, riderId } = values;
+    const data = { rider: riderId, status: 'ongoing' }; // Update order status to ongoing and assign rider
+    return api.patch(`/api/orders/${id}`, data);
+  }
 }
 
 export default OrderAPI;

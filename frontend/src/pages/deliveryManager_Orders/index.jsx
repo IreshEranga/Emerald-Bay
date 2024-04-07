@@ -1,18 +1,16 @@
 import React, { useState, useEffect }  from 'react'
 import "./index.css"
 import Button from "react-bootstrap/Button";
-import { AiTwotoneDelete } from "react-icons/ai";
 import { MdEditSquare } from "react-icons/md";
 import { BootstrapTable } from "../../components";
-//import { useCategoryData } from "../../hooks/useCategoryData";
+
 
 
 const index = () => {
   
-      // Get the data from the react-query hook
-  //const { data, refetch } = useCategoryData();
+ 
 
-        // State to manage the current active section
+  // State to manage the current active section
   const [orders, setOrders] = useState([]);
   const [activeSection, setActiveSection] = useState('completed');
   const [selectedRider, setSelectedRider] = useState('');
@@ -26,12 +24,17 @@ const index = () => {
     setSelectedRider(event.target.value);
   };
 
+  const handleEdit = (order) => {
+    // Add logic here to handle editing of the order
+    console.log('Editing order:', order);
+  };
+  
   useEffect(() => {
     // Function to fetch orders from your API or database
     const fetchOrders = async () => {
       try {
         // Make a fetch call or use axios or any other library to fetch data
-        const response = await fetch('http://localhost:8000/order');
+        const response = await fetch('http://localhost:8000/api/orders');
         const data = await response.json();
         setOrders(data);
       } catch (error) {
@@ -54,7 +57,7 @@ return (
 
         <div className="orderdash">
           <h1 className='name' style={{fontFamily:'monospace', textAlign:'left'}}>Orders</h1>
-          {/*<div className="orderimg" style={{marginLeft:'550px', marginTop:'-150px'}}><img src={orderimg} alt="order" /></div>*/}
+          
 
           <div className="orderstatus" style={{marginTop:"0px",marginLeft:'-50px'}}>
             <button onClick={() => handleSectionChange('completed')} className={`btn ${activeSection === 'completed' ? 'btn-success' : 'btn-outline-primary'}`}>Completed</button>
@@ -70,7 +73,7 @@ return (
                   <div className="completeordertable">
                   
                       <BootstrapTable
-                        headers={["Order ID", "Customer ID","Customer Name","Address","Rider", "Actions"]}
+                        headers={["Order ID", "Customer ID","Customer Name","Address","Rider"]}
                         children={
                           completedOrders.map((order) => (
                             <tr key={order._id}>
@@ -79,26 +82,6 @@ return (
                               <td>{order.customername}</td>
                               <td>{order.deliveryaddress}</td>
                               <td>{order.rider}</td>
-                              <td>
-                                <Button
-                                  className="m-1 px-3"
-                                  variant="danger"
-                                  onClick={() => onDelete(order._id)}
-                                  size="sm"
-                                >
-                                  <AiTwotoneDelete className="mb-1 mx-1" />
-                                  <span>Delete</span>
-                                </Button>
-                                <Button
-                                  className="m-1 px-3"
-                                  variant="info"
-                                  onClick={() => handleEdit(order)}
-                                  size="sm"
-                                >
-                                  <MdEditSquare className="mb-1 mx-1" />
-                                  <span>Edit</span>
-                                </Button>
-                              </td>
                             </tr>
                           ))
                         }
@@ -116,7 +99,7 @@ return (
 
           <div className="pendingordertable">
             <BootstrapTable 
-              headers={["Order ID","Customer ID","Customer Name","Address","Rider","Actions"]}
+              headers={["Order ID","Customer ID","Customer Name","Address",/*"Rider"*/,"Actions"]}
               children={
                 pendingOrders.map((order) => (
                   <tr key={order._id}>
@@ -124,17 +107,8 @@ return (
                     <td>{order.customerid}</td>
                     <td>{order.customername}</td>
                     <td>{order.deliveryaddress}</td>
-                    <td>{order.rider}</td>
+                    {/*<td>{order.rider}</td>*/}
                     <td>
-                      <Button
-                        className="m-1 px-3"
-                        variant="danger"
-                        onClick={() => onDelete(order._id)}
-                        size="sm"
-                      >
-                        <AiTwotoneDelete className="mb-1 mx-1" />
-                        <span>Delete</span>
-                      </Button>
                       <Button
                         className="m-1 px-3"
                         variant="info"
@@ -169,15 +143,7 @@ return (
                               <td>{order.deliveryaddress}</td>
                               <td>{order.rider}</td>
                               <td>
-                                <Button
-                                  className="m-1 px-3"
-                                  variant="danger"
-                                  onClick={() => onDelete(order._id)}
-                                  size="sm"
-                                >
-                                  <AiTwotoneDelete className="mb-1 mx-1" />
-                                  <span>Delete</span>
-                                </Button>
+                                
                                 <Button
                                   className="m-1 px-3"
                                   variant="info"

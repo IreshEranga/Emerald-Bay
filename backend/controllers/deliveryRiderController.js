@@ -4,8 +4,7 @@ const User = require("../models/User");
 //const Order = require("../models/Order");
 const USER_ROLES = require("../constants/roles");
 const bcrypt = require("bcrypt");
-const welcomeEmailTemplate = require("../util/email_templates/welcomeEmailTemplate");
-const sendEmail = require("../util/sendEmail");
+
 
 const deliveryRiderController = {
 
@@ -165,7 +164,7 @@ const deliveryRiderController = {
         }
       },
 
-/*
+
       getAvailableRiders: async (req, res) => {
         try {
           const availableRiders = await Rider.find({ status: "Available" }).select("-password");
@@ -178,7 +177,7 @@ const deliveryRiderController = {
             message: "Internal server error",
           });
         }
-      },*/
+      },
     
 };
 
