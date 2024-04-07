@@ -2,6 +2,36 @@ const router = require("express").Router();
 const Event = require("../models/Event");
 
 
+// Function to generate reservation ID
+const generateReservationId = async () => {
+    try {
+        const latestReservation = await Event.findOne().sort({createdAt: -1});
+        if (!latestReservation) {
+            return "E01";
+        } else {
+            const latestId = latestReservation.reservationId ? parseInt(latestReservation.reservationId.slice(1)) : 0;
+            const newId = latestId + 1;
+            return "E" + newId.toString().padStart(2, '0'); // Ensure two-digit padding
+        }
+    } catch (error) {
+        console.error("Error generating Event reservation ID:", error);
+        throw new Error("Error generating Event reservation ID");
+    }
+};
+
+// Create a Event
+router.post("/create", async (req, res) => {
+    try {
+        const reservationId = await generateReservationId(); // Generate reservation ID
+        const newEvent = new Event({ ...req.body, reservationId });
+        await newEvent.save();
+        res.json({ status: "Event Added", event: newEvent });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error creating Event" });
+    }
+});
+
 // Check event availability
 router.post("/checkAvailability", async (req, res) => {
     try {
@@ -19,18 +49,6 @@ router.post("/checkAvailability", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error checking event availability" });
-    }
-});
-
-// Create a event
-router.post("/create", async (req, res) => {
-    try {
-        const newEvent = new Event(req.body);
-        await newEvent.save();
-        res.json({ status: "Event Added", event: newEvent });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error creating an event" });
     }
 });
 
@@ -91,21 +109,6 @@ router.delete("/delete/:id", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error deleting Event" });
-    }
-});
-
-// Get an event by ID
-router.get("/get/:id", async (req, res) => {
-    const id = req.params.id;
-    try {
-        const event = await Event.findById(id);
-        if (!event) {
-            return res.status(404).json({ error: "Event not found" });
-        }
-        res.json(event);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error retrieving Event" });
     }
 });
 

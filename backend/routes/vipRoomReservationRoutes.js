@@ -2,6 +2,36 @@ const router = require("express").Router();
 const VIPRoomReservation = require("../models/VIPRoomReservation");
 
 
+// Function to generate reservation ID
+const generateReservationId = async () => {
+    try {
+        const latestReservation = await VIPRoomReservation.findOne().sort({createdAt: -1});
+        if (!latestReservation) {
+            return "V01";
+        } else {
+            const latestId = latestReservation.reservationId ? parseInt(latestReservation.reservationId.slice(1)) : 0;
+            const newId = latestId + 1;
+            return "V" + newId.toString().padStart(2, '0'); // Ensure two-digit padding
+        }
+    } catch (error) {
+        console.error("Error generating VIP room reservation ID:", error);
+        throw new Error("Error generating VIP room reservation ID");
+    }
+};
+
+// Create a VIP room reservation
+router.post("/create", async (req, res) => {
+    try {
+        const reservationId = await generateReservationId(); // Generate reservation ID
+        const newVIPRoomReservation = new VIPRoomReservation({ ...req.body, reservationId });
+        await newVIPRoomReservation.save();
+        res.json({ status: "VIP Room Reservation Added", vipRoomReservation: newVIPRoomReservation });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error creating VIP room reservation" });
+    }
+});
+
 // Check vip room availability
 router.post("/checkAvailability", async (req, res) => {
     try {
@@ -22,18 +52,6 @@ router.post("/checkAvailability", async (req, res) => {
     }
 });
 
-// Create a vip room reservation
-router.post("/create", async (req, res) => {
-    try {
-        const newVIPRoomReservation = new VIPRoomReservation(req.body);
-        await newVIPRoomReservation.save();
-        res.json({ status: "VIP Room Reservation Added", vipRoomReservation: newVIPRoomReservation });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error creating vip room reservation" });
-    }
-});
-
 // Get all vip room reservations
 router.get("/", async (req, res) => {
     try {
@@ -42,20 +60,6 @@ router.get("/", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error retrieving vip room reservations" });
-    }
-});
-
-// Search table reservations by reservation ID or name
-router.get("/search", async (req, res) => {
-    try {
-      const query = req.query.query;
-      const reservations = await TableReservation.find({
-        $or: [{ _id: query }, { name: { $regex: query, $options: "i" } }]
-      });
-      res.json(reservations);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error searching table reservations" });
     }
 });
 
