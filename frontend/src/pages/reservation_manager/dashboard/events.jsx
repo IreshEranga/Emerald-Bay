@@ -146,6 +146,7 @@ const Events = () => {
         fetchEvents(); // Refresh data after update
       } catch (error) {
         console.error("Error updating event:", error);
+        toast.error('Error updating reservation!');
       }
     } else {
       // Logic for creating a new reservation
@@ -157,8 +158,10 @@ const Events = () => {
     try {
       await axios.delete(`http://localhost:8000/event/delete/${id}`);
       fetchEvents(); // Refresh data after deletion
+      toast.success('Reservation deleted successfully!');
     } catch (error) {
       console.error("Error deleting event:", error);
+      toast.error('Error deleting reservation!');
     }
   };
 
@@ -166,7 +169,7 @@ const Events = () => {
   const handleSearch = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-
+    // Filtered data
     const filteredData = events.filter((reservation) => {
       return (
         reservation.name.toLowerCase().includes(query.toLowerCase()) ||

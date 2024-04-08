@@ -6,6 +6,7 @@ import Delivery_rider from "../../delivery_rider";
 import Category from "../../category";
 import StockRequest from "../../stock_request";
 import OrderManagerDashBoard from "./OrderManagerDashBoard.jsx";
+import Menu_Items from "./Menu.js";
 
 
 //
@@ -28,10 +29,10 @@ const OrderManagerSideBar = () => {
             <OrderManagerDashBoard />
           </>
         );
-      case "Riders":
+      case "Menu":
         return (
           <>
-            <Delivery_rider />
+            <Menu_Items />
           </>
         );
       case "Categories":
@@ -94,11 +95,11 @@ const OrderManagerSideBar = () => {
           </li>
           <li>
             <a
-              href="#riders"
+              href="#menu"
               className={`nav-link ${
-                activeContent === "Riders" ? "active" : "link-dark"
+                activeContent === "Menu" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Riders")}
+              onClick={() => handleLinkClick("Menu")}
             >
               Menu
             </a>

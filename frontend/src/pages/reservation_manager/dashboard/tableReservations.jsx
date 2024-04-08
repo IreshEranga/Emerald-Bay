@@ -155,6 +155,7 @@ const TableReservations = () => {
         fetchTableReservations(); // Refresh data after update
       } catch (error) {
         console.error("Error updating table reservation:", error);
+        toast.error('Error updating reservation!');
       }
     } else {
       // Logic for creating a new reservation
@@ -166,8 +167,10 @@ const TableReservations = () => {
     try {
       await axios.delete(`http://localhost:8000/tableReservation/delete/${id}`);
       fetchTableReservations();
+      toast.success('Reservation deleted successfully!');
     } catch (error) {
       console.error("Error deleting table reservation:", error);
+      toast.error('Error deleting reservation!');
     }
   };
 
@@ -175,7 +178,7 @@ const TableReservations = () => {
   const handleSearch = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-
+    // Filtered data
     const filteredData = tableReservations.filter((reservation) => {
       return (
         reservation.name.toLowerCase().includes(query.toLowerCase()) ||
