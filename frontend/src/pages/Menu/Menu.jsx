@@ -37,13 +37,59 @@ const Menu = () => {
                     <h1 className="menu-title">Our Menu</h1><br />
                     <div className="category"><br />
                         <h2 className="center-heading1">Beverages</h2>
+                        <div className="names" handleCategorySelect={'Beverages'}></div>
                         {selectedCategory === 'Beverages' && menuItems.map((item, index) => (
                             <ul className="menu-list" key={index}>
                                 <li className="menu-item">{item.name} <span className="price">{item.price}</span></li>
                             </ul>
                         ))}
                     </div>
-                    {/* Repeat similar code blocks for other categories */}
+                    <div className="category"><br />
+                        <h2 className="center-heading1">Side Dishes</h2>
+                        <button onClick={() => handleCategorySelect('Side Dishes')}>Select Beverages</button>
+                        {selectedCategory === 'Side Dishes' && menuItems.map((item, index) => (
+                            <ul className="menu-list" key={index}>
+                                <li className="menu-item">{item.name} <span className="price">{item.price}</span></li>
+                            </ul>
+                        ))}
+                    </div>
+                    <div className="category"><br />
+                        <h2 className="center-heading1">Soups</h2>
+                        <button onClick={() => handleCategorySelect('Soups')}>Select Beverages</button>
+                        {selectedCategory === 'Soups' && menuItems.map((item, index) => (
+                            <ul className="menu-list" key={index}>
+                                <li className="menu-item">{item.name} <span className="price">{item.price}</span></li>
+                            </ul>
+                        ))}
+                    </div>
+                    <div className="category"><br />
+                        <h2 className="center-heading1">Salads</h2>
+                        <button onClick={() => handleCategorySelect('Salads')}>Select Beverages</button>
+                        {selectedCategory === 'Salads' && menuItems.map((item, index) => (
+                            <ul className="menu-list" key={index}>
+                                <li className="menu-item">{item.name} <span className="price">{item.price}</span></li>
+                            </ul>
+                        ))}
+                    </div>
+                    <div className="category"><br />
+                        <h2 className="center-heading1">Rices</h2>
+                        <button onClick={() => handleCategorySelect('Rices')}>Select Beverages</button>
+                        {selectedCategory === 'Rices' && menuItems.map((item, index) => (
+                            <ul className="menu-list" key={index}>
+                                <li className="menu-item">{item.name} <span className="price">{item.price}</span></li>
+                            </ul>
+                        ))}
+                    </div>
+                    <div className="category"><br />
+                        <h2 className="center-heading1">Deserts</h2>
+                        <button onClick={() => handleCategorySelect('Desserts')}>Select Beverages</button>
+                        {selectedCategory === 'Desserts' && menuItems.map((item, index) => (
+                            <ul className="menu-list" key={index}>
+                                <li className="menu-item">{item.name} <span className="price">{item.price}</span></li>
+                            </ul>
+                        ))}
+                    </div>
+                    
                 </div>
             </div>
         </div>
