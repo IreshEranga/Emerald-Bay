@@ -32,12 +32,12 @@ class RiderAPI {
     return api.get("/api/riders/get/count");
   }
 
-  // Update  stock
-  /*
-  static updateStock(values) {
+  // Update  status
+  
+  static updateStatus(values) {
     const { data } = values;
-    return api.patch("/api/suppliers/stock", data);
-  }*/
+    return api.patch("/api/riders/status", data);
+  }
 
   // Get available stock
   static getAvailableRiders() {
