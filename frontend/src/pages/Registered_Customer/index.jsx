@@ -1,11 +1,10 @@
 import React from "react";
 import { useAuthStore } from "../../store/useAuthStore";
-import NavBar from '../../components/Navbar'; 
+import Navbar_customer from '../../components/Navbar_customer'; 
 import restaurantImage from '../../assets/IMG_9995.jpg';
-import './AboutUs.css';
 
 
-const AboutUs = () => {
+const Customer_Home= () => {
     const { isAuthenticated, logout, user } = useAuthStore((state) => ({
         isAuthenticated: state.isAuthenticated,
         logout: state.logout,
@@ -16,8 +15,8 @@ const AboutUs = () => {
     
         <div style={{backgroundColor:'black'}}>
     
-              <NavBar />
-
+              <Navbar_customer />
+    
             <div className="about-us-container">
             <div className="about-us-content">
                 <img src={restaurantImage} alt="Restaurant" className="restaurant-image" /><br></br><br></br>
@@ -50,4 +49,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default Customer_Home;

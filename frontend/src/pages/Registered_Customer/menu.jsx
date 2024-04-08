@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import NavBar from '../../components/Navbar';
-import './Menu.css';
+import Navbar_customer from "../../components/Navbar_customer";
 
 
-const Menu = () => {
+const Customer_Menu = () => {
     const [menuItems, setMenuItems] = useState({});
 
     useEffect(() => {
@@ -30,7 +29,7 @@ const Menu = () => {
 
     return (
         <div style={{ backgroundColor: 'black' }}>
-            <NavBar />
+            <Navbar_customer />
             <div className="outer-container5">
                 <div className="menu-container">
                     <br /><br />
@@ -55,4 +54,4 @@ const Menu = () => {
     );
 };
 
-export default Menu;
+export default Customer_Menu;
