@@ -41,7 +41,7 @@ app.use("/api/riders",riderRoutes);
 
 
  app.use("/employee",employeeRoutes);
- app.use("/api/order",orderRoutes);
+ app.use("/api/orders",orderRoutes);
  app.use("/tableReservation",tableReservationRoutes);
 app.use("/vipRoomReservation",vipRoomReservationRoutes);
 app.use("/event",eventRoutes);

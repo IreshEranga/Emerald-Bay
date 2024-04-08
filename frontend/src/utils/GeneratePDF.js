@@ -1,6 +1,7 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { successMessage } from "./Alert";
+import EMERALDBAYLOGO from "../assets/EMERALDBAYLOGO.png"
 /**
  * Generate PDF
  * @param {string} title
@@ -15,6 +16,9 @@ export function generatePDF(title, columns, data, fileName) {
   const doc = new jsPDF();
   const tableRows = [];
 
+  // Add the logo to the header of the PDF
+  doc.addImage(EMERALDBAYLOGO, "PNG", 15, -5, 50, 50);
+
   data.forEach((item) => {
     const rowData = [];
     columns.forEach((column) => {
@@ -28,7 +32,7 @@ export function generatePDF(title, columns, data, fileName) {
       return { title: c.toUpperCase(), dataKey: c };
     }),
     body: tableRows,
-    margin: { top: 35 },
+    margin: { top: 60 },
     didDrawPage: function (data) {
       doc.text(title, 20, 30);
     },

@@ -37,12 +37,12 @@ class RiderAPI {
   static updateStock(values) {
     const { data } = values;
     return api.patch("/api/suppliers/stock", data);
-  }
+  }*/
 
   // Get available stock
-  static getAvailableStock() {
-    return api.get("/api/suppliers/stock");
-  }*/
+  static getAvailableRiders() {
+    return api.get("/api/riders/available");
+  }
 }
 
 export default RiderAPI;

@@ -1,20 +1,55 @@
-import React from "react";
-import { useSupplierCount } from "../../../hooks/useSupplierData";
-import { useCategoryCount } from "../../../hooks/useCategoryData";
-import { useStockRequestCount } from "../../../hooks/useStockRequestData";
+import React, { useState, useEffect } from "react";
 import { useAuthStore } from "../../../store/useAuthStore";
+import axios from "axios";
 
 
-const index = () => {
+const ReservationManagerDashboard = () => {
   const { user } = useAuthStore((state) => ({
     user: state.user,
   }));
-  
-  // Get the data from the react-query hook
-  const { data: supplierData } = useSupplierCount();
-  const { data: categoryData } = useCategoryCount();
-  const { data: stockRequestData } = useStockRequestCount();
-  
+  const [tableReservationsCount, setTableReservationsCount] = useState(0);
+  const [vipRoomReservationsCount, setVIPRoomReservationsCount] = useState(0);
+  const [eventsCount, setEventsCount] = useState(0);
+
+  useEffect(() => {
+    // Fetch count of all table reservations
+    const fetchTableReservationsCount = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/tableReservation/count");
+        setTableReservationsCount(response.data.count);
+      } catch (error) {
+        console.error("Error fetching table reservations count:", error);
+      }
+    };
+
+    fetchTableReservationsCount();
+
+  // Fetch count of all vip room reservations
+  const fetchVIPRoomReservationsCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/vipRoomReservation/count");
+      setVIPRoomReservationsCount(response.data.count);
+    } catch (error) {
+      console.error("Error fetching vip room reservations count:", error);
+    }
+  };
+
+  fetchVIPRoomReservationsCount();
+
+  // Fetch count of all events
+  const fetchEventsCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/event/count");
+      setEventsCount(response.data.count);
+    } catch (error) {
+      console.error("Error fetching events count:", error);
+    }
+  };
+
+  fetchEventsCount();
+
+}, []);
+
   return (
     <div className="container mt-4">
       {user && (
@@ -24,32 +59,32 @@ const index = () => {
       )}
 
       <div className="row">
-        <div key={index} className="col-md-3 mb-4">
+        <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
               <h5 className="card-title">🛎 Total Table Reservations</h5>
               <p className="card-text fs-4 fw-bold">
-                {supplierData?.data?.supplierCount}
+                {tableReservationsCount}  {/* Display table reservations count */}
               </p>
             </div>
           </div>
         </div>
-        <div key={index} className="col-md-3 mb-4">
+        <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
               <h5 className="card-title">👑 Total VIP Room Reservations</h5>
               <p className="card-text fs-4 fw-bold">
-                {categoryData?.data?.categoryCount}
+                 {vipRoomReservationsCount} {/* Display VIP room reservations count */}
               </p>
             </div>
           </div>
         </div>
-        <div key={index} className="col-md-3 mb-4">
+        <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
-              <h5 className="card-title">🎊 Total Outdoor Events</h5>
+              <h5 className="card-title">🎊 Total Events</h5>
               <p className="card-text fs-4 fw-bold">
-                {stockRequestData?.data?.stockRequestCount}
+                 {eventsCount}  {/* Display events count */}
               </p>
             </div>
           </div>
@@ -59,4 +94,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ReservationManagerDashboard;

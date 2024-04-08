@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const vipRoomReservationSchema = new Schema(
     {
+        reservationId: {
+            type: String,
+            required: true,
+            unique: true
+        },
         name: {
             type: String,
             required: true

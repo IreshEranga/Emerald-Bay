@@ -10,10 +10,11 @@ const orderSchema = new mongoose.Schema(
         items:[{}],
         totalprice:{type:Number,default:0},
         status:{type:String,
-            type: String,
-           enum: ["pending", "ongoing", "completed"],
+            //enum: ["pending", "ongoing", "completed","Approved"],
             default: "pending",},
-        rider:{type: String}
+        rider:{type: String},
+        date:{type:Date},
+        time:{type:String}
 
     },
     {

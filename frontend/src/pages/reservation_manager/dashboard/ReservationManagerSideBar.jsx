@@ -124,7 +124,7 @@ const ReservationManagerSideBar = () => {
               }`}
               onClick={() => handleLinkClick("Outdoor_Events")}
             >
-              Outdoor Events
+              Events
             </a>
           </li>
         </ul>

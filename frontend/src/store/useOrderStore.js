@@ -3,7 +3,7 @@ import { devtools } from "zustand/middleware";
 
 const initialState = {
   orders: [],
-  selectedOrders: null,
+  selectedOrder: null,
   isEditOrdersOpen: false,
 };
 

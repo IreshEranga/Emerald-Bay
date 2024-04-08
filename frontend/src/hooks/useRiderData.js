@@ -16,3 +16,12 @@ export const useAvailableStock = () => {
 export const useRider = (id) => {
   return useQuery(["rider", id], () => RiderAPI.getById(id));
 };
+
+
+export const useAvailableRiders = () => {
+  return useQuery(["availableRiders"], () => RiderAPI.getAvailableRiders(), {
+    select: (data) => ({
+      data: data.data.riders,
+    }),
+  });
+};

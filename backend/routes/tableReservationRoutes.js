@@ -2,15 +2,49 @@ const router = require("express").Router();
 const TableReservation = require("../models/TableReservation");
 
 
+// Function to generate reservation ID
+const generateReservationId = async () => {
+    try {
+        const latestReservation = await TableReservation.findOne().sort({createdAt: -1});
+        if (!latestReservation) {
+            return "T01";
+        } else {
+            const latestId = parseInt(latestReservation.reservationId.slice(1)); // Extract numeric part of the ID
+            const newId = latestId + 1;
+            return "T" + newId.toString().padStart(2, '0'); // Ensure two-digit padding
+        }
+    } catch (error) {
+        console.error("Error generating reservation ID:", error);
+        throw new Error("Error generating reservation ID");
+    }
+};
+
 // Create a table reservation
 router.post("/create", async (req, res) => {
     try {
-        const newTableReservation = new TableReservation(req.body);
+        const reservationId = await generateReservationId(); // Generate reservation ID
+        const newTableReservation = new TableReservation({ ...req.body, reservationId });
         await newTableReservation.save();
         res.json({ status: "Table Reservation Added", tableReservation: newTableReservation });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error creating table reservation" });
+    }
+});
+
+// Check table availability
+router.post("/checkAvailability", async (req, res) => {
+    try {
+        const { tableNo, date, time } = req.body;
+        const existingReservation = await TableReservation.findOne({ tableNo, date, time });
+        if (existingReservation) {
+            res.json({ available: false });
+        } else {
+            res.json({ available: true });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error checking table availability" });
     }
 });
 
@@ -22,6 +56,31 @@ router.get("/", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error retrieving table reservations" });
+    }
+});
+
+// Get count of all table reservations
+router.get('/count', async (req, res) => {
+    try {
+        const count = await TableReservation.countDocuments(); // Count the documents in the Table Reservations collection
+        res.json({ count });
+    } catch (error) {
+        console.error('Error fetching count:', error);
+        res.status(500).json({ error: 'Error fetching count' });
+    }
+});
+
+// Search table reservations by reservation ID or name
+router.get("/search", async (req, res) => {
+    try {
+      const query = req.query.query;
+      const reservations = await TableReservation.find({
+        $or: [{ _id: query }, { name: { $regex: query, $options: "i" } }]
+      });
+      res.json(reservations);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error searching table reservations" });
     }
 });
 
@@ -46,21 +105,6 @@ router.delete("/delete/:id", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error deleting table reservation" });
-    }
-});
-
-// Get a table reservation by ID
-router.get("/get/:id", async (req, res) => {
-    const id = req.params.id;
-    try {
-        const tableReservation = await TableReservation.findById(id);
-        if (!tableReservation) {
-            return res.status(404).json({ error: "Table reservation not found" });
-        }
-        res.json(tableReservation);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error retrieving table reservation" });
     }
 });
 

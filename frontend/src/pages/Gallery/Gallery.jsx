@@ -49,7 +49,7 @@ const Gallery = () => {
     
               <NavBar />
         <div className="gallery-container"><br></br>
-        <h2>SOME OF OUR HIGHLIGHTS</h2><br></br>
+        <h2>SOME OF OUR HIGHLIGHTS</h2>
         <div className="gallery">
           <div className={`modal ${modalOpen ? 'open' : ''}`} onClick={closeModal}>
             {selectedImage && (
