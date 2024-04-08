@@ -47,8 +47,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-// Route to get items by category
 router.get('/get/:category', async (req, res) => {
     const category = req.params.category;
 
