@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { MdEditSquare } from "react-icons/md";
 import { BootstrapTable } from "../../components";
 import EditOrderForm from './EditOrderForm';
+import EditOngoingOrderForm from './EditOngoingOrderForm';
 
 const Index = () => {
   // State to manage the current active section
@@ -12,6 +13,7 @@ const Index = () => {
   const [selectedRider, setSelectedRider] = useState('');
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [showOngoingEditForm, setShowOngoingEditForm] = useState(false);
 
   // Function to handle section change
   const handleSectionChange = (sectionId) => {
@@ -27,13 +29,18 @@ const Index = () => {
     setShowEditForm(true);
   };
 
+  const handleOngoingEdit = (order) => {
+    setSelectedOrder(order);
+    setShowOngoingEditForm(true);
+  };
+
   const handleFormSubmit = () => {
     if (selectedOrder && selectedRider) {
       // Update the order's rider and status in the orders state
       setOrders(
         orders.map((order) =>
           order._id === selectedOrder._id
-           ? {...order, rider: selectedRider, status: 'ongoing' }
+            ? { ...order, rider: selectedRider, status: 'ongoing' }
             : order
         )
       );
@@ -43,6 +50,21 @@ const Index = () => {
       setSelectedOrder(null);
       setSelectedRider('');
     }
+  };
+
+  const handleOngoingEditFormSubmit = (updatedOrder) => {
+    // Update the order's status to completed in the orders state
+    setOrders(
+      orders.map((order) =>
+        order._id === updatedOrder._id
+          ? { ...updatedOrder, status: 'completed' }
+          : order
+      )
+    );
+
+    // Hide the ongoing order edit form
+    setShowOngoingEditForm(false);
+    setSelectedOrder(null);
   };
 
   useEffect(() => {
@@ -140,7 +162,7 @@ const Index = () => {
                           <Button
                             className="m-1 px-3"
                             variant="info"
-                            onClick={() => handleEdit(order)}
+                            onClick={() => handleOngoingEdit(order)}
                             size="sm"
                           >
                             <MdEditSquare className="mb-1 mx-1" />
@@ -160,6 +182,14 @@ const Index = () => {
         <EditOrderForm
           show={showEditForm}
           onClose={handleFormSubmit}
+          order={selectedOrder}
+          riders={orders}
+        />
+      )}
+      {showOngoingEditForm && (
+        <EditOngoingOrderForm
+          show={showOngoingEditForm}
+          onClose={handleOngoingEditFormSubmit}
           order={selectedOrder}
           riders={orders}
         />
