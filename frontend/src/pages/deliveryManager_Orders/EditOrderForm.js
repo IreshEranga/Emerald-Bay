@@ -25,8 +25,14 @@ const EditOrderForm = ({ order = {}, onClose }) => {
     event.preventDefault();
 
     try {
+      // Get the selected rider object from the riders array
+      const selectedRiderObject = riders.find((rider) => rider._id === selectedRider);
+      if (!selectedRiderObject) {
+        throw new Error('Selected rider not found');
+      }
+
       // Update rider status in rider database
-      const response = await fetch(`http://localhost:8000/api/riders/update/${selectedRider}`, {
+      const response = await fetch(`http://localhost:8000/api/riders/update/${selectedRiderObject._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -38,17 +44,17 @@ const EditOrderForm = ({ order = {}, onClose }) => {
         throw new Error('Failed to update rider status');
       }
 
-      // Update order status and rider in order database
+      // Update order status and rider name in order database
       await fetch(`http://localhost:8000/api/orders/update/${order.orderid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status: 'ongoing', rider: selectedRider }),
+        body: JSON.stringify({ status: 'ongoing', rider: selectedRiderObject.name }),
       });
 
       // Call the onClose function with the updated order data
-      onClose({ ...order, rider: selectedRider, status: 'ongoing' });
+      onClose({ ...order, rider: selectedRiderObject.name, status: 'ongoing' });
       setShowForm(false); // Hide the form after submission
     } catch (error) {
       console.error('Error updating status:', error);
@@ -89,7 +95,7 @@ const EditOrderForm = ({ order = {}, onClose }) => {
           onChange={(event) => setOrderStatus(event.target.value)}
         />
       </Form.Group>
-      <Button variant="primary" type="submit" onClick={handleSubmit}>
+      <Button variant="primary" type="submit">
         Submit
       </Button>
       <Button variant="secondary" onClick={handleClose}>
