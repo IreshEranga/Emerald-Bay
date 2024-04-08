@@ -1,0 +1,62 @@
+.item {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    /*margin-top: 20px;*/
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.outer-container9 {
+    background-image: url(../../../assets/IMG_501.avif);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.center-heading {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/*.btn {
+    /*display: block;*/
+    /*width: 250px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+ button.btn:hover {
+    background-color: white;
+    color: #007bff;
+}*/
+
+.error {
+    color: red;
+    font-size: 0.8em;
+}

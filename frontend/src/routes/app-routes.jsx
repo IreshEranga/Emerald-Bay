@@ -23,14 +23,16 @@ import Table_Reservations from "../pages/reservation_manager/dashboard/tableRese
 import VIP_Rooms from "../pages/reservation_manager/dashboard/vipRoomReservations"
 import Outdoor_Events from "../pages/reservation_manager/dashboard/events"
 import Reservations from '../pages/Reservations/Reservations'
-import VIPRoomReservations from "../pages/Reservations/VIPRoomReservations";
-import Events from "../pages/Reservations/Events";
-import TableReservations from "../pages/Reservations/TableReservations";
+import VIPRoomReservations from "../pages/Reservations/VIPRoomReservations"
+import Events from "../pages/Reservations/Events"
+import TableReservations from "../pages/Reservations/TableReservations"
 import AboutUs from '../pages/AboutUs/AboutUs'
 import Menu from "../pages/Menu/Menu"
-import Gallery from "../pages/Gallery/Gallery";
-import Register from "../pages/Register/Register";
-import Userprofile from "../pages/Userprofile/Userprofile";
+import Gallery from "../pages/Gallery/Gallery"
+import Register from "../pages/Register/Register"
+import Userprofile from "../pages/Userprofile/Userprofile"
+import Items from "../pages/order_manager/dashboard/items"
+import Menu_Items from "../pages/order_manager/dashboard/Menu.js";
 
 
 
@@ -50,6 +52,7 @@ const AppRoutes = () => {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/register" element={<Register />} />
           <Route path="/userProfile" element={<Userprofile />} />
+          <Route path="/add-item" element={<Items />} />
           
 
           {/* Check Login Status */}
@@ -101,6 +104,7 @@ const AppRoutes = () => {
             element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}
           >
             <Route path="/orderManager" element={<OrderManagerSideBar />} />
+            <Route path="/orderManager/menu" element={<Menu_Items />} />         
           </Route>
 
           {/* Employee Manager Private Routes */}

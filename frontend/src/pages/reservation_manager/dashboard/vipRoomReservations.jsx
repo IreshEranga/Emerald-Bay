@@ -158,6 +158,7 @@ const VIPRoomReservations = () => {
       fetchVIPRoomReservations(); // Refresh data after update
     } catch (error) {
       console.error("Error updating vip room reservation:", error);
+      toast.error('Error updating reservation!');
     }
   } else {
     // Logic for creating a new reservation
@@ -170,8 +171,10 @@ const VIPRoomReservations = () => {
     try {
       await axios.delete(`http://localhost:8000/vipRoomReservation/delete/${id}`);
       fetchVIPRoomReservations(); // Refresh data after deletion
+      toast.success('Reservation deleted successfully!');
     } catch (error) {
       console.error("Error deleting table reservation:", error);
+      toast.error('Error deleting reservation!');
     }
   };
 
@@ -179,7 +182,7 @@ const VIPRoomReservations = () => {
   const handleSearch = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-
+    // Filtered data
     const filteredData = vipRoomReservations.filter((reservation) => {
       return (
         reservation.name.toLowerCase().includes(query.toLowerCase()) ||
