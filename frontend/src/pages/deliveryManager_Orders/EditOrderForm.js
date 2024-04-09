@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import toast from 'react-hot-toast';
+
 
 const EditOrderForm = ({ order = {}, onClose }) => {
   const [selectedRider, setSelectedRider] = useState(order.rider || '');
@@ -55,6 +57,7 @@ const EditOrderForm = ({ order = {}, onClose }) => {
 
       // Call the onClose function with the updated order data
       onClose({ ...order, rider: selectedRiderObject.name, status: 'ongoing' });
+      toast.success('Rider Added successfully!');
       setShowForm(false); // Hide the form after submission
     } catch (error) {
       console.error('Error updating status:', error);
