@@ -24,16 +24,18 @@
 }
 
 .restaurant-details h1 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     margin-bottom: 20px;
     color: rgb(212, 227, 244);
     font-family: 'Times New Roman', Times, serif;
+    font-style: bold;
 }
 
 .restaurant-details p {
-  color: rgb(96, 100, 104);
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 18px;
+  color: rgb(234, 241, 190);
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 28px;
+  font-style: bold;
 }
 
 .contact-details {
@@ -42,7 +44,7 @@
 }
 
 .contact-details h2 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     margin-bottom: 20px;
     color: rgb(212, 227, 244);
     font-family: 'Times New Roman', Times, serif;
@@ -53,5 +55,17 @@
     margin-bottom: 10px;
     color: rgb(96, 100, 104);
     font-family: 'Times New Roman', Times, serif;
-    font-size: 18px;
+    font-size: 20px;
+    text-align: left;
+    font-style: bold;
+    margin-left: 300px;
+}
+
+.contact-details .icon {
+    vertical-align: middle; /* Align icons vertically */
+
+}
+
+.dot {
+    margin-left: 5px; /* Adjust the space between the label and the dot */
 }

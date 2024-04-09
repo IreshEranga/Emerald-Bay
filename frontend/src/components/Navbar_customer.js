@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import logo from '../assets/EMERALDBAYLOGO.png';
 import { LinkContainer } from 'react-router-bootstrap';
-import { FaShoppingCart, FaUser } from 'react-icons/fa'; // Importing icons
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 
 
 function Navbar_customer({ isAuthenticated, user, logout }) {
