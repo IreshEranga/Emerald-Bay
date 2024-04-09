@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import * as yup from 'yup';
 import { Formik } from 'formik';
+import toast from 'react-hot-toast';
 
 
 function FormExample() {
@@ -34,16 +35,16 @@ function FormExample() {
         .then(data => {
           // Check if the form submission was successful
           if (data.success) {
-            alert("Form submitted successfully!");
+            toast.success("Form submitted successfully!");
             // Optionally, you can clear the form fields after successful submission
             resetForm();
           } else {
-            alert("Form submission failed. Please try again later.");
+            toast.error("Form submission failed. Please try again later.");
           }
         })
         .catch(error => {
           console.error("Error submitting form:", error);
-          alert("An error occurred while submitting the form. Please try again later.");
+          toast.error("An error occurred while submitting the form. Please try again later.");
         })
         .finally(() => {
           setSubmitting(false);

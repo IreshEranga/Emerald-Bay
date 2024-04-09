@@ -2,7 +2,7 @@ import React, { useState, useEffect  } from 'react';
 import './VIPRoomReservations.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import toast from 'react-hot-toast'; // Import toast function from react-hot-toast
+import toast from 'react-hot-toast';
 import axios from 'axios';
 
 
