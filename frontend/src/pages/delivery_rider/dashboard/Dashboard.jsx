@@ -11,12 +11,16 @@ const Dashboard = () => {
   }));
 
   const [orders, setOrders] = useState([]);
+  const [totalDeliveryCount, setTotalDeliveryCount] = useState(0);
 
   useEffect(() => {
     const fetchOrdersForRider = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/api/orders/rider/${user.name}`);
         setOrders(response.data.orders);
+        // Calculate and set total delivery count
+        const count = response.data.orders.length;
+        setTotalDeliveryCount(count);
       } catch (error) {
         console.error('Error fetching orders:', error);
         toast.error('Error fetching orders');
@@ -55,7 +59,7 @@ const Dashboard = () => {
               {/* Total Requests */}
               <h5 className="card-title">🚲 Total Delivery Count</h5>
               <p className="card-text fs-4 fw-bold">
-                {/* show count */}
+                {totalDeliveryCount}
               </p>
             </div>
           </div>
