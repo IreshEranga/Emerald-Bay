@@ -96,4 +96,48 @@ router.patch("/update/:id", async (req, res) => {
   }
 });
 
+
+
+router.patch("/update/rider/:employeeid", async (req, res) => {
+  try {
+    const riderId = req.params.employeeid;
+    const rider = await Rider.findOne({
+      employeeid: riderId,
+      role: USER_ROLES.RIDER,
+    });
+
+    if (!rider) {
+      return res.status(404).json({
+        success: false,
+        message: "Rider not found",
+      });
+    }
+
+    // if password is being updated, hash the new password
+    if (req.body.password) {
+      req.body.password = await bcrypt.hash(req.body.password, 10);
+    }
+
+    const updateRider = await Rider.findOneAndUpdate(
+      { employeeid: riderId, role: USER_ROLES.RIDER },
+      req.body,
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      rider: updateRider,
+      message: "Rider updated successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error,
+      message: "Internal server error",
+    });
+  }
+});
 module.exports = router;
