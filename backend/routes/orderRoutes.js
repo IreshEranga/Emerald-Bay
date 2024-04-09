@@ -2,6 +2,8 @@ const router = require("express").Router();
 
 //import order model
 let Order = require("../models/Order");
+//import rider model
+const Rider = require("../models/Rider");
 
 
 //create order
@@ -143,5 +145,85 @@ router.get('/rider/:rider', async (req, res) => {
         res.status(500).json({ success: false, error: 'Error retrieving orders for rider' });
     }
 });
+
+// Update order status to completed
+/*router.put("/complete/:orderid", async (req, res) => {
+    const orderid = req.params.orderid;
+
+    try {
+        const updatedOrder = await Order.findOneAndUpdate(
+            { orderid },
+            { status: "completed" },
+            { new: true }
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        res.status(200).json({ status: "Order completed", order: updatedOrder });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Error completing order" });
+    }
+});*/
+
+router.route("/update/status/:orderid").put(async (req, res) => {
+    const orderId = req.params.orderid;
+
+    try {
+        const updatedOrder = await Order.findOneAndUpdate(
+            { _id: orderId },
+            { status: "completed" }, // Set the status to completed
+            { new: true }
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        // Update rider status to Available after completing order
+        await Rider.findOneAndUpdate(
+            { name: updatedOrder.rider },
+            { status: "Available" },
+            { new: true }
+        );
+
+        res.status(200).json({ status: "Order status updated", order: updatedOrder });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error updating order status" });
+    }
+});
+
+router.route("/update/status/:orderid").put(async (req, res) => {
+    const orderId = req.params.orderid;
+
+    try {
+        // Update order status to completed
+        const updatedOrder = await Order.findOneAndUpdate(
+            { _id: orderId },
+            { status: "completed" },
+            { new: true }
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        // Update rider status to Available
+        await Rider.findOneAndUpdate(
+            { name: updatedOrder.rider },
+            { status: "Available" },
+            { new: true }
+        );
+
+        res.status(200).json({ status: "Order status updated", order: updatedOrder });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error updating order status" });
+    }
+});
+
 
 module.exports = router;

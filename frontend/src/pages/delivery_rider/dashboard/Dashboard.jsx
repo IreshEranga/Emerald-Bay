@@ -28,21 +28,15 @@ const Dashboard = () => {
     }
   }, [user]);
 
-  // Function to handle editing a reservation
-  const handleEdit = (order) => {
-    // Implement your edit logic here
-  };
-
-  // Function to handle deleting a reservation
-  const handleDelete = async (orderId) => {
+  const handleEditStatus = async (orderId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/orders/delete/${orderId}`);
-      toast.success('Order deleted successfully');
-      // Refetch orders after deletion
+      await axios.put(`http://localhost:8000/api/orders/update/status/${orderId}`);
+      toast.success('Order status updated successfully');
+      // Refetch orders after status update
       fetchOrdersForRider();
     } catch (error) {
-      console.error('Error deleting order:', error);
-      toast.error('Error deleting order');
+      console.error('Error updating order status:', error);
+      toast.error('Error updating order status');
     }
   };
 
@@ -75,8 +69,8 @@ const Dashboard = () => {
             <th>Order ID</th>
             <th>Customer ID</th>
             <th>Customer Name</th>
-            <th>Contact</th>
             <th>Delivery Address</th>
+            <th>Status</th> {/* Added Status column */}
             <th>Action</th>
           </tr>
         </thead>
@@ -86,23 +80,22 @@ const Dashboard = () => {
               <td>{order.orderid}</td>
               <td>{order.customerid}</td>
               <td>{order.customername}</td>
-              <td>{/*order.contact */}</td> {/* Display rider's contact details */}
               <td>{order.deliveryaddress}</td>
+              <td>{order.status}</td> {/* Display order status */}
               <td style={{ display: "flex" }}>
-                {/* Edit button */}
-                <Button variant="info" className="mr-2" onClick={() => handleEdit(order)} style={{marginRight:'10px', marginLeft:'20px'}}>
-                  <IoMdCreate />
-                </Button>
-                {/* Delete button */}
-                <Button variant="danger" onClick={() => handleDelete(order._id)} style={{marginRight:'20px'}}>
-                  <IoMdTrash />
+                <Button
+                  variant="warning"
+                  className="mr-2"
+                  onClick={() => handleEditStatus(order._id)}
+                  style={{marginLeft: '40px'}}
+                >
+                  Edit Status
                 </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
-      
     </div>
   );
 };
