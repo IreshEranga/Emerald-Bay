@@ -6,6 +6,8 @@ import { useRiderStore } from "../../../store/useRiderStore";
 import { useRider } from "../../../hooks/useRiderData";
 import { useCategoryData } from "../../../hooks/useCategoryData";
 import { useAuthStore } from "../../../store/useAuthStore";
+import { FaUserEdit } from "react-icons/fa";
+import "./profileview.css";
 
 const RiderProfile = () => {
   const [file, setFile] = useState("");
@@ -14,28 +16,29 @@ const RiderProfile = () => {
   const { user } = useAuthStore();
   const { data: rider, refetch } = useRider(user && user._id);
   const { data: categories } = useCategoryData();
+  const [showForm, setShowForm] = useState(true);
 
   // Form state
   const [formData, setFormData] = useState({
-    employeeid:"",
+    employeeid: "",
     name: "",
     address: "",
     contact: "",
     email: "",
-    rides:"",
+    rides: "",
     image: "",
     password: "",
   });
 
   useEffect(() => {
-    if (rider) {
+    if (rider && rider.data && rider.data.rider) {
       setFormData({
-        employeeid:rider.data.rider.employeeid || "",
+        employeeid: rider.data.rider.employeeid || "",
         name: rider.data.rider.name || "",
         address: rider.data.rider.address || "",
         contact: rider.data.rider.contact || "",
         email: rider.data.rider.email || "",
-        rides:rider.data.rider.rides || "",
+        rides: rider.data.rider.rides || "",
         //category: rider.data.rider.category || "",
         image: rider.data.rider.image || "",
       });
@@ -88,156 +91,181 @@ const RiderProfile = () => {
       });
       refetch();
       Toast({ type: "success", message: "Rider updated successfully" });
+      setShowForm(false);
     } catch (error) {
       Toast({ type: "error", message: error.message });
     }
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      {/* Name Input */}
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label">
-          Name
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      {/* Address Input */}
-      <div className="mb-3">
-        <label htmlFor="address" className="form-label">
-          Address
-        </label>
-        <textarea
-          className="form-control"
-          id="address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          required
-        ></textarea>
-      </div>
-
-      {/* Contact Input */}
-      <div className="mb-3">
-        <label htmlFor="contact" className="form-label">
-          Contact
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="contact"
-          name="contact"
-          value={formData.contact}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      {/* Email Input */}
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label">
-          Email
-        </label>
-        <input
-          type="email"
-          className="form-control"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="image" className="form-label">
-          Current Image
-        </label>
-        <br />
-        <img src={formData.image} alt={formData.name} width="50" height="50" />
-      </div>
-
-      {/* Image Upload */}
-      <div className="mb-3">
-        <label htmlFor="image" className="form-label">
-          New Image
-        </label>
-        <input
-          type="file"
-          className="form-control"
-          id="image"
-          name="image"
-          onChange={handleFileChange}
-        />
-        <div className="progress mt-2">
-          <div
-            className={`progress-bar bg-success ${
-              percent < 100 ? "progress-bar-animated progress-bar-striped" : ""
-            }`}
-            role="progressbar"
-            style={{ width: `${percent}%` }}
-            aria-valuenow={percent}
-            aria-valuemin="0"
-            aria-valuemax="100"
-          >
-            {percent < 100 ? `Uploading ${percent}%` : `Uploaded ${percent}%`}
-          </div>
+    <div className="profilecontainer">
+      <div className="profilesection">
+        <h1>👨‍💻 Profile : {rider && rider.data && rider.data.rider ? rider.data.rider.name : ""}</h1>
+        <button className="profileeditbtn" style={{ marginLeft: "900px", backgroundColor: "white", border: "1px solid white" }}>
+          <FaUserEdit style={{ width: "80px", height: "50px" }} />
+        </button>
+        <div className="personalinfo" style={{ backgroundColor: '#3457D5', color: 'white', padding: '50px', border: '1px solid black', borderRadius: '45px' }}>
+          {rider && rider.data && rider.data.rider && (
+            <>
+              <label className="first">Employee ID <span className="dot">:</span> <span className="inputdata">{rider.data.rider.employeeid}</span></label>
+              <label className="first">Name <span className="dot">:</span> <span className="inputdata">{rider.data.rider.name}</span></label>
+              <label className="first">Email <span className="dot">:</span> <span className="inputdata">{rider.data.rider.email}</span></label>
+              <label className="first">Address <span className="dot">:</span> <span className="inputdata">{rider.data.rider.address}</span></label>
+              <label className="first">Contact <span className="dot">:</span> <span className="inputdata">0{rider.data.rider.contact}</span></label>
+              <label className="first">Role <span className="dot">:</span> <span className="inputdata">{rider.data.rider.role}</span></label>
+              <label className="first">Status <span className="dot">:</span> <span className="inputdata">{rider.data.rider.status}</span></label>
+              <label className="first">Rides <span className="dot">:</span> <span className="inputdata">{rider.data.rider.rides}</span></label>
+            </>
+          )}
         </div>
+      </div><br /><br />
+      <div className="formcontainer">
+        <form onSubmit={onSubmit} style={{ width: '50%', marginLeft: '250px' }}>
+          <label htmlFor="">Update Rider : {rider && rider.data && rider.data.rider ? rider.data.rider.name : ""}</label><br /><br />
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Address Input */}
+          <div className="mb-3">
+            <label htmlFor="address" className="form-label">
+              Address
+            </label>
+            <textarea
+              className="form-control"
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              required
+            ></textarea>
+          </div>
+
+          {/* Contact Input */}
+          <div className="mb-3">
+            <label htmlFor="contact" className="form-label">
+              Contact
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="contact"
+              name="contact"
+              value={formData.contact}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Email Input */}
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="image" className="form-label">
+              Current Image
+            </label>
+            <br />
+            <img src={formData.image} alt={formData.name} width="50" height="50" />
+          </div>
+
+          {/* Image Upload */}
+          <div className="mb-3">
+            <label htmlFor="image" className="form-label">
+              New Image
+            </label>
+            <input
+              type="file"
+              className="form-control"
+              id="image"
+              name="image"
+              onChange={handleFileChange}
+            />
+            <div className="progress mt-2">
+              <div
+                className={`progress-bar bg-success ${
+                  percent < 100 ? "progress-bar-animated progress-bar-striped" : ""
+                  }`}
+                role="progressbar"
+                style={{ width: `${percent}%` }}
+                aria-valuenow={percent}
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                {percent < 100 ? `Uploading ${percent}%` : `Uploaded ${percent}%`}
+              </div>
+            </div>
+          </div>
+
+          {/* Password Input */}
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              // required
+              autoComplete="new-password"
+              minLength="6"
+            />
+          </div>
+
+          {/* Category Select */}
+          {/* <div className="mb-3">
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
+            <select
+              className="form-control"
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            >
+              {categories &&
+                categories.data.categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+            </select>
+          </div>*/}
+
+          <button type="submit" className="btn btn-primary">
+            Save
+          </button>
+        </form>
       </div>
-
-      {/* Password Input */}
-      <div className="mb-3">
-        <label htmlFor="password" className="form-label">
-          Password
-        </label>
-        <input
-          type="password"
-          className="form-control"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          // required
-          autoComplete="new-password"
-          minLength="6"
-        />
-      </div>
-
-      {/* Category Select */}
-     {/* <div className="mb-3">
-        <label htmlFor="category" className="form-label">
-          Category
-        </label>
-        <select
-          className="form-control"
-          id="category"
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          required
-        >
-          {categories &&
-            categories.data.categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))}
-        </select>
-            </div>*/}
-
-      <button type="submit" className="btn btn-primary">
-        Save
-      </button>
-    </form>
+    </div>
   );
 };
 
