@@ -141,8 +141,8 @@ const authController = {
       });
       await newRider.save();
 
-      // Send welcome email to the supplier
-      const emailTemplate = welcomeEmailTemplate(name, email, password);
+      // Send welcome email to the user
+      const emailTemplate = welcomeEmailTemplate(name, email, password, role);
       //
       sendEmail(email, "Welcome to Emerald Bay!", emailTemplate);
 
