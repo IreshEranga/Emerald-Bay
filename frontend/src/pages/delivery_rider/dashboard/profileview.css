@@ -1,0 +1,29 @@
+.personalinfo label {
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    grid-column-gap: 10px;
+    align-items: center;
+    font-size: 25px;
+    margin-top: 30px;
+    
+}
+
+.personalinfo label .dot {
+    margin-left: 30px;
+    justify-self: start;
+}
+
+.personalinfo label .inputdata {
+    margin-left: 30px;
+    justify-self: start;
+}
+
+.profilesection .personalinfo {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns:max-content; /* First column for labels, second column for spans */
+    grid-row-gap: 1px; /* Adjust as needed */
+    font-size: 25px;
+    width: 500px;
+    margin-left:300px;
+}
