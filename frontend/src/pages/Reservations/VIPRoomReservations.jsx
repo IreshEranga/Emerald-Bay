@@ -43,14 +43,16 @@ const VIPRoomReservations = () => {
     }    
 
     //function to get time
-    function getTodayDate() {
-        const today = new Date();
-        const day = String(today.getDate()).padStart(2, '0');
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-        const year = today.getFullYear();
-    
-        return `${year}-${month}-${day}`;
-    }    
+    function generateTimeSlots() {
+        const startTime = 10; // Start from 10:00 AM
+        const endTime = 20; // End at 08:00 PM
+        const slots = [];
+        for (let i = startTime; i <= endTime; i += 2) {
+            const hour = (i < 10) ? `0${i}` : `${i}`;
+            slots.push(`${hour}:00`);
+        }
+        return slots;
+    }
 
     //form validation
     const validateForm = (data) => {
