@@ -19,7 +19,36 @@ function FormExample() {
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={console.log}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            access_key: "f5cd2950-f856-4e23-b601-20c62c4cdc17",
+            ...values,
+          }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Check if the form submission was successful
+          if (data.success) {
+            alert("Form submitted successfully!");
+            // Optionally, you can clear the form fields after successful submission
+            resetForm();
+          } else {
+            alert("Form submission failed. Please try again later.");
+          }
+        })
+        .catch(error => {
+          console.error("Error submitting form:", error);
+          alert("An error occurred while submitting the form. Please try again later.");
+        })
+        .finally(() => {
+          setSubmitting(false);
+        });
+      }}
       initialValues={{
         name: '',
         email: '',
@@ -28,9 +57,8 @@ function FormExample() {
         message: '',
       }}
     >
-      {({ handleSubmit, handleChange, values, touched, errors }) => (
-        <Form noValidate onSubmit={handleSubmit} className="contact-form" action="https://api.web3forms.com/submit" method="POST">
-           <input type="hidden" name="access_key" value="f5cd2950-f856-4e23-b601-20c62c4cdc17"></input>
+      {({ handleSubmit, handleChange, values, touched, errors, isSubmitting }) => (
+        <Form noValidate onSubmit={handleSubmit} className="contact-form">
           <Form.Group as={Row} controlId="formName">
             <Form.Label column sm={3} className="form-label">Name</Form.Label>
             <Col sm={9}>
@@ -98,11 +126,13 @@ function FormExample() {
                 onChange={handleChange}
                 isInvalid={touched.message && !!errors.message}
               />
-            <Form.Control.Feedback type="invalid">{errors.message}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.message}</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
-          <Button type="submit" className="submit-button">Submit</Button>
+          <Button type="submit" className="submit-button" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Submit'}
+          </Button>
         </Form>
       )}
     </Formik>
