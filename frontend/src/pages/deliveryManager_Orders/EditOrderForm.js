@@ -71,7 +71,8 @@ const EditOrderForm = ({ order = {}, onClose }) => {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form style={{ border: '1px solid black', width: '50%', marginLeft: '30px', padding: '10px', height
+    :'250px', marginTop:'100px' }} onSubmit={handleSubmit}>
       <Form.Group controlId="riderSelect">
         <Form.Label>Select a Rider:</Form.Label>
         <Form.Control
