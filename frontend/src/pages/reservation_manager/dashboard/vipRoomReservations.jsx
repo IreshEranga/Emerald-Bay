@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table, Form } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
-import toast from 'react-hot-toast'; // Import toast function from react-hot-toast
+import toast from 'react-hot-toast';
 import axios from "axios";
+import { generatePDF } from "../../../utils/GeneratePDF";
 
 
 const VIPRoomReservations = () => {
@@ -57,8 +58,8 @@ const VIPRoomReservations = () => {
     const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
     const year = today.getFullYear();
 
-    return `${day}/${month}/${year}`;
-  }    
+    return `${year}-${month}-${day}`;
+  }
 
   //function to get time
   function generateTimeSlots() {
@@ -193,10 +194,27 @@ const VIPRoomReservations = () => {
     setFilteredReservations(filteredData);
   };
   
-  // Function to download PDF report
+  // Function to prepare data for PDF report
+  const preparePDFData = () => {
+    const title = "VIP Room Reservations Report";
+    const columns = ["Res. ID", "Name", "Phone", "Email", "No. of Guests", "Date", "Time"];
+    const data = filteredReservations.map(reservation => ({
+      "Res. ID": reservation.reservationId,
+      "Name": reservation.name,
+      "Phone": reservation.phone,
+      "Email": reservation.email,
+      "No. of Guests": reservation.guests,
+      "Date": reservation.date,
+      "Time": reservation.time
+    }));
+    const fileName = "vip_room_reservations_report";
+    return { title, columns, data, fileName };
+  };
+
+  // Function to handle downloading PDF report
   const downloadPDF = () => {
-    // Implement your PDF download logic here
-    console.log("Downloading PDF report...");
+    const { title, columns, data, fileName } = preparePDFData();
+    generatePDF(title, columns, data, fileName);
   };
 
   return (
