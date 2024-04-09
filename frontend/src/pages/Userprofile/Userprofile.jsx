@@ -1,17 +1,14 @@
-
-import React from 'react'
+import React from 'react';
+import Navbar_customer from "../../components/Navbar_customer";
 
 const Userprofile = () => {
   return (
+    <div style={{backgroundColor:'black'}}>
+    
+        <Navbar_customer />
 
-
-    <p1>Userprofileffffff</p1>
+    </div>
   );
 }
-
-
-
-
-
 
 export default Userprofile;

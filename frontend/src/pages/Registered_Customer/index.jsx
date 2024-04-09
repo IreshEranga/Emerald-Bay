@@ -20,14 +20,16 @@ const Customer_Home= () => {
             <div className="about-us-container">
             <div className="about-us-content">
                 <img src={restaurantImage} alt="Restaurant" className="restaurant-image" /><br></br><br></br>
+
                 <div className="restaurant-details">
-                    <h1>ABOUT OUR RESTAURANT</h1><br></br>
-                    <p>Welcome to our restaurant! We strive to provide a unique dining experience for all our guests.</p>
+                    <h1>WELCOME TO EMERALD BAY !</h1><br></br>
+                    <p>We strive to provide a unique dining experience for all our guests.</p>
                     <p>Our chefs are passionate about crafting delicious dishes using the freshest ingredients sourced locally whenever possible.</p>
                     <p>From appetizers to desserts, we aim to tantalize your taste buds with our diverse menu options.</p>
                     <p>At our restaurant, we believe in creating memorable moments for our customers, whether it's a romantic dinner for two or a lively gathering with friends and family.</p>
                     <p>Come join us and embark on a culinary journey that promises to delight your senses.</p>
                 </div><br></br>
+
                 <div className="contact-details"><br></br>
                     <h2>Contact Us</h2><br></br>
                     <p><strong>Address:</strong> Badugoda Junction, Harbour Road, Mirissa, Sri Lanka.</p>
@@ -36,16 +38,10 @@ const Customer_Home= () => {
                     <p><strong>Facebook:</strong> <a href="https://www.facebook.com/profile.php?id=61552540748705&mibextid=LQQJ4d" class="social-link">Emerald Bay Resort</a></p>                   
                 </div><br></br>
             </div>
-      
-    
-          <br />
             
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-       
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />      
+        </div>
     </div>
-    </div>
-
-
   );
 };
 

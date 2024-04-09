@@ -30,12 +30,12 @@ import AboutUs from '../pages/AboutUs/AboutUs'
 import Menu from "../pages/Menu/Menu"
 import Gallery from "../pages/Gallery/Gallery"
 import Register from "../pages/Register/Register"
-import Userprofile from "../pages/Userprofile/Userprofile"
 import Items from "../pages/order_manager/dashboard/items"
 import Menu_Items from "../pages/order_manager/dashboard/Menu.js"
 import Customer_Home from "../pages/Registered_Customer/index"
 import Customer_Reservations from "../pages/Registered_Customer/reservations"
-import Customer_Menu from "../pages/Registered_Customer/menu";
+import Customer_Menu from "../pages/Registered_Customer/menu"
+import Userprofile from "../pages/Userprofile/Userprofile";
 
 
 const AppRoutes = () => {
@@ -53,7 +53,6 @@ const AppRoutes = () => {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/userProfile" element={<Userprofile />} />
           
 
           {/* Check Login Status */}
@@ -66,6 +65,7 @@ const AppRoutes = () => {
             <Route path="/customer" element={<Customer_Home />} />
             <Route path="/customer_reservations" element={<Customer_Reservations />} />
             <Route path="/customer_menu" element={<Customer_Menu />} />
+            <Route path="/view_profile" element={<Userprofile />} />
           </Route>
 
           {/* Supplier Private Routes */}
