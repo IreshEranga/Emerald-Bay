@@ -15,7 +15,7 @@ const riderSchema = new mongoose.Schema(
         image: { type: String },
         address: { type: String },
         contact: { type: Number },
-        rides: { //type: Schema.Types.ObjectId, ref: "Order"
+        rides: { 
                 type: Number,
                 default:0, },
         status:{type:String,

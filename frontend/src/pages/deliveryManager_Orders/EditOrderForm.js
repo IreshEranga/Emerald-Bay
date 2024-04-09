@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import RiderAPI from '../../api/RiderAPI'; // Assuming you have a RiderAPI module
 
 const EditOrderForm = ({ order = {}, onClose }) => {
   const [selectedRider, setSelectedRider] = useState(order.rider || '');
@@ -22,33 +21,44 @@ const EditOrderForm = ({ order = {}, onClose }) => {
     fetchRiders();
   }, []);
 
-  
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Call the update function with the order details, selected rider, and status
-    const updatedOrder = { ...order, rider: selectedRider, status: 'ongoing' };
-    onClose(updatedOrder);
-    setShowForm(false); // Hide the form after submission
 
-    // Update rider status in rider database using RiderAPI
     try {
-      await RiderAPI.update({ rider: selectedRider, status: 'On Ride' });
-    } catch (error) {
-      console.error('Error updating rider status:', error);
-    }
+      // Get the selected rider object from the riders array
+      const selectedRiderObject = riders.find((rider) => rider._id === selectedRider);
+      if (!selectedRiderObject) {
+        throw new Error('Selected rider not found');
+      }
 
-    // Update order status and rider in order database
-    try {
+      // Update rider status in rider database
+      const response = await fetch(`http://localhost:8000/api/riders/update/${selectedRiderObject._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'On Ride' }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update rider status');
+      }
+
+      // Update order status and rider name in order database
       await fetch(`http://localhost:8000/api/orders/update/${order.orderid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ status: 'ongoing', rider: selectedRider }),
+        body: JSON.stringify({ status: 'ongoing', rider: selectedRiderObject.name }),
       });
+
+      // Call the onClose function with the updated order data
+      onClose({ ...order, rider: selectedRiderObject.name, status: 'ongoing' });
+      setShowForm(false); // Hide the form after submission
     } catch (error) {
-      console.error('Error updating order status:', error);
+      console.error('Error updating status:', error);
+      // Handle the error as needed (e.g., show a message to the user)
     }
   };
 
@@ -61,9 +71,8 @@ const EditOrderForm = ({ order = {}, onClose }) => {
   }
 
   return (
-    <Form style={{ border: '1px solid black', width: '50%', marginLeft: '30px', padding: '10px' }} onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Form.Group controlId="riderSelect">
-      <Form.Label>Update Order:{order?.orderid}</Form.Label><br/>
         <Form.Label>Select a Rider:</Form.Label>
         <Form.Control
           as="select"
@@ -72,7 +81,7 @@ const EditOrderForm = ({ order = {}, onClose }) => {
         >
           <option value="">Select a rider</option>
           {riders.map((rider) => (
-            <option key={rider._id} value={rider.name}>
+            <option key={rider._id} value={rider._id}>
               {rider.name}
             </option>
           ))}
@@ -89,7 +98,7 @@ const EditOrderForm = ({ order = {}, onClose }) => {
       <Button variant="primary" type="submit">
         Submit
       </Button>
-      <Button variant="secondary" onClick={handleClose} style={{ marginLeft: '10px' }}>
+      <Button variant="secondary" onClick={handleClose}>
         Close
       </Button>
     </Form>
