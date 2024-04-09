@@ -1,35 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "../../../store/useAuthStore";
-import { useDeliverRequestCountForRider } from "../../../hooks/useOrderData";
 import toast from 'react-hot-toast';
-import { Link } from "react-router-dom";
-import { Button, Table, Form } from "react-bootstrap";
-import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
+import { Button, Table } from "react-bootstrap";
+import { IoMdCreate, IoMdTrash } from "react-icons/io";
 import axios from "axios";
-
 
 const Dashboard = () => {
   const { user } = useAuthStore((state) => ({
     user: state.user,
   }));
-  // Get the data from the react-query hook
-  const { data: orderData } = useDeliverRequestCountForRider();
-  
+
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchOrdersForRider = async () => {
       try {
-        // Make a fetch call or use axios or any other library to fetch data
-        const response = await fetch('http://localhost:8000/api/orders');
-        const data = await response.json();
-        setOrders(data);
+        const response = await axios.get(`http://localhost:8000/api/orders/rider/${user.name}`);
+        setOrders(response.data.orders);
       } catch (error) {
         console.error('Error fetching orders:', error);
+        toast.error('Error fetching orders');
       }
     };
 
-    fetchOrders(); 
+    if (user && user.role === 'RIDER') {
+      fetchOrdersForRider();
+    }
   }, [user]);
 
   // Function to handle editing a reservation
@@ -43,7 +39,7 @@ const Dashboard = () => {
       await axios.delete(`http://localhost:8000/api/orders/delete/${orderId}`);
       toast.success('Order deleted successfully');
       // Refetch orders after deletion
-      fetchOrders();
+      fetchOrdersForRider();
     } catch (error) {
       console.error('Error deleting order:', error);
       toast.error('Error deleting order');
@@ -54,7 +50,7 @@ const Dashboard = () => {
     <div className="container mt-4">
       {user && (
         <div className="alert alert-primary" role="alert">
-          You are logged in as <strong>{user.role}</strong>
+          You are logged in as <strong>{user.role}  -   {user.name}</strong>
         </div>
       )}
 
@@ -66,9 +62,7 @@ const Dashboard = () => {
               <h5 className="card-title">🚲 Total Delivery Count</h5>
               <p className="card-text fs-4 fw-bold">
                 {/* show count */}
-                
               </p>
-
             </div>
           </div>
         </div>
@@ -92,7 +86,7 @@ const Dashboard = () => {
               <td>{order.orderid}</td>
               <td>{order.customerid}</td>
               <td>{order.customername}</td>
-              <td>{/* Contact details */}</td>
+              <td>{/*order.contact */}</td> {/* Display rider's contact details */}
               <td>{order.deliveryaddress}</td>
               <td style={{ display: "flex" }}>
                 {/* Edit button */}
