@@ -1,23 +1,61 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { successMessage } from "./Alert";
-import EMERALDBAYLOGO from "../assets/EMERALDBAYLOGO.png"
-/**
- * Generate PDF
- * @param {string} title
- * @param {array} columns
- * @param {array} data
- * @param {string} fileName
- * @returns {void}
- * @example
- * generatePDF("My Report", ["name", "age"], [{name: "John", age: 20}], "my-report");
- */
-export function generatePDF(title, columns, data, fileName) {
-  const doc = new jsPDF();
+import EMERALDBAYLOGO from "../assets/EMERALDBAYLOGO.png";
+
+
+export function generatePDF(title, columns, data, fileName, restaurantName) {
+  const doc = new jsPDF({
+    orientation: "portrait", // Set orientation to landscape
+    unit: "mm", // Use millimeters as the measurement unit
+    format: "a4", // Set page format to A4
+    lineHeight: 1.2, // Set line height for text
+  });
+
   const tableRows = [];
 
-  // Add the logo to the header of the PDF
-  doc.addImage(EMERALDBAYLOGO, "PNG", 15, -5, 50, 50);
+  // Add custom styling options
+  const tableStyles = {
+    theme: "grid", // Apply grid theme
+    headStyles: {
+      fillColor: [41, 128, 185], // Header background color
+      textColor: 255, // Header text color
+      fontStyle: "bold", // Header font style
+      halign: "center", // Align table headers to center
+      fontSize: 10, // Decrease font size for headers
+      cellPadding: 2, // Reduce padding around text
+    },
+    alternateRowStyles: {
+      fillColor: [245, 245, 245], // Alternate row background color
+    },
+    styles: {
+      font: "helvetica", // Set font family
+      fontSize: 8, // Set font size for data cells
+      textColor: [44, 62, 80], // Set text color
+      lineWidth: 0.1, // Set line width
+    },
+    margin: { top: 20, bottom: 20, left: 10, right: 10 }, // Add margin around the page
+  };
+
+  // Add the logo and title to the header of the PDF
+  doc.addImage(EMERALDBAYLOGO, "PNG", 15, 10, 30, 30);
+  doc.setFontSize(18); // Set font size for title
+  doc.setTextColor(0, 0, 0); // Set text color for title
+  doc.text(title, 105, 25, { align: "center" }); // Center align title
+
+  // Add the restaurant name to the footer
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFont("helvetica");
+    doc.setFontSize(10);
+    doc.text(
+      `Restaurant Name: Emerald Bay Restaurant`,
+      doc.internal.pageSize.getWidth() / 2,
+      doc.internal.pageSize.getHeight() - 10,
+      { align: "center" }
+    );
+  }
 
   data.forEach((item) => {
     const rowData = [];
@@ -32,11 +70,20 @@ export function generatePDF(title, columns, data, fileName) {
       return { title: c.toUpperCase(), dataKey: c };
     }),
     body: tableRows,
-    margin: { top: 60 },
+    ...tableStyles, // Apply custom styling
+    startY: 40, // Start table after logo and title
     didDrawPage: function (data) {
-      doc.text(title, 20, 30);
+      // Ensure the logo and title are drawn on each page
+      doc.addImage(EMERALDBAYLOGO, "PNG", 15, 10, 30, 30);
+      doc.setFontSize(18);
+      doc.setTextColor(0, 0, 0);
+      doc.text(title, 105, 25, { align: "center" });
+      // Add line to the footer
+      doc.setLineWidth(0.5);
+      doc.line(20, doc.internal.pageSize.getHeight() - 15, doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 15);
     },
   });
+
   doc.save(fileName + ".pdf");
   successMessage("Success", "Your Report has been downloaded");
 }
