@@ -132,6 +132,16 @@ router.route("/get/:orderid").get(async (req, res) => {
     }
 });
 
+router.get('/rider/:rider', async (req, res) => {
+    const rider = req.params.rider;
 
+    try {
+        const orders = await Order.find({ rider: rider });
+        res.json({ success: true, orders });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: 'Error retrieving orders for rider' });
+    }
+});
 
 module.exports = router;
