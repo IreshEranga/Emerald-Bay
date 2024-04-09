@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table, Form } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
-import toast from 'react-hot-toast'; // Import toast function from react-hot-toast
+import toast from 'react-hot-toast';
 import axios from "axios";
+import { generatePDF } from "../../../utils/GeneratePDF";
 
 
 const TableReservations = () => {
@@ -58,7 +59,7 @@ const TableReservations = () => {
     const year = today.getFullYear();
 
     return `${year}-${month}-${day}`;
-  }    
+  }
 
   //function to get time
   function generateTimeSlots() {
@@ -126,7 +127,7 @@ const TableReservations = () => {
       name: reservation.name,
       phone: reservation.phone,
       email: reservation.email,
-      guests: reservation.guests,
+      tableNo: reservation.tableNo,
       date: reservation.date,
       time: reservation.time
     });
@@ -144,7 +145,7 @@ const TableReservations = () => {
           name: formData.name,
           phone: formData.phone,
           email: formData.email,
-          guests: formData.guests,
+          tableNo: formData.tableNo,
           date: formData.date,
           time: formData.time
   };
@@ -189,9 +190,27 @@ const TableReservations = () => {
     setFilteredReservations(filteredData);
   };
 
-  // Function to download PDF report
+  // Function to prepare data for PDF report
+  const preparePDFData = () => {
+    const title = "Table Reservations Report";
+    const columns = ["Res. ID", "Name", "Phone", "Email", "Table No", "Date", "Time"];
+    const data = filteredReservations.map(reservation => ({
+      "Res. ID": reservation.reservationId,
+      "Name": reservation.name,
+      "Phone": reservation.phone,
+      "Email": reservation.email,
+      "Table No": reservation.tableNo,
+      "Date": reservation.date,
+      "Time": reservation.time
+    }));
+    const fileName = "table_reservations_report";
+    return { title, columns, data, fileName };
+  };
+
+  // Function to handle downloading PDF report
   const downloadPDF = () => {
-    console.log("Downloading PDF report...");
+    const { title, columns, data, fileName } = preparePDFData();
+    generatePDF(title, columns, data, fileName);
   };
 
   return (

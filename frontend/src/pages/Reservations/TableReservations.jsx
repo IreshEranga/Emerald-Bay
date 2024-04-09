@@ -40,20 +40,18 @@ const TableReservations = () => {
         const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
         const year = today.getFullYear();
     
-        return `${day}/${month}/${year}`;
+        return `${year}-${month}-${day}`;
     }    
 
     //function to get time
-    function generateTimeSlots() {
-        const startTime = 8; // Start from 08:00 AM
-        const endTime = 21; // End at 09:00 PM
-        const slots = [];
-        for (let i = startTime; i <= endTime; i += 1) {
-            const hour = (i < 10) ? `0${i}` : `${i}`;
-            slots.push(`${hour}:00`);
-        }
-        return slots;
-    }
+    function getTodayDate() {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const year = today.getFullYear();
+    
+        return `${year}-${month}-${day}`;
+    }    
 
     //form validation
     const validateForm = (data) => {
