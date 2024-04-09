@@ -39,7 +39,7 @@ const Home = () => {
       <div className="offersec" style={{display:'flex', height:'550px'}}>
 
       <div className="leftsection">
-          <img  src={foodstock} style={{width:'700px', height:'550px'}} alt='foodstock'/>
+          <img  src={foodstock} style={{width:'900px', height:'550px'}} alt='foodstock'/>
       </div>
 
       <div className="rightsection" style={{backgroundColor:'black'}}>
@@ -53,7 +53,7 @@ const Home = () => {
       </div>
       </div><br></br>
 
-      <div style={{marginLeft:'20px', marginRight:'20px', width:'1000px'}}>
+      <div style={{alignItems:'center', width:'1000px', marginLeft:'100px'}}>
         <ImageSlider slides={SliderData} />
       </div><br></br>
 

@@ -29,7 +29,8 @@ function FormExample() {
       }}
     >
       {({ handleSubmit, handleChange, values, touched, errors }) => (
-        <Form noValidate onSubmit={handleSubmit} className="contact-form">
+        <Form noValidate onSubmit={handleSubmit} className="contact-form" action="https://api.web3forms.com/submit" method="POST">
+           <input type="hidden" name="access_key" value="f5cd2950-f856-4e23-b601-20c62c4cdc17"></input>
           <Form.Group as={Row} controlId="formName">
             <Form.Label column sm={3} className="form-label">Name</Form.Label>
             <Col sm={9}>
