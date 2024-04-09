@@ -50,8 +50,8 @@ const AboutUs = () => {
                 <div className="gmapframe">
                 <iframe id='gmapcanvas' title="Map" width="600" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=720&amp;height=600&amp;hl=en&amp;q=Emerald%20Bay%20Resort%20Badugoda%20Junction,%20Harbour%20Road,%20Mirissa%2081740+(Emerald%20Bay%20Restaurant)&amp;t=&amp;z=16&amp;ie=UTF8&amp;iwloc=C&amp;output=embed"><a href="https://www.gps.ie/">gps systems</a></iframe>
                 </div><br></br>
-                </div>
-            
+
+              </div>          
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />      
         </div>
     </div>
