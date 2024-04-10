@@ -66,14 +66,13 @@ const index = () => {
     const employeeCount = employees.length;
     //
     //const title = "EMERALD BAY RESTAURANT";
-    const additionalInfo = `\n\n\Employee Report\nTotal Employees: ${employeeCount}`;
-    
+    const additionalInfo = `\n\n\nEmployee Report\nTotal Employees: ${employeeCount}`;
     //
     generatePDF(
       //title,
       additionalInfo,
-      ["name", "address", "phone", "email", "rides","salary","category"],
-      data.data.riders,
+      ["name", "address", "phone", "email","category"],
+      data.data.employees,
       "Employees_report",
       35
     );
