@@ -49,7 +49,9 @@ const index = () => {
       navigate("/supplier");
     }  else if (res.data.user.role === USER_ROLES.RIDER) {
       navigate("/rider");
-    }  else {
+    } else if (res.data.user.role === USER_ROLES.DELIVERYMANAGER) {
+      navigate("/deliveryManager");
+    } else {
       navigate("/");
     }
   };
