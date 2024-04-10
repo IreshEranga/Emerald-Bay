@@ -17,7 +17,9 @@ const CheckLoginStatus = () => {
   if (permissionLevel === USER_ROLES.RIDER) {
     return <Navigate to="/rider" />;
   }
-
+  if (permissionLevel === USER_ROLES.DELIVERYMANAGER) {
+    return <Navigate to="/deliveryManager" />;
+  }
   if (permissionLevel === USER_ROLES.ADMIN) {
     return <Navigate to="/admin" />;
   }  else {
