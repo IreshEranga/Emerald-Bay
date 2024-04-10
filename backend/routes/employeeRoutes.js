@@ -1,169 +1,122 @@
-const router = require("express").Router();
-
-//import Student model
-let Employee = require("../models/Employee");
 
 
-//add employee
-router.route("/add").post((req,res)=>{
-    //create a new employee object with the data from the request body
 
-    const EmpID = req.body.EmpID;
-    const name = req.body.name;
-    const email = req.body.email;
-    const role = req.body.role;
-   // const salary = req.body.salary;
+const express = require("express");
+const employeeController = require("../controllers/employeeController");
+const authMiddleware = require("../middleware/authMiddleware");
+const Employee = require("../models/Employee");
+const USER_ROLES = require("../constants/roles");
+const bcrypt = require("bcrypt");
 
-    //convert request to a number 
-    const salary = Number(req.body.salary);
-    const phone = Number(req.body.phone);
+const router = express.Router();
 
-    const newEmployee = new Employee({
-        EmpID,
-        name,
-        email,
-        phone,
-        role,
-        salary
+//router.post("/add", authMiddleware(["ADMIN"]), deliveryRiderController.createRiders);
+router.get("/", authMiddleware(["ADMIN"]), employeeController.getEmployees);
+
+router.get("/:id", authMiddleware(["ADMIN", "EMPLOYEE"]), employeeController.getEmployeeById);
+router.patch(
+  "/:id",
+  authMiddleware(["ADMIN", "EMPLOYEE"]),
+  employeeController.updateEmployee
+);
+router.delete(
+  "/:id",
+  authMiddleware(["ADMIN"]),
+  employeeController.deleteEmployee
+);
+router.get(
+  "/get/count",
+  authMiddleware(["ADMIN"]),
+  employeeController.getEmployeeCount
+);
+
+
+/*
+router.patch("/update/:id", async (req, res) => {
+  try {
+    const riderId = req.params.id;
+    const rider = await Rider.findOne({
+      _id: riderId,
+      role: USER_ROLES.RIDER,
     });
 
-
-
-    newEmployee.save()
-    //if insert success  //js promise
-        .then(()=>{
-            res.json("Employee Added ");
-        })
-        //if unsucces
-        .catch((err)=>{
-            console.log(err);
-        })
-})
-
-//get employees
-router.route("/").get((req, res) => {
-    //return all students in the database
-    Employee.find()
-    .then((Employees)=>{
-        res.json(Employees);
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
-})
-
-
-//update student
-/*
-router.route("/update/:id").put(async (req,res)=>{
-    
-    let stdId = req.params.id;
-    
-    //dstructure
-    const {userId,name,email,mobile} = req.body;
-
-    const updateStudent = {
-        userId,
-        name,
-        email,
-        mobile
+    if (!rider) {
+      return res.status(404).json({
+        success: false,
+        message: "Rider not found",
+      });
     }
 
-    const update = await Student.findByIdAndUpdate(stdId, updateStudent)
-    .then(()=>{
-        res.status(200).send({status: "User updated", user: update });
-    })
-    .catch((err)=>{
-        console.log(err);
-        res.status(500).send({status:"Error with updating data"});
-    })
-
-
-    
-})*/
-
-// update employee
-router.route("/update/:EmpID").put(async (req, res) => {
-    let EmpID = req.params.EmpID;
-
-    // destructure the request body
-    const { name, email,phone, role,salary } = req.body;
-
-    const updateEmployee = {
-        EmpID,
-        name,
-        email,
-        phone,
-        role,
-        salary
-    };
-
-    try {
-        const updateEmployee = await Em.findOneAndUpdate({ EmpID }, updateEmployee, { new: true });
-
-        if (!updatedEmployee) {
-            return res.status(404).send({ status: "Employee not found" });
-        }
-
-        res.status(200).send({ status: "Employee updated", employee: updatedEmployee });
-    } catch (err) {
-        console.log(err);
-        res.status(500).send({ status: "Error with updating data" });
+    // if password is being updated, hash the new password
+    if (req.body.password) {
+      req.body.password = await bcrypt.hash(req.body.password, 10);
     }
-});
 
+    const updateRider = await Rider.findOneAndUpdate(
+      { _id: riderId, role: USER_ROLES.RIDER },
+      req.body,
+      {
+        new: true,
+      }
+    );
 
-//delete employee
-router.route("/delete/:EmpID").delete(async (req,res)=>{
-    let EmpID=req.params.EmpID;
-    
-    await Employee.findOneAndDelete({EmpID:EmpID})
-    .then(()=>{
-        res.status(200).send({status:"Employee deleted"})
-    })
-    .catch((err)=>{
-        console.log(err.message);
-        res.status(500).send({status:"Error with delete employee", error : err.message});
-    })
-
-
-})
-
-
-//fetch data from one student
-/*
-router.route("/get/:userId").get(async (req,res)=>{
-
-    let userId = req.params.userId;
-
-    const user = await Student.findOne({userId:userId})
-    .then(()=>{
-        res.status(200).send({status: "Student fetched ", user: user })
-    })
-    .catch((err)=>{
-        console.log(err.message);
-        res.status(500).send({status:"Error with get student ", error : err.message});   
-     })
-})*/
-
-// fetch data from one employee
-router.route("/get/:EmpID").get(async (req, res) => {
-    let EmpID = req.params.EmpID;
-
-    try {
-        const employee = await Employee.findOne({ EmpID: EmpID });
-
-        if (!employee) {
-            return res.status(404).send({ status: "Employee not found" });
-        }
-
-        res.status(200).send({ status: "Employee fetched", employee: employee });
-    } catch (err) {
-        console.log(err.message);
-        res.status(500).send({ status: "Error with getting employee", error: err.message });
-    }
+    res.status(200).json({
+      success: true,
+      rider: updateRider,
+      message: "Rider updated successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error,
+      message: "Internal server error",
+    });
+  }
 });
 
 
 
+router.patch("/update/rider/:employeeid", async (req, res) => {
+  try {
+    const riderId = req.params.employeeid;
+    const rider = await Rider.findOne({
+      employeeid: riderId,
+      role: USER_ROLES.RIDER,
+    });
+
+    if (!rider) {
+      return res.status(404).json({
+        success: false,
+        message: "Rider not found",
+      });
+    }
+
+    // if password is being updated, hash the new password
+    if (req.body.password) {
+      req.body.password = await bcrypt.hash(req.body.password, 10);
+    }
+
+    const updateRider = await Rider.findOneAndUpdate(
+      { employeeid: riderId, role: USER_ROLES.RIDER },
+      req.body,
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      rider: updateRider,
+      message: "Rider updated successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error,
+      message: "Internal server error",
+    });
+  }
+});*/
 module.exports = router;

@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import EMERALDBAYLOGO from "../../../assets/EMERALDBAYLOGO.png";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
-import Delivery_rider from "../../delivery_rider";
-import Category from "../../category";
-import StockRequest from "../../stock_request";
+import Employee from "../../employee";
 import EmployeeManagerDashboard from "./EmployeeManagerDashboard.jsx";
 
 
@@ -28,12 +26,12 @@ const EmployeeManagerSideBar = () => {
             <EmployeeManagerDashboard />
           </>
         );
-      case "Riders":
+      case "Employees":
         return (
           <>
-            <Delivery_rider />
+            <Employee />
           </>
-        );
+        );/*
       case "Categories":
         return (
           <>
@@ -45,7 +43,7 @@ const EmployeeManagerSideBar = () => {
           <>
             <StockRequest />
           </>
-        );
+        );*/
       case "Account":
         return <p>This is the Account page content.</p>;
       default:
@@ -94,16 +92,16 @@ const EmployeeManagerSideBar = () => {
           </li>
           <li>
             <a
-              href="#riders"
+              href="#employees"
               className={`nav-link ${
-                activeContent === "Riders" ? "active" : "link-dark"
+                activeContent === "Employees" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Riders")}
+              onClick={() => handleLinkClick("Employees")}
             >
-              Delivery Rider Management
+              Employee Management
             </a>
           </li>
-          <li>
+         {/* <li>
             <a
               href="#orders"
               className={`nav-link ${
@@ -124,7 +122,7 @@ const EmployeeManagerSideBar = () => {
             >
               Stock Requests
             </a>
-          </li>
+            </li>*/}
         </ul>
         <div className="mt-auto">
           <button

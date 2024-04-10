@@ -36,7 +36,7 @@ import Customer_Home from "../pages/Registered_Customer/index"
 import Customer_Reservations from "../pages/Registered_Customer/reservations"
 import Customer_Menu from "../pages/Registered_Customer/menu"
 import Userprofile from "../pages/Userprofile/Userprofile";
-
+import Employee from "../pages/employee";
 
 const AppRoutes = () => {
   return (
@@ -111,6 +111,7 @@ const AppRoutes = () => {
           {/* Employee Manager Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
             <Route path="/employeeManager" element={<EmployeeManagerSideBar />} />
+            <Route path="/employeeManager/employees" element={<Employee />} />
           </Route>
 
           {/* Customer Manager Private Routes */}
