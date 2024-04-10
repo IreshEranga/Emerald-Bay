@@ -11,7 +11,7 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 //router.post("/add", authMiddleware(["ADMIN"]), deliveryRiderController.createRiders);
-router.get("/", authMiddleware(["ADMIN"]), deliveryRiderController.getRiders);
+router.get("/", authMiddleware(["DELIVERYMANAGER"]), deliveryRiderController.getRiders);
 /*router.patch(
   "/stock",
   authMiddleware(["SUPPLIER"]),
@@ -22,20 +22,20 @@ router.get(
   authMiddleware(["SUPPLIER"]),
   supplierController.getAvailableStock
 );*/
-router.get("/:id", authMiddleware(["ADMIN", "RIDER"]), deliveryRiderController.getRiderById);
+router.get("/:id", authMiddleware(["DELIVERYMANAGER", "RIDER"]), deliveryRiderController.getRiderById);
 router.patch(
   "/:id",
-  authMiddleware(["ADMIN", "RIDER"]),
+  authMiddleware(["DELIVERYMANAGER", "RIDER"]),
   deliveryRiderController.updateRider
 );
 router.delete(
   "/:id",
-  authMiddleware(["ADMIN"]),
+  authMiddleware(["DELIVERYMANAGER"]),
   deliveryRiderController.deleteRider
 );
 router.get(
   "/get/count",
-  authMiddleware(["ADMIN"]),
+  authMiddleware(["DELIVERYMANAGER"]),
   deliveryRiderController.getRiderCount
 );
 
