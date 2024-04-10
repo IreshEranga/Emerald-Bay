@@ -81,7 +81,7 @@ const AppRoutes = () => {
           </Route>
 
           {/* Delivery Manager Private Routes */}
-          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.DELIVERYMANAGER]} />}>
             <Route path="/deliveryManager" element={<DeliveryManagerSideBar />} />
             <Route path="/deliveryManager/riders" element={<Delivery_rider />} />
             <Route path="/deliveryManager/orders" element={<DeliveryManager_Orders />} />
