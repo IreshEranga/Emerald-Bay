@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 // Create student schema
 
-const employeeSchema = new Schema({
+const employeeSchema = new mongoose.Schema({
 
-    EmpID: {
+    employeeid: {
         type: String,
         required: true
     },
@@ -27,11 +27,22 @@ const employeeSchema = new Schema({
     },
     salary: {
         type: Number,
-        required: true
+        
     },
-})
+    address:{
+        type:String,
+        required:true
+    },
+    image:{
+        type:String,
+    },
+    category:{
+        type:String,
+    },
+    password:{type:String, required:true}
+},{
+    timestamps:true,
+});
 
 
-const Employee = mongoose.model("Employees", employeeSchema);
-
-module.exports = Employee;
+module.exports = mongoose.model("Employee", employeeSchema);

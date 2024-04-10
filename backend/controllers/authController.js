@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const Rider = require("../models/Rider");
+const Employee = require("../models/Employee");
 const USER_ROLES = require("../constants/roles");
 const welcomeEmailTemplate = require("../util/email_templates/welcomeEmailTemplate");
 const sendEmail = require("../util/sendEmail");
@@ -171,6 +172,70 @@ const authController = {
       });
     }
   },
+
+  employeeSignup: async (req, res) => {
+    try {
+      const { employeeid, name,email, address, phone,image,salary,category } = req.body;
+      const role = USER_ROLES.EMPLOYEE;
+
+      const existingEmployee = await Employee.findOne({ email });
+      if (existingEmployee) {
+        return res.status(409).json({
+          success: false,
+          message: " already exists",
+        });
+      }
+
+      // auto-generate password with 8 characters
+      const password = Math.random().toString(36).slice(-8);
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newEmployee = new Employee({
+        employeeid,
+        name,
+        email,
+        password: hashedPassword,
+        role,
+        address,
+        phone,
+        image,
+        salary,
+        category,
+      });
+      await newEmployee.save();
+
+      // Send welcome email to the user
+      const emailTemplate = welcomeEmailTemplate(name, email, password, role);
+      //
+      sendEmail(email, "Welcome to Emerald Bay!", emailTemplate);
+
+      res.status(201).json({
+        success: true,
+        rider: {
+          _id: newEmployee._id,
+          employeeid: newEmployee.employeeid,
+          name: newEmployee.name,
+          email: newEmployee.email,
+          password: newEmployee.password,
+          role: newEmployee.role,
+          address:newEmployee.address,
+          contact:newEmployee.contact,
+          image:newEmployee.image,
+          salary:newEmployee.salary,
+          category:newEmployee.category,
+        },
+        message: "Employee created successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        error,
+        message: "Internal server error",
+      });
+    }
+  },
 };
+
 
 module.exports = authController;
