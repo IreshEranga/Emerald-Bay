@@ -22,6 +22,8 @@ const CheckLoginStatus = () => {
   }
   if (permissionLevel === USER_ROLES.ADMIN) {
     return <Navigate to="/admin" />;
+  }if (permissionLevel === USER_ROLES.CUSTOMER) {
+    return <Navigate to="/customer" />;
   }  else {
     return <Outlet />;
   }

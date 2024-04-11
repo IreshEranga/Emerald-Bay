@@ -37,6 +37,8 @@ import Customer_Reservations from "../pages/Registered_Customer/reservations"
 import Customer_Menu from "../pages/Registered_Customer/menu"
 import Userprofile from "../pages/Userprofile/Userprofile";
 import Employee from "../pages/employee";
+import Customers from "../pages/customerManager/dashboard/customers.jsx";
+
 
 const AppRoutes = () => {
   return (
@@ -61,7 +63,7 @@ const AppRoutes = () => {
           </Route>
 
           {/* Customer Private Routes */}
-          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.CUSTOMER]} />}>
             <Route path="/customer" element={<Customer_Home />} />
             <Route path="/customer_reservations" element={<Customer_Reservations />} />
             <Route path="/customer_menu" element={<Customer_Menu />} />
@@ -117,6 +119,7 @@ const AppRoutes = () => {
           {/* Customer Manager Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
             <Route path="/customerManager" element={<CustomerManagerSideBar />} />
+            <Route path="/customerManager/customers" element={<Customers />} />
           </Route>
 
         </Routes>

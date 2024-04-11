@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const Rider = require("../models/Rider");
 const Employee = require("../models/Employee");
+const Customer = require("../models/Customer");
 const USER_ROLES = require("../constants/roles");
 const welcomeEmailTemplate = require("../util/email_templates/welcomeEmailTemplate");
 const sendEmail = require("../util/sendEmail");
@@ -13,7 +14,7 @@ const authController = {
     try {
       const { email, password } = req.body;
 
-      const user = await User.findOne({ email })|| await Rider.findOne({email});
+      const user = await User.findOne({ email })|| await Rider.findOne({email}) || await Customer.findOne({email}) ;
       if (!user) {
         return res.status(401).json({
           success: false,
@@ -21,7 +22,7 @@ const authController = {
         });
       }
 
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      const isPasswordValid = await bcrypt.compare(password, user.password) || bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
         return res.status(401).json({
           success: false,

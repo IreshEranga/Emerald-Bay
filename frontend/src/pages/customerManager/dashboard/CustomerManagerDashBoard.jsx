@@ -1,7 +1,5 @@
-import React from "react";
-import { useSupplierCount } from "../../../hooks/useSupplierData";
-import { useCategoryCount } from "../../../hooks/useCategoryData";
-import { useStockRequestCount } from "../../../hooks/useStockRequestData";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
 import { useAuthStore } from "../../../store/useAuthStore";
 
 const index = () => {
@@ -9,10 +7,23 @@ const index = () => {
     user: state.user,
   }));
   
-  // Get the data from the react-query hook
-  const { data: supplierData } = useSupplierCount();
-  const { data: categoryData } = useCategoryCount();
-  const { data: stockRequestData } = useStockRequestCount();
+  const [customerCount, setCustomerCount] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch total number of customers
+        const customersResponse = await axios.get("http://localhost:8000/customer");
+        const totalCustomers = customersResponse.data.length;
+        setCustomerCount(totalCustomers);
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   //
   return (
     <div className="container mt-4">
@@ -29,7 +40,7 @@ const index = () => {
             <div className="card-body">
               <h5 className="card-title"> Total number of customers</h5>
               <p className="card-text fs-4 fw-bold">
-                {categoryData?.data?.categoryCount}
+                {customerCount}
               </p>
             </div>
           </div>
@@ -39,7 +50,7 @@ const index = () => {
             <div className="card-body">
               <h5 className="card-title">Total number of loyalty customers</h5>
               <p className="card-text fs-4 fw-bold">
-                {stockRequestData?.data?.stockRequestCount}
+               
               </p>
             </div>
           </div>
