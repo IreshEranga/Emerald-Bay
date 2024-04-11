@@ -41,6 +41,27 @@ Password: 123456
 
 ## Contributors
 
-- [Iresh Eranga](https://github.com/IreshEranga) ![John Doe](https://github.com/IreshEranga.png)
-- [Jane Smith](https://github.com/janesmith) ![Jane Smith](https://github.com/janesmith.png)
-- [Your Name](https://github.com/yourusername) ![Your Name](https://github.com/yourusername.png)
+<div style="display: inline-block; margin-right: 20px;">
+  <a href="https://github.com/IreshEranga">
+    <img src="https://github.com/IreshEranga" alt="Iresh Eranga" style="width: 200px; height: 200px;overfolw:hidden, border-radius: 50%;">
+  </a>
+  <br>
+  <a href="https://github.com/johndoe">John Doe</a>
+</div>
+
+<div style="display: inline-block; margin-right: 20px;">
+  <a href="https://github.com/janesmith">
+    <img src="https://github.com/janesmith.png" alt="Jane Smith" style="width: 100px; height: 100px; border-radius: 50%;">
+  </a>
+  <br>
+  <a href="https://github.com/janesmith">Jane Smith</a>
+</div>
+
+<div style="display: inline-block; margin-right: 20px;">
+  <a href="https://github.com/yourusername">
+    <img src="https://github.com/yourusername.png" alt="Your Name" style="width: 100px; height: 100px; border-radius: 50%;">
+  </a>
+  <br>
+  <a href="https://github.com/yourusername">Your Name</a>
+</div>
+
