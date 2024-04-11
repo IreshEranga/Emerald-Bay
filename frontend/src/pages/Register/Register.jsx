@@ -13,7 +13,6 @@ const Register = () => {
     address: '',
     mobile: '',
     password: '',
-   /* confirmPassword: ''*/
   });
 
   const [errors, setErrors] = useState({});
@@ -24,17 +23,29 @@ const Register = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    //const errorsObj = validateForm(formData);
-    
+    const errorsObj = validateForm(formData);
+
+    if (Object.keys(errorsObj).length === 0) {
       try {
         const res = await axios.post('http://localhost:8000/customer/add', formData);
         console.log(res.data); // Handle success response
-        toast.success("Customer register Success!!");
+        setFormData({
+          name: '',
+          email: '',
+          address: '',
+          mobile: '',
+          password: '',
+        });
+        toast.success("Customer registered successfully!!");
+        <Link to="/login">Login here</Link>
+        
       } catch (err) {
         setErrors(err.response.data.errors);
         toast.error("Error in creating customer !");
       }
-    
+    } else {
+      setErrors(errorsObj);
+    }
   };
 
   const validateForm = (data) => {
@@ -54,19 +65,16 @@ const Register = () => {
     } else if (!emailRegex.test(data.email.trim())) {
         errors.email = "Invalid email address";
     }
-    if (!data.address) {
+    if (!data.address.trim()) {
         errors.address = "Address is required";
     }
-    // Check if passwords match
-    /*if (password !== confirmPassword) {
-      errors.password = "Passwords do not match";
+    if (!data.password.trim()) {
+        errors.password = "Password is required";
     }
-    return errors;*/
-};
-  
+    return errors;
+  };
 
   return (
-
     <Container className='all'>
       <NavBar/>
       <Row className="justify-content-md-center-5" style={{border:'1px solid black', marginTop:'15px'}}>
@@ -75,7 +83,7 @@ const Register = () => {
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="name">
               <Form.Label >Full Name :</Form.Label>
-              <Form.Control className='name1'
+              <Form.Control
                 type="text" 
                 placeholder="Enter full name" 
                 name="name" 
@@ -83,11 +91,12 @@ const Register = () => {
                 onChange={handleChange} 
                 required 
               />
+              {errors.name && <Form.Text className="text-danger">{errors.name}</Form.Text>}
             </Form.Group>
 
             <Form.Group controlId="email">
               <Form.Label>Email :</Form.Label>
-              <Form.Control className='name2'
+              <Form.Control
                 type="email" 
                 placeholder="Enter email" 
                 name="email" 
@@ -95,11 +104,12 @@ const Register = () => {
                 onChange={handleChange} 
                 required 
               />
+              {errors.email && <Form.Text className="text-danger">{errors.email}</Form.Text>}
             </Form.Group>
 
             <Form.Group controlId="address">
               <Form.Label>Address :</Form.Label>
-              <Form.Control  className='name3'
+              <Form.Control
                 type="text" 
                 placeholder="Enter address" 
                 name="address" 
@@ -107,11 +117,12 @@ const Register = () => {
                 onChange={handleChange} 
                 required 
               />
+              {errors.address && <Form.Text className="text-danger">{errors.address}</Form.Text>}
             </Form.Group>
 
             <Form.Group controlId="phoneNumber">
               <Form.Label>Phone Number:</Form.Label>
-              <Form.Control  className='name4'
+              <Form.Control
                 type="text" 
                 placeholder="Enter phone number" 
                 name="mobile" 
@@ -119,13 +130,12 @@ const Register = () => {
                 onChange={handleChange} 
                 required 
               />
+              {errors.mobile && <Form.Text className="text-danger">{errors.mobile}</Form.Text>}
             </Form.Group>
-
-          
 
             <Form.Group controlId="password">
               <Form.Label>Password :</Form.Label>
-              <Form.Control  className='name5'
+              <Form.Control
                 type="password" 
                 placeholder="Enter password" 
                 name="password" 
@@ -133,39 +143,19 @@ const Register = () => {
                 onChange={handleChange} 
                 required 
               />
+              {errors.password && <Form.Text className="text-danger">{errors.password}</Form.Text>}
             </Form.Group>
 
-            {/*<Form.Group controlId="confirmPassword">
-              <Form.Label>Re-enter Password :</Form.Label>
-              <Form.Control  className='name6'
-                type="password" 
-                placeholder="Re-enter password" 
-                name="confirmPassword" 
-                value={formData.confirmPassword} 
-                onChange={handleChange} 
-                required 
-              />
-  </Form.Group>*/}
-<br></br>
-
-          <p>Have an Account? <Link to="/login"> Login here</Link> </p>
-
-            <Button variant="primary" type="submit" onClick={handleSubmit} style={{width: '200px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft:'170px'}}>
+            <Button variant="primary" type="submit">
               Sign Up
             </Button>
             
           </Form>
+          <p className="mt-3">Have an Account? <Link to="/login">Login here</Link></p>
         </Col>
       </Row>
     </Container>
   );
 };
-
-
-
-
-
-
-
 
 export default Register;
