@@ -41,27 +41,77 @@ Password: 123456
 
 ## Contributors
 
-<div style="display: inline-block; margin-right: 20px;">
-  <a href="https://github.com/IreshEranga">
-    <img src="https://github.com/IreshEranga" alt="Iresh Eranga" style="width: 200px; height: 200px;overfolw:hidden, border-radius: 50%;">
-  </a>
-  <br>
-  <a href="https://github.com/johndoe">John Doe</a>
-</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: center;">
+  <div style="margin-right: 20px;">
+    <a href="https://github.com/IreshEranga">
+      <img src="https://github.com/IreshEranga.png" alt="Iresh Eranga" style="width: 100px; height: 100px; border-radius: 50%;">
+    </a>
+    <br>
+    <a href="https://github.com/IreshEranga">Iresh Eranga</a>
+  </div><br><br>
 
-<div style="display: inline-block; margin-right: 20px;">
-  <a href="https://github.com/janesmith">
-    <img src="https://github.com/janesmith.png" alt="Jane Smith" style="width: 100px; height: 100px; border-radius: 50%;">
-  </a>
-  <br>
-  <a href="https://github.com/janesmith">Jane Smith</a>
-</div>
+  <div style="margin-right: 20px;">
+    <a href="https://github.com/KaviniPramudika">
+      <img src="https://github.com/KaviniPramudika.png" alt="Kavini Pramudika" style="width: 100px; height: 100px; border-radius: 50%;">
+    </a>
+    <br>
+    <a href="https://github.com/KaviniPramudika">Kavini Pramudika</a>
+  </div><br><br>
 
-<div style="display: inline-block; margin-right: 20px;">
-  <a href="https://github.com/yourusername">
-    <img src="https://github.com/yourusername.png" alt="Your Name" style="width: 100px; height: 100px; border-radius: 50%;">
-  </a>
-  <br>
-  <a href="https://github.com/yourusername">Your Name</a>
-</div>
+  <div style="margin-right: 20px;">
+    <a href="https://github.com/KaviniWickramasooriya">
+      <img src="https://github.com/KaviniWickramasooriya.png" alt="Kavini Wickramasooriya" style="width: 100px; height: 100px; border-radius: 50%;">
+    </a>
+    <br>
+    <a href="https://github.com/KaviniWickramasooriya">Kavini Wickramasooriya</a>
+  </div><br><br>
 
+  <div style="margin-right: 20px;">
+    <a href="https://github.com/sahan-manusha">
+      <img src="https://github.com/sahan-manusha.png" alt="Sahan Manusha" style="width: 100px; height: 100px; border-radius: 50%;">
+    </a>
+    <br>
+    <a href="https://github.com/sahan-manusha">Sahan Manusha</a>
+  </div><br><br>
+
+  <div style="margin-right: 20px;">
+    <a href="https://github.com/kavindu0711">
+      <img src="https://github.com/kavindu0711.png" alt="Kavindu" style="width: 100px; height: 100px; border-radius: 50%;">
+    </a>
+    <br>
+    <a href="https://github.com/kavindu0711">Kavindu</a>
+  </div><br><br>
+
+  <div style="margin-right: 20px;">
+    <a href="https://github.com/jaladhisamarakoon">
+      <img src="https://github.com/jaladhisamarakoon.png" alt="Jaladhi Samarakoon" style="width: 100px; height: 100px; border-radius: 50%;">
+    </a>
+    <br>
+    <a href="https://github.com/jaladhisamarakoon">Jaladhi Samarakoon</a>
+  </div><br><br>
+
+  <div style="margin-right: 20px;">
+    <a href="https://github.com/IT22350428">
+      <img src="https://github.com/IT22350428.png" alt="Isuru Udara" style="width: 100px; height: 100px; border-radius: 50%;">
+    </a>
+    <br>
+    <a href="https://github.com/IT22350428">Isuru Udara</a>
+  </div><br><br>
+
+  <div style="margin-right: 20px;">
+    <a href="https://github.com/DLTS0621">
+      <img src="https://github.com/DLTS0621.png" alt="Tharushi" style="width: 100px; height: 100px; border-radius: 50%;">
+    </a>
+    <br>
+    <a href="https://github.com/DLTS0621">Tharushi</a>
+  </div><br><br>
+
+  <div style="margin-right: 20px;">
+    <a href="https://github.com/DimashaHashani">
+      <img src="https://github.com/DimashaHashani.png" alt="Dimasha Hashani" style="width: 100px; height: 100px; border-radius: 50%;">
+    </a>
+    <br>
+    <a href="https://github.com/DimashaHashani">Dimasha Hashani</a>
+  </div>
+
+</div>
