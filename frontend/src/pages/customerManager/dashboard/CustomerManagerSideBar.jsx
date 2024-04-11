@@ -6,7 +6,7 @@ import Delivery_rider from "../../delivery_rider";
 import Category from "../../category";
 import StockRequest from "../../stock_request";
 import CustomerManagerDashboard from "./CustomerManagerDashBoard.jsx";
-
+import Customers from "./customers.jsx";
 
 //
 const CustomerManagerSideBar = () => {
@@ -28,10 +28,10 @@ const CustomerManagerSideBar = () => {
             <CustomerManagerDashboard />
           </>
         );
-      case "Riders":
+      case "Customers":
         return (
           <>
-            <Delivery_rider />
+            <Customers />
           </>
         );
       
@@ -75,11 +75,11 @@ const CustomerManagerSideBar = () => {
           </li>
           <li>
             <a
-              href="#riders"
+              href="#customers"
               className={`nav-link ${
-                activeContent === "Riders" ? "active" : "link-dark"
+                activeContent === "Customers" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Riders")}
+              onClick={() => handleLinkClick("Customers")}
             >
               Customers
             </a>
