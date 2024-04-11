@@ -5,9 +5,18 @@ import Nav from 'react-bootstrap/Nav';
 import logo from '../assets/EMERALDBAYLOGO.png';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { useAuthStore } from '../store/useAuthStore';
 
 
-function Navbar_customer({ isAuthenticated, user, logout }) {
+function Navbar_customer({ isAuthenticated, user }) {
+  const { logout } = useAuthStore((state) => ({
+    logout: state.logout,
+  }));
+  const handleLogout = () => {
+    logout();
+    window.location.href = "/login";
+  };
+
   return (
     <Navbar bg="dark" expand="lg" className="bg-body-tertiary" style={{ fontSize: '25px', height: '150px' }}>
       <Container fluid>
@@ -38,6 +47,7 @@ function Navbar_customer({ isAuthenticated, user, logout }) {
                 <FaUser size={24} />
               </Nav.Link>
             </LinkContainer>
+            <button onClick={handleLogout}>LogOut</button>
           </Nav>
         </Navbar.Collapse>
       </Container>
