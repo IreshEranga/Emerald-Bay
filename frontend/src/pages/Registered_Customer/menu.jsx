@@ -42,7 +42,7 @@ const Customer_Menu = () => {
                             <div className="names"></div>
                             {items && items.map((item, index) => (
                                 <ul className="menu-list" key={index}>
-                                    <li className="menu-item">{item.name} <span className="price">{item.price}</span></li>
+                                    <li className="menu-item">{item.name} <span className="price">Rs.{item.price}</span></li>
                                 </ul>
                             ))}
                         </div>
