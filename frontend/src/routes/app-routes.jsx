@@ -37,6 +37,7 @@ import Customer_Reservations from "../pages/Registered_Customer/reservations"
 import Customer_Menu from "../pages/Registered_Customer/menu"
 import Userprofile from "../pages/Userprofile/Userprofile";
 import Employee from "../pages/employee";
+import CustomerAffairsManagerSideBar from "../pages/customerAffairs/dashboard/CustomerAffairsManagerSidebar.jsx";
 
 const AppRoutes = () => {
   return (
@@ -59,6 +60,12 @@ const AppRoutes = () => {
           <Route element={<CheckLoginStatus />}>
             <Route path="/login" element={<Login />} />
           </Route>
+
+          {/* Customer Manager Private Routes */}
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
+            <Route path="/CustomerAffairsManager" element={<CustomerAffairsManagerSideBar />} />
+          </Route>
+
 
           {/* Customer Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.CUSTOMER]} />}>
