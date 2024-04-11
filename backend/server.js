@@ -42,9 +42,9 @@ app.use("/api/riders",riderRoutes);
 
 
 
- app.use("/api/employees",employeeRoutes);
- app.use("/api/orders",orderRoutes);
- app.use("/tableReservation",tableReservationRoutes);
+app.use("/api/employees",employeeRoutes);
+app.use("/api/orders",orderRoutes);
+app.use("/tableReservation",tableReservationRoutes);
 app.use("/vipRoomReservation",vipRoomReservationRoutes);
 app.use("/event",eventRoutes);
 app.use("/item",itemRoutes);
