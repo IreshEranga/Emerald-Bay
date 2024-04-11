@@ -5,12 +5,13 @@ import restaurantImage from '../../assets/IMG_9995.jpg';
 
 
 const Customer_Home= () => {
-    const { isAuthenticated, logout, user } = useAuthStore((state) => ({
+    /*const { isAuthenticated, logout, user } = useAuthStore((state) => ({
         isAuthenticated: state.isAuthenticated,
         logout: state.logout,
         user: state.user,
       }));
-      //
+      //*/
+      
       return (
     
         <div style={{backgroundColor:'black'}}>

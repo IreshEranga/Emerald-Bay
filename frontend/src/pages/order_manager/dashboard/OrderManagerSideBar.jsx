@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import EMERALDBAYLOGO from "../../../assets/EMERALDBAYLOGO.png";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
-import Delivery_rider from "../../delivery_rider";
-import Category from "../../category";
-import StockRequest from "../../stock_request";
 import OrderManagerDashBoard from "./OrderManagerDashBoard.jsx";
 import Menu_Items from "./Menu.js";
+import Orders from "./orders.jsx";
 
 
 //
@@ -35,10 +33,10 @@ const OrderManagerSideBar = () => {
             <Menu_Items />
           </>
         );
-      case "Categories":
+      case "Orders":
         return (
           <>
-            <Category />
+            <Orders />
           </>
         );
       case "StockRequest":

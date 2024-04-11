@@ -5,6 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import logo from '../assets/EMERALDBAYLOGO.png';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { NavDropdown } from 'react-bootstrap';
 import { useAuthStore } from '../store/useAuthStore';
 
 
@@ -42,12 +43,24 @@ function Navbar_customer({ isAuthenticated, user }) {
                 <FaShoppingCart size={24} />
               </Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/view_profile">
-              <Nav.Link>
-                <FaUser size={24} />
-              </Nav.Link>
-            </LinkContainer>
-            <button onClick={handleLogout}>LogOut</button>
+            <NavDropdown title={<FaUser size={24} />} id="basic-nav-dropdown">
+              <LinkContainer to="/view_profile">
+                <NavDropdown.Item>View Profile</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to="/edit_profile">
+                <NavDropdown.Item>Edit Profile</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to="/membership">
+                <NavDropdown.Item>Membership</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to="/past_orders">
+                <NavDropdown.Item>Orders</NavDropdown.Item>
+              </LinkContainer>
+              <NavDropdown.Divider />
+              <LinkContainer to="/logout">
+                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+              </LinkContainer>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>
