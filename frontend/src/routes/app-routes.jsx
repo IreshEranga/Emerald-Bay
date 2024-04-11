@@ -61,7 +61,7 @@ const AppRoutes = () => {
           </Route>
 
           {/* Customer Private Routes */}
-          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.CUSTOMER]} />}>
             <Route path="/customer" element={<Customer_Home />} />
             <Route path="/customer_reservations" element={<Customer_Reservations />} />
             <Route path="/customer_menu" element={<Customer_Menu />} />

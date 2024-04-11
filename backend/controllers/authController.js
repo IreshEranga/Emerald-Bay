@@ -14,7 +14,7 @@ const authController = {
     try {
       const { email, password } = req.body;
 
-      const user = await User.findOne({ email })|| await Rider.findOne({email}) || await Customer.findOne({email});
+      const user = await User.findOne({ email })|| await Rider.findOne({email}) || await Customer.findOne({email}) ;
       if (!user) {
         return res.status(401).json({
           success: false,
