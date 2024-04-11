@@ -37,8 +37,10 @@ import Menu_Items from "../pages/order_manager/dashboard/Menu.js"
 import Customer_Home from "../pages/Registered_Customer/index"
 import Customer_Reservations from "../pages/Registered_Customer/reservations"
 import Customer_Menu from "../pages/Registered_Customer/menu"
+import Orders from "../pages/order_manager/dashboard/orders.jsx"
 import Userprofile from "../pages/Userprofile/Userprofile";
 import Employee from "../pages/employee";
+
 
 
 const AppRoutes = () => {
@@ -114,7 +116,8 @@ const AppRoutes = () => {
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
             <Route path="/orderManager" element={<OrderManagerSideBar />} />
             <Route path="/orderManager/menu" element={<Menu_Items />} /> 
-            <Route path="/add-item" element={<Items />} />        
+            <Route path="/add-item" element={<Items />} />
+            <Route path="/orders" element ={<Orders/>} />       
           </Route>
 
           {/* Employee Manager Private Routes */}

@@ -32,7 +32,7 @@ const Reservations = () => {
         </div><br></br><br></br>
 
         <div className="reservation-category"><br></br><br></br>
-          <h3>VIP Room</h3><br></br>
+          <h3>SCARLET ROOM</h3><br></br>
           <img src={VIPRoom} style={{width:'650px', alignContent:'center'}} alt="VIPRoom" />
           <br></br><br></br><br></br>
           <p>An upscale meeting location with the facilities of star class service. The Scarlet Room is a specialized location designed for corporate meetings. Use the Scarlet Room for presentations, interviews, client pitches or training for your company. It is fully equipped with projection equipment and tastefully furnished to give you the full meeting experience.<br></br>Reserve our VIP room for private events.</p>
@@ -40,7 +40,7 @@ const Reservations = () => {
         </div><br></br><br></br>
 
         <div className="reservation-category"><br></br><br></br>
-          <h3>Events</h3><br></br>
+          <h3>EVENTS</h3><br></br>
           <img src={Events} style={{width:'650px', alignContent:'center'}} alt="Events" />
           <br></br><br></br><br></br>
           <p>This is a beautiful venue offers located at poolside a very relaxed environment that is ideal for cocktails, private parties and intimate dinners.<br></br> Host your event in our outdoor space.</p>

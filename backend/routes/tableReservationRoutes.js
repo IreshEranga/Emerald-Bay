@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const TableReservation = require("../models/TableReservation");
+const sendEmail = require("../util/sendEmail");
+const tableReservationsEmailTemplate = require("../util/email_templates/tableReservationsEmailTemplate");
 
 
 // Function to generate reservation ID
@@ -22,13 +24,19 @@ const generateReservationId = async () => {
 // Create a table reservation
 router.post("/create", async (req, res) => {
     try {
-        const reservationId = await generateReservationId(); // Generate reservation ID
-        const newTableReservation = new TableReservation({ ...req.body, reservationId });
-        await newTableReservation.save();
-        res.json({ status: "Table Reservation Added", tableReservation: newTableReservation });
+      const reservationId = await generateReservationId(); // Generate reservation ID
+      const newTableReservation = new TableReservation({ ...req.body, reservationId });
+      await newTableReservation.save();
+  
+      // Send confirmation email to the customer
+      const { name, email, date, time, tableNo } = req.body;
+      const emailTemplate = tableReservationsEmailTemplate(name, reservationId, date, time, tableNo);
+      sendEmail(email, "Table Reservation Confirmation", emailTemplate);
+  
+      res.json({ status: "Table Reservation Added", tableReservation: newTableReservation });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error creating table reservation" });
+      console.error(error);
+      res.status(500).json({ error: "Error creating table reservation" });
     }
 });
 
