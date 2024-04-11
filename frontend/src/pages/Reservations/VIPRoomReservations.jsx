@@ -39,8 +39,8 @@ const VIPRoomReservations = () => {
         const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
         const year = today.getFullYear();
     
-        return `${day}/${month}/${year}`;
-    }    
+        return `${year}-${month}-${day}`;
+    }      
 
     //function to get time
     function generateTimeSlots() {
