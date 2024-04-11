@@ -1,7 +1,7 @@
 import './Register.css';
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import NavBar from '../../components/Navbar';
 import axios from 'axios'; 
 import toast from 'react-hot-toast';
@@ -16,6 +16,7 @@ const Register = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,7 +38,7 @@ const Register = () => {
           password: '',
         });
         toast.success("Customer registered successfully!!");
-        <Link to="/login">Login here</Link>
+        navigate('/login'); // Navigate to login page after successful registration
         
       } catch (err) {
         setErrors(err.response.data.errors);

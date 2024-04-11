@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const USER_ROLES = require("../constants/roles");
+
 
 // Create student schema
 
-const customerSchema = new Schema({
+const customerSchema = new mongoose.Schema({
 
     
     name: {
@@ -27,10 +28,12 @@ const customerSchema = new Schema({
     },
     address:{
         type:String,
-    }
+    },
+    role:{
+        type:String,
+        default:USER_ROLES.CUSTOMER,
+    },
 })
 
 
-const Customer = mongoose.model("Customers", customerSchema);
-
-module.exports = Customer;
+module.exports = mongoose.model("Customer", customerSchema);;
