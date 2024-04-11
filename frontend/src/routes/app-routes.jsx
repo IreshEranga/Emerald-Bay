@@ -12,6 +12,8 @@ import {
   Delivery_riderDashboard,
 } from "../pages";
 
+import CustomerAffairsManagerSideBar from "../pages/customerAffairs/dashboard/CustomerAffairsManagerSidebar.jsx";
+import Customers from "../pages/customerManager/dashboard/customers.jsx";
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
 import ReservationManagerSideBar from "../pages/reservation_manager/dashboard/ReservationManagerSideBar"
 import OrderManagerSideBar from "../pages/order_manager/dashboard/OrderManagerSideBar"
@@ -37,7 +39,6 @@ import Customer_Reservations from "../pages/Registered_Customer/reservations"
 import Customer_Menu from "../pages/Registered_Customer/menu"
 import Userprofile from "../pages/Userprofile/Userprofile";
 import Employee from "../pages/employee";
-import Customers from "../pages/customerManager/dashboard/customers.jsx";
 
 
 const AppRoutes = () => {
@@ -61,6 +62,12 @@ const AppRoutes = () => {
           <Route element={<CheckLoginStatus />}>
             <Route path="/login" element={<Login />} />
           </Route>
+
+          {/* Customer Manager Private Routes */}
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
+            <Route path="/CustomerAffairsManager" element={<CustomerAffairsManagerSideBar />} />
+          </Route>
+
 
           {/* Customer Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.CUSTOMER]} />}>
