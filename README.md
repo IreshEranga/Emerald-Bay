@@ -38,3 +38,9 @@ http://localhost:8000/
 Email: admin@gmail.com
 
 Password: 123456
+
+## Contributors
+
+- [Iresh Eranga](https://github.com/IreshEranga) ![John Doe](https://github.com/IreshEranga.png)
+- [Jane Smith](https://github.com/janesmith) ![Jane Smith](https://github.com/janesmith.png)
+- [Your Name](https://github.com/yourusername) ![Your Name](https://github.com/yourusername.png)
