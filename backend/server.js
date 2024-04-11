@@ -19,6 +19,7 @@ const vipRoomReservationRoutes = require("./routes/vipRoomReservationRoutes");
 const eventRoutes = require("./routes/eventRoutes");
 const itemRoutes = require("./routes/itemRoutes");
 const studentRoutes = require("./routes/studentRoutes");
+const customerRoutes = require("./routes/customerRoutes");
 
 // express app
 const app = express();
@@ -49,6 +50,7 @@ app.use("/vipRoomReservation",vipRoomReservationRoutes);
 app.use("/event",eventRoutes);
 app.use("/item",itemRoutes);
 app.use("/student",studentRoutes);
+app.use("/customer",customerRoutes);
 
 // connect to db
 mongoose
