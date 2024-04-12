@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import NavBar from '../../components/Navbar';
 import axios from 'axios'; 
 import toast from 'react-hot-toast';
-import Registerimg from "../../assets/registernow.png";
+
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -85,11 +85,11 @@ const Register = () => {
   return (
     <Container className='all'>
       <NavBar/>
-      <Row className="justify-content-md-center-5" style={{border:'1px solid black', marginTop:'15px', marginBottom:'40px', padding:'30px', width:'70%', marginLeft:'100px'}}>
+      <Row className="justify-content-md-center-5" style={{border:'1px solid black', marginTop:'15px', marginBottom:'40px', padding:'30px', width:'80%', marginLeft:'100px'}}>
         <Col xs={12} md={6}>
-          <h2 className="mb-4">Registration Form</h2>
+          <h2 className="mb-4" style={{marginLeft:'200px'}}>Registration Form</h2>
           
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} style={{marginLeft:'100px'}}>
             
         
             <Form.Group controlId="name">
@@ -175,7 +175,7 @@ const Register = () => {
             </Button>
             
           </Form>
-          <p className="mt-3">Have an Account? <Link to="/login">Login here</Link></p>
+          <p className="mt-3" style={{marginLeft:'100px'}}>Have an Account? <Link to="/login">Login here</Link></p>
         </Col>
       </Row>
     </Container>
