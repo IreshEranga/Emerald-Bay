@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useEmployeeStore } from "../../store/useEmployeeStore";
@@ -12,7 +12,7 @@ const EditEmployeeModal = () => {
   // Get the state and actions from the store
   const { isEditEmployeeModalOpen, closeEditEmployeeModal, selectedEmployee } =
     useEmployeeStore((state) => ({
-      isEditDeliveryRiderModalOpen: state.isEditDeliveryRiderModalOpen,
+      isEditEmployeeModalOpen: state.isEditEmployeeModalOpen,
       closeEditEmployeeModal: state.closeEditEmployeeModal,
       selectedEmployee: state.selectedEmployee,
     }));
@@ -35,16 +35,14 @@ const EditEmployeeModal = () => {
   const [percent, setPercent] = useState(0);
 
   // Handle image upload
-  const handleImageUpload = (e) => {
-    // const file = e.target.files[0];
-    setFile(file);
+  const handleImageUpload = () => {
     handleUpload({ file, setPercent, setImage });
   };
 
   // Handle change
-  function handleChange(event) {
+  const handleChange = (event) => {
     setFile(event.target.files[0]);
-  }
+  };
 
   // Update mutation
   const { mutate } = useMutation(EmployeeAPI.update, {
@@ -69,13 +67,12 @@ const EditEmployeeModal = () => {
   };
 
   useEffect(() => {
-    // Set the form values when the selectedSupplier changes
+    // Set the form values when the selectedEmployee changes
     if (selectedEmployee) {
       setValue("name", selectedEmployee.name);
       setValue("address", selectedEmployee.address);
-      setValue("contact", selectedEmployee.contact);
+      setValue("phone", selectedEmployee.phone);
       setValue("email", selectedEmployee.email);
-      
     }
   }, [selectedEmployee, setValue]);
 
@@ -119,15 +116,15 @@ const EditEmployeeModal = () => {
           )}
         </div>
         <div className="mb-3">
-          <label htmlFor="contact" className="form-label">
+          <label htmlFor="phone" className="form-label">
             Contact
           </label>
           <input
             type="text"
-            className={`form-control ${errors.contact ? "is-invalid" : ""}`}
-            id="contact"
-            name="contact"
-            {...register("contact", {
+            className={`form-control ${errors.phone ? "is-invalid" : ""}`}
+            id="phone"
+            name="phone"
+            {...register("phone", {
               required: "Phone number is required",
               pattern: {
                 value: phoneNumberPattern,
@@ -135,8 +132,8 @@ const EditEmployeeModal = () => {
               },
             })}
           />
-          {errors.contact && (
-            <div className="invalid-feedback">{errors.contact.message}</div>
+          {errors.phone && (
+            <div className="invalid-feedback">{errors.phone.message}</div>
           )}
         </div>
         <div className="mb-3">
@@ -204,7 +201,6 @@ const EditEmployeeModal = () => {
             </div>
           </div>
         </div>
-
 
         <hr />
 

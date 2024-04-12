@@ -4,6 +4,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
 import Employee from "../../employee";
 import EmployeeManagerDashboard from "./EmployeeManagerDashboard.jsx";
+import LeaveManagement from "./LeaveManagement.jsx";
 
 
 //
@@ -30,6 +31,12 @@ const EmployeeManagerSideBar = () => {
         return (
           <>
             <Employee />
+          </>
+        );
+        case "Leaves":
+        return (
+          <>
+            <LeaveManagement />
           </>
         );/*
       case "Categories":
@@ -99,6 +106,18 @@ const EmployeeManagerSideBar = () => {
               onClick={() => handleLinkClick("Employees")}
             >
               Employee Management
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="#leaves"
+              className={`nav-link ${
+                activeContent === "Leaves" ? "active" : "link-dark"
+              }`}
+              onClick={() => handleLinkClick("Leaves")}
+            >
+              Leave Management
             </a>
           </li>
          {/* <li>
