@@ -6,6 +6,7 @@ import NavBar from '../../components/Navbar';
 import axios from 'axios'; 
 import toast from 'react-hot-toast';
 
+
 const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -36,6 +37,7 @@ const Register = () => {
           address: '',
           mobile: '',
           password: '',
+          confirmPassword: '',
         });
         toast.success("Customer registered successfully!!");
         navigate('/login'); // Navigate to login page after successful registration
@@ -71,6 +73,11 @@ const Register = () => {
     }
     if (!data.password.trim()) {
         errors.password = "Password is required";
+    }else if (data.password.trim().length < 6) {
+      errors.password = "Password should be at least 6 characters long";
+    }
+    if (data.password !== data.confirmPassword) {
+      errors.confirmPassword = "Passwords do not match";
     }
     return errors;
   };
@@ -78,10 +85,13 @@ const Register = () => {
   return (
     <Container className='all'>
       <NavBar/>
-      <Row className="justify-content-md-center-5" style={{border:'1px solid black', marginTop:'15px'}}>
+      <Row className="justify-content-md-center-5" style={{border:'1px solid black', marginTop:'15px', marginBottom:'40px', padding:'30px', width:'80%', marginLeft:'100px'}}>
         <Col xs={12} md={6}>
-          <h2 className="mb-4">Registration Form</h2>
-          <Form onSubmit={handleSubmit}>
+          <h2 className="mb-4" style={{marginLeft:'200px'}}>Registration Form</h2>
+          
+          <Form onSubmit={handleSubmit} style={{marginLeft:'100px'}}>
+            
+        
             <Form.Group controlId="name">
               <Form.Label >Full Name :</Form.Label>
               <Form.Control
@@ -147,12 +157,25 @@ const Register = () => {
               {errors.password && <Form.Text className="text-danger">{errors.password}</Form.Text>}
             </Form.Group>
 
+            <Form.Group controlId="confirmPassword">
+              <Form.Label>Confirm Password :</Form.Label>
+              <Form.Control
+                type="password" 
+                placeholder="Confirm password" 
+                name="confirmPassword" 
+                value={formData.confirmPassword} 
+                onChange={handleChange} 
+                required 
+              />
+              {errors.confirmPassword && <Form.Text className="text-danger">{errors.confirmPassword}</Form.Text>}
+            </Form.Group> <br />
+
             <Button variant="primary" type="submit">
               Sign Up
             </Button>
             
           </Form>
-          <p className="mt-3">Have an Account? <Link to="/login">Login here</Link></p>
+          <p className="mt-3" style={{marginLeft:'100px'}}>Have an Account? <Link to="/login">Login here</Link></p>
         </Col>
       </Row>
     </Container>
