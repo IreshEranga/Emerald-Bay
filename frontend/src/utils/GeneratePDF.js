@@ -50,7 +50,7 @@ export function generatePDF(title, columns, data, fileName, restaurantName) {
     doc.setFont("helvetica");
     doc.setFontSize(10);
     doc.text(
-      `Restaurant Name: Emerald Bay Restaurant`,
+      `Emerald Bay Restaurant`,
       doc.internal.pageSize.getWidth() / 2,
       doc.internal.pageSize.getHeight() - 10,
       { align: "center" }
