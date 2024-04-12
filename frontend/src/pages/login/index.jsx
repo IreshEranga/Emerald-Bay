@@ -87,7 +87,7 @@ const index = () => {
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card" style={{border:'2px solid black'}}>
-            <h1 className="card-header text-center">Login</h1>
+            <h1 className="card-header text-center" style={{fontWeight:'700'}}>Login 👨‍💻</h1>
             <div className="card-body">
               <form onSubmit={handleSubmit} >
                 <div className="mb-3">
