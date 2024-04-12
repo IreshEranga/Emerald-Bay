@@ -75,7 +75,7 @@ const Customers = () => {
     const title = "Customer  Report";
     const columns = ["Customer ID", "Name", "Phone", "Email", "Address", "Status"];
     const data = filteredCustomers.map(cutomer => ({
-      "Customer ID": cutomer._id,
+      "Customer ID": cutomer.customerId,
       "Name": cutomer.name,
       "Phone": cutomer.mobile,
       "Email": cutomer.email,
@@ -131,7 +131,7 @@ const Customers = () => {
         <tbody>
           {filteredCustomers.map((customer) => (
             <tr key={customer._id}>
-              <td>{customer._id}</td>
+              <td>{customer.customerId}</td>
               <td>{customer.name}</td>
               <td>{customer.mobile}</td>
               <td>{customer.email}</td>

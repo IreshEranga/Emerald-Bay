@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import EMERALDBAYLOGO from "../../../assets/EMERALDBAYLOGO.png";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
-import OrderManagerDashBoard from "./OrderManagerDashBoard.jsx";
-import Menu_Items from "./Menu.js";
-import Orders from "./orders.jsx";
+import CustomerAffairsManagerDashboard from "./CustomerAffairsManagerDashboard";
+import FeedbackComponent from "./FeedbackComponent";
+import FAQComponent from "./FAQComponent";
+import ContactUsComponent from "./ContactUsComponent";
+import RatingAndReviewComponent from "./RatingAndReviewComponent";
+
 
 
 //
-const OrderManagerSideBar = () => {
+const CustomerAffairsManagerSideBar = () => {
   const [activeContent, setActiveContent] = useState("Dashboard");
   //
   const handleLinkClick = (content) => {
@@ -18,33 +21,41 @@ const OrderManagerSideBar = () => {
   const { logout } = useAuthStore((state) => ({
     logout: state.logout,
   }));
+
   //
   const renderContent = () => {
     switch (activeContent) {
       case "Dashboard":
         return (
           <>
-            <OrderManagerDashBoard />
+            <CustomerAffairsManagerDashboard/>
           </>
         );
-      case "Menu":
-        return (
-          <>
-            <Menu_Items />
-          </>
-        );
-      case "Orders":
-        return (
-          <>
-            <Orders />
-          </>
-        );
-      case "StockRequest":
-        return (
-          <>
-            <StockRequest />
-          </>
-        );
+        case "Feedback":
+            return (
+              <>
+                <FeedbackComponent />
+              </>
+            );
+          case "FAQ":
+            return (
+              <>
+                <FAQComponent />
+              </>
+            );
+          case "Contact_Us":
+            return (
+              <>
+                <ContactUsComponent />
+              </>
+            );
+          case "Rating_And_Review":
+            return (
+              <>
+                <RatingAndReviewComponent />
+              </>
+            );
+          
       case "Account":
         return <p>This is the Account page content.</p>;
       default:
@@ -75,7 +86,7 @@ const OrderManagerSideBar = () => {
           <img
             src={EMERALDBAYLOGO}
             alt="Emerald Bay"
-            style={{ maxWidth: "100%", maxHeight: "60px" }}
+            style={{ maxWidth: "100%", maxHeight: "100px" }}
           />
         </a>
         <hr />
@@ -93,35 +104,46 @@ const OrderManagerSideBar = () => {
           </li>
           <li>
             <a
-              href="#menu"
+              href="#feedback"
               className={`nav-link ${
-                activeContent === "Menu" ? "active" : "link-dark"
+                activeContent === "Feedback" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Menu")}
+              onClick={() => handleLinkClick("Feedback")}
             >
-              Menu
+              Feedback
             </a>
           </li>
           <li>
             <a
-              href="#orders"
+              href="#faq"
               className={`nav-link ${
-                activeContent === "Orders" ? "active" : "link-dark"
+                activeContent === "FAQ" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Orders")}
+              onClick={() => handleLinkClick("FAQ")}
             >
-              Orders
+              FAQ
             </a>
           </li>
           <li>
             <a
-              href="#stock-requests"
+              href="#contact"
               className={`nav-link ${
-                activeContent === "StockRequest" ? "active" : "link-dark"
+                activeContent === "Contact_Us" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("StockRequest")}
+              onClick={() => handleLinkClick("Contact_Us")}
             >
-              Stock Requests
+              Contact Us
+            </a>
+          </li>
+          <li>
+            <a
+              href="#rating"
+              className={`nav-link ${
+                activeContent === "Rating_And_Review" ? "active" : "link-dark"
+              }`}
+              onClick={() => handleLinkClick("Rating_And_Review")}
+            >
+              Rating and Review
             </a>
           </li>
         </ul>
@@ -140,5 +162,5 @@ const OrderManagerSideBar = () => {
     </div>
   );
 };
-//
-export default OrderManagerSideBar;
+
+export default CustomerAffairsManagerSideBar;
