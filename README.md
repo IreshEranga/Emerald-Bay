@@ -50,13 +50,7 @@ Password: 123456
     <a href="https://github.com/IreshEranga">Iresh Eranga</a>
   </div><br><br>
 
-  <div style="margin-right: 20px;">
-    <a href="https://github.com/KaviniPramudika">
-      <img src="https://github.com/KaviniPramudika.png" alt="Kavini Pramudika" style="width: 100px; height: 100px; border-radius: 50%;">
-    </a>
-    <br>
-    <a href="https://github.com/KaviniPramudika">Kavini Pramudika</a>
-  </div><br><br>
+  
 
   <div style="margin-right: 20px;">
     <a href="https://github.com/KaviniWickramasooriya">
