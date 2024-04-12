@@ -83,7 +83,7 @@ const AddDeliveryRiderModal = () => {
       title="Add Delivery Rider"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group">
+        {/*<div className="form-group">
 
         <label htmlFor="employeeid">Employee ID</label>
           <input
@@ -96,7 +96,7 @@ const AddDeliveryRiderModal = () => {
           {errors.employeeid && (
             <small className="form-text text-danger">Employee ID is required</small>
           )}
-        </div>
+        </div>*/}
 
         <div className="form-group">
           <label htmlFor="name">Name</label>
