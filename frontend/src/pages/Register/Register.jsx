@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import NavBar from '../../components/Navbar';
 import axios from 'axios'; 
 import toast from 'react-hot-toast';
+import Registerimg from "../../assets/registernow.png";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -36,6 +37,7 @@ const Register = () => {
           address: '',
           mobile: '',
           password: '',
+          confirmPassword: '',
         });
         toast.success("Customer registered successfully!!");
         navigate('/login'); // Navigate to login page after successful registration
@@ -73,17 +75,23 @@ const Register = () => {
         errors.password = "Password is required";
     }else if (data.password.trim().length < 6) {
       errors.password = "Password should be at least 6 characters long";
-  }
+    }
+    if (data.password !== data.confirmPassword) {
+      errors.confirmPassword = "Passwords do not match";
+    }
     return errors;
   };
 
   return (
     <Container className='all'>
       <NavBar/>
-      <Row className="justify-content-md-center-5" style={{border:'1px solid black', marginTop:'15px'}}>
+      <Row className="justify-content-md-center-5" style={{border:'1px solid black', marginTop:'15px', marginBottom:'40px', padding:'30px', width:'70%', marginLeft:'100px'}}>
         <Col xs={12} md={6}>
           <h2 className="mb-4">Registration Form</h2>
+          
           <Form onSubmit={handleSubmit}>
+            
+        
             <Form.Group controlId="name">
               <Form.Label >Full Name :</Form.Label>
               <Form.Control
@@ -148,6 +156,19 @@ const Register = () => {
               />
               {errors.password && <Form.Text className="text-danger">{errors.password}</Form.Text>}
             </Form.Group>
+
+            <Form.Group controlId="confirmPassword">
+              <Form.Label>Confirm Password :</Form.Label>
+              <Form.Control
+                type="password" 
+                placeholder="Confirm password" 
+                name="confirmPassword" 
+                value={formData.confirmPassword} 
+                onChange={handleChange} 
+                required 
+              />
+              {errors.confirmPassword && <Form.Text className="text-danger">{errors.confirmPassword}</Form.Text>}
+            </Form.Group> <br />
 
             <Button variant="primary" type="submit">
               Sign Up
