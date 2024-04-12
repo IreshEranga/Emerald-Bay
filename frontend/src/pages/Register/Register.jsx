@@ -71,7 +71,9 @@ const Register = () => {
     }
     if (!data.password.trim()) {
         errors.password = "Password is required";
-    }
+    }else if (data.password.trim().length < 6) {
+      errors.password = "Password should be at least 6 characters long";
+  }
     return errors;
   };
 

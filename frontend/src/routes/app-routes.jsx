@@ -65,7 +65,7 @@ const AppRoutes = () => {
             <Route path="/login" element={<Login />} />
           </Route>
 
-          {/* Customer Manager Private Routes */}
+          {/* Customer Affairs Manager Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
             <Route path="/CustomerAffairsManager" element={<CustomerAffairsManagerSideBar />} />
           </Route>
