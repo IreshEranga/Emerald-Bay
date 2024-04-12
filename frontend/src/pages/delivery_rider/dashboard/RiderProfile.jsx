@@ -6,7 +6,6 @@ import { useRiderStore } from "../../../store/useRiderStore";
 import { useRider } from "../../../hooks/useRiderData";
 import { useCategoryData } from "../../../hooks/useCategoryData";
 import { useAuthStore } from "../../../store/useAuthStore";
-import { FaUserEdit } from "react-icons/fa";
 import "./profileview.css";
 
 const RiderProfile = () => {
@@ -100,24 +99,7 @@ const RiderProfile = () => {
   return (
     <div className="profilecontainer">
       <div className="profilesection">
-        <h1>👨‍💻 Profile : {rider && rider.data && rider.data.rider ? rider.data.rider.name : ""}</h1>
-        <button className="profileeditbtn" style={{ marginLeft: "900px", backgroundColor: "white", border: "1px solid white" }}>
-          <FaUserEdit style={{ width: "80px", height: "50px" }} />
-        </button>
-        <div className="personalinfo" style={{ backgroundColor: '#3457D5', color: 'white', padding: '50px', border: '1px solid black', borderRadius: '45px' }}>
-          {rider && rider.data && rider.data.rider && (
-            <>
-              <label className="first">Employee ID <span className="dot">:</span> <span className="inputdata">{rider.data.rider.employeeid}</span></label>
-              <label className="first">Name <span className="dot">:</span> <span className="inputdata">{rider.data.rider.name}</span></label>
-              <label className="first">Email <span className="dot">:</span> <span className="inputdata">{rider.data.rider.email}</span></label>
-              <label className="first">Address <span className="dot">:</span> <span className="inputdata">{rider.data.rider.address}</span></label>
-              <label className="first">Contact <span className="dot">:</span> <span className="inputdata">0{rider.data.rider.contact}</span></label>
-              <label className="first">Role <span className="dot">:</span> <span className="inputdata">{rider.data.rider.role}</span></label>
-              <label className="first">Status <span className="dot">:</span> <span className="inputdata">{rider.data.rider.status}</span></label>
-              <label className="first">Rides <span className="dot">:</span> <span className="inputdata">{rider.data.rider.rides}</span></label>
-            </>
-          )}
-        </div>
+        <h1>👨 Profile : {rider && rider.data && rider.data.rider ? rider.data.rider.name : ""}</h1>
       </div><br /><br />
       <div className="formcontainer">
         <form onSubmit={onSubmit} style={{ width: '50%', marginLeft: '250px' }}>

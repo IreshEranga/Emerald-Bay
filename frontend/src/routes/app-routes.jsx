@@ -40,6 +40,7 @@ import Customer_Menu from "../pages/Registered_Customer/menu"
 import Orders from "../pages/order_manager/dashboard/orders.jsx"
 import Userprofile from "../pages/Userprofile/Userprofile";
 import Employee from "../pages/employee";
+import RiderViewProfile from "../pages/delivery_rider/dashboard/RiderViewProfile.jsx";
 
 
 

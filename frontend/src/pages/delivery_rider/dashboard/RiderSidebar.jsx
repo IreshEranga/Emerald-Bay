@@ -4,7 +4,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
 import RiderProfile from "./RiderProfile";
 import Dashboard from "./Dashboard";
-//import StockRequests from "../StockRequests";
+import RiderViewProfile from "./RiderViewProfile";
 //
 const RiderSidebar = () => {
   const [activeContent, setActiveContent] = useState("Dashboard");
@@ -25,12 +25,12 @@ const RiderSidebar = () => {
             <Dashboard />
           </>
         );
-      /*case "StockRequests":
+      case "ViewProfile":
         return (
           <>
-            <StockRequests />
+            <RiderViewProfile />
           </>
-        );*/
+        );
       case "Profile":
         return (
           <>
@@ -83,17 +83,17 @@ const RiderSidebar = () => {
               Dashboard
             </a>
           </li>
-          {/*<li>
+          <li>
             <a
-              href="#stock-requests"
+              href="#ViewProfile"
               className={`nav-link ${
-                activeContent === "StockRequests" ? "active" : "link-dark"
+                activeContent === "ViewProfile" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("StockRequests")}
+              onClick={() => handleLinkClick("ViewProfile")}
             >
-              Stock Requests
+              View Profile
             </a>
-            </li>*/}
+            </li>
           <li>
             <a
               href="#profile"
@@ -102,7 +102,7 @@ const RiderSidebar = () => {
               }`}
               onClick={() => handleLinkClick("Profile")}
             >
-              Profile
+              Edit Profile
             </a>
           </li>
         </ul>
