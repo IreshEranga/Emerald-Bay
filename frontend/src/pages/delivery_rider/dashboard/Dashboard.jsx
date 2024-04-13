@@ -40,7 +40,7 @@ const Dashboard = () => {
       fetchOrdersForRider();
     } catch (error) {
       console.error('Error updating order status:', error);
-      toast.error('Error updating order status');
+      //toast.error('Error updating order status');
     }
   };
 

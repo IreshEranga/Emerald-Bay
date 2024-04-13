@@ -53,6 +53,8 @@ const index = () => {
       navigate("/deliveryManager");
     }else if (res.data.user.role === USER_ROLES.CUSTOMER) {
       navigate("/customer");
+    }else if (res.data.user.role === USER_ROLES.RESERVATIONMANAGER) {
+      navigate("/reservationManager");
     } else {
       navigate("/");
     }
