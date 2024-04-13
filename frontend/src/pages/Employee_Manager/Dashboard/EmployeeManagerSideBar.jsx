@@ -4,7 +4,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
 import Employee from "../../employee";
 import EmployeeManagerDashboard from "./EmployeeManagerDashboard.jsx";
-import LeaveManagement from "./LeaveManagement.jsx";
+import LeaveManagement from "../../EmployeeLeaves/LeaveManagement.jsx";
 
 
 //
@@ -38,7 +38,13 @@ const EmployeeManagerSideBar = () => {
           <>
             <LeaveManagement />
           </>
-        );/*
+        );
+        case "Attendance":
+          return (
+            <>
+              <AttendanceManagement />
+            </>
+          );/*
       case "Categories":
         return (
           <>
@@ -120,28 +126,19 @@ const EmployeeManagerSideBar = () => {
               Leave Management
             </a>
           </li>
-         {/* <li>
-            <a
-              href="#orders"
-              className={`nav-link ${
-                activeContent === "Orders" ? "active" : "link-dark"
-              }`}
-              onClick={() => handleLinkClick("Orders")}
-            >
-              Orders
-            </a>
-          </li>
+
           <li>
             <a
-              href="#stock-requests"
+              href="#leaves"
               className={`nav-link ${
-                activeContent === "StockRequest" ? "active" : "link-dark"
+                activeContent === "Leaves" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("StockRequest")}
+              onClick={() => handleLinkClick("Leaves")}
             >
-              Stock Requests
+              Attendance Management
             </a>
-            </li>*/}
+          </li>
+       
         </ul>
         <div className="mt-auto">
           <button

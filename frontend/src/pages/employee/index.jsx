@@ -136,6 +136,7 @@ const index = () => {
             "Address",
             "Contact",
             "Email",
+            "Salary",
             "Category",
             "Actions",
           ]}
@@ -160,6 +161,7 @@ const index = () => {
                 <td>{employee.address}</td>
                 <td>{employee.phone}</td>
                 <td>{employee.email}</td>
+                <td>{employee.salary}</td>
                 <td>{employee.category}</td>
                 
                 <td>

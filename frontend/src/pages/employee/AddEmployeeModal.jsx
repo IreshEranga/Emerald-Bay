@@ -195,7 +195,7 @@ const AddEmployeeModal = () => {
           </div>
         </div>
 
-        {/*<div className="form-group">
+        <div className="form-group">
           <label htmlFor="salary">Salary</label>
           <input
             type="salary"
@@ -207,7 +207,7 @@ const AddEmployeeModal = () => {
           {errors.salary && (
             <small className="form-text text-danger">Salary is required</small>
           )}
-        </div>*/}
+        </div>
 
         {/* Category Select Dropdown */}
         <div className="form-group">

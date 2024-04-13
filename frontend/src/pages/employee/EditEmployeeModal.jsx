@@ -73,6 +73,7 @@ const EditEmployeeModal = () => {
       setValue("address", selectedEmployee.address);
       setValue("phone", selectedEmployee.phone);
       setValue("email", selectedEmployee.email);
+      setValue("salary", selectedEmployee.salary);
     }
   }, [selectedEmployee, setValue]);
 
@@ -149,6 +150,21 @@ const EditEmployeeModal = () => {
           />
           {errors.email && (
             <small className="form-text text-danger">Email is required</small>
+          )}
+        </div>
+        <div className="mb-3">
+          <label htmlFor="salary" className="form-label">
+            Salary
+          </label>
+          <input
+            type="salary"
+            className="form-control"
+            id="salary"
+            name="salary"
+            {...register("salary", { required: true })}
+          />
+          {errors.salary && (
+            <small className="form-text text-danger">Salary is required</small>
           )}
         </div>
 
