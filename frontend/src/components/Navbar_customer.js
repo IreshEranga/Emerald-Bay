@@ -22,7 +22,7 @@ function Navbar_customer({ isAuthenticated, user }) {
     <Navbar bg="dark" expand="lg" className="bg-body-tertiary" style={{ fontSize: '25px', height: '150px' }}>
       <Container fluid>
         <Navbar.Brand href="#">
-          <img src={logo} alt="logo" width={'150px'} height={'120px'} />
+          <img src={logo} alt="logo" width={'140px'} height={'120px'} />
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -55,6 +55,9 @@ function Navbar_customer({ isAuthenticated, user }) {
               </LinkContainer>
               <LinkContainer to="/past_orders">
                 <NavDropdown.Item>Orders</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to="/past_reservations">
+                <NavDropdown.Item>Reservations</NavDropdown.Item>
               </LinkContainer>
               <NavDropdown.Divider />
               <LinkContainer to="/logout">

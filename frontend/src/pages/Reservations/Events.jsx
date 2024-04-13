@@ -105,7 +105,7 @@ const Events = () => {
             } catch (error) {
                 console.error('Error submitting reservation:', error);
                 // Handle error state or display an error message
-                toast.error('Error booking table. Please try again later.');
+                toast.error('Error booking event. Please try again later.');
             }
         } else {
             setErrors(errorsObj);
