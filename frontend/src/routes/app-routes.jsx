@@ -106,7 +106,7 @@ const AppRoutes = () => {
           </Route>
 
           {/* Reservation Manager Private Routes */}
-          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.RESERVATIONMANAGER]} />}>
             <Route path="/reservationManager" element={<ReservationManagerSideBar />} />
             <Route path="/reservationManager/tables" element={<Table_Reservations />} />
             <Route path="/reservationManager/rooms" element={<VIP_Rooms />} />
