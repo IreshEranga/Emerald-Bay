@@ -9,6 +9,8 @@ const USER_ROLES = require("../constants/roles");
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
+const sendEmail = require("../util/sendEmail");
+const riderAssignEmailTemplate = require("../util/email_templates/riderAssignEmailTemplate");
 
 //router.post("/add", authMiddleware(["ADMIN"]), deliveryRiderController.createRiders);
 router.get("/", authMiddleware(["DELIVERYMANAGER"]), deliveryRiderController.getRiders);
@@ -67,6 +69,19 @@ router.patch("/update/:id", async (req, res) => {
         message: "Rider not found",
       });
     }
+    if (req.body.status === "On Ride" && rider.status !== "On Ride") {
+      try {
+        await sendEmail(
+          rider.email,
+          `New Delivery Request`,`Hi , ${rider.name} Your are assigned to a new order. \nPlease log in to the system and start your journey! \n Best Wishes from \n Emerald Bay Restaurant`,
+          "Hello, your status has been updated to On Ride."
+        );
+        console.log(`Email sent to: ${rider.email}`);
+      } catch (emailError) {
+        console.error("Error sending email:", emailError);
+        // Handle email sending error
+      }
+    }
 
     // if password is being updated, hash the new password
     if (req.body.password) {
@@ -111,6 +126,22 @@ router.patch("/update/rider/:employeeid", async (req, res) => {
         success: false,
         message: "Rider not found",
       });
+    }
+
+    // Check if the status is being updated to "On Ride"
+    if (req.body.status === "On Ride" && rider.status !== "On Ride") {
+      // Additional logic for sending email
+      try {
+        await sendEmail({
+          to: rider.email, // Assuming you have the email property in your Rider model
+          subject: "Your status has been updated to On Ride",
+          text: "Hello, your status has been updated to On Ride.",
+        });
+        console.error(`Email send to email: ${rider.email}`);
+      } catch (emailError) {
+        console.error("Error sending email:", emailError);
+        // Handle email sending error
+      }
     }
 
     // if password is being updated, hash the new password
