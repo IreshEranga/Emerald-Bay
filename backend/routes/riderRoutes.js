@@ -73,7 +73,7 @@ router.patch("/update/:id", async (req, res) => {
       try {
         await sendEmail(
           rider.email,
-          `New Delivery Request`,`Hi , ${rider.name} Your are assigned to a new order. \nPlease log in to the system and start your journey! \n Best Wishes from \n Emerald Bay Restaurant`,
+          `New Delivery Request`,`<p>Hi , ${rider.name} ,/p><p>Your are assigned to a new order. </p> <p>Please log in to the system and start your journey!</p><p>  Best Wishes from </p><p>Emerald Bay Restaurant</p>`,
           "Hello, your status has been updated to On Ride."
         );
         console.log(`Email sent to: ${rider.email}`);
