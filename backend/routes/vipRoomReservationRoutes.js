@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const VIPRoomReservation = require("../models/VIPRoomReservation");
+const sendEmail = require("../util/sendEmail");
+const ReservationsEmailTemplate = require("../util/email_templates/ReservationsEmailTemplate");
 
 
 // Function to generate reservation ID
@@ -22,13 +24,19 @@ const generateReservationId = async () => {
 // Create a VIP room reservation
 router.post("/create", async (req, res) => {
     try {
-        const reservationId = await generateReservationId(); // Generate reservation ID
-        const newVIPRoomReservation = new VIPRoomReservation({ ...req.body, reservationId });
-        await newVIPRoomReservation.save();
-        res.json({ status: "VIP Room Reservation Added", vipRoomReservation: newVIPRoomReservation });
+      const reservationId = await generateReservationId(); // Generate reservation ID
+      const newVIPRoomReservation = new VIPRoomReservation({ ...req.body, reservationId });
+      await newVIPRoomReservation.save();
+  
+      // Send confirmation email to the customer
+      const { name, email, date, time, guests } = req.body;
+      const emailTemplate = ReservationsEmailTemplate(name, reservationId, date, time, guests);
+      sendEmail(email, "VIP Room Reservation Confirmation", emailTemplate);
+  
+      res.json({ status: "VIP Room Reservation Added", vipRoomReservation: newVIPRoomReservation });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error creating VIP room reservation" });
+      console.error(error);
+      res.status(500).json({ error: "Error creating VIP room reservation" });
     }
 });
 

@@ -117,7 +117,7 @@ const VIPRoomReservations = () => {
             } catch (error) {
                 console.error('Error submitting reservation:', error);
                 // Handle error state or display an error message
-                toast.error('Error booking table. Please try again later.');
+                toast.error('Error booking vip room. Please try again later.');
             }
         } else {
             setErrors(errorsObj);

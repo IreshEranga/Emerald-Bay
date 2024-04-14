@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Table, Form } from "react-bootstrap";
+import { Button, Table, Form, Modal } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
 import toast from 'react-hot-toast';
 import axios from "axios";
@@ -16,6 +16,8 @@ const TableReservations = () => {
   const [loading, setLoading] = useState(false);
   const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
   const [errors, setErrors] = useState({});
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [reservationToDelete, setReservationToDelete] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -174,7 +176,25 @@ const TableReservations = () => {
       toast.error('Error deleting reservation!');
     }
   };
+ 
+  // Function to handle opening confirmation modal
+  const handleOpenConfirmationModal = (id) => {
+    setReservationToDelete(id);
+    setShowConfirmationModal(true);
+  };
 
+  // Function to handle closing confirmation modal
+  const handleCloseConfirmationModal = () => {
+    setShowConfirmationModal(false);
+    setReservationToDelete(null);
+  };
+
+  // Function to handle confirmed deletion
+  const handleConfirmDeletion = () => {
+    handleDelete(reservationToDelete);
+    setShowConfirmationModal(false);
+  };
+  
   // Function to handle search
   const handleSearch = (event) => {
     const query = event.target.value;
@@ -273,7 +293,7 @@ const TableReservations = () => {
                   <IoMdCreate />
                 </Button>
                 {/* Delete button */}
-                <Button variant="danger" onClick={() => handleDelete(reservation._id)} style={{marginRight:'20px'}}>
+                <Button variant="danger" onClick={() => handleOpenConfirmationModal(reservation._id)} style={{marginRight:'20px'}}>
                   <IoMdTrash />
                 </Button>
               </td>
@@ -339,6 +359,22 @@ const TableReservations = () => {
           </div>
         </div>
       )}
+
+      {/* Confirmation Modal */}
+      <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this reservation?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseConfirmationModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleConfirmDeletion}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
