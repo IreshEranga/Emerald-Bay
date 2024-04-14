@@ -12,7 +12,7 @@ function NavBar({ isAuthenticated, user, logout }) {
     <Navbar bg="dark" expand="lg" className="bg-body-tertiary" style={{ fontSize: '25px' , height:'150px' }}>
       <Container fluid>
         <Navbar.Brand href="#">
-          <img src={logo} alt="logo" width={'150px'} height={'120px'}/>
+          <img src={logo} alt="logo" width={'140px'} height={'120px'}/>
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="navbarScroll" />

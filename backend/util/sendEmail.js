@@ -12,6 +12,10 @@ const sendEmail = (email, subject, emailTemplate) => {
       user: EMAIL,
       pass: APP_PASSWORD,
     },
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false,
+    },
   });
 
   // Setup email data

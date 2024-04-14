@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const Event = require("../models/Event");
+const sendEmail = require("../util/sendEmail");
+const ReservationsEmailTemplate = require("../util/email_templates/ReservationsEmailTemplate");
 
 
 // Function to generate reservation ID
@@ -19,16 +21,21 @@ const generateReservationId = async () => {
     }
 };
 
-// Create a Event
 router.post("/create", async (req, res) => {
     try {
-        const reservationId = await generateReservationId(); // Generate reservation ID
-        const newEvent = new Event({ ...req.body, reservationId });
-        await newEvent.save();
-        res.json({ status: "Event Added", event: newEvent });
+      const reservationId = await generateReservationId(); // Generate reservation ID
+      const newEvent = new Event({ ...req.body, reservationId });
+      await newEvent.save();
+  
+      // Send confirmation email to the customer
+      const { name, email, date, time, guests } = req.body;
+      const emailTemplate = ReservationsEmailTemplate(name, reservationId, date, time, guests);
+      sendEmail(email, "Event Reservation Confirmation", emailTemplate);
+  
+      res.json({ status: "Event Added", event: newEvent });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error creating Event" });
+      console.error(error);
+      res.status(500).json({ error: "Error creating Event" });
     }
 });
 
