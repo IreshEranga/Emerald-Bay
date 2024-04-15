@@ -14,16 +14,7 @@ const riderAssignEmailTemplate = require("../util/email_templates/riderAssignEma
 
 //router.post("/add", authMiddleware(["ADMIN"]), deliveryRiderController.createRiders);
 router.get("/", authMiddleware(["DELIVERYMANAGER"]), deliveryRiderController.getRiders);
-/*router.patch(
-  "/stock",
-  authMiddleware(["SUPPLIER"]),
-  supplierController.updateSupplierStock
-);
-router.get(
-  "/stock",
-  authMiddleware(["SUPPLIER"]),
-  supplierController.getAvailableStock
-);*/
+
 router.get("/:id", authMiddleware(["DELIVERYMANAGER", "RIDER"]), deliveryRiderController.getRiderById);
 router.patch(
   "/:id",

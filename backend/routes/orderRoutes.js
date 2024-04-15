@@ -100,22 +100,6 @@ router.route("/delete/:orderid").delete(async (req,res)=>{
 })
 
 
-//fetch data from one student
-/*
-router.route("/get/:userId").get(async (req,res)=>{
-
-    let userId = req.params.userId;
-
-    const user = await Student.findOne({userId:userId})
-    .then(()=>{
-        res.status(200).send({status: "Student fetched ", user: user })
-    })
-    .catch((err)=>{
-        console.log(err.message);
-        res.status(500).send({status:"Error with get student ", error : err.message});   
-     })
-})*/
-
 // fetch data from one employee
 router.route("/get/:orderid").get(async (req, res) => {
     let orderid = req.params.orderid;
@@ -146,29 +130,10 @@ router.get('/rider/:rider', async (req, res) => {
     }
 });
 
-// Update order status to completed
-/*router.put("/complete/:orderid", async (req, res) => {
-    const orderid = req.params.orderid;
+// Update order status to completed and set rider status as available
 
-    try {
-        const updatedOrder = await Order.findOneAndUpdate(
-            { orderid },
-            { status: "completed" },
-            { new: true }
-        );
 
-        if (!updatedOrder) {
-            return res.status(404).json({ error: "Order not found" });
-        }
-
-        res.status(200).json({ status: "Order completed", order: updatedOrder });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: "Error completing order" });
-    }
-});*/
-
-router.route("/update/status/:orderid").put(async (req, res) => {
+/*router.route("/update/status/:orderid").put(async (req, res) => {
     const orderId = req.params.orderid;
 
     try {
@@ -194,7 +159,7 @@ router.route("/update/status/:orderid").put(async (req, res) => {
         console.error(err);
         res.status(500).json({ error: "Error updating order status" });
     }
-});
+});*/
 
 router.route("/update/status/:orderid").put(async (req, res) => {
     const orderId = req.params.orderid;

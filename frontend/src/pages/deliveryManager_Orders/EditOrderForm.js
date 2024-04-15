@@ -91,14 +91,14 @@ const EditOrderForm = ({ order = {}, onClose }) => {
           ))}
         </Form.Control>
       </Form.Group>
-      <Form.Group controlId="statusInput">
+      {/*<Form.Group controlId="statusInput">
         <Form.Label>Status:</Form.Label>
         <Form.Control
           type="text"
           value={orderStatus}
           onChange={(event) => setOrderStatus(event.target.value)}
         />
-      </Form.Group>
+      </Form.Group>*/}
       <Button variant="primary" type="submit">
         Submit
       </Button>
