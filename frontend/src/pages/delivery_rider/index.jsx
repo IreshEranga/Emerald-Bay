@@ -63,7 +63,7 @@ const index = () => {
     const riderCount = riders.length;
     //
     //const title = "EMERALD BAY RESTAURANT";
-    const additionalInfo = `\n\n\nDelivery Riders Report\nTotal Riders: ${riderCount}`;
+    const additionalInfo = `\n\n\nDelivery Riders Report\nTotal Riders: ${riderCount}\n\n`;
     
     //
     generatePDF(

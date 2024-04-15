@@ -5,6 +5,9 @@ import { MdEditSquare } from "react-icons/md";
 import { BootstrapTable } from "../../components";
 import EditOrderForm from './EditOrderForm';
 import EditOngoingOrderForm from './EditOngoingOrderForm';
+import { IoMdDownload } from "react-icons/io";
+import { useOrderData } from '../../hooks/useOrderData';
+import { generatePDF } from "../../utils/GeneratePDF";
 
 const Index = () => {
   // State to manage the current active section
@@ -14,6 +17,54 @@ const Index = () => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOngoingEditForm, setShowOngoingEditForm] = useState(false);
+  const {data, refetch} = useOrderData();
+
+  // PDF report function
+  
+  /*const downloadPDF = () => {
+    // Calclating the total riders
+    const completeOrderCount = completedOrders.length;
+    //
+    //const title = "EMERALD BAY RESTAURANT";
+    const additionalInfo = `Completed Orders Report\nTotal Completed Orders: ${completeOrderCount}`;
+    
+    //
+    generatePDF(
+      //title,
+      additionalInfo,
+      ["orderid", "customerid", "customername", "deliveryaddress", "rider"],
+      completedOrders,
+      "Completed_Order_Report",
+      35
+    );
+  };*/
+
+  const downloadPDF = () => {
+    // Group completed orders by date
+    const groupedCompletedOrders = completedOrders.reduce((acc, order) => {
+      const dateKey = new Date(order.date).toLocaleDateString();
+      if (!acc[dateKey]) {
+        acc[dateKey] = [];
+      }
+      acc[dateKey].push(order);
+      return acc;
+    }, {});
+  
+    // Generate PDF for each date group
+    Object.entries(groupedCompletedOrders).forEach(([date, ordersByDate]) => {
+      const completeOrderCount = ordersByDate.length;
+      const additionalInfo = `Completed Orders Report : ${date}\nTotal Completed Orders: ${completeOrderCount}`;
+  
+      generatePDF(
+        additionalInfo,
+        ["orderid", "customerid", "customername", "deliveryaddress", "rider"],
+        ordersByDate,
+        `Completed_Order_Report_${date.replace(/\//g, "-")}`, // Replace "/" with "-" for file name
+        35
+      );
+    });
+  };
+  
 
   // Function to handle section change
   const handleSectionChange = (sectionId) => {
@@ -140,6 +191,11 @@ const Index = () => {
             )*/}
             {activeSection === 'completed' && (
             <section className='completedOrders'>
+              {/* Download PDF report */}
+            <Button variant="success" className="m-1" onClick={downloadPDF} style={{width:'200px'}}>
+              <IoMdDownload className="mb-1" /> <span>Download Report</span>
+            </Button>
+
               {/* Group orders by date */}
               {Object.entries(completedOrders.reduce((acc, order) => {
                 const dateKey = new Date(order.date).toLocaleDateString();

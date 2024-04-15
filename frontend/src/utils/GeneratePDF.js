@@ -41,7 +41,8 @@ export function generatePDF(title, columns, data, fileName, restaurantName) {
   doc.addImage(EMERALDBAYLOGO, "PNG", 15, 10, 30, 30);
   doc.setFontSize(18); // Set font size for title
   doc.setTextColor(0, 0, 0); // Set text color for title
-  doc.text(title, 105, 25, { align: "center" }); // Center align title
+  doc.text(title, 105, 15, { align: "center",  textColor:'44,62,80' }); // Center align title
+  //doc.text(additionalInfo, 105, 25, { align: "center" }); // Center align title
 
   // Add the restaurant name to the footer
   const pageCount = doc.internal.getNumberOfPages();
@@ -77,7 +78,7 @@ export function generatePDF(title, columns, data, fileName, restaurantName) {
       doc.addImage(EMERALDBAYLOGO, "PNG", 15, 10, 30, 30);
       doc.setFontSize(18);
       doc.setTextColor(0, 0, 0);
-      doc.text(title, 105, 25, { align: "center" });
+      doc.text(title, 105, 15, { align: "center",textColor:'44,62,80' });
       // Add line to the footer
       doc.setLineWidth(0.5);
       doc.line(20, doc.internal.pageSize.getHeight() - 15, doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 15);
