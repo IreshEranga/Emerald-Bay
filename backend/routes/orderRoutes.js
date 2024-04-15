@@ -133,7 +133,7 @@ router.get('/rider/:rider', async (req, res) => {
 // Update order status to completed and set rider status as available
 
 
-router.route("/update/status/:orderid").put(async (req, res) => {
+/*router.route("/update/status/:orderid").put(async (req, res) => {
     const orderId = req.params.orderid;
 
     try {
@@ -159,7 +159,7 @@ router.route("/update/status/:orderid").put(async (req, res) => {
         console.error(err);
         res.status(500).json({ error: "Error updating order status" });
     }
-});
+});*/
 
 router.route("/update/status/:orderid").put(async (req, res) => {
     const orderId = req.params.orderid;
