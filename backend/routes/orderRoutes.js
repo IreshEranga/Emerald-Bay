@@ -130,7 +130,7 @@ router.get('/rider/:rider', async (req, res) => {
     }
 });
 
-// Update order status to completed
+// Update order status to completed and set rider status as available
 
 
 router.route("/update/status/:orderid").put(async (req, res) => {
