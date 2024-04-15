@@ -41,17 +41,18 @@ const [selectedTimeRange, setSelectedTimeRange] = useState(null);
         filteredOrders = completedOrders.filter(order => new Date(order.createdAt) >= last7DaysDate);
         break;
       case 'Past 3 months':
-        const past3MonthsDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 3, currentDate.getDate());
+        const past3MonthsDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()-90);
         filteredOrders = completedOrders.filter(order => new Date(order.createdAt) >= past3MonthsDate);
         break;
       case 'Past 6 months':
-        const past6MonthsDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 6, currentDate.getDate());
+        const past6MonthsDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()-180);
         filteredOrders = completedOrders.filter(order => new Date(order.createdAt) >= past6MonthsDate);
         break;
       default:
         break;
     }
-  
+    console.log('Filtered Orders:', filteredOrders);
+
     const additionalInfo = timeRange === 'allCompleted' ? 'All Completed Orders Report' : `Completed Orders Report - ${timeRange.charAt(0).toUpperCase() + timeRange.slice(1)}`;
   
     generatePDF(
@@ -59,7 +60,7 @@ const [selectedTimeRange, setSelectedTimeRange] = useState(null);
       ["Date", "Order ID", "Customer ID", "Customer Name", "Address", "Rider"],
       filteredOrders.flatMap(order => [
         /*{ "Date": "", "Order ID": "", "Customer ID": "", "Customer Name": "", "Address": "", "Rider": "" },*/
-        { "Date": new Date(order.date).toLocaleDateString(), "Order ID": order.orderid, "Customer ID": order.customerid, "Customer Name": order.customername, "Address": order.deliveryaddress, "Rider": order.rider }
+        { "Date": new Date(order.createdAt).toLocaleDateString(), "Order ID": order.orderid, "Customer ID": order.customerid, "Customer Name": order.customername, "Address": order.deliveryaddress, "Rider": order.rider }
       ]),
       timeRange === 'allCompleted' ? 'All_Completed_Orders_Report' : `Completed_Order_Report_${timeRange}`,
       35

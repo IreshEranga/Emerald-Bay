@@ -58,13 +58,30 @@ export function generatePDF(title, columns, data, fileName, restaurantName) {
     );
   }
 
-  data.forEach((item) => {
+  /*data.forEach((item) => {
     const rowData = [];
     columns.forEach((column) => {
       rowData.push(item[column]);
     });
     tableRows.push(rowData);
+  });*/
+
+  data.forEach((item) => {
+    const rowData = [];
+    columns.forEach((column) => {
+      // Check if the column is a date column
+      if (column === 'Date') {
+        // Format the date as desired (e.g., YYYY-MM-DD)
+        const date = new Date(item[column]);
+        const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        rowData.push(formattedDate);
+      } else {
+        rowData.push(item[column]);
+      }
+    });
+    tableRows.push(rowData);
   });
+  
 
   /*doc.autoTable({
     columns: columns.map((c) => {
@@ -95,11 +112,12 @@ export function generatePDF(title, columns, data, fileName, restaurantName) {
     didDrawPage: function (data) {
       // Ensure the logo and title are drawn on the first page
       if (data.pageNumber === 1) {
-        doc.addImage(EMERALDBAYLOGO, "PNG", 15, 10, 30, 30);
+        doc.addImage(EMERALDBAYLOGO, "PNG", 15, 10, 30, 30);}
+
         doc.setFontSize(18);
         doc.setTextColor(0, 0, 0);
         doc.text(title, 105, 15, { align: "center", textColor: '44,62,80' });
-      }
+      
   
       // Add line to the footer on each page
       doc.setLineWidth(0.5);
