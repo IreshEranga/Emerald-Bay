@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const Cart = require("../models/Cart");
 
-
 router.post("/add", async (req, res) => {
     try {
         const { itemId, name, quantity, price } = req.body;
@@ -24,6 +23,44 @@ router.post("/add", async (req, res) => {
     } catch (error) {
         console.error("Error adding item to cart:", error);
         res.status(500).json({ success: false, message: "Failed to add item to cart" });
+    }
+});
+
+router.put("/increase/:itemId", async (req, res) => {
+    try {
+        const { itemId } = req.params;
+        const cartItem = await Cart.findOne({ itemId });
+        if (cartItem) {
+            cartItem.quantity += 1;
+            await cartItem.save();
+            res.status(200).json({ success: true, message: "Item quantity increased successfully" });
+        } else {
+            res.status(404).json({ success: false, message: "Item not found in cart" });
+        }
+    } catch (error) {
+        console.error("Error increasing item quantity:", error);
+        res.status(500).json({ success: false, message: "Failed to increase item quantity" });
+    }
+});
+
+router.put("/decrease/:itemId", async (req, res) => {
+    try {
+        const { itemId } = req.params;
+        const cartItem = await Cart.findOne({ itemId });
+        if (cartItem) {
+            if (cartItem.quantity > 0) {
+                cartItem.quantity -= 1;
+                await cartItem.save();
+                res.status(200).json({ success: true, message: "Item quantity decreased successfully" });
+            } else {
+                res.status(400).json({ success: false, message: "Minimum quantity reached" });
+            }
+        } else {
+            res.status(404).json({ success: false, message: "Item not found in cart" });
+        }
+    } catch (error) {
+        console.error("Error decreasing item quantity:", error);
+        res.status(500).json({ success: false, message: "Failed to decrease item quantity" });
     }
 });
 

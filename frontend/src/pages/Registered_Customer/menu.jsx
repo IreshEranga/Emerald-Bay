@@ -9,15 +9,20 @@ const Customer_Menu = () => {
 
     const addToCart = async (item) => {
         try {
-            await fetch("http://localhost:8000/cart/add", {
+            const response = await fetch("http://localhost:8000/cart/add", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(item),
+                body: JSON.stringify({ ...item, quantity: 1 }), // Set default quantity to 1
             });
-            alert("Item added to cart successfully!");
-            setCartItems([...cartItems, item]); // Update cart items state locally
+            const data = await response.json();
+            if (data.success) {
+                alert("Item added to cart successfully!");
+                setCartItems([...cartItems, { ...item, quantity: 1 }]); // Update cart items state locally
+            } else {
+                alert("Failed to add item to cart");
+            }
         } catch (error) {
             console.error("Error adding item to cart:", error);
             alert("Failed to add item to cart");
