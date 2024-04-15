@@ -79,13 +79,33 @@ const Dashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
+          {/*orders.map((order) => (
             <tr key={order._id}>
               <td>{order.orderid}</td>
               <td>{order.customerid}</td>
               <td>{order.customername}</td>
               <td>{order.deliveryaddress}</td>
-              <td>{order.status}</td> {/* Display order status */}
+              <td>{order.status}</td> 
+              <td style={{ display: "flex" }}>
+                <Button
+                  variant="warning"
+                  className="mr-2"
+                  onClick={() => handleEditStatus(order._id)}
+                  style={{marginLeft: '40px'}}
+                >
+                  Edit Status
+                </Button>
+              </td>
+            </tr>
+          ))*/}
+          {orders.sort((a,b) => b.orderid - a.orderid)
+          .map((order) => (
+            <tr key={order._id}>
+              <td>{order.orderid}</td>
+              <td>{order.customerid}</td>
+              <td>{order.customername}</td>
+              <td>{order.deliveryaddress}</td>
+              <td>{order.status}</td> 
               <td style={{ display: "flex" }}>
                 <Button
                   variant="warning"
