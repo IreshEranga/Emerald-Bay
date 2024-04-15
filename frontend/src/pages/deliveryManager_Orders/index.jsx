@@ -150,7 +150,7 @@ const Index = () => {
                 return acc;
               }, {})).map(([date, ordersByDate]) => (
                 <div key={date}><br />
-                  <h4 style={{}}>{date}</h4> {/* Show date at the top of each table */}
+                  <h4 style={{backgroundColor:'wheat', width:'150px', padding:'10px', borderRadius:'50px', paddingLeft:'20px'}}>{date}</h4> {/* Show date at the top of each table */}
                   <br />
                   <div className="completeordertable">
                     <BootstrapTable
