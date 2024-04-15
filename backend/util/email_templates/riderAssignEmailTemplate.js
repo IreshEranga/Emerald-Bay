@@ -1,4 +1,4 @@
-const riderAssignEmailTemplate = (name, orderid, deliveryaddress) => {
+const riderAssignEmailTemplate = (name) => {
     return `
         <p>Dear ${name},</p>
         <p>Your have an  order delivery : ${orderid} </p>
