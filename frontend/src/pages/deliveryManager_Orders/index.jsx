@@ -18,52 +18,56 @@ const Index = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showOngoingEditForm, setShowOngoingEditForm] = useState(false);
   const {data, refetch} = useOrderData();
+  const [showDownloadOptions, setShowDownloadOptions] = useState(false);
+const [selectedTimeRange, setSelectedTimeRange] = useState(null);
+
 
   // PDF report function
+
+  const downloadPDF = (timeRange) => {
+    setShowDownloadOptions(false);
+    setSelectedTimeRange(timeRange);
   
-  /*const downloadPDF = () => {
-    // Calclating the total riders
-    const completeOrderCount = completedOrders.length;
-    //
-    //const title = "EMERALD BAY RESTAURANT";
-    const additionalInfo = `Completed Orders Report\nTotal Completed Orders: ${completeOrderCount}`;
-    
-    //
+    // Logic to generate PDF based on time range
+    let filteredOrders = [];
+    const currentDate = new Date();
+  
+    switch (timeRange) {
+      case 'allCompleted': // New case for downloading all completed orders
+        filteredOrders = completedOrders;
+        break;
+      case 'Last 7 days':
+        const last7DaysDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 7);
+        filteredOrders = completedOrders.filter(order => new Date(order.createdAt) >= last7DaysDate);
+        break;
+      case 'Past 3 months':
+        const past3MonthsDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 3, currentDate.getDate());
+        filteredOrders = completedOrders.filter(order => new Date(order.createdAt) >= past3MonthsDate);
+        break;
+      case 'Past 6 months':
+        const past6MonthsDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 6, currentDate.getDate());
+        filteredOrders = completedOrders.filter(order => new Date(order.createdAt) >= past6MonthsDate);
+        break;
+      default:
+        break;
+    }
+  
+    const additionalInfo = timeRange === 'allCompleted' ? 'All Completed Orders Report' : `Completed Orders Report - ${timeRange.charAt(0).toUpperCase() + timeRange.slice(1)}`;
+  
     generatePDF(
-      //title,
       additionalInfo,
-      ["orderid", "customerid", "customername", "deliveryaddress", "rider"],
-      completedOrders,
-      "Completed_Order_Report",
+      ["Date", "Order ID", "Customer ID", "Customer Name", "Address", "Rider"],
+      filteredOrders.flatMap(order => [
+        /*{ "Date": "", "Order ID": "", "Customer ID": "", "Customer Name": "", "Address": "", "Rider": "" },*/
+        { "Date": new Date(order.date).toLocaleDateString(), "Order ID": order.orderid, "Customer ID": order.customerid, "Customer Name": order.customername, "Address": order.deliveryaddress, "Rider": order.rider }
+      ]),
+      timeRange === 'allCompleted' ? 'All_Completed_Orders_Report' : `Completed_Order_Report_${timeRange}`,
       35
     );
-  };*/
-
-  const downloadPDF = () => {
-    // Group completed orders by date
-    const groupedCompletedOrders = completedOrders.reduce((acc, order) => {
-      const dateKey = new Date(order.date).toLocaleDateString();
-      if (!acc[dateKey]) {
-        acc[dateKey] = [];
-      }
-      acc[dateKey].push(order);
-      return acc;
-    }, {});
-  
-    // Generate PDF for each date group
-    Object.entries(groupedCompletedOrders).forEach(([date, ordersByDate]) => {
-      const completeOrderCount = ordersByDate.length;
-      const additionalInfo = `Completed Orders Report : ${date}\nTotal Completed Orders: ${completeOrderCount}`;
-  
-      generatePDF(
-        additionalInfo,
-        ["orderid", "customerid", "customername", "deliveryaddress", "rider"],
-        ordersByDate,
-        `Completed_Order_Report_${date.replace(/\//g, "-")}`, // Replace "/" with "-" for file name
-        35
-      );
-    });
   };
+  
+  
+  
   
 
   // Function to handle section change
@@ -192,9 +196,21 @@ const Index = () => {
             {activeSection === 'completed' && (
             <section className='completedOrders'>
               {/* Download PDF report */}
-            <Button variant="success" className="m-1" onClick={downloadPDF} style={{width:'200px'}}>
+            {/*<Button variant="success" className="m-1" onClick={downloadPDF} style={{width:'200px'}}>
               <IoMdDownload className="mb-1" /> <span>Download Report</span>
-            </Button>
+            </Button>*/}
+            <Button variant="success" className="m-1" onClick={() => setShowDownloadOptions(true)} style={{ width: '200px' }}>
+  <IoMdDownload className="mb-1" /> <span>Download Report</span>
+</Button>
+{showDownloadOptions && (
+  <div className="download-options" >
+    <Button variant="info" onClick={() => downloadPDF('Last 7 days')}>Last 7 Days</Button>
+    <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('Past 3 months')}>Past 3 Months</Button>
+    <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('Past 6 months')}>Past 6 Months</Button>
+    <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('allCompleted')}>All the time</Button>
+  </div>
+)}
+
 
               {/* Group orders by date */}
               {Object.entries(completedOrders.reduce((acc, order) => {

@@ -66,7 +66,7 @@ export function generatePDF(title, columns, data, fileName, restaurantName) {
     tableRows.push(rowData);
   });
 
-  doc.autoTable({
+  /*doc.autoTable({
     columns: columns.map((c) => {
       return { title: c.toUpperCase(), dataKey: c };
     }),
@@ -83,7 +83,33 @@ export function generatePDF(title, columns, data, fileName, restaurantName) {
       doc.setLineWidth(0.5);
       doc.line(20, doc.internal.pageSize.getHeight() - 15, doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 15);
     },
+  });*/
+
+  doc.autoTable({
+    columns: columns.map((c) => {
+      return { title: c.toUpperCase(), dataKey: c };
+    }),
+    body: tableRows,
+    ...tableStyles, // Apply custom styling
+    startY: 40, // Start table after logo and title
+    didDrawPage: function (data) {
+      // Ensure the logo and title are drawn on the first page
+      if (data.pageNumber === 1) {
+        doc.addImage(EMERALDBAYLOGO, "PNG", 15, 10, 30, 30);
+        doc.setFontSize(18);
+        doc.setTextColor(0, 0, 0);
+        doc.text(title, 105, 15, { align: "center", textColor: '44,62,80' });
+      }
+  
+      // Add line to the footer on each page
+      doc.setLineWidth(0.5);
+      doc.line(20, doc.internal.pageSize.getHeight() - 15, doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 15);
+    },
   });
+  
+  doc.save(fileName + ".pdf");
+  successMessage("Success", "Your Report has been downloaded");
+  
 
   doc.save(fileName + ".pdf");
   successMessage("Success", "Your Report has been downloaded");
