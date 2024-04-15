@@ -13,7 +13,8 @@ const orderSchema = new mongoose.Schema(
             //enum: ["pending", "ongoing", "completed","Approved"],
             default: "pending",},
         rider:{type: String},
-        date:{type:Date},
+        date:{type:Date,
+            default: Date.now},
         time:{type:String}
 
     },
