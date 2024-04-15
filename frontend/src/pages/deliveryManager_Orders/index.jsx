@@ -98,7 +98,7 @@ const Index = () => {
             <button onClick={() => handleSectionChange('ongoing')} className={`btn ${activeSection === 'ongoing'? 'btn-danger' : 'btn-outline-primary'}`}>Ongoing</button>
           </div>
           {/* Conditional rendering based on active section */}
-          {activeSection === 'completed' && (
+          {/*activeSection === 'completed' && (
             <section className='completedOrders'>
               <div className="completeordertable">
                 <BootstrapTable
@@ -116,7 +116,66 @@ const Index = () => {
                 />
               </div>
             </section>
-          )}
+          )*/}
+          {/*activeSection === 'completed' && (
+            <section className='completedOrders'>
+              <div className="completeordertable">
+                <BootstrapTable
+                  headers={["Order ID", "Customer ID","Customer Name","Address","Rider"]}
+                  children={completedOrders
+                    .sort((a, b) => b.orderid - a.orderid) // Sort in descending order by order ID
+                    .map((order) => (
+                      <tr key={order._id}>
+                        <td>{order.orderid}</td>
+                        <td>{order.customerid}</td>
+                        <td>{order.customername}</td>
+                        <td>{order.deliveryaddress}</td>
+                        <td>{order.rider}</td>
+                      </tr>
+                    ))
+                  }
+                />
+              </div>
+            </section>
+            )*/}
+            {activeSection === 'completed' && (
+            <section className='completedOrders'>
+              {/* Group orders by date */}
+              {Object.entries(completedOrders.reduce((acc, order) => {
+                const dateKey = new Date(order.date).toLocaleDateString();
+                if (!acc[dateKey]) {
+                  acc[dateKey] = [];
+                }
+                acc[dateKey].push(order);
+                return acc;
+              }, {})).map(([date, ordersByDate]) => (
+                <div key={date}><br />
+                  <h4 style={{}}>{date}</h4> {/* Show date at the top of each table */}
+                  <br />
+                  <div className="completeordertable">
+                    <BootstrapTable
+                      headers={["Order ID", "Customer ID", "Customer Name", "Address", "Rider"]}
+                      children={ordersByDate
+                        .sort((a, b) => b.orderid - a.orderid) // Sort orders within each date group by order ID
+                        .map((order) => (
+                          <tr key={order._id}>
+                            <td>{order.orderid}</td>
+                            <td>{order.customerid}</td>
+                            <td>{order.customername}</td>
+                            <td>{order.deliveryaddress}</td>
+                            <td>{order.rider}</td>
+                          </tr>
+                        ))
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
+            </section>
+            )}
+
+
+
           {activeSection === 'pending' && (
             <section className='pendingOrders'>
               <div className="pendingordertable">
