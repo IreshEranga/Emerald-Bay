@@ -20,6 +20,7 @@ const eventRoutes = require("./routes/eventRoutes");
 const itemRoutes = require("./routes/itemRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const customerRoutes = require("./routes/customerRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 
 // express app
 const app = express();
@@ -51,6 +52,7 @@ app.use("/event",eventRoutes);
 app.use("/item",itemRoutes);
 app.use("/student",studentRoutes);
 app.use("/customer",customerRoutes);
+app.use("/cart",cartRoutes);
 
 // connect to db
 mongoose
