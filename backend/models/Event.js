@@ -30,7 +30,11 @@ const eventSchema = new Schema(
             required: true,
             default: Date.now // Set default to current date
         },
-        time: {
+        startTime: {
+            type: String,
+            required: true
+        },
+        endTime: {
             type: String,
             required: true
         }

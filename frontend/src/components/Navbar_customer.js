@@ -56,9 +56,6 @@ function Navbar_customer({ isAuthenticated, user }) {
               <LinkContainer to="/past_orders">
                 <NavDropdown.Item>Orders</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to="/past_reservations">
-                <NavDropdown.Item>Reservations</NavDropdown.Item>
-              </LinkContainer>
               <NavDropdown.Divider />
               <LinkContainer to="/logout">
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>

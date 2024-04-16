@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table, Form, Modal  } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
+import { generatePDF } from "../../../utils/GeneratePDF";
 import toast from 'react-hot-toast';
 import axios from "axios";
-import { generatePDF } from "../../../utils/GeneratePDF";
 
 
 const Events = () => {
@@ -18,20 +18,32 @@ const Events = () => {
   const [errors, setErrors] = useState({});
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [reservationToDelete, setReservationToDelete] = useState(null);
+   // State to hold start time options
+   const [startTimeOptions, setStartTimeOptions] = useState([]);
+   // State to hold end time options
+   const [endTimeOptions, setEndTimeOptions] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     guests: '1', // Default value for number of guests
     date: getTodayDate(),
-    time: ""
+    startTime: "",
+    endTime: ""
   });
 
   useEffect(() => {
     // Fetch events data when component mounts
     fetchEvents();
     setAvailability(false); // Reset availability state on form change
-  }, []);
+    // Update start time options when date changes
+    updateStartTimeOptions(formData.date);
+  }, [formData.date]);
+
+  useEffect(() => {
+    // Update end time options when start time changes
+    updateEndTimeOptions(formData.startTime);
+  }, [formData.startTime]);
 
   // Function to fetch events data
   const fetchEvents = async () => {
@@ -87,7 +99,102 @@ const Events = () => {
     return errors;
   };
 
-  //function to check availability
+    // Function to update start time options dynamically based on selected date
+    const updateStartTimeOptions = (selectedDate) => {
+    const today = new Date();
+    const selected = new Date(selectedDate);
+    const hours = today.getHours();
+    const minutes = today.getMinutes();
+    let startTimeOptions = [];
+
+    // Function to determine if a time is within the range of 8:00 AM to 10:00 PM
+    const isWithinRange = (hour, minute) => {
+        const time = hour + minute / 60;
+        return time >= 8 && time <= 19;
+    };
+
+    // If the selected date is today, consider only times after the current time
+    if (selected.toDateString() === today.toDateString()) {
+        let startHour = hours;
+        let startMinute = Math.ceil(minutes / 30) * 30; // Round minutes up to the nearest 30
+        if (startMinute === 60) {
+            startMinute = 0;
+            startHour += 1;
+        }
+
+        for (let hour = startHour; hour <= 19; hour++) {
+            for (let minute = (hour === startHour ? startMinute : 0); minute < 60; minute += 30) {
+                if (isWithinRange(hour, minute)) {
+                    const formattedHour = String(hour).padStart(2, '0');
+                    const formattedMinute = String(minute).padStart(2, '0');
+                    const time = `${formattedHour}.${formattedMinute}`;
+                    startTimeOptions.push(time);
+                }
+            }
+        }
+    } else {
+        // For other dates, consider all times from 8:00 AM to 10:00 PM
+        for (let hour = 8; hour <= 19; hour++) {
+            for (let minute = 0; minute < 60; minute += 30) {
+                const formattedHour = String(hour).padStart(2, '0');
+                const formattedMinute = String(minute).padStart(2, '0');
+                const time = `${formattedHour}.${formattedMinute}`;
+                startTimeOptions.push(time);
+            }
+        }
+    }
+    setFormData(prevState => ({
+        ...prevState,
+        startTime: '', // Reset start time when options change
+    }));
+    setStartTimeOptions(startTimeOptions);
+  };
+
+  // Function to update end time options based on selected start time
+  const updateEndTimeOptions = (selectedStartTime) => {
+    if (!selectedStartTime) return; // If no start time selected, return empty end time options
+
+    const [startHour, startMinute] = selectedStartTime.split('.').map(Number);
+    let endTimeOptions = [];
+
+    // Generate end times starting from 30 minutes after the selected start time
+    let minuteOffset = startMinute + 30;
+    for (let hour = startHour; hour <= 19; hour++) {
+        for (let minute = minuteOffset; minute < 60; minute += 30) {
+            const formattedHour = String(hour).padStart(2, '0');
+            const formattedMinute = String(minute).padStart(2, '0');
+            const time = `${formattedHour}.${formattedMinute}`;
+            endTimeOptions.push(time);
+        }
+        minuteOffset = 0; // After the first hour, start from 0 minutes
+    }
+
+    setFormData((prevState) => ({
+        ...prevState,
+        endTime: '', // Reset end time when options change
+    }));
+    setEndTimeOptions(endTimeOptions);
+  };    
+
+  // Handler for start time change
+  const handleStartTimeChange = (e) => {
+    const { value } = e.target;
+    setFormData(prevState => ({
+        ...prevState,
+        startTime: value
+    }));
+  };
+
+  // Handler for end time change
+  const handleEndTimeChange = (e) => {
+    const { value } = e.target;
+    setFormData(prevState => ({
+        ...prevState,
+        endTime: value
+    }));
+  };
+
+  // Update handleCheckAvailability function to include startTime and endTime in formData
   const handleCheckAvailability = async (e) => {
     e.preventDefault();
     setShowAvailabilityMessage(false);
@@ -95,10 +202,7 @@ const Events = () => {
     const errorsObj = validateForm(formData);
     if (Object.keys(errorsObj).length === 0) {
         try {
-            const response = await axios.post('http://localhost:8000/event/checkAvailability', {
-                ...formData,
-                excludeReservationId: editReservation ? editReservation._id : null
-            });
+            const response = await axios.post('http://localhost:8000/event/checkAvailability', formData);
             console.log(response.data); // Assuming the backend responds with data
             setAvailability(response.data.available);
             setShowAvailabilityMessage(!response.data.available); // Show message only if not available
@@ -122,7 +226,8 @@ const Events = () => {
       email: reservation.email,
       guests: reservation.guests,
       date: reservation.date,
-      time: reservation.time
+      startTime: reservation.startTime,
+      endTime: reservation.endTime
     });
   };
   
@@ -140,7 +245,8 @@ const Events = () => {
           email: formData.email,
           guests: formData.guests,
           date: formData.date,
-          time: formData.time
+          startTime: formData.startTime,
+          endTime: formData.endTime
         };
         
         await axios.put(`http://localhost:8000/event/update/${editReservation._id}`, updatedReservation);
@@ -204,7 +310,7 @@ const Events = () => {
   // Function to prepare data for PDF report
   const preparePDFData = () => {
     const title = "Events Report";
-    const columns = ["Res. ID", "Name", "Phone", "Email", "No. of Guests", "Date", "Time"];
+    const columns = ["Res. ID", "Name", "Phone", "Email", "No. of Guests", "Date", "Start Time", "End Time"];
     const data = filteredReservations.map(reservation => ({
       "Res. ID": reservation.reservationId,
       "Name": reservation.name,
@@ -212,7 +318,9 @@ const Events = () => {
       "Email": reservation.email,
       "No. of Guests": reservation.guests,
       "Date": reservation.date,
-      "Time": reservation.time
+      "Start Time": reservation.startTime,
+      "End Time": reservation.endTime
+
     }));
     const fileName = "events_report";
     return { title, columns, data, fileName };
@@ -261,7 +369,8 @@ const Events = () => {
             <th>Email</th>
             <th>Guests</th>
             <th>Date</th>
-            <th>Time</th>
+            <th>Start Time</th>
+            <th>End Time</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -274,7 +383,8 @@ const Events = () => {
               <td>{reservation.email}</td>
               <td>{reservation.guests}</td>
               <td>{reservation.date}</td>
-              <td>{reservation.time}</td>
+              <td>{reservation.startTime}</td>
+              <td>{reservation.endTime}</td>
               <td style={{display:'flex'}}>
                 {/* Edit button */}
                 <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'20px'}}>
@@ -292,54 +402,65 @@ const Events = () => {
 
       {/* Reservation Form (to display when editing) */}
       {editReservation && (
-        <div className="mt-4"><br></br>
-          <h2 align="center" style={{color:'green'}}>Edit Reservation</h2>
-          <div style={{display: 'flex', justifyContent: 'center'}}>
-                <form onSubmit={handleCheckAvailability} style={{width:'500px'}}>
-                    <div className="form-group">
-                        <label>Name :</label>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-                        {errors.name && <span className="error">{errors.name}</span>}
-                    </div>
-                    <div className="form-group">
-                        <label>Contact Number :</label>
-                        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
-                        {errors.phone && <span className="error">{errors.phone}</span>}
-                    </div>
-                    <div className="form-group">
-                        <label>Email :</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-                        {errors.email && <span className="error">{errors.email}</span>}
-                    </div>
-                    <div className="form-group">
-                        <label>Number of Guests :</label>
-                        <input type="number" name="guests" value={formData.guests} onChange={handleChange} min={1} max={20} required />
-                        {errors.guests && <span className="error">{errors.guests}</span>}
-                    </div>
-                    <div className="form-group">
-                        <label>Date :</label>
-                        <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label>Time :</label>
-                        <select name="time" value={formData.time} onChange={handleChange} required>
-                            <option value="">Select Time</option>
-                            {Array.from(Array(25), (_, i) => i).map(hour => (
-                                <option key={hour} value={`${hour.toString().padStart(2, '0')}:00`}>
-                                    {`${hour.toString().padStart(2, '0')}:00`}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <button className='btn' type="submit" style={{ width: '200px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '160px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
-                    {availability &&
-                    <button className='btn' onClick={handleSubmit} style={{ width: '200px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '160px'}}>Update Reservation</button>
-                    }
-                    {showAvailabilityMessage && !loading &&
-                     <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
-                    }
-                </form>
-            </div>
+        <div className="outer-container3"><br></br>
+          <div className="events">
+            <h2 className="center-heading">Edit reservation</h2>
+            <form onSubmit={handleCheckAvailability}>
+            <div className="form-group">
+                    <label>Name :</label>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                    {errors.name && <span className="error">{errors.name}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Contact Number :</label>
+                    <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+                    {errors.phone && <span className="error">{errors.phone}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Email :</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                    {errors.email && <span className="error">{errors.email}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Number of Guests :</label>
+                    <input type="number" name="guests" value={formData.guests} onChange={handleChange} min={1} max={50} required />
+                    {errors.guests && <span className="error">{errors.guests}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Date :</label>
+                    <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                    <label>Start Time :</label>
+                    <select name="startTime" value={formData.startTime} onChange={handleStartTimeChange} required>
+                        <option value="">Select Time</option>
+                        {startTimeOptions.map(time => (
+                            <option key={time} value={time}>
+                                {time}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>End Time :</label>
+                    <select name="endTime" value={formData.endTime} onChange={handleEndTimeChange} required>
+                    <option value="">Select Time</option>
+                        {endTimeOptions.map(time => (
+                            <option key={time} value={time}>
+                                {time}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
+                {availability &&
+                <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Update reservation</button>
+                }
+                {showAvailabilityMessage && !loading &&
+                    <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
+                }
+            </form>
+          </div><br></br>
         </div>
       )}
 

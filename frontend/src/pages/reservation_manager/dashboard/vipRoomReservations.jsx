@@ -2,20 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table, Form, Modal  } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
+import { generatePDF } from "../../../utils/GeneratePDF";
 import toast from 'react-hot-toast';
 import axios from "axios";
-import { generatePDF } from "../../../utils/GeneratePDF";
 
 
 const VIPRoomReservations = () => {
   const [vipRoomReservations, setVIPRoomReservations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const [filteredReservations, setFilteredReservations] = useState([]);
   const [editReservation, setEditReservation] = useState(null); // State to hold reservation being edited
   const [availability, setAvailability] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [availableTimeSlots, setAvailableTimeSlots] = useState(generateTimeSlots(getTodayDate()));
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [reservationToDelete, setReservationToDelete] = useState(null);
   const [formData, setFormData] = useState({
@@ -63,12 +64,14 @@ const VIPRoomReservations = () => {
     return `${year}-${month}-${day}`;
   }
 
-  //function to get time
-  function generateTimeSlots() {
-    const startTime = 10; // Start from 10:00 AM
-    const endTime = 20; // End at 08:00 PM
+  // Function to generate time slots based on selected date
+  function generateTimeSlots(selectedDate) {
+    const today = new Date();
+    const selected = new Date(selectedDate);
+    const startTime = (today.getDate() === selected.getDate()) ? today.getHours() : 8; // Start from current hour if date is today
+    const endTime = 20; // End at 09:00 PM
     const slots = [];
-    for (let i = startTime; i <= endTime; i += 2) {
+    for (let i = startTime; i <= endTime; i += 1) {
         const hour = (i < 10) ? `0${i}` : `${i}`;
         slots.push(`${hour}:00`);
     }
@@ -305,53 +308,53 @@ const VIPRoomReservations = () => {
 
       {/* Reservation Form (to display when editing) */}
       {editReservation && (
-        <div className="mt-4"><br></br>
-          <h2 align="center" style={{color:'green'}}>Edit Reservation</h2>
-          <div style={{display: 'flex', justifyContent: 'center'}}>
-                <form onSubmit={handleCheckAvailability} style={{width:'500px'}}>
-                    <div className="form-group">
-                        <label>Name :</label>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-                        {errors.name && <span className="error">{errors.name}</span>}
-                    </div>
-                    <div className="form-group">
-                        <label>Contact Number :</label>
-                        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
-                        {errors.phone && <span className="error">{errors.phone}</span>}
-                    </div>
-                    <div className="form-group">
-                        <label>Email :</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-                        {errors.email && <span className="error">{errors.email}</span>}
-                    </div>
-                    <div className="form-group">
-                        <label>Number of Guests :</label>
-                        <input type="number" name="guests" value={formData.guests} onChange={handleChange} min={1} max={20} required />
-                        {errors.guests && <span className="error">{errors.guests}</span>}
-                    </div>
-                    <div className="form-group">
-                        <label>Date :</label>
-                        <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label>Time :</label>
-                        <select name="time" value={formData.time} onChange={handleChange} required>
-                            <option value="">Select Time</option>
-                            {generateTimeSlots().map((slot, index) => (
-                                <option key={index} value={slot}>{slot}</option>
-                            ))}
-                        </select>
-                        <p style={{ color: 'green' }}>One reservation is only available for two hours.</p>
-                    </div>
-                    <button className='btn' type="submit" style={{ width: '200px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '160px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
-                    {availability &&
-                    <button className='btn' onClick={handleSubmit} style={{ width: '200px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '160px'}}>Update Reservation</button>
-                    }
-                    {showAvailabilityMessage && !loading &&
-                      <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
-                    }
-                </form>
-            </div>
+        <div className="outer-container2"><br></br>
+          <div className="vip-room-reservation">
+            <h2 className="center-heading">Reserve VIP Room</h2><br></br>
+            <form onSubmit={handleCheckAvailability}>
+            <div className="form-group">
+                    <label>Name :</label>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                    {errors.name && <span className="error">{errors.name}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Contact Number :</label>
+                    <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+                    {errors.phone && <span className="error">{errors.phone}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Email :</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                    {errors.email && <span className="error">{errors.email}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Number of Guests :</label>
+                    <input type="number" name="guests" value={formData.guests} onChange={handleChange} min={1} max={20} required />
+                    {errors.guests && <span className="error">{errors.guests}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Date :</label>
+                    <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                    <label>Time :</label>
+                    <select name="time" value={formData.time} onChange={handleChange} required>
+                        <option value=""> Select Time </option>
+                        {availableTimeSlots.map((slot, index) => (
+                            <option key={index} value={slot}>{slot}</option>
+                        ))}
+                    </select>
+                    <p style={{ color: 'green' }}>One reservation is only available for one hour.</p>
+                </div>
+                <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
+                {availability &&
+                <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Book VIP Room</button>
+                }
+                {showAvailabilityMessage && !loading &&
+                    <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
+                }
+            </form>
+          </div><br></br>
         </div>
       )}
 

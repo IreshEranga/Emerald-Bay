@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table, Form, Modal } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
+import TableSeatsReservation from '../../../assets/restaurant seat reservation.png';
+import { generatePDF } from "../../../utils/GeneratePDF";
 import toast from 'react-hot-toast';
 import axios from "axios";
-import { generatePDF } from "../../../utils/GeneratePDF";
 
 
 const TableReservations = () => {
@@ -12,10 +13,11 @@ const TableReservations = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredReservations, setFilteredReservations] = useState([]);
   const [editReservation, setEditReservation] = useState(null);
-  const [availability, setAvailability] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
   const [errors, setErrors] = useState({});
+  const [availability, setAvailability] = useState(false);
+  const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
+  const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [reservationToDelete, setReservationToDelete] = useState(null);
   const [formData, setFormData] = useState({
@@ -33,6 +35,11 @@ const TableReservations = () => {
     setAvailability(false); // Reset availability state on form change
   }, []);
 
+  useEffect(() => {
+    // Update time slots based on selected date
+    setAvailableTimeSlots(generateTimeSlots(formData.date));
+  }, [formData.date]);
+
   // Function to fetch table reservations data
   const fetchTableReservations = async () => {
     try {
@@ -47,11 +54,20 @@ const TableReservations = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-        ...prevState,
-        [name]: value
-    }));
+    if (name === 'date') {
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value,
+            time: '' // Reset time when date changes
+        }));
+    } else {
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    }
   };
+
 
   //function to get date
   function getTodayDate() {
@@ -63,17 +79,22 @@ const TableReservations = () => {
     return `${year}-${month}-${day}`;
   }
 
-  //function to get time
-  function generateTimeSlots() {
-    const startTime = 8; // Start from 08:00 AM
-    const endTime = 21; // End at 09:00 PM
+  const generateTimeSlots = (selectedDate) => {
+    const today = new Date();
+    const selected = new Date(selectedDate);
+    const isToday = today.toDateString() === selected.toDateString();
+    const startTime = isToday ? today.getHours() : 8; // Start from current hour if date is today
+    const endTime = 22; // End at 09:00 PM
     const slots = [];
-    for (let i = startTime; i <= endTime; i += 1) {
-        const hour = (i < 10) ? `0${i}` : `${i}`;
-        slots.push(`${hour}:00`);
+    for (let i = startTime; i <= endTime; i++) {
+        for (let j = 0; j < 60; j += 30) { // Increment by 30 minutes
+            const hour = (i < 10) ? `0${i}` : `${i}`;
+            const minute = (j === 0) ? '00' : '30';
+            slots.push(`${hour}:${minute}`);
+        }
     }
     return slots;
-  }
+  };
 
   //form validation
   const validateForm = (data) => {
@@ -304,60 +325,61 @@ const TableReservations = () => {
 
       {/* Reservation Form (to display when editing) */}
       {editReservation && (
-        <div className="mt-4"><br></br>
-          <h2 align="center" style={{color:'green'}}>Edit Reservation</h2>
-          <div style={{display: 'flex', justifyContent: 'center'}}>
-          <form onSubmit={handleCheckAvailability} style={{width:'500px'}}>
-            <div className="form-group">
-              <label>Name :</label>
-              <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-              {errors.name && <span className="error">{errors.name}</span>}
-            </div>
-            <div className="form-group">
-              <label>Contact Number :</label>
-              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
-              {errors.phone && <span className="error">{errors.phone}</span>}
-            </div>
-            <div className="form-group">
-              <label>Email :</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-              {errors.email && <span className="error">{errors.email}</span>}
-            </div>
-            <div className="form-group">
-              <label>Date :</label>
-              <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
-            </div>
-            <div className="form-group">
-              <label>Time : </label>
-              <select name="time" value={formData.time} onChange={handleChange} required>
-                <option value=""> Select Time </option>
-                {generateTimeSlots().map((slot, index) => (
-                  <option key={index} value={slot}>{slot}</option>
-                ))}
-              </select>
-              <p style={{ color: 'green' }}>One reservation is only available for one hour.</p>
-            </div>
-            <div className="form-group">
-              <label>Table Number : </label>
-              <select name="tableNo" value={formData.tableNo} onChange={handleChange} required>
-                <option value=""> Select Table No </option>
-                {[...Array(13).keys()].map(num => (
-                  <option key={num + 1} value={num + 1}>{num + 1}</option>
-                ))}
-              </select>
-              {errors.tableNo && <span className="error">{errors.tableNo}</span>}
-              <p style={{ color: 'green' }}>Please select a table using table layout.</p>
-            </div>
-            <button className='btn' type="submit" style={{ width: '200px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '160px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
-            {availability &&
-              <button className='btn' onClick={handleSubmit} style={{ width: '200px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '160px'}}>Update Reservation</button>
-            }
-            {showAvailabilityMessage && !loading &&
-              <p style={{ color: 'red' }}>This table is not available. Please select another table or try a different date/time.</p>
-            }
-          </form>
-          </div>
-        </div>
+        <div className="outer-container1"><br></br>
+        <div className="table-reservation">
+            <h2 className="center-heading">Edit Reservation</h2>
+            <img src={TableSeatsReservation} style={{ width: '360px', alignContent: 'center' }} alt="TableSeatsReservation" /><br /><br />
+            <form onSubmit={handleCheckAvailability}>
+                <div className="form-group">
+                    <label>Name :</label>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                    {errors.name && <span className="error">{errors.name}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Contact Number :</label>
+                    <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+                    {errors.phone && <span className="error">{errors.phone}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Email :</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                    {errors.email && <span className="error">{errors.email}</span>}
+                </div>
+                <div className="form-group">
+                    <label>Table Number : </label>
+                    <select name="tableNo" value={formData.tableNo} onChange={handleChange} required>
+                        <option value=""> Select Table No </option>
+                        {[...Array(13).keys()].map(num => (
+                            <option key={num + 1} value={num + 1}>{num + 1}</option>
+                        ))}
+                    </select>
+                    {errors.tableNo && <span className="error">{errors.tableNo}</span>}
+                    <p style={{ color: 'green' }}>Please select a table using table layout.</p>
+                </div>
+                <div className="form-group">
+                    <label>Date :</label>
+                    <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
+                </div>
+                <div className="form-group">
+                    <label>Time : </label>
+                    <select name="time" value={formData.time} onChange={handleChange} required>
+                        <option value=""> Select Time </option>
+                        {availableTimeSlots.map((slot, index) => (
+                            <option key={index} value={slot}>{slot}</option>
+                        ))}
+                    </select>
+                    <p style={{ color: 'green' }}>One reservation is only available for 30 minutes.</p>
+                </div>
+                <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
+                {availability &&
+                <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Update Reservation</button>
+                }
+                {showAvailabilityMessage && !loading &&
+                    <p style={{ color: 'red' }}>This table is not available. Please select another table or try a different date/time.</p>
+                 }
+            </form>        
+        </div><br></br>
+    </div>
       )}
 
       {/* Confirmation Modal */}
