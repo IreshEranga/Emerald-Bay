@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import NavBar from '../../components/Navbar';
 import './Menu.css';
-
+import { useAuthStore } from "../../store/useAuthStore";
 
 const Menu = () => {
     const [menuItems, setMenuItems] = useState({});
+    const { user } = useAuthStore();
 
     useEffect(() => {
         // Fetch items for each category

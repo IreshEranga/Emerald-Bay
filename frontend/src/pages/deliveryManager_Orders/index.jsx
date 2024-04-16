@@ -19,7 +19,7 @@ const Index = () => {
   const [showOngoingEditForm, setShowOngoingEditForm] = useState(false);
   const {data, refetch} = useOrderData();
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
-const [selectedTimeRange, setSelectedTimeRange] = useState(null);
+  const [selectedTimeRange, setSelectedTimeRange] = useState(null);
 
 
   // PDF report function
