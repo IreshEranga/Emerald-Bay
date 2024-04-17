@@ -201,29 +201,29 @@ const Index = () => {
               <IoMdDownload className="mb-1" /> <span>Download Report</span>
             </Button>*/}
             <Button variant="success" className="m-1" onClick={() => setShowDownloadOptions(true)} style={{ width: '200px' }}>
-  <IoMdDownload className="mb-1" /> <span>Download Report</span>
-</Button>
-{showDownloadOptions && (
-  <div className="download-options" >
-    <Button variant="info" onClick={() => downloadPDF('Last 7 days')}>Last 7 Days</Button>
-    <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('Past 3 months')}>Past 3 Months</Button>
-    <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('Past 6 months')}>Past 6 Months</Button>
-    <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('allCompleted')}>All the time</Button>
-  </div>
-)}
+              <IoMdDownload className="mb-1" /> <span>Download Report</span>
+            </Button>
+            {showDownloadOptions && (
+              <div className="download-options" >
+                <Button variant="info" onClick={() => downloadPDF('Last 7 days')}>Last 7 Days</Button>
+                <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('Past 3 months')}>Past 3 Months</Button>
+                <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('Past 6 months')}>Past 6 Months</Button>
+                <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('allCompleted')}>All the time</Button>
+              </div>
+            )}
 
 
               {/* Group orders by date */}
               {Object.entries(completedOrders.reduce((acc, order) => {
-                const dateKey = new Date(order.date).toLocaleDateString();
+                const dateKey = new Date(order.createdAt).toLocaleDateString();
                 if (!acc[dateKey]) {
                   acc[dateKey] = [];
                 }
                 acc[dateKey].push(order);
                 return acc;
-              }, {})).map(([date, ordersByDate]) => (
-                <div key={date}><br />
-                  <h4 style={{backgroundColor:'wheat', width:'150px', padding:'10px', borderRadius:'50px', paddingLeft:'20px'}}>{date}</h4> {/* Show date at the top of each table */}
+              }, {})).map(([createdAt, ordersByDate]) => (
+                <div key={createdAt}><br />
+                  <h4 style={{backgroundColor:'wheat', width:'150px', padding:'10px', borderRadius:'50px', paddingLeft:'20px'}}>{createdAt}</h4> {/* Show date at the top of each table */}
                   <br />
                   <div className="completeordertable">
                     <BootstrapTable
