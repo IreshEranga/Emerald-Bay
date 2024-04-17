@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Button, Table, Form, Modal } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import TableSeatsReservation from '../../../assets/restaurant seat reservation.png';
 import { generatePDF } from "../../../utils/GeneratePDF";
 import toast from 'react-hot-toast';
@@ -25,7 +27,7 @@ const TableReservations = () => {
     phone: "",
     email: "",
     tableNo: "",
-    date: "",
+    date: getTodayDate(),
     time: ""
   });
 
@@ -68,6 +70,10 @@ const TableReservations = () => {
     }
   };
 
+  // Function to handle closing the form
+  const handleCloseForm = () => {
+    setEditReservation(null); // Reset editReservation state
+  };
 
   //function to get date
   function getTodayDate() {
@@ -224,6 +230,7 @@ const TableReservations = () => {
     const filteredData = tableReservations.filter((reservation) => {
       return (
         reservation.name.toLowerCase().includes(query.toLowerCase()) ||
+        reservation.email.toLowerCase().includes(query.toLowerCase()) ||
         reservation.reservationId.toLowerCase().includes(query.toLowerCase()) ||
         reservation.date.includes(query)
       );
@@ -260,6 +267,7 @@ const TableReservations = () => {
         Table Reservations
       </h1>
 
+      <div style={{ display: 'flex', gap:'10px', alignItems: 'center' }}>
       {/* Add reservation */}
       <Link to="/table-reservations">
         <Button variant="primary" className="m-1">
@@ -273,16 +281,18 @@ const TableReservations = () => {
       </Button>
 
       {/* Search Form */}
-      <Form className="mt-3">
+      <Form className="mb-1">
         <Form.Group controlId="searchQuery">
           <Form.Control
             type="text"
-            placeholder="Search by reservation ID or Name or Date"
+            placeholder="Search by reservation ID or Name or Email or Date"
             value={searchQuery}
             onChange={handleSearch}
+            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'120px', zIndex:'1', height:'20px', marginRight:'0px'}}
           />
         </Form.Group>
       </Form>
+      </div>
 
       {/* Table to display previous vip room reservations */}
       <Table striped bordered hover className="mt-4">
@@ -326,7 +336,8 @@ const TableReservations = () => {
       {/* Reservation Form (to display when editing) */}
       {editReservation && (
         <div className="outer-container1"><br></br>
-        <div className="table-reservation">
+          <div className="table-reservation">
+            <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={handleCloseForm} />               
             <h2 className="center-heading">Edit Reservation</h2>
             <img src={TableSeatsReservation} style={{ width: '360px', alignContent: 'center' }} alt="TableSeatsReservation" /><br /><br />
             <form onSubmit={handleCheckAvailability}>

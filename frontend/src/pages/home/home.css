@@ -161,12 +161,14 @@ body {
   
   .contact h2 {
     font-size: 40px;
-    color: #333;
+    /*color: #333;*/
+    color: #fff;
   }
   
   .contact h1 {
     font-size: 50px;
-    color: #444;
+    /*color: #505050;*/
+    color: rgb(245, 226, 192);
   }
   
   .contact .border {
@@ -178,7 +180,7 @@ body {
   .contact-form {
     max-width: 900px;
     margin: 0 auto;
-    background-color: #100f0f;
+    background-color: #202020;
     padding-bottom: 80px;
     padding-top: 80px;
     padding-right: 100px;

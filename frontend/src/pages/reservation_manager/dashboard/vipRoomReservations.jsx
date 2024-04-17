@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Button, Table, Form, Modal  } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { generatePDF } from "../../../utils/GeneratePDF";
 import toast from 'react-hot-toast';
 import axios from "axios";
@@ -13,17 +15,17 @@ const VIPRoomReservations = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [filteredReservations, setFilteredReservations] = useState([]);
-  const [editReservation, setEditReservation] = useState(null); // State to hold reservation being edited
+  const [editReservation, setEditReservation] = useState(null);
   const [availability, setAvailability] = useState(false);
   const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
-  const [availableTimeSlots, setAvailableTimeSlots] = useState(generateTimeSlots(getTodayDate()));
+  const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [reservationToDelete, setReservationToDelete] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    guests: '1', // Default value for number of guests
+    guests: '1',
     date: getTodayDate(),
     time: ""
   });
@@ -33,6 +35,11 @@ const VIPRoomReservations = () => {
     fetchVIPRoomReservations();
     setAvailability(false); // Reset availability state on form change
   }, []);
+
+  useEffect(() => {
+    // Update time slots based on selected date
+    setAvailableTimeSlots(generateTimeSlots(formData.date));
+  }, [formData.date]);
 
   // Function to fetch vip room reservations data
   const fetchVIPRoomReservations = async () => {
@@ -52,6 +59,11 @@ const VIPRoomReservations = () => {
         ...prevState,
         [name]: name === "guests" ? parseInt(value) : value // Convert value to integer for guests
     }));
+  };
+
+  // Function to handle closing the form
+  const handleCloseForm = () => {
+    setEditReservation(null); // Reset editReservation state
   };
 
   //function to get date
@@ -209,6 +221,7 @@ const VIPRoomReservations = () => {
     const filteredData = vipRoomReservations.filter((reservation) => {
       return (
         reservation.name.toLowerCase().includes(query.toLowerCase()) ||
+        reservation.email.toLowerCase().includes(query.toLowerCase()) ||
         reservation.reservationId.toLowerCase().includes(query.toLowerCase()) ||
         reservation.date.includes(query)
       );
@@ -243,6 +256,7 @@ const VIPRoomReservations = () => {
     <div className="container mt-5">    
       <h1 className="mb-5" style={{textAlign:"center"}}>VIP Room Reservations</h1>
 
+      <div style={{ display: 'flex', gap:'10px', alignItems: 'center' }}>
       {/* Add reservation */}
       <Link to="/vip-room-reservations">
         <Button variant="primary" className="m-1">
@@ -256,16 +270,18 @@ const VIPRoomReservations = () => {
       </Button>
 
       {/* Search Form */}
-      <Form className="mt-3">
+      <Form className="mb-1">
         <Form.Group controlId="searchQuery">
           <Form.Control
             type="text"
-            placeholder="Search by Reservation ID or Name or Date"
+            placeholder="Search by reservation ID or Name or Email or Date"
             value={searchQuery}
             onChange={handleSearch}
+            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'75px', zIndex:'1', height:'20px', marginRight:'0px'}}
           />
         </Form.Group>
       </Form>
+      </div>
 
       {/* Table to display previous vip room reservations */}
       <Table striped bordered hover className="mt-4">
@@ -293,11 +309,11 @@ const VIPRoomReservations = () => {
               <td>{reservation.time}</td>
               <td style={{display:'flex'}}>
                 {/* Edit button */}
-                <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'20px'}}>
+                <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'15px'}}>
                   <IoMdCreate />
                 </Button>
                 {/* Delete button */}
-                <Button variant="danger" onClick={() => handleOpenConfirmationModal(reservation._id)} style={{marginRight:'20px'}}>
+                <Button variant="danger" onClick={() => handleOpenConfirmationModal(reservation._id)} style={{marginRight:'15px'}}>
                   <IoMdTrash />
                 </Button>
               </td>
@@ -310,7 +326,8 @@ const VIPRoomReservations = () => {
       {editReservation && (
         <div className="outer-container2"><br></br>
           <div className="vip-room-reservation">
-            <h2 className="center-heading">Reserve VIP Room</h2><br></br>
+            <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={handleCloseForm} />
+            <h2 className="center-heading">Edit Reservation</h2><br></br>
             <form onSubmit={handleCheckAvailability}>
             <div className="form-group">
                     <label>Name :</label>
@@ -348,7 +365,7 @@ const VIPRoomReservations = () => {
                 </div>
                 <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
                 {availability &&
-                <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Book VIP Room</button>
+                <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Update Reservation</button>
                 }
                 {showAvailabilityMessage && !loading &&
                     <p style={{ color: 'red' }}>This reservation is not available. Please select a different date/time.</p>
