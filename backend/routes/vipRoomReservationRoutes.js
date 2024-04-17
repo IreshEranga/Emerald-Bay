@@ -128,7 +128,7 @@ cron.schedule('* * * * *', async () => {
         const fourMonthsAgo = new Date();
         fourMonthsAgo.setMonth(fourMonthsAgo.getMonth() - 4);
         await VIPRoomReservation.deleteMany({ date: { $lt: fourMonthsAgo } });
-        console.log('Reservations older than 4 months deleted successfully.');
+        //console.log('Reservations older than 4 months deleted successfully.');
     } catch (error) {
         console.error('Error deleting old reservations:', error);
     }
