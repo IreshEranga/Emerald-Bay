@@ -16,7 +16,7 @@ const VIPRoomReservations = () => {
         name: '',
         phone: '',
         email: '',
-        guests: '1', // Default value for number of guests
+        guests: '1',
         date: getTodayDate(),
         time: '',
     });

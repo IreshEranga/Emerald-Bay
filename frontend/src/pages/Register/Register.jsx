@@ -83,24 +83,27 @@ const Register = () => {
   };
 
   return (
-    <Container className='all'>
-      <NavBar/>
-      <Row className="justify-content-md-center-5" style={{border:'1px solid black', marginTop:'15px', marginBottom:'40px', padding:'30px', width:'80%', marginLeft:'100px'}}>
+    <div style={{backgroundColor:'white'}}>
+    
+              <NavBar />
+
+    <Container className='all' style={{ width: '80%', marginTop:'20px', paddingLeft:'150px', paddingRight:'150px' }}>
+      <Row className="justify-content-md-center" style={{ border: '2px solid black', marginTop: '50px', marginBottom: '50px', width: '100%', backgroundColor: 'white' }}>
         <Col xs={12} md={6}>
-          <h2 className="mb-4" style={{marginLeft:'200px'}}>Registration Form</h2>
-          
-          <Form onSubmit={handleSubmit} style={{marginLeft:'100px'}}>
-            
-        
+          <h2 className="mb-4 text-center" style={{fontWeight:'600'}}>Registration Form</h2>
+
+          <Form onSubmit={handleSubmit} style={{ width: '100%', marginLeft: 'auto', marginRight: 'auto' }}>
+
+
             <Form.Group controlId="name">
-              <Form.Label >Full Name :</Form.Label>
+              <Form.Label>Full Name :</Form.Label>
               <Form.Control
-                type="text" 
-                placeholder="Enter full name" 
-                name="name" 
-                value={formData.name} 
-                onChange={handleChange} 
-                required 
+                type="text"
+                placeholder="Enter full name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
               />
               {errors.name && <Form.Text className="text-danger">{errors.name}</Form.Text>}
             </Form.Group>
@@ -108,12 +111,12 @@ const Register = () => {
             <Form.Group controlId="email">
               <Form.Label>Email :</Form.Label>
               <Form.Control
-                type="email" 
-                placeholder="Enter email" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleChange} 
-                required 
+                type="email"
+                placeholder="Enter email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
               />
               {errors.email && <Form.Text className="text-danger">{errors.email}</Form.Text>}
             </Form.Group>
@@ -121,12 +124,12 @@ const Register = () => {
             <Form.Group controlId="address">
               <Form.Label>Address :</Form.Label>
               <Form.Control
-                type="text" 
-                placeholder="Enter address" 
-                name="address" 
-                value={formData.address} 
-                onChange={handleChange} 
-                required 
+                type="text"
+                placeholder="Enter address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
               />
               {errors.address && <Form.Text className="text-danger">{errors.address}</Form.Text>}
             </Form.Group>
@@ -134,12 +137,12 @@ const Register = () => {
             <Form.Group controlId="phoneNumber">
               <Form.Label>Phone Number:</Form.Label>
               <Form.Control
-                type="text" 
-                placeholder="Enter phone number" 
-                name="mobile" 
-                value={formData.mobile} 
-                onChange={handleChange} 
-                required 
+                type="text"
+                placeholder="Enter phone number"
+                name="mobile"
+                value={formData.mobile}
+                onChange={handleChange}
+                required
               />
               {errors.mobile && <Form.Text className="text-danger">{errors.mobile}</Form.Text>}
             </Form.Group>
@@ -147,12 +150,12 @@ const Register = () => {
             <Form.Group controlId="password">
               <Form.Label>Password :</Form.Label>
               <Form.Control
-                type="password" 
-                placeholder="Enter password" 
-                name="password" 
-                value={formData.password} 
-                onChange={handleChange} 
-                required 
+                type="password"
+                placeholder="Enter password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
               />
               {errors.password && <Form.Text className="text-danger">{errors.password}</Form.Text>}
             </Form.Group>
@@ -160,25 +163,26 @@ const Register = () => {
             <Form.Group controlId="confirmPassword">
               <Form.Label>Confirm Password :</Form.Label>
               <Form.Control
-                type="password" 
-                placeholder="Confirm password" 
-                name="confirmPassword" 
-                value={formData.confirmPassword} 
-                onChange={handleChange} 
-                required 
+                type="password"
+                placeholder="Confirm password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
               />
               {errors.confirmPassword && <Form.Text className="text-danger">{errors.confirmPassword}</Form.Text>}
             </Form.Group> <br />
 
-            <Button variant="primary" type="submit">
-              Sign Up
-            </Button>
-            
+            <div className="text-center">
+              <Button variant="primary" type="submit">Sign Up</Button>
+            </div>
+
           </Form>
-          <p className="mt-3" style={{marginLeft:'100px'}}>Have an Account? <Link to="/login">Login here</Link></p>
+          <p className="mt-3 text-center">Have an Account? <Link to="/login">Login here</Link></p>
         </Col>
-      </Row>
+      </Row><br></br>
     </Container>
+    </div>
   );
 };
 

@@ -38,7 +38,7 @@ function NavBar({ isAuthenticated, user, logout }) {
 
           <div className="container d-flex flex-column align-items-center">
             {!isAuthenticated ? (
-              <Button variant="primary" className="m-2" href="/login" style={{marginLeft:'50px'}}>
+              <Button variant="primary" className="m-2" href="/login" style={{marginLeft:'50px', width:'100px', height:'40px'}}>
                 Login
               </Button>
             ) : (

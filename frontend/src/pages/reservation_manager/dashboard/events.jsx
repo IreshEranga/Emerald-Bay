@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Table, Form, Modal  } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { generatePDF } from "../../../utils/GeneratePDF";
 import toast from 'react-hot-toast';
 import axios from "axios";
@@ -11,22 +13,20 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredReservations, setFilteredReservations] = useState([]);
-  const [editReservation, setEditReservation] = useState(null); // State to hold reservation being edited
+  const [editReservation, setEditReservation] = useState(null);
   const [availability, setAvailability] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
   const [errors, setErrors] = useState({});
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [reservationToDelete, setReservationToDelete] = useState(null);
-   // State to hold start time options
-   const [startTimeOptions, setStartTimeOptions] = useState([]);
-   // State to hold end time options
-   const [endTimeOptions, setEndTimeOptions] = useState([]);
+  const [startTimeOptions, setStartTimeOptions] = useState([]);
+  const [endTimeOptions, setEndTimeOptions] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    guests: '1', // Default value for number of guests
+    guests: '1',
     date: getTodayDate(),
     startTime: "",
     endTime: ""
@@ -63,6 +63,11 @@ const Events = () => {
         ...prevState,
         [name]: name === "guests" ? parseInt(value) : value // Convert value to integer for guests
     }));
+  };
+
+  // Function to handle closing the form
+  const handleCloseForm = () => {
+    setEditReservation(null); // Reset editReservation state
   };
 
   //function to get date
@@ -300,6 +305,7 @@ const Events = () => {
     const filteredData = events.filter((reservation) => {
       return (
         reservation.name.toLowerCase().includes(query.toLowerCase()) ||
+        reservation.email.toLowerCase().includes(query.toLowerCase()) ||
         reservation.reservationId.toLowerCase().includes(query.toLowerCase()) ||
         reservation.date.includes(query)
       );
@@ -331,10 +337,12 @@ const Events = () => {
     const { title, columns, data, fileName } = preparePDFData();
     generatePDF(title, columns, data, fileName);
   };
+
   return (
     <div className="container mt-5">
       <h1 className="mb-5" style={{textAlign:"center"}}>Events</h1>
 
+      <div style={{ display: 'flex', gap:'10px', alignItems:'center'}}>
       {/* Add reservation */}
       <Link to="/events">
         <Button variant="primary" className="m-1">
@@ -348,19 +356,21 @@ const Events = () => {
       </Button>
 
       {/* Search Form */}
-      <Form className="mt-3">
+      <Form className="mb-1">
         <Form.Group controlId="searchQuery">
           <Form.Control
             type="text"
-            placeholder="Search by Reservation ID or Name or Date"
+            placeholder="Search by reservation ID or Name or Email or Date"
             value={searchQuery}
             onChange={handleSearch}
+            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'180px', zIndex:'1', height:'20px', marginRight:'0px'}}
           />
         </Form.Group>
       </Form>
+      </div>
 
       {/* Table to display previous events */}
-      <Table striped bordered hover className="mt-4" style={{align:'center'}}>
+      <Table striped bordered hover className="mt-4">
         <thead>
           <tr align='center'>
             <th>Res. ID</th>
@@ -387,11 +397,11 @@ const Events = () => {
               <td>{reservation.endTime}</td>
               <td style={{display:'flex'}}>
                 {/* Edit button */}
-                <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'20px'}}>
+                <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'15px'}}>
                   <IoMdCreate />
                 </Button>
                 {/* Delete button */}
-                <Button variant="danger" onClick={() => handleOpenConfirmationModal(reservation._id)} style={{marginRight:'20px'}}>
+                <Button variant="danger" onClick={() => handleOpenConfirmationModal(reservation._id)} style={{marginRight:'15px'}}>
                   <IoMdTrash />
                 </Button>
               </td>
@@ -404,8 +414,9 @@ const Events = () => {
       {editReservation && (
         <div className="outer-container3"><br></br>
           <div className="events">
-            <h2 className="center-heading">Edit reservation</h2>
-            <form onSubmit={handleCheckAvailability}>
+          <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={handleCloseForm} />
+          <h2 className="center-heading">Edit reservation</h2>
+          <form onSubmit={handleCheckAvailability}>
             <div className="form-group">
                     <label>Name :</label>
                     <input type="text" name="name" value={formData.name} onChange={handleChange} required />
