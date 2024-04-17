@@ -34,7 +34,7 @@ const Index = () => {
     const currentDate = new Date();
   
     switch (timeRange) {
-      case 'allCompleted': // New case for downloading all completed orders
+      case 'allCompleted': 
         filteredOrders = completedOrders;
         break;
       case 'Last 7 days':
@@ -49,6 +49,10 @@ const Index = () => {
         const past6MonthsDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()-180);
         filteredOrders = completedOrders.filter(order => new Date(order.createdAt) >= past6MonthsDate);
         break;
+      case 'Today':
+        const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        filteredOrders = completedOrders.filter(order => new Date(order.createdAt) >= today);
+        break;
       default:
         break;
     }
@@ -60,7 +64,7 @@ const Index = () => {
       additionalInfo,
       ["Date", "Order ID", "Customer ID", "Customer Name", "Address", "Rider"],
       filteredOrders.flatMap(order => [
-        /*{ "Date": "", "Order ID": "", "Customer ID": "", "Customer Name": "", "Address": "", "Rider": "" },*/
+        
         { "Date": new Date(order.createdAt).toLocaleDateString(), "Order ID": order.orderid, "Customer ID": order.customerid, "Customer Name": order.customername, "Address": order.deliveryaddress, "Rider": order.rider }
       ]),
       timeRange === 'allCompleted' ? 'All_Completed_Orders_Report' : `Completed_Order_Report_${timeRange}`,
@@ -164,7 +168,8 @@ const Index = () => {
             </Button>
             {showDownloadOptions && (
               <div className="download-options" >
-                <Button variant="info" onClick={() => downloadPDF('Last 7 days')}>Last 7 Days</Button>
+                <Button variant="info" onClick={() => downloadPDF('Today')}>Today</Button>
+                <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('Last 7 days')}>Last 7 Days</Button>
                 <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('Past 3 months')}>Past 3 Months</Button>
                 <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('Past 6 months')}>Past 6 Months</Button>
                 <Button style={{marginLeft:'10px'}} variant="info" onClick={() => downloadPDF('allCompleted')}>All the time</Button>
