@@ -12,14 +12,15 @@ import axios from "axios";
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const [filteredReservations, setFilteredReservations] = useState([]);
   const [editReservation, setEditReservation] = useState(null);
   const [availability, setAvailability] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
-  const [errors, setErrors] = useState({});
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [reservationToDelete, setReservationToDelete] = useState(null);
+  const [showAdditionalButtons, setShowAdditionalButtons] = useState(false);
   const [startTimeOptions, setStartTimeOptions] = useState([]);
   const [endTimeOptions, setEndTimeOptions] = useState([]);
   const [formData, setFormData] = useState({
@@ -68,6 +69,19 @@ const Events = () => {
   // Function to handle closing the form
   const handleCloseForm = () => {
     setEditReservation(null); // Reset editReservation state
+  };
+
+  //Function to group reservations by date
+  const groupReservationsByDate = () => {
+    const groupedReservations = {};
+    filteredReservations.forEach(reservation => {
+      const date = reservation.date;
+      if (!groupedReservations[date]) {
+        groupedReservations[date] = [];
+      }
+      groupedReservations[date].push(reservation);
+    });
+    return groupedReservations;
   };
 
   //function to get date
@@ -314,28 +328,63 @@ const Events = () => {
   };
 
   // Function to prepare data for PDF report
-  const preparePDFData = () => {
+  const preparePDFData = (reservations) => {
     const title = "Events Report";
     const columns = ["Res. ID", "Name", "Phone", "Email", "No. of Guests", "Date", "Start Time", "End Time"];
-    const data = filteredReservations.map(reservation => ({
+    const data = reservations.map(reservation => ({
       "Res. ID": reservation.reservationId,
       "Name": reservation.name,
       "Phone": reservation.phone,
       "Email": reservation.email,
       "No. of Guests": reservation.guests,
-      "Date": reservation.date,
+      "Date": reservation.date.split('T')[0],
       "Start Time": reservation.startTime,
       "End Time": reservation.endTime
-
     }));
     const fileName = "events_report";
     return { title, columns, data, fileName };
   };
 
   // Function to handle downloading PDF report
-  const downloadPDF = () => {
-    const { title, columns, data, fileName } = preparePDFData();
+  const downloadPDF = (reservations) => {
+    const { title, columns, data, fileName } = preparePDFData(reservations);
     generatePDF(title, columns, data, fileName);
+  };
+
+  //Function to handle download reports button
+  const handleDownloadReportsClick = () => {
+    setShowAdditionalButtons(!showAdditionalButtons);
+  };
+
+  // Function to handle downloading PDF reports for different time periods
+  const handleDownloadReport = (timePeriod) => {
+    let filteredData = [];
+    switch (timePeriod) {
+      case 'today':
+        filteredData = events.filter(reservation => reservation.date === getTodayDate());
+        break;
+      case 'past7days':
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        const sevenDaysAgoStr = sevenDaysAgo.toISOString().split('T')[0];
+        filteredData = events.filter(reservation => reservation.date >= sevenDaysAgoStr);
+        break;
+      case 'pastMonth':
+        const pastMonth = new Date();
+        pastMonth.setMonth(pastMonth.getMonth() - 1);
+        const pastMonthStr = pastMonth.toISOString().split('T')[0];
+        filteredData = events.filter(reservation => reservation.date >= pastMonthStr);
+        break;
+      case 'past3Months':
+        const past3Months = new Date();
+        past3Months.setMonth(past3Months.getMonth() - 3);
+        const past3MonthsStr = past3Months.toISOString().split('T')[0];
+        filteredData = events.filter(reservation => reservation.date >= past3MonthsStr);
+        break;
+      default:
+        filteredData = events;
+    }
+    downloadPDF(filteredData);
   };
 
   return (
@@ -350,9 +399,12 @@ const Events = () => {
         </Button>
       </Link>
 
-      {/* Download PDF report */}
-      <Button variant="success" className="m-1" onClick={downloadPDF}>
-        <IoMdDownload className="mb-1" /> <span>Download Report</span>
+      {/* Initial Download Reports Button */}
+      <Button
+        className="btn-danger"
+        onClick={handleDownloadReportsClick}
+      >
+        <IoMdDownload className="mb-1" /> <span>Download Reports</span>
       </Button>
 
       {/* Search Form */}
@@ -369,46 +421,97 @@ const Events = () => {
       </Form>
       </div>
 
-      {/* Table to display previous events */}
-      <Table striped bordered hover className="mt-4">
-        <thead>
-          <tr align='center'>
-            <th>Res. ID</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Guests</th>
-            <th>Date</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredReservations.map((reservation, index) => (
-            <tr key={reservation._id}>
-              <td>{reservation.reservationId}</td>
-              <td>{reservation.name}</td>
-              <td>{reservation.phone}</td>
-              <td>{reservation.email}</td>
-              <td>{reservation.guests}</td>
-              <td>{reservation.date}</td>
-              <td>{reservation.startTime}</td>
-              <td>{reservation.endTime}</td>
-              <td style={{display:'flex'}}>
-                {/* Edit button */}
-                <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'15px'}}>
-                  <IoMdCreate />
-                </Button>
-                {/* Delete button */}
-                <Button variant="danger" onClick={() => handleOpenConfirmationModal(reservation._id)} style={{marginRight:'15px'}}>
-                  <IoMdTrash />
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      {/* Additional Download Buttons */}
+      {showAdditionalButtons && (
+        <div style={{ display: 'flex', gap:'10px', alignItems: 'center' }}>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("all")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>All Reservations</span>
+          </Button>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("today")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>Today's Reservations</span>
+          </Button>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("past7days")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>Past 7 Days Reservations</span>
+          </Button>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("pastMonth")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>Past Month Reservations</span>
+          </Button>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("past3Months")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>Past 3 Months Reservations</span>
+          </Button>
+        </div>
+      )}
+
+      {/* Grouped reservations */}
+      {Object.entries(groupReservationsByDate()).map(([date, reservations]) => (
+        <div key={date}>
+          <h2 className="mt-4" style={{backgroundColor:'wheat', width:'155px', padding:'8px', borderRadius:'40px', paddingLeft:'22px', fontSize:'22px'}}>{date.split('T')[0]}</h2>
+          <Table striped bordered hover className="mt-2">
+            <thead>
+              <tr align='center'>
+                <th>Res. ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Guests</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reservations.map((reservation) => (
+                <tr key={reservation._id}>
+                  <td>{reservation.reservationId}</td>
+                  <td>{reservation.name}</td>
+                  <td>{reservation.phone}</td>
+                  <td>{reservation.email}</td>
+                  <td>{reservation.guests}</td>
+                  <td>{reservation.date.split('T')[0]}</td>
+                  <td>{reservation.startTime}</td>
+                  <td>{reservation.endTime}</td>
+                  <td style={{display:'flex'}}>
+                    {/* Edit button */}
+                    <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'15px'}}>
+                      <IoMdCreate />
+                    </Button>
+                    {/* Delete button */}
+                    <Button variant="danger" onClick={() => handleOpenConfirmationModal(reservation._id)} style={{marginRight:'15px'}}>
+                      <IoMdTrash />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      ))}
 
       {/* Reservation Form (to display when editing) */}
       {editReservation && (
