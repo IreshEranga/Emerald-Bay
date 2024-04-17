@@ -53,14 +53,13 @@ const Customer_Menu = () => {
     return (
         <div style={{ backgroundColor: 'black' }}>
             <Navbar_customer />
-            <div className="outer-container5">
+            <div className="outer-container5"><br></br>
                 <div className="menu-container">
-                    <br /><br />
-                    <h1 className="menu-title">Our Menu</h1><br />
+                    <br />
+                    <h1 className="menu-title">Our Menu</h1>
                     
                     {Object.entries(menuItems).map(([category, items]) => (
-                        <div key={category} className="category">
-                            <br />
+                        <div key={category} className="category"><br/>
                             <h2 className="center-heading1" style={{fontSize:'32px', color:'beige', fontFamily:'cursive'}}>{category}</h2><br></br>
                             <div className="menu-items-container" style={{display:'flex'}}> 
                                 {items && items.map((item, index) => (
@@ -72,7 +71,7 @@ const Customer_Menu = () => {
                                         </div>
                                         <button className="add-to-cart-button" style={{position: 'absolute', top: '-10px', right: '-10px'}} onClick={() => addToCart(item)}><FaPlus /></button>
                                     </div>
-                                ))}
+                                ))}<br />
                             </div>
                         </div>
                     ))}
