@@ -105,7 +105,6 @@ const VIPRoomReservations = () => {
                 setShowAvailabilityMessage(!response.data.available); // Show message only if not available
             } catch (error) {
                 console.error('Error checking availability:', error);
-                // Handle error state or display an error message
             } finally {
                 setLoading(false);
             }
@@ -123,13 +122,12 @@ const VIPRoomReservations = () => {
                 const response = await axios.post('http://localhost:8000/vipRoomReservation/create', formData);
                 console.log(response.data); // Assuming the backend responds with data
                 /*resetForm();*/
-                toast.success('VIP Room booked successfully!'); // Display success toast
+                toast.success('VIP Room booked successfully!');
                 setTimeout(() => {
                     window.history.back(); // Go back after a delay
                 }, 1000); // Adjust the delay time as needed
             } catch (error) {
                 console.error('Error submitting reservation:', error);
-                // Handle error state or display an error message
                 toast.error('Error booking vip room. Please try again later.');
             }
         } else {

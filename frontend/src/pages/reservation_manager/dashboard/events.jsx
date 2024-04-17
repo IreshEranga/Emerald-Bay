@@ -227,7 +227,6 @@ const Events = () => {
             setShowAvailabilityMessage(!response.data.available); // Show message only if not available
         } catch (error) {
             console.error('Error checking availability:', error);
-            // Handle error state or display an error message
         } finally {
             setLoading(false);
         }
@@ -256,7 +255,6 @@ const Events = () => {
     if (editReservation) {
       // Update reservation
       try {
-        // Update the editReservation state with new data
         const updatedReservation = {
           ...editReservation,
           name: formData.name,
@@ -269,7 +267,7 @@ const Events = () => {
         };
         
         await axios.put(`http://localhost:8000/event/update/${editReservation._id}`, updatedReservation);
-        toast.success('Reservation updated successfully!'); // Display success toast
+        toast.success('Reservation updated successfully!');
         setEditReservation(null); // Reset editReservation state
         fetchEvents(); // Refresh data after update
       } catch (error) {
@@ -277,7 +275,7 @@ const Events = () => {
         toast.error('Error updating reservation!');
       }
     } else {
-      // Logic for creating a new reservation
+      setErrors(errorsObj);
     }
   };
 
