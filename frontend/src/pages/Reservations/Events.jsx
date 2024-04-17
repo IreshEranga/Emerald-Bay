@@ -11,9 +11,7 @@ const Events = () => {
     const [availability, setAvailability] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
-    // State to hold start time options
     const [startTimeOptions, setStartTimeOptions] = useState([]);
-    // State to hold end time options
     const [endTimeOptions, setEndTimeOptions] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
@@ -187,7 +185,6 @@ const Events = () => {
                 setShowAvailabilityMessage(!response.data.available); // Show message only if not available
             } catch (error) {
                 console.error('Error checking availability:', error);
-                // Handle error state or display an error message
             } finally {
                 setLoading(false);
             }
@@ -205,13 +202,12 @@ const Events = () => {
                 const response = await axios.post('http://localhost:8000/event/create', formData);
                 console.log(response.data); // Assuming the backend responds with data
                 /*resetForm();*/
-                toast.success('Event reserved successfully!'); // Display success toast
+                toast.success('Event reserved successfully!');
                 setTimeout(() => {
                     window.history.back(); // Go back after a delay
                 }, 1000); // Adjust the delay time as needed
             } catch (error) {
                 console.error('Error submitting reservation:', error);
-                // Handle error state or display an error message
                 toast.error('Error booking event. Please try again later.');
             }
         } else {
