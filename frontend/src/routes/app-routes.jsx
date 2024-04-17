@@ -10,6 +10,7 @@ import {
   Supplier,
   SupplierDashboard,
   Delivery_riderDashboard,
+  InventoryManagerDashboard,
 } from "../pages";
 
 import CustomerAffairsManagerSideBar from "../pages/customerAffairs/dashboard/CustomerAffairsManagerSidebar.jsx";
@@ -132,6 +133,11 @@ const AppRoutes = () => {
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
             <Route path="/customerManager" element={<CustomerManagerSideBar />} />
             <Route path="/customerManager/customers" element={<Customers />} />
+          </Route>
+
+          {/* Inventory Manager Private Routes */}
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.INVENTORYMANAGER]} />}>
+            <Route path="/inventory-manager" element={<InventoryManagerDashboard />} />
           </Route>
 
         </Routes>
