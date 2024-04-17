@@ -20,6 +20,7 @@ const eventRoutes = require("./routes/eventRoutes");
 const itemRoutes = require("./routes/itemRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const inventoryRoutes = require("./routes/inventoryRoutes");
 
 // express app
 const app = express();
@@ -50,7 +51,8 @@ app.use("/vipRoomReservation",vipRoomReservationRoutes);
 app.use("/event",eventRoutes);
 app.use("/item",itemRoutes);
 app.use("/customer",customerRoutes);
-app.use("/cart",cartRoutes);
+app.use("/cart", cartRoutes);
+app.use("/api/inventories", inventoryRoutes);
 
 // connect to db
 mongoose
