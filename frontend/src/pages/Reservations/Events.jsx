@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Events.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -11,18 +11,30 @@ const Events = () => {
     const [availability, setAvailability] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
+    // State to hold start time options
+    const [startTimeOptions, setStartTimeOptions] = useState([]);
+    // State to hold end time options
+    const [endTimeOptions, setEndTimeOptions] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
         email: '',
         guests: '1', // Default value for number of guests
         date: getTodayDate(),
-        time: '',
+        startTime: '',
+        endTime: ''
     });
-    
+
     useEffect(() => {
         setAvailability(false); // Reset availability state on form change
-    }, [formData]);
+        // Update start time options when date changes
+        updateStartTimeOptions(formData.date);
+    }, [formData.date]);
+
+    useEffect(() => {
+        // Update end time options when start time changes
+        updateEndTimeOptions(formData.startTime);
+    }, [formData.startTime]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,17 +44,17 @@ const Events = () => {
         }));
     };
 
-    //function to get date
+    // Function to get today's date
     function getTodayDate() {
         const today = new Date();
         const day = String(today.getDate()).padStart(2, '0');
         const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
         const year = today.getFullYear();
-    
+
         return `${year}-${month}-${day}`;
-    }    
-    
-    //form validation
+    }
+
+    // Form validation function
     const validateForm = (data) => {
         const errors = {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -66,7 +78,102 @@ const Events = () => {
         return errors;
     };
 
-    //function to check availability
+    // Function to update start time options dynamically based on selected date
+    const updateStartTimeOptions = (selectedDate) => {
+        const today = new Date();
+        const selected = new Date(selectedDate);
+        const hours = today.getHours();
+        const minutes = today.getMinutes();
+        let startTimeOptions = [];
+
+        // Function to determine if a time is within the range of 8:00 AM to 10:00 PM
+        const isWithinRange = (hour, minute) => {
+            const time = hour + minute / 60;
+            return time >= 8 && time <= 19;
+        };
+
+        // If the selected date is today, consider only times after the current time
+        if (selected.toDateString() === today.toDateString()) {
+            let startHour = hours;
+            let startMinute = Math.ceil(minutes / 30) * 30; // Round minutes up to the nearest 30
+            if (startMinute === 60) {
+                startMinute = 0;
+                startHour += 1;
+            }
+
+            for (let hour = startHour; hour <= 19; hour++) {
+                for (let minute = (hour === startHour ? startMinute : 0); minute < 60; minute += 30) {
+                    if (isWithinRange(hour, minute)) {
+                        const formattedHour = String(hour).padStart(2, '0');
+                        const formattedMinute = String(minute).padStart(2, '0');
+                        const time = `${formattedHour}.${formattedMinute}`;
+                        startTimeOptions.push(time);
+                    }
+                }
+            }
+        } else {
+            // For other dates, consider all times from 8:00 AM to 10:00 PM
+            for (let hour = 8; hour <= 19; hour++) {
+                for (let minute = 0; minute < 60; minute += 30) {
+                    const formattedHour = String(hour).padStart(2, '0');
+                    const formattedMinute = String(minute).padStart(2, '0');
+                    const time = `${formattedHour}.${formattedMinute}`;
+                    startTimeOptions.push(time);
+                }
+            }
+        }
+        setFormData(prevState => ({
+            ...prevState,
+            startTime: '', // Reset start time when options change
+        }));
+        setStartTimeOptions(startTimeOptions);
+    };
+
+    // Function to update end time options based on selected start time
+    const updateEndTimeOptions = (selectedStartTime) => {
+        if (!selectedStartTime) return; // If no start time selected, return empty end time options
+    
+        const [startHour, startMinute] = selectedStartTime.split('.').map(Number);
+        let endTimeOptions = [];
+    
+        // Generate end times starting from 30 minutes after the selected start time
+        let minuteOffset = startMinute + 30;
+        for (let hour = startHour; hour <= 19; hour++) {
+            for (let minute = minuteOffset; minute < 60; minute += 30) {
+                const formattedHour = String(hour).padStart(2, '0');
+                const formattedMinute = String(minute).padStart(2, '0');
+                const time = `${formattedHour}.${formattedMinute}`;
+                endTimeOptions.push(time);
+            }
+            minuteOffset = 0; // After the first hour, start from 0 minutes
+        }
+    
+        setFormData((prevState) => ({
+            ...prevState,
+            endTime: '', // Reset end time when options change
+        }));
+        setEndTimeOptions(endTimeOptions);
+    };    
+
+    // Handler for start time change
+    const handleStartTimeChange = (e) => {
+        const { value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            startTime: value
+        }));
+    };
+
+    // Handler for end time change
+    const handleEndTimeChange = (e) => {
+        const { value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            endTime: value
+        }));
+    };
+
+    // Update handleCheckAvailability function to include startTime and endTime in formData
     const handleCheckAvailability = async (e) => {
         e.preventDefault();
         setShowAvailabilityMessage(false);
@@ -112,26 +219,13 @@ const Events = () => {
         }
     };
 
-    /*const resetForm = () => {
-        setFormData({
-            name: '',
-            phone: '',
-            email: '',
-            tableNo: '',
-            date: getTodayDate(),
-            time: ''
-        });
-        setAvailability(false);
-        setErrors({});
-    };*/
-
     return (
         <div className="outer-container3"><br></br>
             <div className="events">
-            <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} />
-                <h2 className="center-heading">Plan An Event</h2><br></br>
+                <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} />
+                <h2 className="center-heading">Plan An Event</h2>
                 <form onSubmit={handleCheckAvailability}>
-                    <div className="form-group">
+                <div className="form-group">
                         <label>Name :</label>
                         <input type="text" name="name" value={formData.name} onChange={handleChange} required />
                         {errors.name && <span className="error">{errors.name}</span>}
@@ -156,12 +250,23 @@ const Events = () => {
                         <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
-                        <label>Time :</label>
-                        <select name="time" value={formData.time} onChange={handleChange} required>
+                        <label>Start Time :</label>
+                        <select name="startTime" value={formData.startTime} onChange={handleStartTimeChange} required>
                             <option value="">Select Time</option>
-                            {Array.from(Array(25), (_, i) => i).map(hour => (
-                                <option key={hour} value={`${hour.toString().padStart(2, '0')}:00`}>
-                                    {`${hour.toString().padStart(2, '0')}:00`}
+                            {startTimeOptions.map(time => (
+                                <option key={time} value={time}>
+                                    {time}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>End Time :</label>
+                        <select name="endTime" value={formData.endTime} onChange={handleEndTimeChange} required>
+                        <option value="">Select Time</option>
+                            {endTimeOptions.map(time => (
+                                <option key={time} value={time}>
+                                    {time}
                                 </option>
                             ))}
                         </select>

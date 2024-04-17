@@ -9,9 +9,10 @@ import axios from 'axios';
 
 const TableReservations = () => {
     const [errors, setErrors] = useState({});
-    const [availability, setAvailability] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [availability, setAvailability] = useState(false);
     const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
+    const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
@@ -25,12 +26,25 @@ const TableReservations = () => {
         setAvailability(false); // Reset availability state on form change
     }, [formData]);
 
+    useEffect(() => {
+        // Update time slots based on selected date
+        setAvailableTimeSlots(generateTimeSlots(formData.date));
+    }, [formData.date]);   
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+        if (name === 'date') {
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value,
+                time: '' // Reset time when date changes
+            }));
+        } else {
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
     };
 
     //function to get date
@@ -43,17 +57,23 @@ const TableReservations = () => {
         return `${year}-${month}-${day}`;
     }    
 
-    //function to get time
-    function generateTimeSlots() {
-        const startTime = 8; // Start from 08:00 AM
-        const endTime = 21; // End at 09:00 PM
+    // Function to generate time slots based on selected date
+    const generateTimeSlots = (selectedDate) => {
+        const today = new Date();
+        const selected = new Date(selectedDate);
+        const isToday = today.toDateString() === selected.toDateString();
+        const startTime = isToday ? today.getHours() : 8; // Start from current hour if date is today
+        const endTime = 22; // End at 09:00 PM
         const slots = [];
-        for (let i = startTime; i <= endTime; i += 1) {
-            const hour = (i < 10) ? `0${i}` : `${i}`;
-            slots.push(`${hour}:00`);
+        for (let i = startTime; i <= endTime; i++) {
+            for (let j = 0; j < 60; j += 30) { // Increment by 30 minutes
+                const hour = (i < 10) ? `0${i}` : `${i}`;
+                const minute = (j === 0) ? '00' : '30';
+                slots.push(`${hour}:${minute}`);
+            }
         }
         return slots;
-    }
+    };
 
     //form validation
     const validateForm = (data) => {
@@ -161,20 +181,6 @@ const TableReservations = () => {
                         {errors.email && <span className="error">{errors.email}</span>}
                     </div>
                     <div className="form-group">
-                        <label>Date :</label>
-                        <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label>Time : </label>
-                        <select name="time" value={formData.time} onChange={handleChange} required>
-                            <option value=""> Select Time </option>
-                            {generateTimeSlots().map((slot, index) => (
-                                <option key={index} value={slot}>{slot}</option>
-                            ))}
-                        </select>
-                        <p style={{ color: 'green' }}>One reservation is only available for one hour.</p>
-                    </div>
-                    <div className="form-group">
                         <label>Table Number : </label>
                         <select name="tableNo" value={formData.tableNo} onChange={handleChange} required>
                             <option value=""> Select Table No </option>
@@ -184,6 +190,20 @@ const TableReservations = () => {
                         </select>
                         {errors.tableNo && <span className="error">{errors.tableNo}</span>}
                         <p style={{ color: 'green' }}>Please select a table using table layout.</p>
+                    </div>
+                    <div className="form-group">
+                        <label>Date :</label>
+                        <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
+                    </div>
+                    <div className="form-group">
+                        <label>Time : </label>
+                        <select name="time" value={formData.time} onChange={handleChange} required>
+                            <option value=""> Select Time </option>
+                            {availableTimeSlots.map((slot, index) => (
+                                <option key={index} value={slot}>{slot}</option>
+                            ))}
+                        </select>
+                        <p style={{ color: 'green' }}>One reservation is only available for 30 minutes.</p>
                     </div>
                     <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
                     {availability &&

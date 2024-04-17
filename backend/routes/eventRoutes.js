@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const Event = require("../models/Event");
 const sendEmail = require("../util/sendEmail");
-const ReservationsEmailTemplate = require("../util/email_templates/ReservationsEmailTemplate");
+const eventReservationsEmailTemplate = require("../util/email_templates/eventReservationsEmailTemplate");
+const cron = require('node-cron');
 
 
 // Function to generate reservation ID
@@ -28,8 +29,8 @@ router.post("/create", async (req, res) => {
       await newEvent.save();
   
       // Send confirmation email to the customer
-      const { name, email, date, time, guests } = req.body;
-      const emailTemplate = ReservationsEmailTemplate(name, reservationId, date, time, guests);
+      const { name, email, date, startTime, endTime, guests } = req.body;
+      const emailTemplate = eventReservationsEmailTemplate(name, reservationId, date, startTime, endTime, guests);
       sendEmail(email, "Event Reservation Confirmation", emailTemplate);
   
       res.json({ status: "Event Added", event: newEvent });
@@ -42,12 +43,25 @@ router.post("/create", async (req, res) => {
 // Check event availability
 router.post("/checkAvailability", async (req, res) => {
     try {
-        const { date, time, excludeReservationId } = req.body;
-        const query = { date, time };
-        if (excludeReservationId) {
-            query._id = { $ne: excludeReservationId };
-        }
-        const existingReservation = await Event.findOne(query);
+        const { date, startTime, endTime } = req.body;
+        const existingReservation = await Event.findOne({
+            date,
+            $or: [
+                {
+                    $and: [
+                        { startTime: { $lte: endTime } }, // Event starts before or at the same time as the requested end time
+                        { endTime: { $gte: startTime } } // Event ends after or at the same time as the requested start time
+                    ]
+                },
+                {
+                    $and: [
+                        { startTime: { $gte: startTime } }, // Event starts after or at the same time as the requested start time
+                        { endTime: { $lte: endTime } } // Event ends before or at the same time as the requested end time
+                    ]
+                }
+            ]
+        });
+
         if (existingReservation) {
             res.json({ available: false });
         } else {
@@ -116,6 +130,19 @@ router.delete("/delete/:id", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error deleting Event" });
+    }
+});
+
+// Schedule cron job to delete reservations older than 4 months
+cron.schedule('* * * * *', async () => {
+    try {
+        const currentDate = new Date();
+        const fourMonthsAgo = new Date();
+        fourMonthsAgo.setMonth(fourMonthsAgo.getMonth() - 4);
+        await Event.deleteMany({ date: { $lt: fourMonthsAgo } });
+        console.log('Reservations older than 4 months deleted successfully.');
+    } catch (error) {
+        console.error('Error deleting old reservations:', error);
     }
 });
 

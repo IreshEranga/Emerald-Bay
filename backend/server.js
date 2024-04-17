@@ -18,7 +18,6 @@ const tableReservationRoutes = require("./routes/tableReservationRoutes");
 const vipRoomReservationRoutes = require("./routes/vipRoomReservationRoutes");
 const eventRoutes = require("./routes/eventRoutes");
 const itemRoutes = require("./routes/itemRoutes");
-const studentRoutes = require("./routes/studentRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 
@@ -50,7 +49,6 @@ app.use("/tableReservation",tableReservationRoutes);
 app.use("/vipRoomReservation",vipRoomReservationRoutes);
 app.use("/event",eventRoutes);
 app.use("/item",itemRoutes);
-app.use("/student",studentRoutes);
 app.use("/customer",customerRoutes);
 app.use("/cart",cartRoutes);
 
