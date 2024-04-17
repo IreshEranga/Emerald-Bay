@@ -12,7 +12,7 @@ import FormExample from './contactForm';
 
 const Home = () => {
   return (
-    <div>
+    <div style={{backgroundColor:'black'}}>
       <NavBar />
 
       <div className="welcome"><br></br><br></br><br></br>

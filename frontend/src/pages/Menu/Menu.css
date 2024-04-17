@@ -59,3 +59,20 @@
     /*border-left: 1px dotted #ffffff; /* Add a dotted line between item name and price */
     padding-left: 10px;
   }
+
+  .category-line-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.category-line-container h2 {
+    flex-grow: 1;
+    margin: 0;
+}
+
+.category-line {
+    height: 3px; /* Adjust the height as needed */
+    background-color: white; /* Ensure the line color matches your design */
+    border: none; /* Remove any border */
+}

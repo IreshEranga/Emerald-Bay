@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const VIPRoomReservation = require("../models/VIPRoomReservation");
 const sendEmail = require("../util/sendEmail");
-const ReservationsEmailTemplate = require("../util/email_templates/ReservationsEmailTemplate");
+const vipRoomReservationsEmailTemplate = require("../util/email_templates/vipRoomReservationsEmailTemplate");
+const cron = require('node-cron');
 
 
 // Function to generate reservation ID
@@ -30,7 +31,7 @@ router.post("/create", async (req, res) => {
   
       // Send confirmation email to the customer
       const { name, email, date, time, guests } = req.body;
-      const emailTemplate = ReservationsEmailTemplate(name, reservationId, date, time, guests);
+      const emailTemplate = vipRoomReservationsEmailTemplate(name, reservationId, date, time, guests);
       sendEmail(email, "VIP Room Reservation Confirmation", emailTemplate);
   
       res.json({ status: "VIP Room Reservation Added", vipRoomReservation: newVIPRoomReservation });
@@ -120,5 +121,17 @@ router.delete("/delete/:id", async (req, res) => {
     }
 });
 
+// Schedule cron job to delete reservations older than 4 months
+cron.schedule('* * * * *', async () => {
+    try {
+        const currentDate = new Date();
+        const fourMonthsAgo = new Date();
+        fourMonthsAgo.setMonth(fourMonthsAgo.getMonth() - 4);
+        await VIPRoomReservation.deleteMany({ date: { $lt: fourMonthsAgo } });
+        //console.log('Reservations older than 4 months deleted successfully.');
+    } catch (error) {
+        console.error('Error deleting old reservations:', error);
+    }
+});
 
 module.exports = router;

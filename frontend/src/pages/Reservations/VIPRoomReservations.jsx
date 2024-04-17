@@ -11,11 +11,12 @@ const VIPRoomReservations = () => {
     const [availability, setAvailability] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
+    const [availableTimeSlots, setAvailableTimeSlots] = useState(generateTimeSlots(getTodayDate()));
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
         email: '',
-        guests: '1', // Default value for number of guests
+        guests: '1',
         date: getTodayDate(),
         time: '',
     });
@@ -26,10 +27,20 @@ const VIPRoomReservations = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: name === "guests" ? parseInt(value) : value // Convert value to integer for guests
-        }));
+        if (name === 'date') {
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value,
+                time: '' // Reset time when date changes
+            }));
+            // Update time slots based on selected date
+            setAvailableTimeSlots(generateTimeSlots(value));
+        } else {
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: name === "guests" ? parseInt(value) : value // Convert value to integer for guests
+            }));
+        }
     };
 
     //function to get date
@@ -42,12 +53,14 @@ const VIPRoomReservations = () => {
         return `${year}-${month}-${day}`;
     }      
 
-    //function to get time
-    function generateTimeSlots() {
-        const startTime = 10; // Start from 10:00 AM
-        const endTime = 20; // End at 08:00 PM
+    // Function to generate time slots based on selected date
+    function generateTimeSlots(selectedDate) {
+        const today = new Date();
+        const selected = new Date(selectedDate);
+        const startTime = (today.getDate() === selected.getDate()) ? today.getHours() : 8; // Start from current hour if date is today
+        const endTime = 20; // End at 09:00 PM
         const slots = [];
-        for (let i = startTime; i <= endTime; i += 2) {
+        for (let i = startTime; i <= endTime; i += 1) {
             const hour = (i < 10) ? `0${i}` : `${i}`;
             slots.push(`${hour}:00`);
         }
@@ -170,12 +183,12 @@ const VIPRoomReservations = () => {
                     <div className="form-group">
                         <label>Time :</label>
                         <select name="time" value={formData.time} onChange={handleChange} required>
-                            <option value="">Select Time</option>
-                            {generateTimeSlots().map((slot, index) => (
+                            <option value=""> Select Time </option>
+                            {availableTimeSlots.map((slot, index) => (
                                 <option key={index} value={slot}>{slot}</option>
                             ))}
                         </select>
-                        <p style={{ color: 'green' }}>One reservation is only available for two hours.</p>
+                        <p style={{ color: 'green' }}>One reservation is only available for one hour.</p>
                     </div>
                     <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
                     {availability &&

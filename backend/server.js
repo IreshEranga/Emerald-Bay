@@ -18,8 +18,9 @@ const tableReservationRoutes = require("./routes/tableReservationRoutes");
 const vipRoomReservationRoutes = require("./routes/vipRoomReservationRoutes");
 const eventRoutes = require("./routes/eventRoutes");
 const itemRoutes = require("./routes/itemRoutes");
-const studentRoutes = require("./routes/studentRoutes");
 const customerRoutes = require("./routes/customerRoutes");
+const cartRoutes = require("./routes/cartRoutes");
+const inventoryRoutes = require("./routes/inventoryRoutes");
 
 // express app
 const app = express();
@@ -49,14 +50,15 @@ app.use("/tableReservation",tableReservationRoutes);
 app.use("/vipRoomReservation",vipRoomReservationRoutes);
 app.use("/event",eventRoutes);
 app.use("/item",itemRoutes);
-app.use("/student",studentRoutes);
 app.use("/customer",customerRoutes);
+app.use("/cart", cartRoutes);
+app.use("/api/inventories", inventoryRoutes);
 
 // connect to db
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    console.log("connected to monodb database");
+    console.log("connected to mongodb database");
     // listen to port
     app.listen(process.env.PORT, () => {
       console.log("listening for requests on port", process.env.PORT);

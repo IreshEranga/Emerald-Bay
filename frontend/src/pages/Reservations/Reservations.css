@@ -1,12 +1,12 @@
 .reservations {
   background-image: url(../../assets/IMG_0003.jpg);
-  background-size: cover; /* Adjust the background size */
-  /*width: 650px; Set the width */
-  height:600px;
+  background-size: cover;
+  /*width: 650px;*/
+  height:550px;
 }
 
 .reservations-container {
-    padding: 20px;
+    padding: 50px;
     background-color: white;
   }
 
@@ -17,27 +17,15 @@
     font-size: 40px;
   }
   
-  /*.reservation-categories {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-  
-  .reservation-category {
-    width: 30%;
-    margin-bottom: 20px;
-    text-align: center;
-  }*/
-  
   .reservation-categories {
     display: flex;
-    flex-direction: column; /* Change flex-direction to column */
-    align-items: center; /* Center-align the items */
+    flex-direction: column;
+    align-items: center;
     background-color: black;
   }
   
   .reservation-category {
-    width: 80%; /* Adjust the width as needed */
+    width: 80%;
     margin-bottom: 20px;
     text-align: center;
   }
@@ -48,7 +36,7 @@
   }
   
   .reservation-category h3 {
-    margin-top: 10px;
+    margin-top: 5px;
     color: wheat;
     font-size: 35px;
   }
@@ -56,8 +44,16 @@
   .reservation-category p {
     margin-bottom: 10px;
     color: white;
-    font-size: 18px;
+    font-size: 20px;
     font-family:'Courier New', Courier, monospace;
+  }
+
+  .image-hover:hover {
+    transform: scale(1.08);
+  }
+  
+  .btn:hover {
+    transform: scale(1.1);
   }
 
 /*.btn {

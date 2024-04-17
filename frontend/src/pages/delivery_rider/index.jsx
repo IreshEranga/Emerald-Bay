@@ -63,7 +63,7 @@ const index = () => {
     const riderCount = riders.length;
     //
     //const title = "EMERALD BAY RESTAURANT";
-    const additionalInfo = `\n\n\nDelivery Riders Report\nTotal Riders: ${riderCount}`;
+    const additionalInfo = `Delivery Riders Report\nTotal Riders: ${riderCount}\n\n`;
     
     //
     generatePDF(
@@ -117,14 +117,16 @@ const index = () => {
       
       
       
-      <Button variant="primary" className="m-1" onClick={openAddDeliveryRiderModal} style={{width:'200px'}}>
-        <IoMdAddCircleOutline className="mb-1" /> <span>Add a Rider</span>
-      </Button>
-
-      {/* Download PDF report */}
-      <Button variant="success" className="m-1" onClick={downloadPDF} style={{width:'200px'}}>
-        <IoMdDownload className="mb-1" /> <span>Download Report</span>
-      </Button>
+      <div style={{ display: 'flex', gap:'10px', alignItems: 'center' }}>
+          <Button variant="primary" className="m-1" onClick={openAddDeliveryRiderModal} style={{width:'200px'}}>
+            <IoMdAddCircleOutline className="mb-1" /> <span>Add a Rider</span>
+          </Button>
+              
+          {/* Download PDF report */}
+          <Button variant="success" className="m-1" onClick={downloadPDF} style={{width:'200px'}}>
+            <IoMdDownload className="mb-1" /> <span>Download Report</span>
+          </Button>
+      </div>
 
       {/*<div className="riderimg" style={{marginLeft:'450px', marginTop:'-200px', marginBottom:'-60px'}}><img src={riderimg1} alt="rider"  /></div>*/}
 
