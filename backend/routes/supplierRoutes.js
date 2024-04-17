@@ -1,10 +1,11 @@
 const express = require("express");
 const supplierController = require("../controllers/supplierController");
 const authMiddleware = require("../middleware/authMiddleware");
+const USER_ROLES = require("../constants/roles");
 
 const router = express.Router();
 
-router.get("/", authMiddleware(["ADMIN"]), supplierController.getSuppliers);
+router.get("/", authMiddleware(["ADMIN", USER_ROLES.INVENTORYMANAGER]), supplierController.getSuppliers);
 router.patch(
   "/stock",
   authMiddleware(["SUPPLIER"]),
