@@ -127,8 +127,4 @@ export function generatePDF(title, columns, data, fileName, restaurantName) {
   
   doc.save(fileName + ".pdf");
   successMessage("Success", "Your Report has been downloaded");
-  
-
-  doc.save(fileName + ".pdf");
-  successMessage("Success", "Your Report has been downloaded");
 }
