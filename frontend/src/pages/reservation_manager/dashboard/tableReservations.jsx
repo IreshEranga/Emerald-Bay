@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Table, Form, Modal } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,15 +13,16 @@ import axios from "axios";
 const TableReservations = () => {
   const [tableReservations, setTableReservations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredReservations, setFilteredReservations] = useState([]);
-  const [editReservation, setEditReservation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [filteredReservations, setFilteredReservations] = useState([]);
+  const [editReservation, setEditReservation] = useState(null);
   const [availability, setAvailability] = useState(false);
   const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [reservationToDelete, setReservationToDelete] = useState(null);
+  const [showAdditionalButtons, setShowAdditionalButtons] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -56,23 +57,28 @@ const TableReservations = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'date') {
         setFormData(prevState => ({
-            ...prevState,
-            [name]: value,
-            time: '' // Reset time when date changes
+          ...prevState,
+          [name]: value,
         }));
-    } else {
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    }
   };
 
   // Function to handle closing the form
   const handleCloseForm = () => {
     setEditReservation(null); // Reset editReservation state
+  };
+
+  //Function to group reservations by date
+  const groupReservationsByDate = () => {
+    const groupedReservations = {};
+    filteredReservations.forEach(reservation => {
+      const date = reservation.date;
+      if (!groupedReservations[date]) {
+        groupedReservations[date] = [];
+      }
+      groupedReservations[date].push(reservation);
+    });
+    return groupedReservations;
   };
 
   //function to get date
@@ -177,7 +183,7 @@ const TableReservations = () => {
           tableNo: formData.tableNo,
           date: formData.date,
           time: formData.time
-  };
+        };
         
         await axios.put(`http://localhost:8000/tableReservation/update/${editReservation._id}`, updatedReservation);
         toast.success('Reservation updated successfully!'); // Display success toast
@@ -221,7 +227,7 @@ const TableReservations = () => {
     handleDelete(reservationToDelete);
     setShowConfirmationModal(false);
   };
-  
+
   // Function to handle search
   const handleSearch = (event) => {
     const query = event.target.value;
@@ -239,16 +245,16 @@ const TableReservations = () => {
   };
 
   // Function to prepare data for PDF report
-  const preparePDFData = () => {
+  const preparePDFData = (reservations) => {
     const title = "Table Reservations Report";
     const columns = ["Res. ID", "Name", "Phone", "Email", "Table No", "Date", "Time"];
-    const data = filteredReservations.map(reservation => ({
+    const data = reservations.map(reservation => ({
       "Res. ID": reservation.reservationId,
       "Name": reservation.name,
       "Phone": reservation.phone,
       "Email": reservation.email,
       "Table No": reservation.tableNo,
-      "Date": reservation.date,
+      "Date": reservation.date.split('T')[0],
       "Time": reservation.time
     }));
     const fileName = "table_reservations_report";
@@ -256,9 +262,45 @@ const TableReservations = () => {
   };
 
   // Function to handle downloading PDF report
-  const downloadPDF = () => {
-    const { title, columns, data, fileName } = preparePDFData();
+  const downloadPDF = (reservations) => {
+    const { title, columns, data, fileName } = preparePDFData(reservations);
     generatePDF(title, columns, data, fileName);
+  };
+
+  //Function to handle download reports button
+  const handleDownloadReportsClick = () => {
+    setShowAdditionalButtons(!showAdditionalButtons);
+  };
+
+  // Function to handle downloading PDF reports for different time periods
+  const handleDownloadReport = (timePeriod) => {
+    let filteredData = [];
+    switch (timePeriod) {
+      case 'today':
+        filteredData = tableReservations.filter(reservation => reservation.date === getTodayDate());
+        break;
+      case 'past7days':
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        const sevenDaysAgoStr = sevenDaysAgo.toISOString().split('T')[0];
+        filteredData = tableReservations.filter(reservation => reservation.date >= sevenDaysAgoStr);
+        break;
+      case 'pastMonth':
+        const pastMonth = new Date();
+        pastMonth.setMonth(pastMonth.getMonth() - 1);
+        const pastMonthStr = pastMonth.toISOString().split('T')[0];
+        filteredData = tableReservations.filter(reservation => reservation.date >= pastMonthStr);
+        break;
+      case 'past3Months':
+        const past3Months = new Date();
+        past3Months.setMonth(past3Months.getMonth() - 3);
+        const past3MonthsStr = past3Months.toISOString().split('T')[0];
+        filteredData = tableReservations.filter(reservation => reservation.date >= past3MonthsStr);
+        break;
+      default:
+        filteredData = tableReservations;
+    }
+    downloadPDF(filteredData);
   };
 
   return (
@@ -275,9 +317,12 @@ const TableReservations = () => {
         </Button>
       </Link>
 
-      {/* Download PDF report */}
-      <Button variant="success" className="m-1" onClick={downloadPDF}>
-        <IoMdDownload className="mb-1" /> <span>Download Report</span>
+      {/* Initial Download Reports Button */}
+      <Button
+        className="btn-danger"
+        onClick={handleDownloadReportsClick}
+      >
+        <IoMdDownload className="mb-1" /> <span>Download Reports</span>
       </Button>
 
       {/* Search Form */}
@@ -288,50 +333,101 @@ const TableReservations = () => {
             placeholder="Search by reservation ID or Name or Email or Date"
             value={searchQuery}
             onChange={handleSearch}
-            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'120px', zIndex:'1', height:'20px', marginRight:'0px'}}
+            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'100px', zIndex:'1', height:'20px', marginRight:'0px'}}
           />
         </Form.Group>
       </Form>
       </div>
 
-      {/* Table to display previous vip room reservations */}
-      <Table striped bordered hover className="mt-4">
-        <thead>
-          <tr align='center'>
-            <th>Res. ID</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Table No</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredReservations.map((reservation) => (
-            <tr key={reservation._id}>
-              <td>{reservation.reservationId}</td>
-              <td>{reservation.name}</td>
-              <td>{reservation.phone}</td>
-              <td>{reservation.email}</td>
-              <td>{reservation.tableNo}</td>
-              <td>{reservation.date}</td>
-              <td>{reservation.time}</td>
-              <td style={{ display: "flex" }}>
-                {/* Edit button */}
-                <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'20px'}}>
-                  <IoMdCreate />
-                </Button>
-                {/* Delete button */}
-                <Button variant="danger" onClick={() => handleOpenConfirmationModal(reservation._id)} style={{marginRight:'20px'}}>
-                  <IoMdTrash />
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      {/* Additional Download Buttons */}
+      {showAdditionalButtons && (
+        <div style={{ display: 'flex', gap:'10px', alignItems: 'center' }}>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("all")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>All Reservations</span>
+          </Button>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("today")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>Today's Reservations</span>
+          </Button>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("past7days")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>Past 7 Days Reservations</span>
+          </Button>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("pastMonth")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>Past Month Reservations</span>
+          </Button>
+          <Button
+            variant="success"
+            className="m-1"
+            onClick={() => handleDownloadReport("past3Months")}
+          >
+            <IoMdDownload className="mb-1" />{" "}
+            <span>Past 3 Months Reservations</span>
+          </Button>
+        </div>
+      )}
+
+      {/* Grouped reservations */}
+      {Object.entries(groupReservationsByDate()).map(([date, reservations]) => (
+        <div key={date}>
+          <h2 className="mt-4" style={{backgroundColor:'wheat', width:'155px', padding:'8px', borderRadius:'40px', paddingLeft:'22px', fontSize:'22px'}}>{date.split('T')[0]}</h2>
+          <Table striped bordered hover className="mt-2">
+            <thead>
+              <tr align='center'>
+                <th>Res. ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Table No</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reservations.map((reservation) => (
+                <tr key={reservation._id}>
+                  <td>{reservation.reservationId}</td>
+                  <td>{reservation.name}</td>
+                  <td>{reservation.phone}</td>
+                  <td>{reservation.email}</td>
+                  <td>{reservation.tableNo}</td>
+                  <td>{reservation.date.split('T')[0]}</td>
+                  <td>{reservation.time}</td>
+                  <td style={{display:'flex'}}>
+                    {/* Edit button */}
+                    <Button variant="info" className="mr-2" onClick={() => handleEdit(reservation)} style={{marginRight:'10px', marginLeft:'15px'}}>
+                      <IoMdCreate />
+                    </Button>
+                    {/* Delete button */}
+                    <Button variant="danger" onClick={() => handleOpenConfirmationModal(reservation._id)} style={{marginRight:'15px'}}>
+                      <IoMdTrash />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      ))}
 
       {/* Reservation Form (to display when editing) */}
       {editReservation && (
@@ -389,8 +485,8 @@ const TableReservations = () => {
                     <p style={{ color: 'red' }}>This table is not available. Please select another table or try a different date/time.</p>
                  }
             </form>        
-        </div><br></br>
-    </div>
+          </div><br></br>
+        </div>
       )}
 
       {/* Confirmation Modal */}
