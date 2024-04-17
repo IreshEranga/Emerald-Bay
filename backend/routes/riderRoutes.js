@@ -68,6 +68,9 @@ router.patch("/update/:id", async (req, res) => {
           "Hello, your status has been updated to On Ride."
         );
         console.log(`Email sent to: ${rider.email}`);
+        // Increment delivery count
+      rider.rides = (rider.rides) + 1;
+      await rider.save();
       } catch (emailError) {
         console.error("Error sending email:", emailError);
         // Handle email sending error
