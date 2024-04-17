@@ -221,7 +221,9 @@ const Index = () => {
                 }
                 acc[dateKey].push(order);
                 return acc;
-              }, {})).map(([createdAt, ordersByDate]) => (
+              }, {}))
+              .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA)) // Sort dates in descending order
+              .map(([createdAt, ordersByDate]) => (
                 <div key={createdAt}><br />
                   <h4 style={{backgroundColor:'wheat', width:'150px', padding:'10px', borderRadius:'50px', paddingLeft:'20px'}}>{createdAt}</h4> {/* Show date at the top of each table */}
                   <br />
