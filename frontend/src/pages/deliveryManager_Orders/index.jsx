@@ -20,7 +20,8 @@ const Index = () => {
   const {data, refetch} = useOrderData();
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
   const [selectedTimeRange, setSelectedTimeRange] = useState(null);
-
+  const [searchOrderID, setSearchOrderID] = useState('');
+  const [searchRider, setSearchRider] = useState('');
 
   // PDF report function
 
@@ -147,59 +148,17 @@ const Index = () => {
     <div style={{ display: 'flex' }}>
       <div className="ordercontainer" style={{ display: 'flex' }}>
         <div className="orderdash">
-          <h1 className='name' style={{fontFamily:'monospace', textAlign:'left'}}>Orders</h1>
+          {/*<h1 className='name' style={{fontFamily:'monospace', textAlign:'left'}}>Orders</h1>*/}
           <div className="orderstatus" style={{marginTop:"0px",marginLeft:'-50px'}}>
             <button onClick={() => handleSectionChange('completed')} className={`btn ${activeSection === 'completed'? 'btn-success' : 'btn-outline-primary'}`}>Completed</button>
             <button onClick={() => handleSectionChange('pending')} className={`btn ${activeSection === 'pending'? 'btn-warning' : 'btn-outline-primary'}`}>Pending</button>
             <button onClick={() => handleSectionChange('ongoing')} className={`btn ${activeSection === 'ongoing'? 'btn-danger' : 'btn-outline-primary'}`}>Ongoing</button>
           </div>
           {/* Conditional rendering based on active section */}
-          {/*activeSection === 'completed' && (
-            <section className='completedOrders'>
-              <div className="completeordertable">
-                <BootstrapTable
-                  headers={["Order ID", "Customer ID","Customer Name","Address","Rider"]}
-                  children={completedOrders.map((order) => (
-                      <tr key={order._id}>
-                        <td>{order.orderid}</td>
-                        <td>{order.customerid}</td>
-                        <td>{order.customername}</td>
-                        <td>{order.deliveryaddress}</td>
-                        <td>{order.rider}</td>
-                      </tr>
-                    ))
-                  }
-                />
-              </div>
-            </section>
-          )*/}
-          {/*activeSection === 'completed' && (
-            <section className='completedOrders'>
-              <div className="completeordertable">
-                <BootstrapTable
-                  headers={["Order ID", "Customer ID","Customer Name","Address","Rider"]}
-                  children={completedOrders
-                    .sort((a, b) => b.orderid - a.orderid) // Sort in descending order by order ID
-                    .map((order) => (
-                      <tr key={order._id}>
-                        <td>{order.orderid}</td>
-                        <td>{order.customerid}</td>
-                        <td>{order.customername}</td>
-                        <td>{order.deliveryaddress}</td>
-                        <td>{order.rider}</td>
-                      </tr>
-                    ))
-                  }
-                />
-              </div>
-            </section>
-            )*/}
+          
             {activeSection === 'completed' && (
             <section className='completedOrders'>
               {/* Download PDF report */}
-            {/*<Button variant="success" className="m-1" onClick={downloadPDF} style={{width:'200px'}}>
-              <IoMdDownload className="mb-1" /> <span>Download Report</span>
-            </Button>*/}
             <Button variant="success" className="m-1" onClick={() => setShowDownloadOptions(true)} style={{ width: '200px' }}>
               <IoMdDownload className="mb-1" /> <span>Download Report</span>
             </Button>
