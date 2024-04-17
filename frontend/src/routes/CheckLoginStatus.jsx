@@ -22,9 +22,13 @@ const CheckLoginStatus = () => {
   }
   if (permissionLevel === USER_ROLES.ADMIN) {
     return <Navigate to="/admin" />;
-  }if (permissionLevel === USER_ROLES.CUSTOMER) {
+  }
+  if (permissionLevel === USER_ROLES.CUSTOMER) {
     return <Navigate to="/customer" />;
-  }  else {
+  }
+  if (permissionLevel === USER_ROLES.INVENTORYMANAGER) {
+    return <Navigate to="/inventory-manager" />;
+  } else {
     return <Outlet />;
   }
 };
