@@ -32,20 +32,26 @@ const Menu = () => {
     return (
         <div style={{ backgroundColor: 'black' }}>
             <NavBar />
-            <div className="outer-container5">
+            <div className="outer-container5"><br></br>
                 <div className="menu-container">
-                    <br /><br />
+                    <br />
                     <div className="menuboard" >
-                    <h1 className="menu-title">Our Menu</h1><br />
+                    <h1 className="menu-title">Our Menu</h1>
                     
                     {Object.entries(menuItems).map(([category, items]) => (
                         <div key={category} className="category">
                             <br />
-                            <h2 className="center-heading1" style={{fontWeight:'800px'}}>{category}</h2>
+                            <div className="category-heading">
+                                <hr className="line" style={{height:'2px', backgroundColor:'white'}}/>
+                                <h2 className="center-heading1">{category}</h2>
+                                <hr className="line" style={{height:'2px', backgroundColor:'white'}}/>
+                            </div>
+                            {/*<h2 className="center-heading1" style={{fontWeight:'800px'}}>{category}</h2>
+                            <hr className="horizontal-line" style={{height:'2px', backgroundColor:'white'}}/>*/}
                             <div className="names"></div>
                             {items && items.map((item, index) => (
                                 <ul className="menu-list" key={index}>
-                                    <li className="menu-item">{item.name} <span className="price">Rs.{item.price}</span></li>
+                                    <li className="menu-item">{item.name} <span className="price">Rs. {item.price}</span></li>
                                 </ul>
                             ))}
                         </div>
