@@ -2,25 +2,31 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    margin-left: 700px;
   }
   
   .profile-details {
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    background-color: #a4a4a4;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-top: 100px;
+    padding: 10px;
+    margin-top: 50px;
+    align-items: center;
   }
   
   .profile-details p {
-    margin-bottom: 100px;
+    margin-bottom: 50px;
+    align-items: center; 
   }
   
   .profile-details p strong {
     font-weight: bold;
-    margin-right: 5px;
-  
+    margin-left: 50px;  
+  }
+
+  .profile-details p .dott {
+    font-weight: bold;
+    margin-left: 30px;
+    justify-self: start; 
   }
 
   .userprofile{

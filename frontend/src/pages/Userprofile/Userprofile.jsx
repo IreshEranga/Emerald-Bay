@@ -90,13 +90,13 @@ const Userprofile = () => {
     <div>
     <Navbar_customer />
     <div className="profile-container">
-      <h1 className='userprofile'>User Profile - {profileData.name}</h1>
+      <h1 className='userprofile' style={{paddingLeft:'210px', paddingRight:'210px', color:'maroon', fontFamily:'Times New Roman, Times, serif'}}>My Profile</h1>
       <div className="profile-details" key={user._id}>
-        <p className='name'><strong>Name:</strong> {profileData.name}</p>
-        <p className='email'><strong>Email:</strong> {profileData.email}</p>
-        <p className='mobile'><strong>Mobile:</strong> {profileData.mobile}</p>
-        <p className='address'><strong>Address:</strong> {profileData.address}</p>
-        <p className='status'><strong>Status:</strong> {profileData.status}</p>
+        <p className='name'><strong>Name</strong><span className='dott'>:</span><span className='userdata'> {profileData.name}</span></p>
+        <p className='email'><strong>Email</strong><span className='dott'>:</span><span className='userdata'> {profileData.email}</span></p>
+        <p className='mobile'><strong>Mobile</strong><span className='dott'>:</span><span className='userdata'> {profileData.mobile}</span></p>
+        <p className='address'><strong>Address</strong><span className='dott'>:</span><span className='userdata'> {profileData.address}</span></p>
+        <p className='status'><strong>Status</strong><span className='dott'>:</span><span className='userdata'> {profileData.status}</span></p>
         
       </div>
     </div>
