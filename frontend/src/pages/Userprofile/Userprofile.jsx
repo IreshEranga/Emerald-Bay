@@ -31,6 +31,7 @@ export default Userprofile;*/
 import React, { useState, useEffect } from 'react';
 import Navbar_customer from "../../components/Navbar_customer";
 import { useAuthStore } from '../../store/useAuthStore';
+import './Userprofile.css';
 
 const Userprofile = () => {
   const { user } = useAuthStore(); // Assuming useAuthStore provides user information
@@ -86,19 +87,22 @@ const Userprofile = () => {
   }
 
   return (
-    <div style={{ backgroundColor: 'black' }}>
-      <Navbar_customer />
-      <div style={{ color: 'white', padding: '20px' }}>
-        <h1>User Profile</h1>
-        <div key={user._id}>
-          <p>Name: {profileData.name}</p>
-          <p>Email: {profileData.email}</p>
-          <p>Mobile: {profileData.mobile}</p>
-          <p>Address: {profileData.address}</p>
-          {/* Display other profile details as needed */}
-        </div>
+    <div>
+    <Navbar_customer />
+    <div className="profile-container">
+      <h1 className='userprofile'>User Profile</h1>
+      <div className="profile-details" key={user._id}>
+        <p className='name'><strong>Name:</strong> {profileData.name}</p>
+        <p className='email'><strong>Email:</strong> {profileData.email}</p>
+        <p className='mobile'><strong>Mobile:</strong> {profileData.mobile}</p>
+        <p className='address'><strong>Address:</strong> {profileData.address}</p>
+        <p className='status'><strong>Status:</strong> {profileData.status}</p>
+        <p className='password'><strong>Password:</strong> {profileData.password}</p>
+        {/* Display other profile details as needed */}
       </div>
     </div>
+  </div>
+  
   );
 }
 
