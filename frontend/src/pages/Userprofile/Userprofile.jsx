@@ -90,15 +90,14 @@ const Userprofile = () => {
     <div>
     <Navbar_customer />
     <div className="profile-container">
-      <h1 className='userprofile'>User Profile</h1>
+      <h1 className='userprofile'>User Profile - {profileData.name}</h1>
       <div className="profile-details" key={user._id}>
         <p className='name'><strong>Name:</strong> {profileData.name}</p>
         <p className='email'><strong>Email:</strong> {profileData.email}</p>
         <p className='mobile'><strong>Mobile:</strong> {profileData.mobile}</p>
         <p className='address'><strong>Address:</strong> {profileData.address}</p>
         <p className='status'><strong>Status:</strong> {profileData.status}</p>
-        <p className='password'><strong>Password:</strong> {profileData.password}</p>
-        {/* Display other profile details as needed */}
+        
       </div>
     </div>
   </div>
