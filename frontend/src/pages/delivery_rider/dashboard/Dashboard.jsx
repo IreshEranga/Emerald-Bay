@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { Button, Table } from "react-bootstrap";
 import { IoMdCreate, IoMdTrash } from "react-icons/io";
 import axios from "axios";
+import "./profileview.css";
 
 const Dashboard = () => {
   const { user } = useAuthStore((state) => ({
@@ -12,6 +13,8 @@ const Dashboard = () => {
 
   const [orders, setOrders] = useState([]);
   const [totalDeliveryCount, setTotalDeliveryCount] = useState(0);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
 
   useEffect(() => {
     const fetchOrdersForRider = async () => {
@@ -38,6 +41,8 @@ const Dashboard = () => {
       toast.success('Order status updated successfully');
       // Refetch orders after status update
       fetchOrdersForRider();
+     setIsButtonDisabled(true);
+      console.log('Button disabled:', isButtonDisabled); 
     } catch (error) {
       console.error('Error updating order status:', error);
       //toast.error('Error updating order status');
@@ -74,30 +79,12 @@ const Dashboard = () => {
             <th>Customer ID</th>
             <th>Customer Name</th>
             <th>Delivery Address</th>
-            <th>Status</th> {/* Added Status column */}
+            <th>Status</th> 
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {/*orders.map((order) => (
-            <tr key={order._id}>
-              <td>{order.orderid}</td>
-              <td>{order.customerid}</td>
-              <td>{order.customername}</td>
-              <td>{order.deliveryaddress}</td>
-              <td>{order.status}</td> 
-              <td style={{ display: "flex" }}>
-                <Button
-                  variant="warning"
-                  className="mr-2"
-                  onClick={() => handleEditStatus(order._id)}
-                  style={{marginLeft: '40px'}}
-                >
-                  Edit Status
-                </Button>
-              </td>
-            </tr>
-          ))*/}
+          
           {orders.sort((a,b) => b.orderid - a.orderid)
           .map((order) => (
             <tr key={order._id}>
@@ -105,13 +92,14 @@ const Dashboard = () => {
               <td>{order.customerid}</td>
               <td>{order.customername}</td>
               <td>{order.deliveryaddress}</td>
-              <td>{order.status}</td> 
+              <td className={order.status === 'ongoing' ? 'status-ongoing' : 'status-completed'}>{order.status}</td> 
               <td style={{ display: "flex" }}>
                 <Button
                   variant="warning"
-                  className="mr-2"
+                  className={`mr-2 ${isButtonDisabled ? 'btn-disabled' : ''}`}
                   onClick={() => handleEditStatus(order._id)}
                   style={{marginLeft: '40px'}}
+                  disabled={isButtonDisabled} // Disable the button based on state
                 >
                   Edit Status
                 </Button>

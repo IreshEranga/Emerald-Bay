@@ -76,8 +76,8 @@ const EditOrderForm = ({ order = {}, onClose }) => {
   return (
     <Form style={{ border: '1px solid black', width: '50%', marginLeft: '30px', padding: '10px', height
     :'250px', marginTop:'100px' }} onSubmit={handleSubmit}>
-      <Form.Group controlId="riderSelect">
-        <Form.Label>Select a Rider:</Form.Label>
+      <Form.Group controlId="riderSelect"> <br />
+        <Form.Label>Select a Rider for order : <b>{order.orderid}</b></Form.Label> <br/>
         <Form.Control
           as="select"
           value={selectedRider}
@@ -98,11 +98,11 @@ const EditOrderForm = ({ order = {}, onClose }) => {
           value={orderStatus}
           onChange={(event) => setOrderStatus(event.target.value)}
         />
-      </Form.Group>*/}
+      </Form.Group>*/} <br />
       <Button variant="primary" type="submit">
         Submit
       </Button>
-      <Button variant="secondary" onClick={handleClose}>
+      <Button variant="secondary" style={{marginLeft:'20px'}} onClick={handleClose}>
         Close
       </Button>
     </Form>

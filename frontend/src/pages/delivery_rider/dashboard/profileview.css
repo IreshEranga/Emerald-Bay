@@ -32,3 +32,21 @@
 /*.profilesectionviewrider{
     background-image: url(../../../assets/foodstock.png);
 }*/
+
+
+.status-ongoing {
+    background-color: blue;
+    color: white; /* Optional: Adjust text color for visibility */
+  }
+  
+  .status-completed {
+    background-color: green;
+    color: white; /* Optional: Adjust text color for visibility */
+  }
+
+  
+.btn-disabled {
+    opacity: 0.6; /* Reduced opacity for disabled state */
+    cursor: not-allowed; /* Change cursor for disabled state */
+  }
+  
