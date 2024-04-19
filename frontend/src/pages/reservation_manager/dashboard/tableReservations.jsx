@@ -275,31 +275,49 @@ const TableReservations = () => {
 
   // Function to handle downloading PDF reports for different time periods
   const handleDownloadReport = (timePeriod) => {
-    let filteredData = [];
-    switch (timePeriod) {
-      case 'today':
-        filteredData = tableReservations.filter(reservation => reservation.date === getTodayDate());
-        break;
-      case 'past7days':
-        const sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-        const sevenDaysAgoStr = sevenDaysAgo.toISOString().split('T')[0];
-        filteredData = tableReservations.filter(reservation => reservation.date >= sevenDaysAgoStr);
-        break;
-      case 'pastMonth':
-        const pastMonth = new Date();
-        pastMonth.setMonth(pastMonth.getMonth() - 1);
-        const pastMonthStr = pastMonth.toISOString().split('T')[0];
-        filteredData = tableReservations.filter(reservation => reservation.date >= pastMonthStr);
-        break;
-      case 'past3Months':
-        const past3Months = new Date();
-        past3Months.setMonth(past3Months.getMonth() - 3);
-        const past3MonthsStr = past3Months.toISOString().split('T')[0];
-        filteredData = tableReservations.filter(reservation => reservation.date >= past3MonthsStr);
-        break;
-      default:
-        filteredData = tableReservations;
+  let filteredData = [];
+  const today = new Date();
+  switch (timePeriod) {
+    case 'today':
+      filteredData = tableReservations.filter(reservation => {
+        const reservationDate = new Date(reservation.date);
+        return (
+          reservationDate.getDate() === today.getDate() &&
+          reservationDate.getMonth() === today.getMonth() &&
+          reservationDate.getFullYear() === today.getFullYear()
+        );
+      });
+      break;
+    case 'past7days':
+      const sevenDaysAgo = new Date(today);
+      sevenDaysAgo.setDate(today.getDate() - 7);
+      filteredData = tableReservations.filter(reservation => {
+        const reservationDate = new Date(reservation.date);
+        return reservationDate >= sevenDaysAgo && reservationDate <= today;
+      });
+      break;
+    case 'pastMonth':
+      const pastMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+      filteredData = tableReservations.filter(reservation => {
+        const reservationDate = new Date(reservation.date);
+        return (
+          reservationDate >= pastMonth && 
+          (reservationDate.getDate() <= today.getDate() || reservationDate.getMonth() < today.getMonth())
+        );
+      });
+      break;
+    case 'past3Months':
+      const past3Months = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
+      filteredData = tableReservations.filter(reservation => {
+        const reservationDate = new Date(reservation.date);
+        return (
+          reservationDate >= past3Months && 
+          (reservationDate.getDate() <= today.getDate() || reservationDate.getMonth() < today.getMonth())
+        );
+      });
+      break;
+    default:
+      filteredData = tableReservations;
     }
     downloadPDF(filteredData);
   };
