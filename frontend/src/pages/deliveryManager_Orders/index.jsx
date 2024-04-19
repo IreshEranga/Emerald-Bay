@@ -22,11 +22,18 @@ const Index = () => {
   const [selectedTimeRange, setSelectedTimeRange] = useState(null);
   const [searchOrderID, setSearchOrderID] = useState('');
   const [searchRider, setSearchRider] = useState('');
-
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Filter completed orders based on search term
-  const filteredCompletedOrders = orders.filter(order => order.status === 'completed' && order.orderid.includes(searchOrderID) && order.createdAt);
-
+  const filteredCompletedOrders = orders.filter(order => {
+    const orderCreatedDate = new Date(order.createdAt).toLocaleDateString();
+    const searchTerm = searchQuery.toLowerCase().trim();
+    return (
+      order.orderid.includes(searchTerm) ||
+      orderCreatedDate.includes(searchTerm) || 
+      order.rider.includes(searchTerm)
+    );
+  });
   // PDF report function
 
   const downloadPDF = (timeRange) => {
@@ -156,7 +163,7 @@ const Index = () => {
     <div style={{ display: 'flex' }}>
       <div className="ordercontainer" style={{ display: 'flex' }}>
         <div className="orderdash">
-          {/*<h1 className='name' style={{fontFamily:'monospace', textAlign:'left'}}>Orders</h1>*/}
+          <h1 className='name' style={{fontFamily:'arial', textAlign:'left',fontSize:'50px'}}> <b>Orders</b></h1>
           <div className="orderstatus" style={{marginTop:"0px",marginLeft:'-50px'}}>
             <button onClick={() => handleSectionChange('completed')} className={`btn ${activeSection === 'completed'? 'btn-success' : 'btn-outline-primary'}`}>Completed</button>
             <button onClick={() => handleSectionChange('pending')} className={`btn ${activeSection === 'pending'? 'btn-warning' : 'btn-outline-primary'}`}>Pending</button>
@@ -167,6 +174,7 @@ const Index = () => {
             {activeSection === 'completed' && (
             <section className='completedOrders'>
               {/* Download PDF report */}
+            <div>
             <Button variant="success" className="m-1" onClick={() => setShowDownloadOptions(true)} style={{ width: '200px' }}>
               <IoMdDownload className="mb-1" /> <span>Download Report</span>
             </Button>
@@ -181,15 +189,19 @@ const Index = () => {
             )}
 
              {/* Search input for Order ID */}
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Search by Order ID"
-                value={searchOrderID}
-                onChange={(e) => setSearchOrderID(e.target.value)}
-              />
-              <button onClick={() => setSearchOrderID('')}>Clear</button>
-            </div>
+             <div className="search-container" style={{ marginTop:'-88px', marginLeft:'220px', width:'355px' }}>
+                <input
+                style={{borderRadius:'40px', padding:'10px', paddingLeft:'20px'}}
+                  type="text"
+                  placeholder="Search by Order ID or Date (MM/DD/YYYY)"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  
+                />
+                {/*<button onClick={() => setSearchQuery('')}>Clear</button>*/}
+              </div>
+            </div><br /><br />
+
 
               {/* Group orders by date */}
               {Object.entries(filteredCompletedOrders.reduce((acc, order) => {
@@ -203,7 +215,7 @@ const Index = () => {
               .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA)) // Sort dates in descending order
               .map(([createdAt, ordersByDate]) => (
                 <div key={createdAt}><br />
-                  <h4 style={{backgroundColor:'wheat', width:'150px', padding:'10px', borderRadius:'50px', paddingLeft:'20px'}}>{createdAt}</h4> {/* Show date at the top of each table */}
+                  <h4 style={{backgroundColor:'wheat', width:'150px', padding:'10px', borderRadius:'50px', paddingLeft:'20px'}}>{createdAt}</h4> 
                   <br />
                   <div className="completeordertable">
                     <BootstrapTable
