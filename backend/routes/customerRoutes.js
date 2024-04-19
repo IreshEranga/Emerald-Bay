@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const authMiddleware = require("../middleware/authMiddleware");
-
+const bcrypt = require("bcrypt");
 //import Student model
 const Customer = require("../models/Customer");
 
 
 //add student
-router.route("/add").post((req,res)=>{
+router.route("/add").post(async (req,res)=>{
     //create a new student object with the data from the request body
 
     
@@ -18,13 +18,13 @@ router.route("/add").post((req,res)=>{
 
     //convert request to a number 
     const mobile = Number(req.body.mobile);
-
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newCustomer = new Customer({
         
         name,
         email,
         mobile,
-        password,
+        password:hashedPassword,
         status,
         address,
     });

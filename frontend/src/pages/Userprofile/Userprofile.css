@@ -1,1 +1,63 @@
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-left: 700px;
+  }
+  
+  .profile-details {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 100px;
+  }
+  
+  .profile-details p {
+    margin-bottom: 100px;
+  }
+  
+  .profile-details p strong {
+    font-weight: bold;
+    margin-right: 5px;
+  
+  }
 
+  .userprofile{
+    font-size: 70px;
+  }
+
+  .name{
+   font-size: 30px;
+   margin-left: 0px;
+  }
+
+  .email{
+    font-size: 30px;
+    margin-left: 50px;
+   }
+
+   .mobile{
+    font-size: 30px;
+    margin-left: 50px;
+   }
+
+   .address{
+    font-size: 30px;
+    margin-left: 50px;
+   }
+
+   .status{
+    font-size: 30px;
+    margin-left: 50px;
+   }
+
+   
+   .password{
+    font-size: 30px;
+    margin-left: 50px;
+   }
+
+
+
+  

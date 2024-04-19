@@ -68,10 +68,13 @@ const TableReservations = () => {
     setEditReservation(null); // Reset editReservation state
   };
 
-  //Function to group reservations by date
+  //Function to group reservations by date and sort them in descending order
   const groupReservationsByDate = () => {
+    // Sort reservations by date in descending order
+    const sortedReservations = filteredReservations.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+  
     const groupedReservations = {};
-    filteredReservations.forEach(reservation => {
+    sortedReservations.forEach(reservation => {
       const date = reservation.date;
       if (!groupedReservations[date]) {
         groupedReservations[date] = [];

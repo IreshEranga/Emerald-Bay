@@ -67,7 +67,7 @@ const Customer_Menu = () => {
                                         <div className="menu-item-details">
                                             <h3 className="menu-item-name" style={{color:'white', fontSize:'18px', fontFamily:'inherit'}}>{item.name}</h3>
                                             <p className="menu-item-description" style={{color:'white', fontSize:'15px'}}>{item.description}</p>
-                                            <span className="menu-item-price" style={{color:'white', fontSize:'15px'}}>Rs.{item.price}</span>
+                                            <span className="menu-item-price" style={{color:'white', fontSize:'15px'}}>Rs. {item.price}</span>
                                         </div>
                                         <button className="add-to-cart-button" style={{position: 'absolute', top: '-10px', right: '-10px'}} onClick={() => addToCart(item)}><FaPlus /></button>
                                     </div>
