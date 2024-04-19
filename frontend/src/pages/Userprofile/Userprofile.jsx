@@ -99,7 +99,7 @@ const Userprofile = () => {
         <p className='status'><strong>Status</strong><span className='dott'>:</span><span className='userdata'> {profileData.status}</span></p>
         
       </div>
-    </div>
+    </div><br/><br/>
   </div>
   
   );
