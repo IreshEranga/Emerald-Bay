@@ -23,6 +23,10 @@ const Index = () => {
   const [searchOrderID, setSearchOrderID] = useState('');
   const [searchRider, setSearchRider] = useState('');
 
+
+  // Filter completed orders based on search term
+  const filteredCompletedOrders = orders.filter(order => order.status === 'completed' && order.orderid.includes(searchOrderID) && order.createdAt);
+
   // PDF report function
 
   const downloadPDF = (timeRange) => {
@@ -176,9 +180,19 @@ const Index = () => {
               </div>
             )}
 
+             {/* Search input for Order ID */}
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="Search by Order ID"
+                value={searchOrderID}
+                onChange={(e) => setSearchOrderID(e.target.value)}
+              />
+              <button onClick={() => setSearchOrderID('')}>Clear</button>
+            </div>
 
               {/* Group orders by date */}
-              {Object.entries(completedOrders.reduce((acc, order) => {
+              {Object.entries(filteredCompletedOrders.reduce((acc, order) => {
                 const dateKey = new Date(order.createdAt).toLocaleDateString();
                 if (!acc[dateKey]) {
                   acc[dateKey] = [];
