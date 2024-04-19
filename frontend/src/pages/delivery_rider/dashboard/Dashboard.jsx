@@ -92,7 +92,16 @@ const Dashboard = () => {
               <td>{order.customerid}</td>
               <td>{order.customername}</td>
               <td>{order.deliveryaddress}</td>
-              <td className={order.status === 'ongoing' ? 'status-ongoing' : 'status-completed'}>{order.status}</td> 
+              <td> <span className={`badge ${
+                      order.status === "ongoing"
+                        ? "bg-warning"
+                        : order.status === "completed"
+                        ? "bg-success"
+                        : "bg-danger"
+                    }`} style={{marginLeft:'50px',fontSize:'15px'}}>
+                      {order.status}
+                    </span>
+              </td> 
               <td style={{ display: "flex" }}>
                 <Button
                   variant="warning"
