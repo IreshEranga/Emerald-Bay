@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import EMERALDBAYLOGO from "../../../assets/EMERALDBAYLOGO.png";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
-import Employee from "../../employee";
-import EmployeeManagerDashboard from "./EmployeeManagerDashboard.jsx";
-//import LeaveManagement from "../../EmployeeLeaves/LeaveManagement.jsx";
-import EmployeeAttendance from "../../EmployeeAttendance";
-import Leaves from "../index.jsx";
-
-
+import EmployeeProfile from "./EmployeeProfile";
+import Dashboard from "./Dashboard";
+import EmployeeViewProfile from "./EmployeeViewProfile";
+import EmployeeLeaves from "./EmployeeLeaves";
 //
-const EmployeeManagerSideBar = () => {
+const EmployeeSideBar = () => {
   const [activeContent, setActiveContent] = useState("Dashboard");
   //
   const handleLinkClick = (content) => {
@@ -26,39 +23,28 @@ const EmployeeManagerSideBar = () => {
       case "Dashboard":
         return (
           <>
-            <EmployeeManagerDashboard />
+            <Dashboard />
           </>
         );
-      case "Employees":
+      case "ViewProfile":
         return (
           <>
-            <Employee />
+            <EmployeeViewProfile />
           </>
         );
-        case "Leaves":
+      case "Profile":
         return (
           <>
-            <Leaves />
+            <EmployeeProfile />
           </>
         );
-        case "Attendance":
-          return (
-            <>
-              <EmployeeAttendance />
-            </>
-          );/*
-      case "Categories":
+
+        case "leaves":
         return (
           <>
-            <Category />
+            <EmployeeLeaves />
           </>
         );
-      case "StockRequest":
-        return (
-          <>
-            <StockRequest />
-          </>
-        );*/
       case "Account":
         return <p>This is the Account page content.</p>;
       default:
@@ -107,40 +93,37 @@ const EmployeeManagerSideBar = () => {
           </li>
           <li>
             <a
-              href="#employees"
+              href="#ViewProfile"
               className={`nav-link ${
-                activeContent === "Employees" ? "active" : "link-dark"
+                activeContent === "ViewProfile" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Employees")}
+              onClick={() => handleLinkClick("ViewProfile")}
             >
-              Employee Management
+              View Profile
             </a>
-          </li>
-
-          <li>
+            </li>
+            <li>
             <a
               href="#leaves"
               className={`nav-link ${
-                activeContent === "Leaves" ? "active" : "link-dark"
+                activeContent === "leaves" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Leaves")}
+              onClick={() => handleLinkClick("leaves")}
             >
-              Leave Management
+              Apply Leaves
             </a>
-          </li>
-
+            </li>
           <li>
             <a
-              href="#attendance"
+              href="#profile"
               className={`nav-link ${
-                activeContent === "attendance" ? "active" : "link-dark"
+                activeContent === "Profile" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Attendance")}
+              onClick={() => handleLinkClick("Profile")}
             >
-              Attendance Management
+              Edit Profile
             </a>
           </li>
-       
         </ul>
         <div className="mt-auto">
           <button
@@ -158,4 +141,4 @@ const EmployeeManagerSideBar = () => {
   );
 };
 //
-export default EmployeeManagerSideBar;
+export default EmployeeSideBar;

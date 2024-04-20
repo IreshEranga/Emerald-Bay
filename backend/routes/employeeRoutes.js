@@ -32,14 +32,25 @@ router.get(
 
 
 /*
-router.patch("/update/:id", async (req, res) => {
+router.patch("/update/:id", async (req, res) => {     //for employee getS
   try {
     const riderId = req.params.id;
     const rider = await Rider.findOne({
       _id: riderId,
       role: USER_ROLES.RIDER,
-    });
+    });*/
 
+    router.get("/", async (req, res) => {
+    try {
+        const employees = await employees.find();
+        res.json(employees);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error retrieving employees" });
+    }
+});
+ 
+/*
     if (!rider) {
       return res.status(404).json({
         success: false,

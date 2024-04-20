@@ -11,6 +11,8 @@ const userRoutes = require("./routes/userRoutes");
 const supplierRoutes = require("./routes/supplierRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const stockRequestRoutes = require("./routes/stockRequestRoutes");
+const EmployeeLeaveRoutes = require("./routes/EmployeeLeaveRoutes");
+const AttendanceRoutes = require("./routes/AttendanceRoutes");
 const riderRoutes = require("./routes/riderRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const orderRoutes = require("./routes/orderRoutes");
@@ -21,6 +23,7 @@ const itemRoutes = require("./routes/itemRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const inventoryRoutes = require("./routes/inventoryRoutes");
+
 
 // express app
 const app = express();
@@ -41,6 +44,9 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/stock-requests", stockRequestRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/riders",riderRoutes);
+app.use("/api/leaves",EmployeeLeaveRoutes);
+app.use("/api/attendees", AttendanceRoutes);
+
 
 
 

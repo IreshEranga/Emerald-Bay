@@ -1,16 +1,17 @@
 import React from "react";
 import { useEmployeeCount } from "../../../hooks/useEmployeeData";
+import { useAttendanceCount } from "../../../hooks/useAttendanceData";
 import { useAuthStore } from "../../../store/useAuthStore";
 
-const index = () => {
+const Index = () => {
   const { user } = useAuthStore((state) => ({
     user: state.user,
   }));
   
   // Get the data from the react-query hook
   const { data: employeeData } = useEmployeeCount();
+  const { data: attendanceData } = useAttendanceCount();
   
-  //
   return (
     <div className="container mt-4">
       {user && (
@@ -20,39 +21,30 @@ const index = () => {
       )}
 
       <div className="row">
-        <div key={index} className="col-md-3 mb-4">
+        <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
-              <h5 className="card-title">🚵 Total Employees</h5>
+              <h5 className="card-title">👨‍💼 Total Employees</h5>
               <p className="card-text fs-4 fw-bold">
-                {employeeData?.data?.employeeCount}
+                {employeeData?.employeeCount || 0}
               </p>
             </div>
           </div>
         </div>
-        {/*<div key={index} className="col-md-3 mb-4">
+
+        <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
-              <h5 className="card-title">📦 Total Deliveries</h5>
+              <h5 className="card-title">📅 Total Attendance</h5>
               <p className="card-text fs-4 fw-bold">
-                {categoryData?.data?.categoryCount}
+                {attendanceData?.attendanceCount || 0}
               </p>
             </div>
           </div>
         </div>
-        <div key={index} className="col-md-3 mb-4">
-          <div className="card text-center h-100">
-            <div className="card-body">
-              <h5 className="card-title">💢 Total Order Requests</h5>
-              <p className="card-text fs-4 fw-bold">
-                {stockRequestData?.data?.stockRequestCount}
-              </p>
-            </div>
-          </div>
-    </div>*/}
       </div>
     </div>
   );
 };
 
-export default index;
+export default Index;

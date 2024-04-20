@@ -6,6 +6,7 @@ const initialState = {
   selectedEmployee: null,
   isAddEmployeeModalOpen: false,
   isEditEmployeeModalOpen: false,
+ 
 };
 
 const store = (set) => ({
@@ -16,6 +17,7 @@ const store = (set) => ({
   closeAddEmployeeModal: () => set({ isAddEmployeeModalOpen: false }),
   openEditEmployeeModal: () => set({ isEditEmployeeModalOpen: true }),
   closeEditEmployeeModal: () => set({ isEditEmployeeModalOpen: false }),
+  
 });
 
 export const useEmployeeStore = create(devtools(store, "employeeStore"));

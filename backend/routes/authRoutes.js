@@ -9,4 +9,5 @@ router.post("/rider/signup", authMiddleware(["DELIVERYMANAGER"]), authController
 router.post("/employee/signup", authMiddleware(["ADMIN"]), authController.employeeSignup);
 router.post("/login", authController.login);
 
+
 module.exports = router;

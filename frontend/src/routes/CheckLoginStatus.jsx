@@ -28,7 +28,10 @@ const CheckLoginStatus = () => {
   }
   if (permissionLevel === USER_ROLES.INVENTORYMANAGER) {
     return <Navigate to="/inventory-manager" />;
-  } else {
+  }
+  if (permissionLevel === USER_ROLES.EMPLOYEE) {
+    return <Navigate to="/employee" />;
+  }else{
     return <Outlet />;
   }
 };
