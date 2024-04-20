@@ -39,8 +39,10 @@ import Customer_Home from "../pages/Registered_Customer/index"
 import Customer_Reservations from "../pages/Registered_Customer/reservations"
 import Customer_Menu from "../pages/Registered_Customer/menu"
 import Orders from "../pages/order_manager/dashboard/orders.jsx"
-import Userprofile from "../pages/Userprofile/Userprofile";
-import Cart from "../pages/Cart/Cart";
+import Userprofile from "../pages/Userprofile/Userprofile"
+import User_Reservations from "../pages/Userprofile/Reservations.jsx"
+import User_Orders from "../pages/Userprofile/Orders.jsx"
+import Cart from "../pages/Cart/Cart"
 import Employee from "../pages/employee";
 import RiderViewProfile from "../pages/delivery_rider/dashboard/RiderViewProfile.jsx";
 
@@ -79,6 +81,8 @@ const AppRoutes = () => {
             <Route path="/customer_reservations" element={<Customer_Reservations />} />
             <Route path="/customer_menu" element={<Customer_Menu />} />
             <Route path="/view_profile" element={<Userprofile />} />
+            <Route path="/view_reservations" element={<User_Reservations />} />
+            <Route path="/view_orders" element={<User_Orders />} />
             <Route path="/view_cart" element={<Cart/>}/>
           </Route>
 

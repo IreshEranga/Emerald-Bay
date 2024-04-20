@@ -53,8 +53,11 @@ function Navbar_customer({ isAuthenticated, user }) {
               <LinkContainer to="/membership">
                 <NavDropdown.Item>Membership</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to="/past_orders">
+              <LinkContainer to="/view_orders">
                 <NavDropdown.Item>Orders</NavDropdown.Item>
+              </LinkContainer>
+              <LinkContainer to="/view_reservations">
+                <NavDropdown.Item>Reservations</NavDropdown.Item>
               </LinkContainer>
               <NavDropdown.Divider />
               <LinkContainer to="/logout">
