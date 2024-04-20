@@ -1,13 +1,15 @@
 const router = require("express").Router();
 const authMiddleware = require("../middleware/authMiddleware");
+const sendEmail=require("../util/sendEmail");
+const customerRegistrationEmailTemplate=require("../util/email_templates/customerRegistrationEmailTemplate");
 
-//import Student model
+//import customer model
 const Customer = require("../models/Customer");
 
 
-//add student
+//add customer
 router.route("/add").post((req,res)=>{
-    //create a new student object with the data from the request body
+    //create a new customer object with the data from the request body
 
     
     const name = req.body.name;
@@ -30,14 +32,22 @@ router.route("/add").post((req,res)=>{
     });
 
     newCustomer.save()
+
+    // Send confirmation email to the customer
+   
     //if insert success  //js promise
         .then(()=>{
             res.json("Customer Added ");
+           
+            const emailTemplate = customerRegistrationEmailTemplate(name, email, mobile, password, address);
+            sendEmail(email, "Registration Confirmation", emailTemplate);
         })
         //if unsucces
         .catch((err)=>{
             console.log(err);
         })
+
+        
 });
 
 
@@ -188,5 +198,8 @@ router.route("/get/:_id").get(async (req, res) => {
       res.status(500).send({ status: "Error with getting customer", error: err.message });
   }
 });
+
+
+
 
 module.exports = router;
