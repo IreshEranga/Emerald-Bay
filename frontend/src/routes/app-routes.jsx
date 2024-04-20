@@ -46,7 +46,7 @@ import User_Orders from "../pages/Userprofile/Orders.jsx"
 import Cart from "../pages/Cart/Cart"
 import Employee from "../pages/employee";
 import RiderViewProfile from "../pages/delivery_rider/dashboard/RiderViewProfile.jsx";
-import EmployeeViewProfile from "../pages/employee/dashboard/EmployeeViewProfile.jsx";
+import EmployeeViewProfile from "../pages/employee/Dashboard/EmployeeViewProfile.jsx";
 
 
 
