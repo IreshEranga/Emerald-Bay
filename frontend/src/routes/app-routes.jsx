@@ -11,6 +11,7 @@ import {
   SupplierDashboard,
   Delivery_riderDashboard,
   InventoryManagerDashboard,
+  EmployeeDashboard,
 } from "../pages";
 
 import CustomerAffairsManagerSideBar from "../pages/customerAffairs/dashboard/CustomerAffairsManagerSidebar.jsx";
@@ -45,6 +46,8 @@ import User_Orders from "../pages/Userprofile/Orders.jsx"
 import Cart from "../pages/Cart/Cart"
 import Employee from "../pages/employee";
 import RiderViewProfile from "../pages/delivery_rider/dashboard/RiderViewProfile.jsx";
+import EmployeeViewProfile from "../pages/employee/dashboard/EmployeeViewProfile.jsx";
+
 
 
 
@@ -131,6 +134,7 @@ const AppRoutes = () => {
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
             <Route path="/employeeManager" element={<EmployeeManagerSideBar />} />
             <Route path="/employeeManager/employees" element={<Employee />} />
+           
           </Route>
 
           {/* Customer Manager Private Routes */}
@@ -142,6 +146,12 @@ const AppRoutes = () => {
           {/* Inventory Manager Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.INVENTORYMANAGER]} />}>
             <Route path="/inventory-manager" element={<InventoryManagerDashboard />} />
+          </Route>
+
+          {/* Delivery Rider Private Routes */}
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.EMPLOYEE]} />}>
+            <Route path="/employee" element={<EmployeeDashboard />} />
+            {/* <Route path="/supplier/profile" element={<SupplierProfile />} /> */}
           </Route>
 
         </Routes>
