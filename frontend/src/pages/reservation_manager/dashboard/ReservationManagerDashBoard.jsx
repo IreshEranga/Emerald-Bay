@@ -58,6 +58,7 @@ const ReservationManagerDashboard = () => {
         </div>
       )}
 
+      <br/>
       <div className="row">
         <div className="col-md-3 mb-4">
           <div className="card text-center h-100">

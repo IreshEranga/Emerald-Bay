@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Event = require("../models/Event");
 const sendEmail = require("../util/sendEmail");
 const eventReservationsEmailTemplate = require("../util/email_templates/eventReservationsEmailTemplate");
-const cron = require('node-cron');
+//const cron = require('node-cron');
 
 
 // Function to generate reservation ID
@@ -27,9 +27,9 @@ router.post("/create", async (req, res) => {
       const reservationId = await generateReservationId(); // Generate reservation ID
       const newEvent = new Event({ ...req.body, reservationId });
       await newEvent.save();
-  
-      // Send confirmation email to the customer
       const { name, email, date, startTime, endTime, guests } = req.body;
+
+      // Send confirmation email to the customer
       const emailTemplate = eventReservationsEmailTemplate(name, reservationId, date, startTime, endTime, guests);
       sendEmail(email, "Event Reservation Confirmation", emailTemplate);
   
@@ -134,7 +134,7 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 // Schedule cron job to delete reservations older than 4 months
-cron.schedule('* * * * *', async () => {
+/*cron.schedule('* * * * *', async () => {
     try {
         const currentDate = new Date();
         const fourMonthsAgo = new Date();
@@ -144,6 +144,6 @@ cron.schedule('* * * * *', async () => {
     } catch (error) {
         console.error('Error deleting old reservations:', error);
     }
-});
+});*/
 
 module.exports = router;

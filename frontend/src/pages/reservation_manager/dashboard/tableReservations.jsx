@@ -245,6 +245,28 @@ const TableReservations = () => {
     setFilteredReservations(filteredData);
   };
 
+  // Function to handle download reports based on search results
+  const handleSearchDownloadReportsClick = () => {
+    // Filter data based on search query
+    const filteredData = tableReservations.filter((reservation) => {
+      return (
+        reservation.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reservation.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reservation.reservationId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reservation.date.includes(searchQuery)
+      );
+    });
+    const searchResults = filteredData;
+    generatePDF(
+      `Search Results for Table Reservation: ${searchQuery}`,
+      ["Res. ID", "Name", "Phone", "Email", "Table No", "Date", "Time"],
+      searchResults.flatMap(reservation => [
+        { "Date": reservation.date, "Res. ID": reservation.reservationId, "Email": reservation.email, "Name": reservation.name, "Phone": reservation.phone, "Table No": reservation.tableNo, "Time": reservation.time  }
+      ]),
+      `Table Reservation_${searchQuery}`,
+    );
+  };
+
   // Function to prepare data for PDF report
   const preparePDFData = (reservations) => {
     const title = "Table Reservations Report";
@@ -352,10 +374,16 @@ const TableReservations = () => {
             placeholder="Search by reservation ID or Name or Email or Date"
             value={searchQuery}
             onChange={handleSearch}
-            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'100px', zIndex:'1', height:'20px', marginRight:'0px'}}
+            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'50px', zIndex:'1', height:'20px', marginRight:'0px'}}
           />
         </Form.Group>
       </Form>
+      <Button
+        className="btn-success"
+        onClick={handleSearchDownloadReportsClick}
+      >
+        <IoMdDownload className="mb-1" />
+      </Button>
       </div>
 
       {/* Additional Download Buttons */}

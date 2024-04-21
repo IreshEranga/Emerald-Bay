@@ -328,6 +328,28 @@ const Events = () => {
     setFilteredReservations(filteredData);
   };
 
+  // Function to handle download reports based on search results
+  const handleSearchDownloadReportsClick = () => {
+    // Filter data based on search query
+    const filteredData = events.filter((reservation) => {
+      return (
+        reservation.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reservation.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reservation.reservationId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reservation.date.includes(searchQuery)
+      );
+    });
+    const searchResults = filteredData;
+    generatePDF(
+      `Search Results for Event Reservation: ${searchQuery}`,
+      ["Res. ID", "Name", "Phone", "Email", "No. of Guests", "Date", "Start Time", "End Time"],
+      searchResults.flatMap(reservation => [
+        { "Date": reservation.date, "Res. ID": reservation.reservationId, "Email": reservation.email, "Name": reservation.name, "Phone": reservation.phone, "No. of Guests": reservation.guests, "Start Time": reservation.startTime, "End time": reservation.endTime  }
+      ]),
+      `Event Reservation_${searchQuery}`,
+    );
+  };
+
   // Function to prepare data for PDF report
   const preparePDFData = (reservations) => {
     const title = "Events Report";
@@ -434,10 +456,16 @@ const Events = () => {
             placeholder="Search by reservation ID or Name or Email or Date"
             value={searchQuery}
             onChange={handleSearch}
-            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'180px', zIndex:'1', height:'20px', marginRight:'0px'}}
+            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'150px', zIndex:'1', height:'20px', marginRight:'0px'}}
           />
         </Form.Group>
       </Form>
+      <Button
+        className="btn-success"
+        onClick={handleSearchDownloadReportsClick}
+      >
+        <IoMdDownload className="mb-1" />
+      </Button>
       </div>
 
       {/* Additional Download Buttons */}
