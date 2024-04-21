@@ -57,24 +57,24 @@ const index = () => {
 
   // PDF report function
   
+  
   const downloadPDF = () => {
-    // Calclating the total riders
-    const riders = data.data.riders;
-    const riderCount = riders.length;
-    //
-    //const title = "EMERALD BAY RESTAURANT";
+    // Filtered data for PDF report
+    const filteredRiders = filteredData || data.data.riders;
+  
+    // Calculate the total riders
+    const riderCount = filteredRiders.length;
     const additionalInfo = `Delivery Riders Report\nTotal Riders: ${riderCount}\n\n`;
-    
-    //
+  
     generatePDF(
-      //title,
       additionalInfo,
-      ["name", "address", "contact", "email", "rides"],
-      data.data.riders,
+      ["employeeid","name", "address", "contact", "email", "rides"],
+      filteredRiders,
       "Delivery_riders_report",
       35
     );
   };
+  
 
   
 
