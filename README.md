@@ -33,11 +33,7 @@ http://localhost:5173/
 ## Backend API
 http://localhost:8000/
 
-## Admin Credentials
 
-Email: admin@gmail.com
-
-Password: 123456
 
 ## Contributors
 
