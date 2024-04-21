@@ -33,7 +33,24 @@ const Index = () => {
       orderCreatedDate.includes(searchTerm) || 
       order.rider.includes(searchTerm)
     );
+    
   });
+
+  // Function to handle search and download report
+  const handleSearchDownloadReport = () => {
+    const searchResults = filteredCompletedOrders;
+    generatePDF(
+      `Search Results: ${searchQuery}`,
+      ["Date", "Order ID", "Customer ID", "Customer Name", "Address", "Rider"],
+      searchResults.flatMap(order => [
+        { "Date": new Date(order.createdAt).toLocaleDateString(), "Order ID": order.orderid, "Customer ID": order.customerid, "Customer Name": order.customername, "Address": order.deliveryaddress, "Rider": order.rider }
+      ]),
+      `Order_${searchQuery}`,
+      35
+    );
+  };
+  
+  
   // PDF report function
 
   const downloadPDF = (timeRange) => {
@@ -82,8 +99,6 @@ const Index = () => {
       35
     );
   };
-  
-  
   
   
 
@@ -139,6 +154,7 @@ const Index = () => {
     setSelectedOrder(null);
   };
 
+
   useEffect(() => {
     // Function to fetch orders from your API or database
     const fetchOrders = async () => {
@@ -189,7 +205,7 @@ const Index = () => {
             )}
 
              {/* Search input for Order ID */}
-             <div className="search-container" style={{ marginTop:'-88px', marginLeft:'220px', width:'355px' }}>
+             <div className="search-container" style={{ marginTop:'-88px', marginLeft:'220px', width:'395px', display:'flex' }}>
                 <input
                 style={{borderRadius:'40px', padding:'10px', paddingLeft:'20px'}}
                   type="text"
@@ -198,7 +214,7 @@ const Index = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   
                 />
-                {/*<button onClick={() => setSearchQuery('')}>Clear</button>*/}
+                <Button  onClick={handleSearchDownloadReport} style={{marginLeft:'10px'}}><IoMdDownload className='mb-1'/></Button>
               </div>
             </div><br /><br />
 
