@@ -339,8 +339,15 @@ const Events = () => {
         reservation.date.includes(searchQuery)
       );
     });
-    // Download PDF report for filtered data
-    downloadPDF(filteredData);
+    const searchResults = filteredData;
+    generatePDF(
+      `Search Results for Event Reservation: ${searchQuery}`,
+      ["Res. ID", "Name", "Phone", "Email", "No. of Guests", "Date", "Start Time", "End Time"],
+      searchResults.flatMap(reservation => [
+        { "Date": reservation.date, "Res. ID": reservation.reservationId, "Email": reservation.email, "Name": reservation.name, "Phone": reservation.phone, "No. of Guests": reservation.guests, "Start Time": reservation.startTime, "End time": reservation.endTime  }
+      ]),
+      `Event Reservation_${searchQuery}`,
+    );
   };
 
   // Function to prepare data for PDF report

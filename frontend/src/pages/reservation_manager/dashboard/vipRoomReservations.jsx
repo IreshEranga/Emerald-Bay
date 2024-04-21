@@ -254,8 +254,15 @@ const VIPRoomReservations = () => {
         reservation.date.includes(searchQuery)
       );
     });
-    // Download PDF report for filtered data
-    downloadPDF(filteredData);
+    const searchResults = filteredData;
+    generatePDF(
+      `Search Results for VIP Room Reservation: ${searchQuery}`,
+      ["Res. ID", "Name", "Phone", "Email", "No. of Guests", "Date", "Time"],
+      searchResults.flatMap(reservation => [
+        { "Date": reservation.date, "Res. ID": reservation.reservationId, "Email": reservation.email, "Name": reservation.name, "Phone": reservation.phone, "No. of Guests": reservation.guests, "Time": reservation.time  }
+      ]),
+      `VIP Room Reservation_${searchQuery}`,
+    );
   };
   
   // Function to prepare data for PDF report

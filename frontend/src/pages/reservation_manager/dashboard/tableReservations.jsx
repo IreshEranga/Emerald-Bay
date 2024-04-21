@@ -256,8 +256,15 @@ const TableReservations = () => {
         reservation.date.includes(searchQuery)
       );
     });
-    // Download PDF report for filtered data
-    downloadPDF(filteredData);
+    const searchResults = filteredData;
+    generatePDF(
+      `Search Results for Table Reservation: ${searchQuery}`,
+      ["Res. ID", "Name", "Phone", "Email", "Table No", "Date", "Time"],
+      searchResults.flatMap(reservation => [
+        { "Date": reservation.date, "Res. ID": reservation.reservationId, "Email": reservation.email, "Name": reservation.name, "Phone": reservation.phone, "Table No": reservation.tableNo, "Time": reservation.time  }
+      ]),
+      `Table Reservation_${searchQuery}`,
+    );
   };
 
   // Function to prepare data for PDF report
