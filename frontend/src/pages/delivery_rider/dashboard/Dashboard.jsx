@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 import { Button, Table } from "react-bootstrap";
 import { IoMdCreate, IoMdTrash } from "react-icons/io";
 import axios from "axios";
+import { IoMdDownload } from "react-icons/io";
+import { generatePDF } from "../../../utils/GeneratePDF";
 import "./profileview.css";
 
 const Dashboard = () => {
@@ -69,6 +71,20 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+        {/* Download PDF report */}
+        <Button variant="success" className="m-1" /*onClick={downloadPDF}*/ style={{width:'200px', height:'50px', marginLeft:'10px'}}>
+            <IoMdDownload className="mb-1" /> <span>Download Report</span>
+          </Button>
+
+          <input
+                      type="search"
+                      name="search"
+                      id="search"
+                      //value={searchQuery}
+                      //onChange={handleSearch}
+                      placeholder="Search by Name , Employee ID or Address"
+                      style={{ width: "420px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'600px', marginTop:'-120px', zIndex:'1', height:'20px' }}
+                    />
       </div>
 
       {/* Table to display delivery requests */}
