@@ -242,6 +242,21 @@ const VIPRoomReservations = () => {
     });
     setFilteredReservations(filteredData);
   };
+
+  // Function to handle download reports based on search results
+  const handleSearchDownloadReportsClick = () => {
+    // Filter data based on search query
+    const filteredData = vipRoomReservations.filter((reservation) => {
+      return (
+        reservation.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reservation.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reservation.reservationId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        reservation.date.includes(searchQuery)
+      );
+    });
+    // Download PDF report for filtered data
+    downloadPDF(filteredData);
+  };
   
   // Function to prepare data for PDF report
   const preparePDFData = (reservations) => {
@@ -352,6 +367,12 @@ const VIPRoomReservations = () => {
           />
         </Form.Group>
       </Form>
+      <Button
+        className="btn-success"
+        onClick={handleSearchDownloadReportsClick}
+      >
+        <IoMdDownload className="mb-1" />
+      </Button>
       </div>
 
       {/* Additional Download Buttons */}
