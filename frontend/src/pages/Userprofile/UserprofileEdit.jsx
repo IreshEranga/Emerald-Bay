@@ -99,10 +99,12 @@ const UserprofileEdit = () => {
 
       if (!response.ok) {
         throw new Error('Failed to delete profile');
+      }else{
+        toast.success("Profile deleted successfully!!");
+        navigate('/login'); // Navigate to the login page
       }
 
-      toast.success("Profile deleted successfully!!");
-      navigate('/login'); // Navigate to the login page
+      
     } catch (error) {
       console.error('Error deleting user profile:', error);
       setError(error.message);
