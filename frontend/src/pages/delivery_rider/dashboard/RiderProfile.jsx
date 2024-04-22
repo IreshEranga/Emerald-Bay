@@ -220,28 +220,6 @@ const RiderProfile = () => {
             />
           </div>
 
-          {/* Category Select */}
-          {/* <div className="mb-3">
-            <label htmlFor="category" className="form-label">
-              Category
-            </label>
-            <select
-              className="form-control"
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-            >
-              {categories &&
-                categories.data.categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-            </select>
-          </div>*/}
-
           <button type="submit" className="btn btn-primary">
             Save
           </button>
