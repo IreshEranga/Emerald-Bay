@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const bcrypt = require("bcrypt");
-//import Student model
 const Customer = require("../models/Customer");
+const sendEmail = require("../util/sendEmail");
+const customerRegistrationEmailTemplate = require("../util/email_templates/customerRegistrationEmailTemplate");
 
 
 //add student
@@ -33,6 +34,9 @@ router.route("/add").post(async (req,res)=>{
     //if insert success  //js promise
         .then(()=>{
             res.json("Customer Added ");
+            // Send confirmation email to the customer
+      const emailTemplate = customerRegistrationEmailTemplate(name, email, mobile, password, address);
+      sendEmail(email, "Registration Confirmation", emailTemplate);
         })
         //if unsucces
         .catch((err)=>{
