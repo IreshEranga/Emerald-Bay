@@ -1,32 +1,4 @@
-/*import React, { useState, useEffect } from 'react';
-import Navbar_customer from "../../components/Navbar_customer";
-import { useAuthStore } from '../../store/useAuthStore';
 
-
-const Userprofile = () => {
-  const { user } = useAuthStore(); // Assuming useAuthStore provides user information
-
-  return (
-    <div style={{ backgroundColor: 'black' }}>
-      <Navbar_customer />
-      <div style={{ color: 'white', padding: '20px' }}>
-        <h1>User Profile</h1>
-        {user ? (
-          <div>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <p>Mobile: {user._id}</p>
-            
-          </div>
-        ) : (
-          <p>Loading user profile...</p>
-        )}
-      </div>
-    </div>
-  );
-}
-
-export default Userprofile;*/
 
 import React, { useState, useEffect } from 'react';
 import Navbar_customer from "../../components/Navbar_customer";
@@ -90,7 +62,7 @@ const Userprofile = () => {
     <div>
     <Navbar_customer />
     <div className="profile-container">
-      <h1 className='userprofile' style={{paddingLeft:'210px', paddingRight:'210px', color:'maroon', fontFamily:'Times New Roman, Times, serif'}}>My Profile</h1>
+      <h1 className='userprofile' style={{paddingLeft:'210px', paddingRight:'210px', color:' black', fontFamily:'Times New Roman, Times, serif'}}>My Profile</h1>
       <div className="profile-details" key={user._id}>
         <p className='name'><strong>Name</strong><span className='dott'>:</span><span className='userdata'> {profileData.name}</span></p>
         <p className='email'><strong>Email</strong><span className='dott'>:</span><span className='userdata'> {profileData.email}</span></p>
