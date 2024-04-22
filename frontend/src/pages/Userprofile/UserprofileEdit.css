@@ -1,0 +1,19 @@
+.userprofile{
+   color: #0b0b0b; 
+   font-family: 'Times New Roman', Times, serif;
+}
+
+
+.profile-details{
+    background-color:#11edc5;
+    font-size: 25px;
+}
+
+.delete-profile{
+    margin-left:485px;
+    margin-right: auto;
+}
+.form-control{
+    font-size: 24500px;
+}
+
