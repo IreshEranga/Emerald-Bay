@@ -3,8 +3,8 @@ const authMiddleware = require("../middleware/authMiddleware");
 const bcrypt = require("bcrypt");
 const Customer = require("../models/Customer");
 const TableReservation = require("../models/TableReservation");
-//const VIPRoomReservation = require("../models/VIPRoomReservation");
-//const Event = require("../models/Event");
+const VIPRoomReservation = require("../models/VIPRoomReservation");
+const Event = require("../models/Event");
 const sendEmail = require("../util/sendEmail");
 const customerRegistrationEmailTemplate = require("../util/email_templates/customerRegistrationEmailTemplate");
 
@@ -196,8 +196,8 @@ router.route("/get/:_id").get(async (req, res) => {
   }
 });
 
-// Get and display reserved table reservations by customer email
-router.get("/reservations/:email", async (req, res) => {
+// Fetch table reservations by customer email
+router.get("/tableReservations/:email", async (req, res) => {
   try {
     const { email } = req.params;
     const customer = await Customer.findOne({ email });
@@ -206,11 +206,47 @@ router.get("/reservations/:email", async (req, res) => {
       return res.status(404).json({ error: "Customer not found" });
     }
 
-    const reservations = await TableReservation.find({ email: customer.email });
-    res.json(reservations);
+    const tableReservations = await TableReservation.find({ email: customer.email });
+    res.json(tableReservations);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error retrieving reservations" });
+    res.status(500).json({ error: "Error retrieving table reservations" });
+  }
+});
+
+// Fetch VIP room reservations by customer email
+router.get("/vipRoomReservations/:email", async (req, res) => {
+  try {
+    const { email } = req.params;
+    const customer = await Customer.findOne({ email });
+
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+
+    const vipRoomReservations = await VIPRoomReservation.find({ email: customer.email });
+    res.json(vipRoomReservations);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error retrieving VIP room reservations" });
+  }
+});
+
+// Fetch events by customer email
+router.get("/events/:email", async (req, res) => {
+  try {
+    const { email } = req.params;
+    const customer = await Customer.findOne({ email });
+
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+
+    const events = await Event.find({ email: customer.email });
+    res.json(events);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error retrieving events" });
   }
 });
 
