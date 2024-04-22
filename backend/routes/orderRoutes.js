@@ -46,7 +46,7 @@ router.route("/create").post((req,res)=>{
         })
 })
 
-//get employees
+//get 
 router.route("/").get((req, res) => {
     //return all orders in the database
     Order.find()
@@ -100,7 +100,7 @@ router.route("/delete/:orderid").delete(async (req,res)=>{
 })
 
 
-// fetch data from one employee
+// fetch data from 
 router.route("/get/:orderid").get(async (req, res) => {
     let orderid = req.params.orderid;
 
