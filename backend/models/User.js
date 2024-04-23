@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     available_stock: { type: Number, default: 0 },
     status:{type:String},
-    rides:{type:Number , default:0},
+    //rides:{type:Number , default:0},
   },
   {
     timestamps: true,
