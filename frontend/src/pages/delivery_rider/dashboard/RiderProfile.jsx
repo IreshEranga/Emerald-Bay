@@ -162,7 +162,7 @@ const RiderProfile = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              required
+              disabled
             />
           </div>
 
