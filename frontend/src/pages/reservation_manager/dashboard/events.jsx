@@ -11,9 +11,9 @@ import axios from "axios";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [searchQuery, setSearchQuery] = useState(""); 
   const [filteredReservations, setFilteredReservations] = useState([]);
   const [editReservation, setEditReservation] = useState(null);
   const [availability, setAvailability] = useState(false);

@@ -11,10 +11,10 @@ import axios from "axios";
 
 
 const TableReservations = () => {
-  const [tableReservations, setTableReservations] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [tableReservations, setTableReservations] = useState([]); 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredReservations, setFilteredReservations] = useState([]);
   const [editReservation, setEditReservation] = useState(null);
   const [availability, setAvailability] = useState(false);
