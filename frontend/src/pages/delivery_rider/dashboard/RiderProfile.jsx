@@ -99,11 +99,11 @@ const RiderProfile = () => {
   return (
     <div className="profilecontainer">
       <div className="profilesection">
-        <h1>👨 Profile : {rider && rider.data && rider.data.rider ? rider.data.rider.name : ""}</h1>
+        
       </div><br /><br />
       <div className="formcontainer">
         <form onSubmit={onSubmit} style={{ width: '50%', marginLeft: '250px' }}>
-          <label htmlFor="">Update Rider : {rider && rider.data && rider.data.rider ? rider.data.rider.name : ""}</label><br /><br />
+          <h1>Update Rider : {rider && rider.data && rider.data.rider ? rider.data.rider.name : ""}</h1><br /><br />
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
               Name
