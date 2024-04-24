@@ -83,20 +83,7 @@ const AddDeliveryRiderModal = () => {
       title="Add Delivery Rider"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/*<div className="form-group">
-
-        <label htmlFor="employeeid">Employee ID</label>
-          <input
-            type="text"
-            className="form-control"
-            id="employeeid"
-            name="employeeid"
-            {...register("employeeid", { required: true })}
-          />
-          {errors.employeeid && (
-            <small className="form-text text-danger">Employee ID is required</small>
-          )}
-        </div>*/}
+        
 
         <div className="form-group">
           <label htmlFor="name">Name</label>
@@ -195,27 +182,6 @@ const AddDeliveryRiderModal = () => {
           </div>
         </div>
 
-        {/* Category Select Dropdown 
-        <div className="form-group">
-          <label htmlFor="category">Category</label>
-          <select
-            className="form-control"
-            id="category"
-            name="category"
-            {...register("category", { required: true })}
-          >
-            <option value="">Select Category</option>
-            {categories &&
-              categories.data.categories.map((category) => (
-                <option key={category._id} value={category._id}>
-                  {category.name}
-                </option>
-              ))}
-          </select>
-          {errors.category && (
-            <small className="form-text text-danger">Category is required</small>
-          )}
-        </div>*/}
 
         <button
           type="submit"
