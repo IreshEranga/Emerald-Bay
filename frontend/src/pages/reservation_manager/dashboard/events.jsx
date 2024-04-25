@@ -11,9 +11,9 @@ import axios from "axios";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [searchQuery, setSearchQuery] = useState(""); 
   const [filteredReservations, setFilteredReservations] = useState([]);
   const [editReservation, setEditReservation] = useState(null);
   const [availability, setAvailability] = useState(false);
@@ -456,7 +456,7 @@ const Events = () => {
             placeholder="Search by reservation ID or Name or Email or Date"
             value={searchQuery}
             onChange={handleSearch}
-            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'150px', zIndex:'1', height:'20px', marginRight:'0px'}}
+            style={{ width: "400px", border: '1px solid gray', padding: '20px', borderRadius: '30px', position:'relative', marginLeft:'135px', zIndex:'1', height:'20px', marginRight:'0px'}}
           />
         </Form.Group>
       </Form>
