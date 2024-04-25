@@ -3,17 +3,13 @@ import Navbar_customer from "../../components/Navbar_customer";
 import { useAuthStore } from '../../store/useAuthStore';
 import './UserprofileEdit.css';
 import toast from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
 import { LinkContainer } from 'react-router-bootstrap';
 
 const UserprofileEdit = () => {
-  const navigate = useNavigate(); // Declare useNavigate hook
   const { user } = useAuthStore(); // Assuming useAuthStore provides user information
   const [profileData, setProfileData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -91,26 +87,41 @@ const UserprofileEdit = () => {
     }
   };
 
+  const handleDeleteConfirmation = () => {
+    // Implement your custom confirmation logic here
+    // You can use a modal or custom component for confirmation
+    return new Promise((resolve) => {
+      const confirmed = window.confirm("Are you sure you want to delete your profile?");
+      resolve(confirmed);
+    });
+  };
+
   const handleDelete = async () => {
     try {
+      const confirmed = await handleDeleteConfirmation();
+      if (!confirmed) {
+        return; // Do nothing if user cancels the operation
+      }
+  
       const response = await fetch(`http://localhost:8000/customer/delete/${user._id}`, {
         method: 'DELETE',
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to delete profile');
       }else{
         toast.success("Profile deleted successfully!!");
         navigate('/login'); // Navigate to the login page
       }
-
-      
+  
+      toast.success("Profile deleted successfully!!");
+      // Don't navigate to login page here
     } catch (error) {
       console.error('Error deleting user profile:', error);
       setError(error.message);
     }
   };
-
+  
   const { logout } = useAuthStore((state) => ({
     logout: state.logout,
   }));
@@ -155,17 +166,12 @@ const UserprofileEdit = () => {
               <label htmlFor="address">Address:</label>
               <input type="text" className="form-control" id="address" name="address" value={formData.address} onChange={handleChange} />
             </div>
-            <div className="form-group">
-              <label htmlFor="status">Status:</label>
-              <input type="text" className="form-control" id="status" name="status" value={formData.status} onChange={handleChange} />
-            </div>
-          
+            
             {/* Display other profile details as needed */}
             <button type="submit" className="btn btn-primary">Update Profile</button>
            
             <LinkContainer to="/logout">
-            <button type="button" className="btn btn-danger delete-profile" onClick={() => { handleDelete(); handleLogout(); }}>Delete Profile</button>
-
+              <button type="button" className="btn btn-danger delete-profile" onClick={() => { handleDelete(); handleLogout(); }}>Delete Profile</button>
             </LinkContainer>
           </div>
         </form>
