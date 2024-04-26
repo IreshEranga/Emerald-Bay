@@ -46,7 +46,6 @@ import User_Reservations from "../pages/Userprofile/Reservations.jsx"
 import User_Orders from "../pages/Userprofile/Orders.jsx"
 import Cart from "../pages/Cart/Cart"
 import Employee from "../pages/employee";
-import RiderViewProfile from "../pages/delivery_rider/dashboard/RiderViewProfile.jsx";
 import EmployeeViewProfile from "../pages/employee/dashboard/EmployeeViewProfile.jsx";
 import Membership from "../pages/Membership/Membership"
 import MembershipForm from "../pages/Membership/MembershipForm.jsx"
