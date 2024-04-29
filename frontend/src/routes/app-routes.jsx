@@ -14,6 +14,7 @@ import {
   EmployeeDashboard,
 } from "../pages";
 
+
 import CustomerAffairsManagerSideBar from "../pages/customerAffairs/dashboard/CustomerAffairsManagerSidebar.jsx";
 import Customers from "../pages/customerManager/dashboard/customers.jsx";
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
@@ -52,6 +53,8 @@ import MembershipForm from "../pages/Membership/MembershipForm.jsx"
 
 
 
+
+
 const AppRoutes = () => {
   return (
     <>
@@ -77,6 +80,8 @@ const AppRoutes = () => {
           {/* Customer Affairs Manager Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
             <Route path="/CustomerAffairsManager" element={<CustomerAffairsManagerSideBar />} />
+           
+            
           </Route>
 
           {/* Customer Private Routes */}
