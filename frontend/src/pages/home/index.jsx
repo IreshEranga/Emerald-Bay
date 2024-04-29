@@ -8,6 +8,9 @@ import aboutimg from '../../assets/IMG_501.avif';
 import foodstock from '../../assets/foodstock.png';
 import foodimg from '../../assets/IMG_503.jpeg';
 import FormExample from './contactForm';
+import Feedback from "react-bootstrap/esm/Feedback.js";
+import FeedbackForm from "./feedbackpage.js";
+import Footer from "../../components/Footer.js";
 
 
 const Home = () => {
@@ -82,8 +85,21 @@ const Home = () => {
       <br />
       <FormExample />
     </div><br></br><br></br>
-    </div>
+
+    
+
+    <div class="feedback-section">
+    <h2>Feedback</h2>
+    <p>We value your feedback! Please take a moment to let us know about your experience.</p>
+    <FeedbackForm />
+
+    
+</div>
+<Footer />
+</div>
   );
-};
+}
+
+
 
 export default Home;
