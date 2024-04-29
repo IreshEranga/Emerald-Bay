@@ -219,7 +219,7 @@ body {
 .form-container {
   max-width: 600px;
   margin: 20px auto;
-  background-image: url('/Users/GitHub/Emerald-Bay/frontend/src/assets/IMG_506.jpg');
+  background-image: url('../../assets/IMG_506.jpg');
   background-size: cover;
   background-position: center;
   padding: 40px;
