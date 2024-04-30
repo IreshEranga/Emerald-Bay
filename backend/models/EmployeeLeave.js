@@ -32,7 +32,11 @@ const EmployeeLeaveSchema = new Schema({
         enum: ["PENDING", "APPROVED", "REJECTED"],
         default: "PENDING",
     }
-});
+},
+{
+    timestamps: true,
+  }
+);
 
 //const EmployeeLeave = mongoose.model('EmployeeLeave', EmployeeLeaveSchema)
 module.exports = mongoose.model("EmployeeLeave", EmployeeLeaveSchema);
