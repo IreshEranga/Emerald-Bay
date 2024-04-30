@@ -3,24 +3,26 @@ import { Table } from "react-bootstrap";
 import { IoMdTrash, IoMdAdd, IoMdRemove } from "react-icons/io";
 import Button from "react-bootstrap/Button";
 import Navbar_customer from "../../components/Navbar_customer";
+import { Link } from 'react-router-dom';
 
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
+    const [deliveryType, setDeliveryType] = useState('dineIn'); // Default to dine-in
 
     useEffect(() => {
-        const fetchCartItems = async () => {
-            try {
-                const response = await fetch("http://localhost:8000/cart");
-                const data = await response.json();
-                setCartItems(data.items);
-            } catch (error) {
-                console.error("Error fetching cart items:", error);
-            }
-        };
-
         fetchCartItems();
     }, []);
+
+    const fetchCartItems = async () => {
+        try {
+            const response = await fetch("http://localhost:8000/cart");
+            const data = await response.json();
+            setCartItems(data.items);
+        } catch (error) {
+            console.error("Error fetching cart items:", error);
+        }
+    };
 
     const removeFromCart = async (itemId) => {
         try {
@@ -65,6 +67,41 @@ const Cart = () => {
         }
     };
 
+    const placeOrder = async () => {
+        try {
+            // Calculate total bill
+            let totalBill = cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+
+            // Apply loyalty discount (5%)
+            const loyaltyDiscount = totalBill * 0.05;
+            totalBill -= loyaltyDiscount;
+
+            // Handle delivery fee
+            let deliveryFee = 0;
+            if (deliveryType === 'delivery') {
+                // Calculate delivery fee based on distance
+                // Replace this with your own logic to calculate delivery fee
+                deliveryFee = calculateDeliveryFee();
+            }
+
+            // Update total bill with delivery fee
+            totalBill += deliveryFee;
+
+            // Implement logic to place the order here
+            console.log("Order placed with total bill:", totalBill);
+        } catch (error) {
+            console.error("Error placing order:", error);
+        }
+    };
+
+    // Placeholder function to calculate delivery fee
+    const calculateDeliveryFee = () => {
+        // Replace this with your own logic to calculate delivery fee
+        return 5; // Example delivery fee
+    };
+
+    
+
     return (
         <div style={{ backgroundColor: 'black' }}>
             <Navbar_customer />
@@ -104,6 +141,43 @@ const Cart = () => {
                             ))}
                         </tbody>
                     </Table>
+                </div>
+                <div style={{color: 'white', display: 'flex', fontWeight: 'bold', justifyContent: 'center' }}>
+                    <div>
+                        <label>
+                            <input
+                                type="radio"
+                                value="dineIn"
+                                checked={deliveryType === 'dineIn'}
+                                onChange={() => setDeliveryType('dineIn')}
+                            />
+                            Dine-in
+                        </label><hr></hr>
+                        <label>
+                            <input
+                                type="radio"
+                                value="takeaway"
+                                checked={deliveryType === 'takeaway'}
+                                onChange={() => setDeliveryType('takeaway')}
+                            />
+                            Takeaway
+                        </label><hr></hr>
+                        <label>
+                            <input
+                                type="radio"
+                                value="delivery"
+                                checked={deliveryType === 'delivery'}
+                                onChange={() => setDeliveryType('delivery')}
+                            />
+                            Delivery
+                        </label>
+                    </div>
+                </div>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                <Button variant="primary" onClick={placeOrder} style={{ marginTop: '20px' }}>
+                    Check Out
+                </Button>
+
                 </div>
             </div>
         </div>

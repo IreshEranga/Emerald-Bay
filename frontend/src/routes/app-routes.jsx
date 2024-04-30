@@ -48,8 +48,16 @@ import User_Orders from "../pages/Userprofile/Orders.jsx"
 import Cart from "../pages/Cart/Cart"
 import Employee from "../pages/employee";
 import EmployeeViewProfile from "../pages/employee/dashboard/EmployeeViewProfile.jsx";
+
+
+
+
+
+import Payment from "../pages/Payment/Payment"
+
 import Membership from "../pages/Membership/Membership"
 import MembershipForm from "../pages/Membership/MembershipForm.jsx"
+
 
 
 
@@ -96,6 +104,7 @@ const AppRoutes = () => {
             <Route path="/membership" element={<Membership />} />
             <Route path="/membership" element={<MembershipForm />} />
             <Route path="/view_cart" element={<Cart/>}/>
+            <Route path="/payment" element={<Payment/>}/>
           </Route>
 
           {/* Supplier Private Routes */}
