@@ -101,7 +101,7 @@ const index = () => {
       <div className="front" style={{display:'flex'}}>
               <h1 className="mb-5" style={{fontFamily:'monospace'}}>Riders</h1>
 
-                  {/*<input type="search" name=""id="" value={searchQuery} onChange={handleSearch} placeholder='Search by Name or Employee ID' style={{width:"420px", border:'1ps solid gray'}}/>*/}
+                  {/*search input */}
                   <input
                     type="search"
                     name="search"
@@ -128,7 +128,7 @@ const index = () => {
           </Button>
       </div>
 
-      {/*<div className="riderimg" style={{marginLeft:'450px', marginTop:'-200px', marginBottom:'-60px'}}><img src={riderimg1} alt="rider"  /></div>*/}
+      
 
       <div className="mt-5" style={{zIndex:'5'}}>
         <BootstrapTable

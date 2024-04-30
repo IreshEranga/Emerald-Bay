@@ -23,7 +23,9 @@ const itemRoutes = require("./routes/itemRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const inventoryRoutes = require("./routes/inventoryRoutes");
-
+const LoyaltyCustomersRoutes = require("./routes/LoyaltyCustomersRoutes");
+const feedbackRoutes = require("./routes/feedbackRoutes");
+const faqRoutes = require("./routes/faqRoutes");
 
 // express app
 const app = express();
@@ -38,6 +40,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Routes
+app.use("/api/faqs", faqRoutes);
+app.use("/api/feedback", feedbackRoutes);
 app.use("/auth", authRoutes);
 app.use("/api/suppliers", supplierRoutes);
 app.use("/api/categories", categoryRoutes);
@@ -57,6 +61,7 @@ app.use("/vipRoomReservation",vipRoomReservationRoutes);
 app.use("/event",eventRoutes);
 app.use("/item",itemRoutes);
 app.use("/customer",customerRoutes);
+app.use("/loyaltycustomers",LoyaltyCustomersRoutes);
 app.use("/cart", cartRoutes);
 app.use("/api/inventories", inventoryRoutes);
 

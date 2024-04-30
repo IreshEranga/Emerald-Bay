@@ -49,29 +49,6 @@ router.route("/add").post(async (req,res)=>{
 
 
 
-/*router.post("/add", authMiddleware(["CUSTOMER"]), async (req, res) => {
-    try {
-      const { name, email, address, mobile, password, status } = req.body;
-  
-      // Convert mobile to number
-      const mobileNumber = Number(mobile);
-  
-      const newCustomer = new Customer({
-        name,
-        email,
-        address,
-        mobile: mobileNumber,
-        password, // Assuming password is already hashed
-        status,
-      });
-  
-      await newCustomer.save();
-      res.status(201).json({ success: true, message: "Customer added successfully", customer: newCustomer });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ success: false, error: "Error adding customer" });
-    }
-  });*/
 
   //get students
 router.route("/").get((req, res) => {
