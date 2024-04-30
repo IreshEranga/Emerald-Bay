@@ -191,4 +191,29 @@ router.route("/update/status/:orderid").put(async (req, res) => {
 });
 
 
+// GET total completed orders count
+router.get("/completed/count", async (req, res) => {
+    try {
+      const completedOrdersCount = await Order.countDocuments({ status: "completed" });
+      res.json({ count: completedOrdersCount });
+    } catch (error) {
+      console.error("Error fetching completed orders count:", error);
+      res.status(500).json({ error: "Error fetching completed orders count" });
+    }
+  });
+  
+  // GET total pending orders count
+  router.get("/pending/count", async (req, res) => {
+    try {
+      const pendingOrdersCount = await Order.countDocuments({ status: "pending" });
+      res.json({ count: pendingOrdersCount });
+    } catch (error) {
+      console.error("Error fetching pending orders count:", error);
+      res.status(500).json({ error: "Error fetching pending orders count" });
+    }
+  });
+  
+  module.exports = router;
+  
+
 module.exports = router;
