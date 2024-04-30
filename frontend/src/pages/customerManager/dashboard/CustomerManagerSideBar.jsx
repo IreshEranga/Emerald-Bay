@@ -7,7 +7,7 @@ import Category from "../../category";
 import StockRequest from "../../stock_request";
 import CustomerManagerDashboard from "./CustomerManagerDashBoard.jsx";
 import Customers from "./customers.jsx";
-
+import LoyaltyCustomers from "./LoyaltyCustomers.jsx";
 //
 const CustomerManagerSideBar = () => {
   const [activeContent, setActiveContent] = useState("Dashboard");
@@ -34,6 +34,14 @@ const CustomerManagerSideBar = () => {
             <Customers />
           </>
         );
+
+        case "LoyaltyCustomers":
+          return (
+            <>
+              <LoyaltyCustomers />
+            </>
+          );
+
       
     }
   };
@@ -86,11 +94,11 @@ const CustomerManagerSideBar = () => {
           </li>
           <li>
             <a
-              href="#riders"
+              href="#loyaltycustomers"
               className={`nav-link ${
-                activeContent === "Orders" ? "active" : "link-dark"
+                activeContent === "LoyaltyCustomers" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Orders")}
+              onClick={() => handleLinkClick("LoyaltyCustomers")}
             >
               Loyalty Customers
             </a>

@@ -25,10 +25,10 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filter completed orders based on search term
-  const filteredCompletedOrders = orders.filter(order => {
+  const filteredCompletedOrders = orders.filter(order =>{
     const orderCreatedDate = new Date(order.createdAt).toLocaleDateString();
     const searchTerm = searchQuery.toLowerCase().trim();
-    return (
+    return order.status==='completed' && (
       order.orderid.includes(searchTerm) ||
       orderCreatedDate.includes(searchTerm) || 
       order.rider.includes(searchTerm)

@@ -14,6 +14,7 @@ import {
   EmployeeDashboard,
 } from "../pages";
 
+
 import CustomerAffairsManagerSideBar from "../pages/customerAffairs/dashboard/CustomerAffairsManagerSidebar.jsx";
 import Customers from "../pages/customerManager/dashboard/customers.jsx";
 import DeliveryManagerSideBar from "../pages/delivery_manager/dasboard/DeliveryManagerSideBar"
@@ -46,9 +47,17 @@ import User_Reservations from "../pages/Userprofile/Reservations.jsx"
 import User_Orders from "../pages/Userprofile/Orders.jsx"
 import Cart from "../pages/Cart/Cart"
 import Employee from "../pages/employee";
-import RiderViewProfile from "../pages/delivery_rider/dashboard/RiderViewProfile.jsx";
 import EmployeeViewProfile from "../pages/employee/dashboard/EmployeeViewProfile.jsx";
+
+
+
+
+
 import Payment from "../pages/Payment/Payment"
+
+import Membership from "../pages/Membership/Membership"
+import MembershipForm from "../pages/Membership/MembershipForm.jsx"
+
 
 
 
@@ -79,6 +88,8 @@ const AppRoutes = () => {
           {/* Customer Affairs Manager Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
             <Route path="/CustomerAffairsManager" element={<CustomerAffairsManagerSideBar />} />
+           
+            
           </Route>
 
           {/* Customer Private Routes */}
@@ -90,6 +101,8 @@ const AppRoutes = () => {
             <Route path="/edit_profile" element={<UserprofileEdit />} />
             <Route path="/view_reservations" element={<User_Reservations />} />
             <Route path="/view_orders" element={<User_Orders />} />
+            <Route path="/membership" element={<Membership />} />
+            <Route path="/membership" element={<MembershipForm />} />
             <Route path="/view_cart" element={<Cart/>}/>
             <Route path="/payment" element={<Payment/>}/>
           </Route>

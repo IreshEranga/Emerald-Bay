@@ -115,17 +115,6 @@ const deliveryRiderController = {
             });
           }
     
-          // check if the rider has any order Requests
-         /* const stockRequests = await StockRequest.find({ supplier: supplierId });
-    
-          if (stockRequests.length > 0) {
-            return res.status(400).json({
-              success: false,
-              message:
-                "This supplier has stock requests. Please delete the stock requests first",
-            });
-          }*/
-    
           const deletedRider = await Rider.findOneAndDelete({
             _id: riderId,
             role: USER_ROLES.RIDER,

@@ -1,0 +1,33 @@
+.membership-form-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   /* Make the page take the full height of the viewport */
+    
+    margin-left: 200px;
+    margin-right: 400px;
+    height: 600px;
+    width: 1400px;
+    /* White background for the entire page */
+  }
+  
+  .membership-form-container {
+    margin-top: 100px;
+    width: 9000px;
+    height: 750px; /* Set a fixed width for the form container */
+    padding: 20px; /* Add some padding */
+    border-radius: 5px; /* Add rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    background-color: rgb(153, 164, 202);/* Add a subtle shadow */
+    font-size: 30px;
+  }
+  .title{
+    text-align: center;
+    font-size: 60px;
+    font-family:initial
+  }
+
+  .membership{
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
