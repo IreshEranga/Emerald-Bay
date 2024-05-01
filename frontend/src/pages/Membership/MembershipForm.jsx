@@ -80,10 +80,7 @@ const MembershipForm = () => {
         ) : (
           <form onSubmit={handleSubmit}>
 
-            <div>
-              <label>Customer ID:</label>
-              <input  type="text" name="customerid" value={formData.customerId} onChange={handleChange} disabled />
-            </div>
+            
             <div>
               <label>Name:</label>
               <input  type="text" name="name" value={formData.name} onChange={handleChange} disabled />

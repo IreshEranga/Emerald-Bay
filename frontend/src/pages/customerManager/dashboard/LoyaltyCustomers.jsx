@@ -1,87 +1,86 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Button, Table, Form } from "react-bootstrap";
-import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
+import { IoMdDownload } from "react-icons/io";
 import toast from 'react-hot-toast';
 import axios from "axios";
 import { generatePDF } from "../../../utils/GeneratePDF";
 
-
 const LoyaltyCustomers = () => {
-  const [loyaltycustomers, setLoyaltyCustomers] = useState([]);
+  const [loyaltyCustomers, setLoyaltyCustomers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredLoyaltyCustomers, setFilteredLoyaltyCustomers] = useState([]);
-  
-  
-  //const [loading, setLoading] = useState(false);
-  
-  const [errors, setErrors] = useState({});
-  /*const [formData, setFormData] = useState({
-    name: "",
-    mobile: "",
-    email: "",
-    address: "",
-    status: "",
-    
-  });*/
 
   useEffect(() => {
-    // Fetch table reservations data when component mounts
     fetchLoyaltyCustomers();
-    
   }, []);
 
-  // Function to fetch table reservations data
   const fetchLoyaltyCustomers = async () => {
     try {
       const response = await axios.get("http://localhost:8000/loyaltycustomers");
       setLoyaltyCustomers(response.data);
-      // Initially setting filteredReservations to all reservations
       setFilteredLoyaltyCustomers(response.data);
     } catch (error) {
-      console.error("Error fetching table reservations:", error);
+      console.error("Error fetching loyalty customers:", error);
     }
   };
 
-
-
-
-  // Function to handle search
   const handleSearch = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-    // Filtered data
-    const filteredData = loyaltycustomers.filter((loyaltycustomer) => {
+    const filteredData = loyaltyCustomers.filter((loyaltyCustomer) => {
       return (
-        loyaltycustomer.name.toLowerCase().includes(query.toLowerCase()) ||
-        loyaltycustomer.email.toLowerCase().includes(query.toLowerCase())
-        
+        loyaltyCustomer.name.toLowerCase().includes(query.toLowerCase()) ||
+        loyaltyCustomer.email.toLowerCase().includes(query.toLowerCase())
       );
     });
     setFilteredLoyaltyCustomers(filteredData);
   };
 
-  // Function to prepare data for PDF report
   const preparePDFData = () => {
-    const title = "Loyalty Customer  Report";
-    const columns = [ "Name", "Phone", "Email", "Membership type" ];
-    const data = filteredLoyaltyCustomers.map(loyaltycutomer => ({
-      
-      "Name": loyaltycutomer.name,
-      "Phone": loyaltycutomer.mobile,
-      "Email": loyaltycutomer.email,
-      "Membership type": loyaltycutomer.membershipType,
-     
+    const title = "Loyalty Customer Report";
+    const columns = [ "Name", "Phone", "Email", "Membership Type" ,"Status"];
+    const data = filteredLoyaltyCustomers.map(loyaltyCustomer => ({
+      "Name": loyaltyCustomer.name,
+      "Phone": loyaltyCustomer.mobile,
+      "Email": loyaltyCustomer.email,
+      "Membership Type": loyaltyCustomer.membershipType,
+      "Status":loyaltyCustomer.status
     }));
     const fileName = "LoyaltyCustomer_Report";
     return { title, columns, data, fileName };
   };
 
-  // Function to handle downloading PDF report
   const downloadPDF = () => {
     const { title, columns, data, fileName } = preparePDFData();
     generatePDF(title, columns, data, fileName);
   };
+
+  const handleAcceptReject = async (id, shouldAccept) => {
+    try {
+      if (shouldAccept) {
+        // Send a PUT request to update the loyalty customer status to 'vip'
+        await axios.put(`http://localhost:8000/loyaltycustomers/accept/${id}`);
+        fetchLoyaltyCustomers();
+        toast.success('Loyalty customer accepted and status updated to vip.');
+        
+      } else {
+        // Send a DELETE request to remove the loyalty customer entry
+        await axios.delete(`http://localhost:8000/loyaltycustomers/reject/${id}`);
+        fetchLoyaltyCustomers();
+        toast.success('Loyalty customer request rejected and deleted.');
+        
+        // Filter out the rejected customer from the table
+        
+      }
+      // Refetch loyalty customers after action
+      
+    } catch (error) {
+      console.error('Error handling loyalty customer request:', error);
+      toast.error('Error handling loyalty customer request.');
+    }
+  };
+  
+  
 
   return (
     <div className="container mt-5">
@@ -89,12 +88,10 @@ const LoyaltyCustomers = () => {
         Loyalty Customers
       </h1>
 
-      {/* Download PDF report */}
       <Button variant="success" className="m-1" onClick={downloadPDF}>
         <IoMdDownload className="mb-1" /> <span>Download Report</span>
       </Button>
 
-      {/* Search Form */}
       <Form className="mt-3">
         <Form.Group controlId="searchQuery">
           <Form.Control
@@ -106,39 +103,47 @@ const LoyaltyCustomers = () => {
         </Form.Group>
       </Form>
 
-      {/* Table to display previous vip room reservations */}
       <Table striped bordered hover className="mt-4">
         <thead>
           <tr align='center'>
-          
             <th>Name</th>
             <th>Phone</th>
             <th>Email</th>
             <th>Membership Type</th>
-           
+            <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {filteredLoyaltyCustomers.map((loyaltycustomers) => (
-            <tr key={loyaltycustomers._id}>
-              
-              <td>{loyaltycustomers.name}</td>
-              <td>{loyaltycustomers.mobile}</td>
-              <td>{loyaltycustomers.email}</td>
-              <td>{loyaltycustomers.membershipType}</td>
-             
-              
-              
+          {filteredLoyaltyCustomers.map((loyaltyCustomer) => (
+            <tr key={loyaltyCustomer._id}>
+              <td>{loyaltyCustomer.name}</td>
+              <td>{loyaltyCustomer.mobile}</td>
+              <td>{loyaltyCustomer.email}</td>
+              <td>{loyaltyCustomer.membershipType}</td>
+              <td>{loyaltyCustomer.status}</td>
+              <td>
+  <div className="d-flex justify-content-between">
+    <Button 
+      variant="success" 
+      onClick={() => handleAcceptReject(loyaltyCustomer._id, true)}
+    >
+      Accept
+    </Button>
+  
+    <Button 
+      variant="danger" 
+      onClick={() => handleAcceptReject(loyaltyCustomer._id, false)}
+    >
+      Reject
+    </Button>
+  </div>
+</td>
+
             </tr>
           ))}
         </tbody>
       </Table>
-
-      
-            
-          
-        
-      
     </div>
   );
 };
