@@ -3,6 +3,7 @@ import { useAuthStore } from "../../store/useAuthStore";
 import NavBar from '../../components/Navbar'; 
 import restaurantImage from '../../assets/IMG_9995.jpg';
 import './AboutUs.css';
+import Footer from "../../components/Footer.js";
 import { FaPhone, FaEnvelope, FaFacebookSquare, FaMapMarker } from 'react-icons/fa';
 
 
@@ -53,7 +54,8 @@ const AboutUs = () => {
 
               </div>          
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />      
-        </div>
+        </div><br/><br/>
+          <Footer />
     </div>
   );
 };

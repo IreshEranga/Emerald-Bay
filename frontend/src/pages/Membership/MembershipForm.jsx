@@ -97,9 +97,8 @@ const MembershipForm = () => {
               <label className='membership'>Membership Type:</label>
               <select name="membershipType" value={formData.membershipType} onChange={handleChange} required>
                 <option value="">Select Membership Type</option>
-                <option value="gold">Gold</option>
-                <option value="silver">Silver</option>
-                <option value="diamond">Diamond</option>
+                <option value="loyalty">Loyalty</option>
+                
               </select>
             </div>
             <button type="submit">Submit</button>

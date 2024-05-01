@@ -12,3 +12,4 @@ export const useEmployeeCount = () => {
 export const useEmployee = (id) => {
   return useQuery(["employee", id], () => EmployeeAPI.getById(id));
 };
+

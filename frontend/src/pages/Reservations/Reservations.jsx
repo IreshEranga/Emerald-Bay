@@ -5,6 +5,7 @@ import './Reservations.css';
 import TableReservation from '../../assets/IMG_9943.jpg';
 import VIPRoom from '../../assets/IMG_0004.jpg';
 import Events from '../../assets/IMG_0005.jpg';
+import Footer from "../../components/Footer.js";
 
 
 const Reservations = () => {
@@ -50,7 +51,8 @@ const Reservations = () => {
           </div><br /><br/>
           
         </div>
-      </div>
+      </div><br/><br/>
+      <Footer />
     </div>
   );
 };

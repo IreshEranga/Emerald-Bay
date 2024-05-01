@@ -6,6 +6,8 @@ import EmployeeProfile from "./EmployeeProfile";
 import Dashboard from "./Dashboard";
 import EmployeeViewProfile from "./EmployeeViewProfile";
 import EmployeeLeaves from "./EmployeeLeaves";
+import Attendance from "../../Attendance/Attendance";
+
 //
 const EmployeeSideBar = () => {
   const [activeContent, setActiveContent] = useState("Dashboard");
@@ -45,6 +47,13 @@ const EmployeeSideBar = () => {
             <EmployeeLeaves />
           </>
         );
+       
+          case "attendee":
+          return (
+            <>
+              <Attendance />
+            </>
+          );
       case "Account":
         return <p>This is the Account page content.</p>;
       default:
@@ -111,6 +120,18 @@ const EmployeeSideBar = () => {
               onClick={() => handleLinkClick("leaves")}
             >
               Apply Leaves
+            </a>
+            </li>
+            
+            <li>
+            <a
+              href="#attendee"
+              className={`nav-link ${
+                activeContent === "attendee" ? "active" : "link-dark"
+              }`}
+              onClick={() => handleLinkClick("attendee")}
+            >
+              Attendance
             </a>
             </li>
           <li>
