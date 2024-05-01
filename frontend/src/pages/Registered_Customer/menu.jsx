@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import Navbar_customer from "../../components/Navbar_customer";
+import Footer from "../../components/Footer.js";
 
 
 const Customer_Menu = () => {
@@ -77,7 +78,8 @@ const Customer_Menu = () => {
                     ))}
                     
                 </div><br></br>
-            </div>
+            </div><br/><br/>
+          <Footer />
         </div>
     );
 };

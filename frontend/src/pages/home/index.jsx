@@ -56,7 +56,7 @@ const Home = () => {
       </div>
       </div><br></br>
 
-      <div style={{alignItems:'center', width:'1000px', marginLeft:'100px'}}>
+      <div style={{alignItems:'center', width:'1050px', marginLeft:'100px'}}>
         <ImageSlider slides={SliderData} />
       </div><br></br>
 
@@ -94,7 +94,7 @@ const Home = () => {
     <FeedbackForm />
 
     
-</div>
+</div><br/><br/>
 <Footer />
 </div>
   );
