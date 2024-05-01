@@ -45,7 +45,7 @@ const Reservations = () => {
             <h3>EVENTS</h3><br />
             <img src={Events} style={{ width: '650px', borderRadius: '10px', alignContent: 'center' }} alt="Events" className="image-hover" />
             <br /><br /><br />
-            <p>Discover the enchanting allure of our venue nestled by the poolside, offering a serene ambiance perfect for indulging in cocktails, hosting private soirées, celebrating parties, and sharing intimate dinners.<br />Host your event in our outdoor space  for creating unforgettable memories and cherished moments.</p>
+            <p>Discover the enchanting allure of our venue nestled by the poolside, offering a serene ambiance perfect for indulging in cocktails, hosting private soirées, celebrating parties, and sharing intimate dinners.<br />Host your event in our outdoor space for creating unforgettable memories and cherished moments.</p>
             <br /><Link to="/events"><button className='btn' style={{width: '250px', padding: '10px', backgroundColor:'#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer'}}>Book Now</button></Link><br /><br />
           </div><br /><br/>
           

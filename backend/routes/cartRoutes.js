@@ -3,7 +3,7 @@ const Cart = require("../models/Cart");
 
 router.post("/add", async (req, res) => {
     try {
-        const { itemId, name, quantity, price } = req.body;
+        const { itemId, name, quantity, price,totalAmount } = req.body;
         let existingCartItem = await Cart.findOne({ itemId });
 
         if (existingCartItem) {
@@ -15,7 +15,8 @@ router.post("/add", async (req, res) => {
                 itemId,
                 name,
                 quantity: parseInt(quantity),
-                price: parseFloat(price)
+                price: parseFloat(price),
+                totalAmount:parseFloat(totalAmount),
             });
         }
 
