@@ -19,7 +19,11 @@ const loyaltycustomersSchema = new mongoose.Schema({
         type: String,
         enum: ['gold', 'silver', 'diamond'], // Allow only these values
         required: true
-    }
+    },
+     status: {
+        type: String,
+        default: "Normal",
+    },
 
    
     
