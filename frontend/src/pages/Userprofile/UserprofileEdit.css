@@ -1,19 +1,38 @@
 .userprofile{
+    text-align: center;
+    margin-bottom: 50px;
    color: #0b0b0b; 
    font-family: 'Times New Roman', Times, serif;
 }
 
 
 .profile-details{
-    background-color:#11edc5;
-    font-size: 25px;
+  
+    font-size: 30px;
 }
 
 .delete-profile{
-    margin-left:485px;
-    margin-right: auto;
-}
-.form-control{
-    font-size: 24500px;
+    margin-left:460px;
+   
 }
 
+.userprofile_background {
+    background-image: url(../../assets/userprofile_background.jpg);
+  /* Adjust the last value (0.5) for opacity */
+    background-blend-mode: overlay; /* Apply the overlay blend mode to mix the background color with the image */
+    background-size: cover;
+   
+   
+}
+
+
+.profile-details-container {
+    border: 3px solid #0d0d0d; /* Border style */
+    padding: 20px; /* Padding around the profile details */
+    border-radius: 10px; /* Rounded corners */
+    
+  }
+  .profile-details-container input.form-control {
+    font-size: 24px; /* Adjust the font size as needed */
+  }
+  

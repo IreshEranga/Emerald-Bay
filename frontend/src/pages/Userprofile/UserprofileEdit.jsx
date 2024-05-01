@@ -144,10 +144,14 @@ const UserprofileEdit = () => {
   }
 
   return (
+    
     <div style={{ backgroundColor: 'white' }}>
       <Navbar_customer />
+      
+      <div className='userprofile_background'>
       <div className="profile-container">
-        <h1 className='userprofile'>Update User Profile</h1>
+        <h1 className='userprofile'>Edit Profile details</h1>
+        <div className='profile-details-container '>
         <form onSubmit={handleSubmit}>
           <div className="profile-details" key={user._id}>
             <div className="form-group">
@@ -159,7 +163,7 @@ const UserprofileEdit = () => {
               <input type="email" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} />
             </div>
             <div className="form-group">
-              <label htmlFor="mobile">Mobile:</label>
+              <label htmlFor="mobile">Mobile Number:</label>
               <input type="text" className="form-control" id="mobile" name="mobile" value={formData.mobile} onChange={handleChange} />
             </div>
             <div className="form-group">
@@ -168,13 +172,15 @@ const UserprofileEdit = () => {
             </div>
             
             {/* Display other profile details as needed */}
-            <button type="submit" className="btn btn-primary">Update Profile</button>
+            <button type="submit" className="btn btn-primary update-profile">Update Profile</button>
            
             <LinkContainer to="/logout">
               <button type="button" className="btn btn-danger delete-profile" onClick={() => { handleDelete(); handleLogout(); }}>Delete Profile</button>
             </LinkContainer>
           </div>
         </form>
+        </div>
+      </div>
       </div>
     </div>
   );
