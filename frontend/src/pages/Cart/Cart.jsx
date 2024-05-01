@@ -8,11 +8,15 @@ import { Link } from 'react-router-dom';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
-    const [deliveryType, setDeliveryType] = useState('dineIn'); // Default to dine-in
+    const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
         fetchCartItems();
     }, []);
+
+    useEffect(() => {
+        calculateTotalPrice();
+    }, [cartItems]);
 
     const fetchCartItems = async () => {
         try {
@@ -100,6 +104,12 @@ const Cart = () => {
         return 5; // Example delivery fee
     };
 
+    const calculateTotalPrice = () => {
+        const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        setTotalPrice(total);
+        return total;
+    };
+
     
 
     return (
@@ -142,35 +152,9 @@ const Cart = () => {
                         </tbody>
                     </Table>
                 </div>
-                <div style={{color: 'white', display: 'flex', fontWeight: 'bold', justifyContent: 'center' }}>
-                    <div>
-                        <label>
-                            <input
-                                type="radio"
-                                value="dineIn"
-                                checked={deliveryType === 'dineIn'}
-                                onChange={() => setDeliveryType('dineIn')}
-                            />
-                            Dine-in
-                        </label><hr></hr>
-                        <label>
-                            <input
-                                type="radio"
-                                value="takeaway"
-                                checked={deliveryType === 'takeaway'}
-                                onChange={() => setDeliveryType('takeaway')}
-                            />
-                            Takeaway
-                        </label><hr></hr>
-                        <label>
-                            <input
-                                type="radio"
-                                value="delivery"
-                                checked={deliveryType === 'delivery'}
-                                onChange={() => setDeliveryType('delivery')}
-                            />
-                            Delivery
-                        </label>
+                <div className="details" style={{color:'white', justifyContent:'center',textAlign:'center'}}>
+                    <div className="tot">
+                        Total Amount : {totalPrice}
                     </div>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'center'}}>
