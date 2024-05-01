@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const VIPRoomReservation = require("../models/VIPRoomReservation");
 const sendEmail = require("../util/sendEmail");
-const vipRoomReservationsEmailTemplate = require("../util/email_templates/vipRoomReservationsEmailTemplate");
+const createVIPRoomReservationEmailTemplate = require("../util/email_templates/createVIPRoomReservationEmailTemplate");
+//const updateVIPRoomReservationEmailTemplate = require("../util/email_templates/updateVIPRoomReservationEmailTemplate");
+//const cancelReservationEmailTemplate = require("../util/email_templates/cancelReservationEmailTemplate");
 //const cron = require('node-cron');
 
 
@@ -22,25 +24,6 @@ const generateReservationId = async () => {
     }
 };
 
-// Create a VIP room reservation
-router.post("/create", async (req, res) => {
-    try {
-      const reservationId = await generateReservationId(); // Generate reservation ID
-      const newVIPRoomReservation = new VIPRoomReservation({ ...req.body, reservationId });
-      await newVIPRoomReservation.save(); 
-      const { name, email, date, time, guests } = req.body;
-
-      // Send confirmation email to the customer
-      const emailTemplate = vipRoomReservationsEmailTemplate(name, reservationId, date, time, guests);
-      sendEmail(email, "VIP Room Reservation Confirmation", emailTemplate);
-  
-      res.json({ status: "VIP Room Reservation Added", vipRoomReservation: newVIPRoomReservation });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error creating VIP room reservation" });
-    }
-});
-
 // Check vip room availability
 router.post("/checkAvailability", async (req, res) => {
     try {
@@ -58,6 +41,25 @@ router.post("/checkAvailability", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error checking vip room availability" });
+    }
+});
+
+// Create a VIP room reservation
+router.post("/create", async (req, res) => {
+    try {
+      const reservationId = await generateReservationId(); // Generate reservation ID
+      const newVIPRoomReservation = new VIPRoomReservation({ ...req.body, reservationId });
+      await newVIPRoomReservation.save(); 
+      const { name, email, date, time, guests } = req.body;
+
+      // Send confirmation email to the customer
+      const emailTemplate = createVIPRoomReservationEmailTemplate(name, reservationId, date, time, guests);
+      sendEmail(email, "VIP Room Reservation Confirmation", emailTemplate);
+  
+      res.json({ status: "VIP Room Reservation Added", vipRoomReservation: newVIPRoomReservation });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error creating VIP room reservation" });
     }
 });
 
@@ -102,6 +104,11 @@ router.put("/update/:id", async (req, res) => {
     const id = req.params.id;
     try {
         const updatedVIPRoomReservation = await VIPRoomReservation.findByIdAndUpdate(id, req.body, { new: true });
+
+        // Send confirmation email to the customer
+        //const emailTemplate = updateVIPRoomReservationEmailTemplate(reservationId, date, time, guests);
+        //sendEmail(email, "VIP Room Reservation Updated Confirmation", emailTemplate);
+
         res.json({ status: "VIP Room Reservation updated", vipRoomReservation: updatedVIPRoomReservation });
     } catch (error) {
         console.error(error);
@@ -114,6 +121,11 @@ router.delete("/delete/:id", async (req, res) => {
     const id = req.params.id;
     try {
         await VIPRoomReservation.findByIdAndDelete(id);
+
+        // Send confirmation email to the customer
+        //const emailTemplate = cancelReservationEmailTemplate(reservationId);
+        //sendEmail(email, "VIP Room Reservation Cancellation", emailTemplate);
+
         res.json({ status: "VIP Room Reservation deleted" });
     } catch (error) {
         console.error(error);

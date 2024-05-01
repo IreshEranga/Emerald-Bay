@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const TableReservation = require("../models/TableReservation");
 const sendEmail = require("../util/sendEmail");
-const tableReservationsEmailTemplate = require("../util/email_templates/tableReservationsEmailTemplate");
+const createTableReservationEmailTemplate = require("../util/email_templates/createTableReservationEmailTemplate");
+//const updateTableReservationEmailTemplate = require("../util/email_templates/updateTableReservationEmailTemplate");
+//const cancelReservationEmailTemplate = require("../util/email_templates/cancelReservationEmailTemplate");
 //const cron = require('node-cron');
 
 
@@ -22,25 +24,6 @@ const generateReservationId = async () => {
     }
 };
 
-// Create a table reservation
-router.post("/create", async (req, res) => {
-    try {
-      const reservationId = await generateReservationId(); // Generate reservation ID
-      const newTableReservation = new TableReservation({ ...req.body, reservationId });
-      await newTableReservation.save();
-      const { name, email, date, time, tableNo } = req.body;
-
-      // Send confirmation email to the customer
-      const emailTemplate = tableReservationsEmailTemplate(name, reservationId, date, time, tableNo);
-      sendEmail(email, "Table Reservation Confirmation", emailTemplate);
-  
-      res.json({ status: "Table Reservation Added", tableReservation: newTableReservation });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error creating table reservation" });
-    }
-});
-
 // Check table availability
 router.post("/checkAvailability", async (req, res) => {
     try {
@@ -54,6 +37,25 @@ router.post("/checkAvailability", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error checking table availability" });
+    }
+});
+
+// Create a table reservation
+router.post("/create", async (req, res) => {
+    try {
+      const reservationId = await generateReservationId(); // Generate reservation ID
+      const newTableReservation = new TableReservation({ ...req.body, reservationId });
+      await newTableReservation.save();
+      const { name, email, date, time, tableNo } = req.body;
+
+      // Send confirmation email to the customer
+      const emailTemplate = createTableReservationEmailTemplate(name, reservationId, date, time, tableNo);
+      sendEmail(email, "Table Reservation Confirmation", emailTemplate);
+  
+      res.json({ status: "Table Reservation Added", tableReservation: newTableReservation });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error creating table reservation" });
     }
 });
 
@@ -98,6 +100,11 @@ router.put("/update/:id", async (req, res) => {
     const id = req.params.id;
     try {
         const updatedTableReservation = await TableReservation.findByIdAndUpdate(id, req.body, { new: true });
+
+        // Send confirmation email to the customer
+        //const emailTemplate = updateTableReservationEmailTemplate(reservationId, date, time, tableNo);
+        //sendEmail(email, "Table Reservation Updated Confirmation", emailTemplate);
+
         res.json({ status: "Table Reservation updated", tableReservation: updatedTableReservation });
     } catch (error) {
         console.error(error);
@@ -110,6 +117,12 @@ router.delete("/delete/:id", async (req, res) => {
     const id = req.params.id;
     try {
         await TableReservation.findByIdAndDelete(id);
+
+        
+        // Send confirmation email to the customer
+        //const emailTemplate = cancelReservationEmailTemplate(reservationId);
+        //sendEmail(email, "Table Reservation Cancellation", emailTemplate);
+
         res.json({ status: "Table Reservation deleted" });
     } catch (error) {
         console.error(error);

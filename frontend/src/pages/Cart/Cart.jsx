@@ -8,11 +8,16 @@ import { Link } from 'react-router-dom';
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
-    const [deliveryType, setDeliveryType] = useState('dineIn'); // Default to dine-in
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalAmount, setTotalAmount] = useState(0);
 
     useEffect(() => {
         fetchCartItems();
     }, []);
+
+    useEffect(() => {
+        calculateTotalPrice();
+    }, [cartItems]);
 
     const fetchCartItems = async () => {
         try {
@@ -57,7 +62,7 @@ const Cart = () => {
             });
             if (response.ok) {
                 const updatedItem = cartItems.find(item => item.itemId === itemId);
-                if (updatedItem.quantity > 0) {
+                if (updatedItem.quantity > 1) {
                     updatedItem.quantity -= 1;
                     setCartItems([...cartItems]);
                 }
@@ -100,6 +105,12 @@ const Cart = () => {
         return 5; // Example delivery fee
     };
 
+    const calculateTotalPrice = () => {
+        const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        setTotalPrice(total);
+        return total;
+    };
+
     
 
     return (
@@ -125,12 +136,12 @@ const Cart = () => {
                                     <td>{item.itemId}</td>
                                     <td>{item.name}</td>
                                     <td>{item.quantity}</td>
-                                    <td>{item.price}</td>
+                                    <td>Rs. {item.price}</td>
                                     <td style={{display:'flex', justifyContent:'center'}}>
                                         <Button variant="success" style={{marginRight:'5px'}} onClick={() => increaseQuantity(item.itemId)}>
                                             <IoMdAdd />
                                         </Button>
-                                        <Button variant="danger" style={{marginRight:'5px'}} onClick={() => decreaseQuantity(item.itemId)}>
+                                        <Button variant="warning" style={{marginRight:'5px'}} onClick={() => decreaseQuantity(item.itemId)}>
                                             <IoMdRemove />
                                         </Button>
                                         <Button variant="danger" onClick={() => removeFromCart(item.itemId)}>
@@ -142,44 +153,20 @@ const Cart = () => {
                         </tbody>
                     </Table>
                 </div>
-                <div style={{color: 'white', display: 'flex', fontWeight: 'bold', justifyContent: 'center' }}>
-                    <div>
-                        <label>
-                            <input
-                                type="radio"
-                                value="dineIn"
-                                checked={deliveryType === 'dineIn'}
-                                onChange={() => setDeliveryType('dineIn')}
-                            />
-                            Dine-in
-                        </label><hr></hr>
-                        <label>
-                            <input
-                                type="radio"
-                                value="takeaway"
-                                checked={deliveryType === 'takeaway'}
-                                onChange={() => setDeliveryType('takeaway')}
-                            />
-                            Takeaway
-                        </label><hr></hr>
-                        <label>
-                            <input
-                                type="radio"
-                                value="delivery"
-                                checked={deliveryType === 'delivery'}
-                                onChange={() => setDeliveryType('delivery')}
-                            />
-                            Delivery
-                        </label>
+                <div className="details" style={{color:'white', justifyContent:'center',textAlign:'center'}}>
+                    <div className="tot">
+                        Total Amount : Rs. {totalPrice}
                     </div>
                 </div>
+                 {/* Pass totalAmount as a prop to the Payment component 
+                <Payment totalAmountProp={totalAmount} />*/}
                 <div style={{display: 'flex', justifyContent: 'center'}}>
-                <Button variant="primary" onClick={placeOrder} style={{ marginTop: '20px' }}>
+                <Link to="/payment"><Button variant="primary" onClick={placeOrder} style={{ marginTop: '20px' }}>
                     Check Out
-                </Button>
+                </Button></Link>
 
                 </div>
-            </div>
+            </div><br/>
         </div>
     );
 };
