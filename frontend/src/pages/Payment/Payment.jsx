@@ -265,8 +265,15 @@ const Payment = ({ totalAmountProp }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
+      const totalPrice = calculateTotalPrice(); // Assuming calculateTotalPrice() calculates the correct total price
+  
+      if (isNaN(totalPrice)) {
+        throw new Error('Total price is not a valid number');
+      }
+  
+      // Proceed with creating the order
       const response = await fetch('http://localhost:8000/api/orders/create', {
         method: 'POST',
         headers: {
@@ -276,15 +283,17 @@ const Payment = ({ totalAmountProp }) => {
           customerid: profileData?.customerId,
           customername: profileData?.name,
           deliveryaddress: deliveryAddress,
-          items: selectedItems,
-          totalPrice: parseFloat(totalPrice), // Use totalPrice state instead of recalculating totalAmount
+          items: [selectedItems],
+          totalprice: totalPrice, // Use totalPrice variable
         }),
       });
-
+  
       if (!response.ok) {
-        throw new Error('Failed to create order');
+        //throw new Error('Failed to create order');
+        console.log(error);
+        Toast({type:'error', message:error.message})
       }
-
+  
       const data = await response.json();
       console.log('Order created:', data);
       Toast({ type: 'success', message: 'Payment successfully' });
@@ -293,6 +302,7 @@ const Payment = ({ totalAmountProp }) => {
       Toast({ type: 'error', message: error.message });
     }
   };
+  
 
   if (isLoading) {
     return <div>Loading...</div>;
