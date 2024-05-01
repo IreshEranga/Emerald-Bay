@@ -48,6 +48,7 @@ import User_Orders from "../pages/Userprofile/Orders.jsx"
 import Cart from "../pages/Cart/Cart"
 import Employee from "../pages/employee";
 import EmployeeViewProfile from "../pages/employee/dashboard/EmployeeViewProfile.jsx";
+import Attendance from "../pages/Attendance/Attendance.jsx";
 
 
 
@@ -78,6 +79,7 @@ const AppRoutes = () => {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/attendance" element={<Attendance />} />
           
 
           {/* Check Login Status */}

@@ -4,9 +4,8 @@ import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "../../../store/useAuthStore";
 import Employee from "../../employee";
 import EmployeeManagerDashboard from "./EmployeeManagerDashboard.jsx";
-//import LeaveManagement from "../../EmployeeLeaves/LeaveManagement.jsx";
-import EmployeeAttendance from "../../EmployeeAttendance";
 import Leaves from "../index.jsx";
+import Attendance from "../Attendance.jsx";
 
 
 //
@@ -41,24 +40,13 @@ const EmployeeManagerSideBar = () => {
             <Leaves />
           </>
         );
-        case "Attendance":
+        
+          case "attendance":
           return (
             <>
-              <EmployeeAttendance />
+              <Attendance />
             </>
-          );/*
-      case "Categories":
-        return (
-          <>
-            <Category />
-          </>
-        );
-      case "StockRequest":
-        return (
-          <>
-            <StockRequest />
-          </>
-        );*/
+          );
       case "Account":
         return <p>This is the Account page content.</p>;
       default:
@@ -129,13 +117,15 @@ const EmployeeManagerSideBar = () => {
             </a>
           </li>
 
+         
+
           <li>
             <a
               href="#attendance"
               className={`nav-link ${
                 activeContent === "attendance" ? "active" : "link-dark"
               }`}
-              onClick={() => handleLinkClick("Attendance")}
+              onClick={() => handleLinkClick("attendance")}
             >
               Attendance Management
             </a>
