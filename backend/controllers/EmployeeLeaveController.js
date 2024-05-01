@@ -1,5 +1,5 @@
 const EmployeeLeave = require("../models/EmployeeLeave");
-const {get} = require("mongoose");
+//const {get} = require("mongoose");
 const EmployeeLeaveController = {
   createLeaveRequest:  (req, res) => {
     try {
@@ -91,7 +91,7 @@ const EmployeeLeaveController = {
   updateLeaveRequest: async (req, res) => {
     try {
       const leaveRequestId = req.params.id;
-      const leaveRequest = await leaveRequest.findById(leaveRequestId);
+      const leaveRequest = await EmployeeLeave.findById(leaveRequestId);
 
       if (!leaveRequest) {
         return res.status(404).json({
@@ -100,7 +100,7 @@ const EmployeeLeaveController = {
         });
       }
 
-      const updatedleaveRequest = await leaveRequest.findByIdAndUpdate(
+      const updatedleaveRequest = await EmployeeLeave.findByIdAndUpdate(
         leaveRequestId,
         req.body,
         {
@@ -127,7 +127,7 @@ const EmployeeLeaveController = {
     try {
       const leaveRequestId = req.params.id;
 
-      const leaveRequest = await leaveRequest.findById(leaveRequestId);
+      const leaveRequest = await EmployeeLeave.findById(leaveRequestId);
 
       if (!leaveRequest) {
         return res.status(404).json({
@@ -136,7 +136,7 @@ const EmployeeLeaveController = {
         });
       }
 
-      const deletedLeaveRequest = await leaveRequest.findByIdAndDelete(
+      const deletedLeaveRequest = await EmployeeLeave.findByIdAndDelete(
         leaveRequestId
       );
 
@@ -172,8 +172,8 @@ const EmployeeLeaveController = {
 
   leaveRequestForEmployee: async (req, res) => {
     try {
-      const EmpID = req.EmpID;
-      const leaveRequest = await leaveRequest.find({ EmpID });
+      const employee = req.EmpID;
+      const leaveRequest = await EmployeeLeave.find({ employee });
 
       res.status(200).json({ success: true, leaveRequest });
     } catch (error) {

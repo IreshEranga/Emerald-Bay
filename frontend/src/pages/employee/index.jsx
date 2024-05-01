@@ -67,7 +67,7 @@ const index = () => {
     const employeeCount = employees.length;
     //
     //const title = "EMERALD BAY RESTAURANT";
-    const additionalInfo = `\n\n\nEmployee Report\nTotal Employees: ${employeeCount}`;
+    const additionalInfo = `\n\n\nEmployee Report/Total Employees: ${employeeCount}`;
     //
     generatePDF(
       //title,

@@ -1,49 +1,71 @@
-import React from 'react';
-import { BootstrapModal } from '../../../components';
-import { useLeavesStore } from "../../../store/useLeavesStore";
-import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
-import leavesAPI from '../../../api/leavesAPI';
-import Toast from '../../../utils/toast';
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useLeavesStore } from "../../store/useLeavesStore";
+import { useLeavesData } from "../../hooks/useLeavesData";
+import { BootstrapModal } from "../../components";
+import Toast from "../../utils/toast";
+import leavesAPI from "../../api/leavesAPI";
+import { useEmployeeData } from "../../hooks/useEmployeeData";
 
-const  ApplyLeaves = (req, res, nxt) => {
+const EditLeaveRequestModal = () => {
   // Get the state and actions from the store
-  const { isApplyLeavesOpen, closeApplyLeaves } = useLeavesStore();
+  const {
+    isEditLeavesOpen,
+    closeEditLeaves,
+    selectedLeaves, 
+  } = useLeavesStore((state) => ({
+    isEditLeavesOpen: state.isEditLeavesOpen,
+    closeEditLeaves: state.closeEditLeaves,
+    selectedLeaves: state.selectedLeaves,
+  }));
 
+  // Get refetch function from react-query hook
+  const { refetch } = useLeavesData();
+  const { data: employeeData, refetch: refetchEmployees } = useEmployeeData();
+
+  console.log(employeeData?.data.employee);
   // React hook form setup
   const {
-    handleSubmit,
     register,
+    handleSubmit,
+    setValue,
     formState: { errors },
-    reset,
   } = useForm();
 
-  // Create mutation
-  const { mutate } = useMutation(leavesAPI.create, {
+  // Update mutation
+  const { mutate } = useMutation(leavesAPI.update, {
     onSuccess: () => {
       // close the modal and refetch the data
-      closeApplyLeaves();
-      // refetch(); // Assuming useLeaves hook is not needed
-      Toast({ type: "success", message: "Leaves created successfully" });
-    },
-    onError: (error) => {
-      Toast({ type: "error", message: error.message });
+      refetch();
+      closeEditLeaves();
+      Toast({ type: "success", message: "LeaveRequest updated successfully" });
     },
   });
 
   // Submit function
-  const onSubmit = (values) => {
-    mutate(values);
-    reset();
-  };
+const onSubmit = (data) => {
+  // Add null check for selectedLeaves and _id property
+  if (selectedLeaves && selectedLeaves._id) {
+    mutate({ id: selectedLeaves._id, data });
+  }
+};
+
+
+  useEffect(() => {
+    // Set the form values when the selectedStockRequest changes
+    if (selectedLeaves) {
+      setValue("employee", selectedLeaves.employee?._id);
+    }
+  }, [selectedLeaves, setValue]);
 
   return (
     <BootstrapModal
-      show={isApplyLeavesOpen}
-      handleClose={closeApplyLeaves}
-      title="Add Leaves Request"
-    >  
-      <form onSubmit={handleSubmit(onSubmit)}>
+      show={isEditLeavesOpen}
+      handleClose={closeEditLeaves}
+      title={`Edit leave Request: ${selectedLeaves?.employee?.name}`}
+    >
+       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Emp ID */}
         <div className="form-group">
           <label htmlFor="EmpID">Emp ID</label>
@@ -142,4 +164,4 @@ const  ApplyLeaves = (req, res, nxt) => {
   );
 };
 
-export default ApplyLeaves;
+export default EditLeaveRequestModal;
