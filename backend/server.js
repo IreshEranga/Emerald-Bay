@@ -12,7 +12,6 @@ const supplierRoutes = require("./routes/supplierRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const stockRequestRoutes = require("./routes/stockRequestRoutes");
 const EmployeeLeaveRoutes = require("./routes/EmployeeLeaveRoutes");
-const AttendanceRoutes = require("./routes/AttendanceRoutes");
 const riderRoutes = require("./routes/riderRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const orderRoutes = require("./routes/orderRoutes");
@@ -26,6 +25,7 @@ const inventoryRoutes = require("./routes/inventoryRoutes");
 const LoyaltyCustomersRoutes = require("./routes/LoyaltyCustomersRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const faqRoutes = require("./routes/faqRoutes");
+const attendanceRoutes = require("./routes/attendanceRoute");
 
 // express app
 const app = express();
@@ -49,7 +49,6 @@ app.use("/api/stock-requests", stockRequestRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/riders",riderRoutes);
 app.use("/api/leaves",EmployeeLeaveRoutes);
-app.use("/api/attendees", AttendanceRoutes);
 
 
 
@@ -64,6 +63,7 @@ app.use("/customer",customerRoutes);
 app.use("/loyaltycustomers",LoyaltyCustomersRoutes);
 app.use("/cart", cartRoutes);
 app.use("/api/inventories", inventoryRoutes);
+app.use("/attendance", attendanceRoutes);
 
 // connect to db
 mongoose

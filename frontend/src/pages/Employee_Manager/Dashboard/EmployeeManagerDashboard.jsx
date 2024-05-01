@@ -1,6 +1,6 @@
 import React from "react";
 import { useEmployeeCount } from "../../../hooks/useEmployeeData";
-import { useAttendanceCount } from "../../../hooks/useAttendanceData";
+
 import { useAuthStore } from "../../../store/useAuthStore";
 
 const Index = () => {
@@ -11,6 +11,9 @@ const Index = () => {
   // Get the data from the react-query hook
   const { data: employeeCount } = useEmployeeCount();
   const { data: attendanceData } = useAttendanceCount();
+
+  //console.log("Employee Data:", employeeData);
+  
   
   return (
     <div className="container mt-4">
