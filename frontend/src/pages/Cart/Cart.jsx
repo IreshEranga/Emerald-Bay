@@ -62,7 +62,7 @@ const Cart = () => {
             });
             if (response.ok) {
                 const updatedItem = cartItems.find(item => item.itemId === itemId);
-                if (updatedItem.quantity > 0) {
+                if (updatedItem.quantity > 1) {
                     updatedItem.quantity -= 1;
                     setCartItems([...cartItems]);
                 }
@@ -136,12 +136,12 @@ const Cart = () => {
                                     <td>{item.itemId}</td>
                                     <td>{item.name}</td>
                                     <td>{item.quantity}</td>
-                                    <td>{item.price}</td>
+                                    <td>Rs. {item.price}</td>
                                     <td style={{display:'flex', justifyContent:'center'}}>
                                         <Button variant="success" style={{marginRight:'5px'}} onClick={() => increaseQuantity(item.itemId)}>
                                             <IoMdAdd />
                                         </Button>
-                                        <Button variant="danger" style={{marginRight:'5px'}} onClick={() => decreaseQuantity(item.itemId)}>
+                                        <Button variant="warning" style={{marginRight:'5px'}} onClick={() => decreaseQuantity(item.itemId)}>
                                             <IoMdRemove />
                                         </Button>
                                         <Button variant="danger" onClick={() => removeFromCart(item.itemId)}>
@@ -155,18 +155,18 @@ const Cart = () => {
                 </div>
                 <div className="details" style={{color:'white', justifyContent:'center',textAlign:'center'}}>
                     <div className="tot">
-                        Total Amount : {totalPrice}
+                        Total Amount : Rs. {totalPrice}
                     </div>
                 </div>
                  {/* Pass totalAmount as a prop to the Payment component 
                 <Payment totalAmountProp={totalAmount} />*/}
                 <div style={{display: 'flex', justifyContent: 'center'}}>
-                <Button variant="primary" onClick={placeOrder} style={{ marginTop: '20px' }}>
+                <Link to="/payment"><Button variant="primary" onClick={placeOrder} style={{ marginTop: '20px' }}>
                     Check Out
-                </Button>
+                </Button></Link>
 
                 </div>
-            </div>
+            </div><br/>
         </div>
     );
 };

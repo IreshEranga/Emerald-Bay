@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const Event = require("../models/Event");
 const sendEmail = require("../util/sendEmail");
-const eventReservationsEmailTemplate = require("../util/email_templates/eventReservationsEmailTemplate");
+const createEventReservationEmailTemplate = require("../util/email_templates/createEventReservationEmailTemplate");
+//const updateEventReservationEmailTemplate = require("../util/email_templates/updateEventReservationEmailTemplate");
+//const cancelReservationEmailTemplate = require("../util/email_templates/cancelReservationEmailTemplate");
 //const cron = require('node-cron');
 
 
@@ -21,24 +23,6 @@ const generateReservationId = async () => {
         throw new Error("Error generating Event reservation ID");
     }
 };
-
-router.post("/create", async (req, res) => {
-    try {
-      const reservationId = await generateReservationId(); // Generate reservation ID
-      const newEvent = new Event({ ...req.body, reservationId });
-      await newEvent.save();
-      const { name, email, date, startTime, endTime, guests } = req.body;
-
-      // Send confirmation email to the customer
-      const emailTemplate = eventReservationsEmailTemplate(name, reservationId, date, startTime, endTime, guests);
-      sendEmail(email, "Event Reservation Confirmation", emailTemplate);
-  
-      res.json({ status: "Event Added", event: newEvent });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error creating Event" });
-    }
-});
 
 // Check event availability
 router.post("/checkAvailability", async (req, res) => {
@@ -61,7 +45,6 @@ router.post("/checkAvailability", async (req, res) => {
                 }
             ]
         });
-
         if (existingReservation) {
             res.json({ available: false });
         } else {
@@ -73,6 +56,25 @@ router.post("/checkAvailability", async (req, res) => {
     }
 });
 
+// Create an event
+router.post("/create", async (req, res) => {
+    try {
+      const reservationId = await generateReservationId(); // Generate reservation ID
+      const newEvent = new Event({ ...req.body, reservationId });
+      await newEvent.save();
+      const { name, email, date, startTime, endTime, guests } = req.body;
+
+      // Send confirmation email to the customer
+      const emailTemplate = createEventReservationEmailTemplate(name, reservationId, date, startTime, endTime, guests);
+      sendEmail(email, "Event Reservation Confirmation", emailTemplate);
+  
+      res.json({ status: "Event Added", event: newEvent });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error creating Event" });
+    }
+});
+
 // Get all events
 router.get("/", async (req, res) => {
     try {
@@ -81,6 +83,17 @@ router.get("/", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error retrieving events" });
+    }
+});
+
+// Route to get count of Events
+router.get('/count', async (req, res) => {
+    try {
+      const count = await Event.countDocuments(); // Count the documents in the event collection
+      res.json({ count });
+    } catch (error) {
+      console.error('Error fetching count:', error);
+      res.status(500).json({ error: 'Error fetching count' });
     }
 });
 
@@ -98,22 +111,16 @@ router.get("/search", async (req, res) => {
     }
 });
 
-// Route to get count of Events
-router.get('/count', async (req, res) => {
-    try {
-      const count = await Event.countDocuments(); // Count the documents in the event collection
-      res.json({ count });
-    } catch (error) {
-      console.error('Error fetching count:', error);
-      res.status(500).json({ error: 'Error fetching count' });
-    }
-});
-
 // Update an event
 router.put("/update/:id", async (req, res) => {
     const id = req.params.id;
     try {
         const updatedEvent = await Event.findByIdAndUpdate(id, req.body, { new: true });
+
+        // Send confirmation email to the customer
+        //const emailTemplate = updateEventReservationEmailTemplate(reservationId, date, startTime, endTime, guests);
+        //sendEmail(email, "Event Reservation Updated Confirmation", emailTemplate);
+
         res.json({ status: "Event updated", event: updatedEvent });
     } catch (error) {
         console.error(error);
@@ -126,6 +133,11 @@ router.delete("/delete/:id", async (req, res) => {
     const id = req.params.id;
     try {
         await Event.findByIdAndDelete(id);
+
+        // Send confirmation email to the customer
+        //const emailTemplate = cancelReservationEmailTemplate(reservationId);
+        //sendEmail(email, "Event Reservation Cancellation", emailTemplate);
+
         res.json({ status: "Event deleted" });
     } catch (error) {
         console.error(error);
