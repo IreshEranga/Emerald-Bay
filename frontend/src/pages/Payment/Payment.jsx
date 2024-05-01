@@ -139,13 +139,21 @@ const Payment = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deliveryAddress, setDeliveryAddress] = useState('');
-  const [items, setItems] = useState('');
   const [totalAmount, setTotalAmount] = useState('');
+  const [cartData, setCartData] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [itemNames, setItemNames] = useState([]); // Moved itemNames state outside useEffect
+  const [selectedItemNames, setSelectedItemNames] = useState([]); // State for selected item names
+
+
+
+  const [cartItems, setCartItems] = useState([]);
+  
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        console.log('User ID:', user._id);
+        console.log('User ID:', user?._id);
 
         if (!user || !user._id) {
           throw new Error('User ID not available');
@@ -172,15 +180,41 @@ const Payment = () => {
       }
     };
 
+    const fetchCartItems = async () => {
+      try {
+
+         
+
+          const response = await fetch("http://localhost:8000/cart");
+          const data = await response.json();
+          setCartItems(data.items);
+      } catch (error) {
+          console.error("Error fetching cart items:", error);
+      }
+  };
+
     if (user) {
       fetchProfileData();
+      fetchCartItems();
     }
   }, [user]);
+
+  useEffect(() => {
+    if (Array.isArray(cartData) && cartData.length > 0) {
+      const names = cartData.reduce((acc, item) => [...acc, item.name], []);
+      setItemNames(names);
+    }
+  }, [cartData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+
+      // Calculate total amount based on cart items
+      const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+      setTotalAmount(totalAmount);
+
       const response = await fetch('http://localhost:8000/api/orders/create', {
         method: 'POST',
         headers: {
@@ -190,8 +224,8 @@ const Payment = () => {
           customerid: profileData?.customerId,
           customername: profileData?.name,
           deliveryaddress: deliveryAddress,
-          items: items,
-          totalprice: parseFloat(totalAmount), // Ensure total price is a number
+          items: selectedItems,
+          totalAmount: parseFloat(totalAmount), // Ensure total price is a number
         }),
       });
 
@@ -219,6 +253,7 @@ const Payment = () => {
   if (!profileData) {
     return <div>No profile data available</div>;
   }
+  
 
   return (
     <div>
@@ -228,12 +263,12 @@ const Payment = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Customer Id</Form.Label>
-            <Form.Control type="text" value={profileData.customerId} disabled />
+            <Form.Control type="text" value={profileData.customerId} readOnly />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Customer Name</Form.Label>
-            <Form.Control type="text" value={profileData.name} disabled />
+            <Form.Control type="text" value={profileData.name} readOnly />
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -243,12 +278,12 @@ const Payment = () => {
 
           <Form.Group className="mb-3">
             <Form.Label>Items</Form.Label>
-            <Form.Control type="text" value={items} onChange={(e) => setItems(e.target.value)} />
+            <Form.Control type="text" value={cartItems.map(item => item.name).join(', ')} readOnly />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Total Amount</Form.Label>
-            <Form.Control type="text" value={totalAmount} onChange={(e) => setTotalAmount(e.target.value)} />
+            <Form.Control type="text" value={totalAmount} readOnly />
           </Form.Group>
 
           <Button variant="primary" type="submit">
