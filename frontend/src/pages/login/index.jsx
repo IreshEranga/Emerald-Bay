@@ -7,6 +7,8 @@ import { errorMessage, successMessage } from "../../utils/Alert";
 import { Link, useNavigate } from 'react-router-dom';
 import { USER_ROLES } from "../../constants/roles";
 import NavBar from '../../components/Navbar'; 
+import './login.css';
+
 
 
 const index = () => {
@@ -86,11 +88,12 @@ const index = () => {
   };
 
   return (
-    <div style={{backgroundColor:'white'}}>
+    <div className="background" >
     
               <NavBar />
               
     <div className="container mt-5">
+      <div></div>
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card" style={{border:'2px solid black', padding:'20px'}}>

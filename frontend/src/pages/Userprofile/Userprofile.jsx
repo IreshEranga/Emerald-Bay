@@ -59,14 +59,14 @@ const Userprofile = () => {
   }
 
   return (
-    <div>
+    <div className='userprofile_background' >
     <Navbar_customer />
     <div className="profile-container">
-      <h1 className='userprofile' style={{paddingLeft:'210px', paddingRight:'210px', color:' black', fontFamily:'Times New Roman, Times, serif'}}>My Profile</h1>
-      <div className="profile-details" key={user._id}>
+      <h1 className='userprofile' style={{textAlign:'center',color:' black', fontFamily:'Times New Roman, Times, serif'}}> Profile Details</h1>
+      <div className='profile-details-container' key={user._id}>
         <p className='name'><strong>Name</strong><span className='dott'>:</span><span className='userdata'> {profileData.name}</span></p>
         <p className='email'><strong>Email</strong><span className='dott'>:</span><span className='userdata'> {profileData.email}</span></p>
-        <p className='mobile'><strong>Mobile</strong><span className='dott'>:</span><span className='userdata'> {profileData.mobile}</span></p>
+        <p className='mobile'><strong>Mobile Number</strong><span className='dott'>:</span><span className='userdata'> {profileData.mobile}</span></p>
         <p className='address'><strong>Address</strong><span className='dott'>:</span><span className='userdata'> {profileData.address}</span></p>
         <p className='status'><strong>Status</strong><span className='dott'>:</span><span className='userdata'> {profileData.status}</span></p>
         

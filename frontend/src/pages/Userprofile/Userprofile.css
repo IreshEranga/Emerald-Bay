@@ -4,14 +4,6 @@
     padding: 20px;
   }
   
-  .profile-details {
-    background-color: #a4a4a4;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    margin-top: 50px;
-    align-items: center;
-  }
   
   .profile-details p {
     margin-bottom: 50px;
@@ -36,34 +28,53 @@
   .name{
    font-size: 30px;
    margin-left: 0px;
+   
   }
 
   .email{
     font-size: 30px;
     margin-left: 50px;
+    margin-top: 35px;
+
    }
 
    .mobile{
     font-size: 30px;
     margin-left: 50px;
+    margin-top: 35px;
+
    }
 
    .address{
     font-size: 30px;
     margin-left: 50px;
+    margin-top: 35px;
+
    }
 
    .status{
     font-size: 30px;
     margin-left: 50px;
+    margin-top: 35px;
    }
 
    
-   .password{
-    font-size: 30px;
-    margin-left: 50px;
-   }
+  
+   .userprofile_background {
+    background-image: url(../../assets/userprofile_background.jpg);
+  /* Adjust the last value (0.5) for opacity */
+    background-blend-mode: overlay; /* Apply the overlay blend mode to mix the background color with the image */
+    background-size: cover;
+    height: 900px;
+   
+   
+} 
 
+.profile-details-container {
+  border: 3px solid #0e0202; /* Border style */
+  padding: 20px; /* Padding around the profile details */
+  border-radius: 10px; /* Rounded corners */
+}
 
 
   
