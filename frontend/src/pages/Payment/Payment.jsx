@@ -273,6 +273,9 @@ const Payment = ({ totalAmountProp }) => {
         throw new Error('Total price is not a valid number');
       }
   
+       // Create an array of item names
+    const itemNames = cartItems.map(item => item.name);
+
       // Proceed with creating the order
       const response = await fetch('http://localhost:8000/api/orders/create', {
         method: 'POST',
@@ -283,7 +286,7 @@ const Payment = ({ totalAmountProp }) => {
           customerid: profileData?.customerId,
           customername: profileData?.name,
           deliveryaddress: deliveryAddress,
-          items: [selectedItems],
+          items: itemNames,
           totalprice: totalPrice, // Use totalPrice variable
         }),
       });
