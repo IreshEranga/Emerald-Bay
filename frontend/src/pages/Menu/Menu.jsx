@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavBar from '../../components/Navbar';
 import './Menu.css';
+import Footer from "../../components/Footer.js";
 import { useAuthStore } from "../../store/useAuthStore";
 
 const Menu = () => {
@@ -32,7 +33,7 @@ const Menu = () => {
     return (
         <div style={{ backgroundColor: 'black' }}>
             <NavBar />
-            <div className="outer-container5"><br></br>
+            <div className="outer-container5"><br></br><br/>
                 <div className="menu-container">
                     <br />
                     <div className="menuboard" >
@@ -59,7 +60,8 @@ const Menu = () => {
                     </div>
                     
                 </div><br></br>
-            </div>
+            </div><br/><br/>
+            <Footer />
         </div>
     );
 };
