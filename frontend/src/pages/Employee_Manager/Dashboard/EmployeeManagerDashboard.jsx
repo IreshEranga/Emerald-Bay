@@ -9,7 +9,7 @@ const Index = () => {
   }));
   
   // Get the data from the react-query hook
-  const { data: employeeData } = useEmployeeCount();
+  const { data: employeeCount } = useEmployeeCount();
   const { data: attendanceData } = useAttendanceCount();
   
   return (
@@ -26,7 +26,7 @@ const Index = () => {
             <div className="card-body">
               <h5 className="card-title">👨‍💼 Total Employees</h5>
               <p className="card-text fs-4 fw-bold">
-                {employeeData?.employeeCount || 0}
+                {employeeCount?.employeeCount || 0}
               </p>
             </div>
           </div>
@@ -37,7 +37,7 @@ const Index = () => {
             <div className="card-body">
               <h5 className="card-title">📅 Total Attendance</h5>
               <p className="card-text fs-4 fw-bold">
-                {attendanceData?.attendanceCount || 0}
+                {attendanceData?.data?.attendanceCount || 0}
               </p>
             </div>
           </div>
