@@ -1,6 +1,7 @@
 import { useAuthStore } from "../../store/useAuthStore";
 import React, { useState } from 'react';
-import NavBar from '../../components/Navbar'; 
+import NavBar from '../../components/Navbar';
+import Footer from "../../components/Footer.js";
 import './Gallery.css';
 
 
@@ -68,7 +69,8 @@ const Gallery = () => {
             ))}
           </div><br></br>
         </div>
-        </div>
+        </div><br/><br/>
+          <Footer />
         </div>
      );
 };

@@ -17,9 +17,13 @@ const loyaltycustomersSchema = new mongoose.Schema({
     },
     membershipType: { // New field for membership type
         type: String,
-        enum: ['gold', 'silver', 'diamond'], // Allow only these values
+        enum: ['loyalty'], // Allow only these values
         required: true
-    }
+    },
+     status: {
+        type: String,
+        default: "Normal",
+    },
 
    
     

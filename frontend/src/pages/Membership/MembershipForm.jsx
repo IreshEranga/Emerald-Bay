@@ -80,10 +80,7 @@ const MembershipForm = () => {
         ) : (
           <form onSubmit={handleSubmit}>
 
-            <div>
-              <label>Customer ID:</label>
-              <input  type="text" name="customerid" value={formData.customerId} onChange={handleChange} disabled />
-            </div>
+            
             <div>
               <label>Name:</label>
               <input  type="text" name="name" value={formData.name} onChange={handleChange} disabled />
@@ -100,9 +97,8 @@ const MembershipForm = () => {
               <label className='membership'>Membership Type:</label>
               <select name="membershipType" value={formData.membershipType} onChange={handleChange} required>
                 <option value="">Select Membership Type</option>
-                <option value="gold">Gold</option>
-                <option value="silver">Silver</option>
-                <option value="diamond">Diamond</option>
+                <option value="loyalty">Loyalty</option>
+                
               </select>
             </div>
             <button type="submit">Submit</button>

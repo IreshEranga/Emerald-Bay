@@ -2,6 +2,7 @@ import React from "react";
 import { useAuthStore } from "../../store/useAuthStore";
 import Navbar_customer from '../../components/Navbar_customer'; 
 import restaurantImage from '../../assets/IMG_9995.jpg';
+import Footer from "../../components/Footer.js";
 
 
 const Customer_Home= () => {
@@ -33,7 +34,8 @@ const Customer_Home= () => {
                 
             </div>           
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />      
-        </div>
+        </div><br/><br/>
+          <Footer />
     </div>
   );
 };

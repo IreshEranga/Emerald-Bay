@@ -21,7 +21,7 @@ const cartSchema = new Schema(
             required: true
         },
         totalAmount:{
-            type:Number,
+            type: String,
             default:0
         }
     },
