@@ -32,6 +32,7 @@ class EmployeeAPI {
     return api.get("/api/employees/get/count");
   }
 
+ 
 }
 
 export default EmployeeAPI;

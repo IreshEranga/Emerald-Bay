@@ -5,7 +5,6 @@ const User = require("../models/User");
 const Rider = require("../models/Rider");
 const Employee = require("../models/Employee");
 const Customer = require("../models/Customer");
-const EmployeeAttendance = require("../models/EmployeeAttendance");
 const USER_ROLES = require("../constants/roles");
 const welcomeEmailTemplate = require("../util/email_templates/welcomeEmailTemplate");
 const sendEmail = require("../util/sendEmail");
@@ -239,55 +238,6 @@ const authController = {
   },
 };
 
-Attendance: async (req, res) => {
-  try {
-    const { EmpID, name, email, date } = req.body;
-    const role = USER_ROLES.ADMIN;
-
-    const existingAttendance = await EmployeeAttendance.findOne({ email });
-    if (existingAttendance) {
-      return res.status(409).json({
-        success: false,
-        message: "Attendance already exists",
-      });
-    }
-
-    // Create a new attendance record without setting the _id field
-    const newAttendance = new EmployeeAttendance({
-      EmpID,
-      name,
-      email,
-      date,
-      role,
-    });
-    await newAttendance.save();
-
-    // Send welcome email to the user
-    const password = Math.random().toString(36).slice(-8); // Generate random password
-    const emailTemplate = welcomeEmailTemplate(name, email, password, role);
-    sendEmail(email, "Welcome to Emerald Bay!", emailTemplate);
-
-    res.status(201).json({
-      success: true,
-      attendance: {
-        _id: newAttendance._id,
-        EmpID: newAttendance.EmpID,
-        name: newAttendance.name,
-        email: newAttendance.email,
-        date: newAttendance.date,
-        role: newAttendance.role,
-      },
-      message: "Attendance created successfully",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      error: error.message,
-      message: "Internal server error",
-    });
-  }
-},
 
 
 
