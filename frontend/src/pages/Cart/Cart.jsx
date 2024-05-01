@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [totalAmount, setTotalAmount] = useState(0);
 
     useEffect(() => {
         fetchCartItems();
@@ -157,6 +158,8 @@ const Cart = () => {
                         Total Amount : {totalPrice}
                     </div>
                 </div>
+                 {/* Pass totalAmount as a prop to the Payment component 
+                <Payment totalAmountProp={totalAmount} />*/}
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                 <Button variant="primary" onClick={placeOrder} style={{ marginTop: '20px' }}>
                     Check Out
