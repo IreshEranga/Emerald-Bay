@@ -99,7 +99,7 @@ const index = () => {
           {
             label: "Rides",
             data: rideCounts,
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            backgroundColor: "rgba(3, 23, 97, 0.8)",
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1,
           },
@@ -160,7 +160,7 @@ const index = () => {
             </div>
           </div>
         </div>
-        <div className="col-md-12 mb-4" style={{marginTop:'50px', border:'1px solid black'}}>
+        <div className="col-md-12 mb-4" style={{marginTop:'50px', border:'3px solid black',padding:'10px'}}>
             <canvas id="riderChart" width="400" height="200"></canvas>
         </div>
       </div>
