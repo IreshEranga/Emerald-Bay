@@ -97,7 +97,7 @@ const index = () => {
         labels: riderNames,
         datasets: [
           {
-            label: "Rides",
+            label: "Rides For Rider",
             data: rideCounts,
             backgroundColor: "rgba(3, 23, 97, 0.8)",
             borderColor: "rgba(75, 192, 192, 1)",
@@ -110,7 +110,7 @@ const index = () => {
           y: {
             beginAtZero: true,
             suggestedMin: 0, // Minimum value for y-axis ticks
-            suggestedMax: Math.ceil(Math.max(...rideCounts)+1), // Maximum value for y-axis ticks (rounded up)
+            suggestedMax: Math.ceil(Math.max(...rideCounts)+2), // Maximum value for y-axis ticks (rounded up)
             precision: 0, // Number of decimal places for tick values (0 for integers)
           },
         },
