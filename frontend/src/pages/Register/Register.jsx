@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import NavBar from '../../components/Navbar';
 import axios from 'axios'; 
 import toast from 'react-hot-toast';
+import Footer from "../../components/Footer.js";
 
 
 const Register = () => {
@@ -83,7 +84,7 @@ const Register = () => {
   };
 
   return (
-    <div style={{backgroundColor:'white'}}>
+    <div className="background" style={{backgroundColor:'black'}}>
     
               <NavBar />
 
@@ -183,6 +184,8 @@ const Register = () => {
         </Col>
       </Row><br></br>
     </Container>
+    
+      <Footer />
     </div>
   );
 };
