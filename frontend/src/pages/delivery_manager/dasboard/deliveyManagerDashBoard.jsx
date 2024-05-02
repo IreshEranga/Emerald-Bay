@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useRiderCount } from "../../../hooks/useRiderData";
+import { useRiderCount, useRiderData } from "../../../hooks/useRiderData";
 import { useAuthStore } from "../../../store/useAuthStore";
+import Chart from "chart.js/auto";
 
 const index = () => {
   const { user } = useAuthStore((state) => ({
@@ -9,6 +10,7 @@ const index = () => {
   
   // Get the data from the react-query hook
   const { data: riderData } = useRiderCount();
+  const { data: riderDetails, refetch: refetchRiderData } = useRiderData();
 
   const [completedOrderCount, setCompletedOrderCount] = useState(0);
   const [pendingOrderCount, setPendingOrderCount] = useState(0);
@@ -42,7 +44,80 @@ const index = () => {
   }, []);
   
   
-  
+  // Create a chart after fetching data
+  /*useEffect(() => {
+    if (data && data.data.riders) {
+      const ctx = document.getElementById("riderChart");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: data && data.data.riders.map((rider) => rider.name),
+          datasets: [
+            {
+              label: "Rides",
+              data: data && data.data.riders.map((rider) => rider.rides),
+              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    }
+  }, [riderData]);*/
+
+  useEffect(() => {
+    if (riderDetails) {
+      // Process rider data here
+      console.log("Rider data:", riderDetails);
+      createChart(riderDetails.data.riders);
+    }
+  }, [riderDetails]);
+
+  const createChart = (riders) => {
+    const riderNames = riders.map((rider) => rider.name);
+    const rideCounts = riders.map((rider) => rider.rides);
+
+    const existingChart = Chart.getChart("riderChart");
+  if (existingChart) {
+    existingChart.destroy(); // Destroy existing chart if it exists
+  }
+
+    const ctx = document.getElementById("riderChart");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: riderNames,
+        datasets: [
+          {
+            label: "Rides For Rider",
+            data: rideCounts,
+            backgroundColor: "rgba(3, 23, 97, 0.8)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            suggestedMin: 0, // Minimum value for y-axis ticks
+            suggestedMax: Math.ceil(Math.max(...rideCounts)+2), // Maximum value for y-axis ticks (rounded up)
+            precision: 0, // Number of decimal places for tick values (0 for integers)
+          },
+        },
+      },
+    });
+  };
+
 
   
   return (
@@ -84,6 +159,9 @@ const index = () => {
               </p>
             </div>
           </div>
+        </div>
+        <div className="col-md-12 mb-4" style={{marginTop:'50px', border:'3px solid black',padding:'10px'}}>
+            <canvas id="riderChart" width="400" height="200"></canvas>
         </div>
       </div>
     </div>

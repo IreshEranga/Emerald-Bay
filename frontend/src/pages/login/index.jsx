@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { USER_ROLES } from "../../constants/roles";
 import NavBar from '../../components/Navbar'; 
 import './login.css';
+import Footer from "../../components/Footer.js";
 
 
 
@@ -146,10 +147,11 @@ const index = () => {
                 <p className="fst-normal">Don't have an Account? <Link to="/register">Register here</Link></p>
               </form>
             </div>
-          </div><br></br>
+          </div>
         </div>
       </div>
-      </div>
+      </div><br/><br/>
+      <Footer />
     </div>
   );
 };

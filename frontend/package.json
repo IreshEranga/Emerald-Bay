@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.2.3",
+    "chart.js": "^4.4.2",
     "firebase": "^9.22.0",
     "formik": "^2.4.5",
     "html-entities": "^2.5.2",
