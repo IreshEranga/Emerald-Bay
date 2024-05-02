@@ -109,6 +109,9 @@ const index = () => {
         scales: {
           y: {
             beginAtZero: true,
+            suggestedMin: 0, // Minimum value for y-axis ticks
+            suggestedMax: Math.ceil(Math.max(...rideCounts)+1), // Maximum value for y-axis ticks (rounded up)
+            precision: 0, // Number of decimal places for tick values (0 for integers)
           },
         },
       },
@@ -157,7 +160,7 @@ const index = () => {
             </div>
           </div>
         </div>
-        <div className="col-md-12 mb-4">
+        <div className="col-md-12 mb-4" style={{marginTop:'50px', border:'1px solid black'}}>
             <canvas id="riderChart" width="400" height="200"></canvas>
         </div>
       </div>
