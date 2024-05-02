@@ -38,3 +38,10 @@
     margin-bottom: 10px;
 }
 
+.background{
+    background-image: url(../../assets/login.jpg);
+  /* Adjust the last value (0.5) for opacity */
+    background-blend-mode: overlay; /* Apply the overlay blend mode to mix the background color with the image */
+   /*height: 900px;*/
+
+}
