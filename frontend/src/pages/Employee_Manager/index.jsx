@@ -71,7 +71,7 @@ const Leaves = () => {
                 <td>{leaves.leaveType}</td>
                 <td>{leaves.leaveFrom}</td>
                 <td>{leaves.leaveTo}</td>
-                <td>{leaves.leaveStatus}</td>
+                {/* <td>{leaves.leaveStatus}</td> */}
                 <td>
                   <span
                     className={`badge ${
@@ -93,7 +93,7 @@ const Leaves = () => {
                     size="sm"
                   >
                     <AiTwotoneDelete className="mb-1 mx-1" />
-                    <span>Delete</span>
+                    <span>Reject</span>
                   </Button>
                   <Button
                     className="m-1 px-3"
@@ -102,7 +102,7 @@ const Leaves = () => {
                     size="sm"
                   >
                     <MdEditSquare className="mb-1 mx-1" />
-                    <span>Edit</span>
+                    <span>Approve</span>
                   </Button>
                 </td> 
               </tr>

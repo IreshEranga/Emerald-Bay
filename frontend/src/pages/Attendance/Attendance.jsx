@@ -141,7 +141,7 @@ const Attendance = () => {
                                 <option key={index} value={slot}>{slot}</option>
                             ))}
                         </select>
-                        <p style={{ color: 'green' }}>One reservation is only available for 30 minutes.</p>
+                        
                     </div>
                     <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px' }}>Submit</button>
                 </form>

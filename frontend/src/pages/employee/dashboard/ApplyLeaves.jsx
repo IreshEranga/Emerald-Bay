@@ -10,6 +10,9 @@ const  ApplyLeaves = (req, res, nxt) => {
   // Get the state and actions from the store
   const { isApplyLeavesOpen, closeApplyLeaves } = useLeavesStore();
 
+
+  
+
   // React hook form setup
   const {
     handleSubmit,
@@ -45,6 +48,8 @@ const  ApplyLeaves = (req, res, nxt) => {
     >  
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Emp ID */}
+       
+      
         <div className="form-group">
           <label htmlFor="EmpID">Emp ID</label>
           <input
@@ -134,6 +139,8 @@ const  ApplyLeaves = (req, res, nxt) => {
             <small className="form-text text-danger">Leave To date is required</small>
           )}
         </div>
+     
+        
         <button type="submit" className="btn btn-primary mt-3">
           Submit
         </button>
