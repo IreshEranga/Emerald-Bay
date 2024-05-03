@@ -1,5 +1,6 @@
-import React from "react";
-import { useEmployeeCount } from "../../../hooks/useEmployeeData";
+//import React from "react";
+import React, { useState, useEffect } from "react";
+import { useEmployeeCount, useEmployeeData } from "../../../hooks/useEmployeeData";
 import { useAuthStore } from "../../../store/useAuthStore";
 
 const Index = () => {
@@ -8,10 +9,19 @@ const Index = () => {
   }));
   
   // Get the data from the react-query hook
-  const { data: employeeCount } = useEmployeeCount();
+  const { data: employeeData } = useEmployeeCount();
+  const { data: employeeDetails, refetch: refetchEmployeeData } = useEmployeeData();
+  
   //const { data: attendanceData } = useAttendanceCount();
 
   //console.log("Employee Data:", employeeData);
+  useEffect(() => {
+    if (employeeDetails) {
+      // Process rider data here
+      console.log("Employee data:", employeeDetails);
+      //createChart(employeeDetails.data.employees);
+    }
+  }, [employeeDetails]);
   
   
   return (
@@ -28,7 +38,7 @@ const Index = () => {
             <div className="card-body">
               <h5 className="card-title">👨‍💼 Total Employees</h5>
               <p className="card-text fs-4 fw-bold">
-                {employeeCount?.employeeCount || 0}
+                {employeeData?.data?.employeeCount}
               </p>
             </div>
           </div>
