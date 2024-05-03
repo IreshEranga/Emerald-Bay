@@ -6,7 +6,20 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchDate, setSearchDate] = useState('');
-  const [activeSection, setActiveSection] = useState('pending');
+  const [searchQuery, setSearchQuery] = useState('');
+
+
+  // Filter completed orders based on search term
+  const filteredOrders = orders.filter(order =>{
+    const orderCreatedDate = new Date(order.createdAt).toLocaleDateString();
+    const searchTerm = searchQuery.toLowerCase().trim();
+    return  (
+      order.orderid.includes(searchTerm) ||
+      orderCreatedDate.includes(searchTerm) || 
+      order.rider?.includes(searchTerm)
+    );
+    
+  });
 
   useEffect(() => {
     // Function to fetch orders from your API or database
@@ -24,51 +37,28 @@ const Orders = () => {
     fetchOrders(); // Call the fetchOrders function when the component mounts
   }, []);
 
-  const pendingOrders = orders.filter(order => order.status === 'pending');
-
-  // Function to handle section change
-  const handleSectionChange = (sectionId) => {
-    setActiveSection(sectionId);
-  };
-
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`/api/orders/search?orderId=${searchTerm}&date=${searchDate}`);
-      setOrders(response.data);
-    } catch (error) {
-      console.error('Error searching orders:', error);
-    }
-  };
+  
+  
 
   return (
     <div>
       <h1>Orders</h1>
-      <Form>
-        <Form.Group controlId="orderId">
-          <Form.Label>Order ID</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Order ID"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="date">
-          <Form.Label>Date</Form.Label>
-          <Form.Control
-            type="date"
-            value={searchDate}
-            onChange={(e) => setSearchDate(e.target.value)}
-          />
-        </Form.Group>
-        <Button variant="primary" onClick={handleSearch}>
-          Search
-        </Button>
-      </Form>
+      
+      <div className="searchpart">
+      <input
+                style={{borderRadius:'40px', padding:'10px', paddingLeft:'20px'}}
+                  type="text"
+                  placeholder="Search by Order ID or Date (MM/DD/YYYY)"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  
+                />
+      </div><br /><br />
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>Order ID</th>
+            <th>Date</th>
             <th>Customer ID</th>
             <th>Customer Name</th>
             <th>Delivery Address</th>
@@ -81,9 +71,10 @@ const Orders = () => {
         
             
               
-                    {orders.map((order) => (
+                    {filteredOrders.map((order) => (
                       <tr key={order._id}>
                         <td>{order.orderid}</td>
+                        <td>{order.createdAt.split('T')[0]}</td>
                         <td>{order.customerid}</td>
                         <td>{order.customername}</td>
                         <td>{order.deliveryaddress}</td>
