@@ -4,7 +4,7 @@ const sendEmail = require("../util/sendEmail");
 
 
 // Function to generate Emp ID
-const generateAttendanceId = async () => {
+/*const generateAttendanceId = async () => {
     try {
         const attendance = await Attendance.findOne().sort({createdAt: -1});
         if (!attendance) {
@@ -18,17 +18,17 @@ const generateAttendanceId = async () => {
         console.error("Error generating reservation ID:", error);
         throw new Error("Error generating reservation ID");
     }
-};
+};*/
 
 
 
 // Create a attendance
 router.post("/create", async (req, res) => {
     try {
-      const EmpID = await generateAttendanceId(); // Generate reservation ID
-      const newAttendance = new Attendance({ ...req.body, EmpID });
+      //const EmpID = await generateAttendanceId(); // Generate reservation ID
+      const newAttendance = new Attendance({ ...req.body/*, EmpID */});
       await newAttendance.save();
-      const { name, email, date, time, role } = req.body;
+      const { EmpID,name, email, date, time, role } = req.body;
 
       
       res.json({ status: "Attendance Added", attendance: newAttendance });
