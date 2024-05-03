@@ -7,7 +7,7 @@ const createTableReservationEmailTemplate = (name, reservationId, date, time, ta
         <p> • Time: ${time}</p>
         <p> • Table Number: ${tableNo}</p>
         <p>Thank you for choosing our restaurant. We look forward to creating an unforgettable reservation experience for you.</p>
-        <p>Need to make changes to this reservation ? If so, call 0772120231</p>
+        <p>Need to make changes to this reservation ? If so, call 0772120231.</p>
         <p>Feel free to sprinkle a touch of magic on your reservation by reaching out to our friendly team!</p>
         <p><br/></p>
         <p>Best regards,</p>

@@ -2,9 +2,9 @@ const router = require("express").Router();
 const VIPRoomReservation = require("../models/VIPRoomReservation");
 const sendEmail = require("../util/sendEmail");
 const createVIPRoomReservationEmailTemplate = require("../util/email_templates/createVIPRoomReservationEmailTemplate");
-//const updateVIPRoomReservationEmailTemplate = require("../util/email_templates/updateVIPRoomReservationEmailTemplate");
-//const cancelReservationEmailTemplate = require("../util/email_templates/cancelReservationEmailTemplate");
-//const cron = require('node-cron');
+const updateVIPRoomReservationEmailTemplate = require("../util/email_templates/updateVIPRoomReservationEmailTemplate");
+const cancelReservationEmailTemplate = require("../util/email_templates/cancelReservationEmailTemplate");
+// const cron = require('node-cron');
 
 
 // Function to generate reservation ID
@@ -50,9 +50,9 @@ router.post("/create", async (req, res) => {
       const reservationId = await generateReservationId(); // Generate reservation ID
       const newVIPRoomReservation = new VIPRoomReservation({ ...req.body, reservationId });
       await newVIPRoomReservation.save(); 
-      const { name, email, date, time, guests } = req.body;
 
       // Send confirmation email to the customer
+      const { name, email, date, time, guests } = req.body;
       const emailTemplate = createVIPRoomReservationEmailTemplate(name, reservationId, date, time, guests);
       sendEmail(email, "VIP Room Reservation Confirmation", emailTemplate);
   
@@ -106,8 +106,9 @@ router.put("/update/:id", async (req, res) => {
         const updatedVIPRoomReservation = await VIPRoomReservation.findByIdAndUpdate(id, req.body, { new: true });
 
         // Send confirmation email to the customer
-        //const emailTemplate = updateVIPRoomReservationEmailTemplate(reservationId, date, time, guests);
-        //sendEmail(email, "VIP Room Reservation Updated Confirmation", emailTemplate);
+        const { name, email, date, time, guests, reservationId } = req.body;
+        const emailTemplate = updateVIPRoomReservationEmailTemplate(name, reservationId, date, time, guests);
+        sendEmail(email, "VIP Room Reservation Updated Confirmation", emailTemplate);
 
         res.json({ status: "VIP Room Reservation updated", vipRoomReservation: updatedVIPRoomReservation });
     } catch (error) {
@@ -120,11 +121,12 @@ router.put("/update/:id", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
     const id = req.params.id;
     try {
-        await VIPRoomReservation.findByIdAndDelete(id);
+        const deletedReservation = await VIPRoomReservation.findByIdAndDelete(id);
 
-        // Send confirmation email to the customer
-        //const emailTemplate = cancelReservationEmailTemplate(reservationId);
-        //sendEmail(email, "VIP Room Reservation Cancellation", emailTemplate);
+        // Send cancellation email to the customer
+        const { name, email, reservationId } = deletedReservation;
+        const emailTemplate = cancelReservationEmailTemplate(name, reservationId);
+        sendEmail(email, "VIP Room Reservation Cancellation", emailTemplate);
 
         res.json({ status: "VIP Room Reservation deleted" });
     } catch (error) {
