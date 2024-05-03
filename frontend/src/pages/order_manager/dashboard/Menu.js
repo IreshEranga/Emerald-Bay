@@ -8,7 +8,7 @@ import { handleUpload } from '../../../utils/HandleUpload';
 import { generatePDF } from '../../../utils/GeneratePDF';
 
 
-const Menu_Items = () => {
+const Menu = () => {
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
