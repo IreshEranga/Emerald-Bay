@@ -2,8 +2,8 @@ const router = require("express").Router();
 const Event = require("../models/Event");
 const sendEmail = require("../util/sendEmail");
 const createEventReservationEmailTemplate = require("../util/email_templates/createEventReservationEmailTemplate");
-//const updateEventReservationEmailTemplate = require("../util/email_templates/updateEventReservationEmailTemplate");
-//const cancelReservationEmailTemplate = require("../util/email_templates/cancelReservationEmailTemplate");
+const updateEventReservationEmailTemplate = require("../util/email_templates/updateEventReservationEmailTemplate");
+const cancelReservationEmailTemplate = require("../util/email_templates/cancelReservationEmailTemplate");
 //const cron = require('node-cron');
 
 
@@ -62,9 +62,9 @@ router.post("/create", async (req, res) => {
       const reservationId = await generateReservationId(); // Generate reservation ID
       const newEvent = new Event({ ...req.body, reservationId });
       await newEvent.save();
-      const { name, email, date, startTime, endTime, guests } = req.body;
-
+    
       // Send confirmation email to the customer
+      const { name, email, date, startTime, endTime, guests } = req.body;
       const emailTemplate = createEventReservationEmailTemplate(name, reservationId, date, startTime, endTime, guests);
       sendEmail(email, "Event Reservation Confirmation", emailTemplate);
   
@@ -118,8 +118,9 @@ router.put("/update/:id", async (req, res) => {
         const updatedEvent = await Event.findByIdAndUpdate(id, req.body, { new: true });
 
         // Send confirmation email to the customer
-        //const emailTemplate = updateEventReservationEmailTemplate(reservationId, date, startTime, endTime, guests);
-        //sendEmail(email, "Event Reservation Updated Confirmation", emailTemplate);
+        const { name, email, date, startTime, endTime, guests, reservationId } = req.body;
+        const emailTemplate = updateEventReservationEmailTemplate(name, reservationId, date, startTime, endTime, guests);
+        sendEmail(email, "Event Reservation Updated Confirmation", emailTemplate);
 
         res.json({ status: "Event updated", event: updatedEvent });
     } catch (error) {
@@ -132,11 +133,12 @@ router.put("/update/:id", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
     const id = req.params.id;
     try {
-        await Event.findByIdAndDelete(id);
+        const deletedReservation = await Event.findByIdAndDelete(id);
 
         // Send confirmation email to the customer
-        //const emailTemplate = cancelReservationEmailTemplate(reservationId);
-        //sendEmail(email, "Event Reservation Cancellation", emailTemplate);
+        const { name, email, reservationId } = deletedReservation;
+        const emailTemplate = cancelReservationEmailTemplate(name, reservationId);
+        sendEmail(email, "Event Reservation Cancellation", emailTemplate);
 
         res.json({ status: "Event deleted" });
     } catch (error) {

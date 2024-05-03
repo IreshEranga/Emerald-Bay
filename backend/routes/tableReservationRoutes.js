@@ -2,8 +2,8 @@ const router = require("express").Router();
 const TableReservation = require("../models/TableReservation");
 const sendEmail = require("../util/sendEmail");
 const createTableReservationEmailTemplate = require("../util/email_templates/createTableReservationEmailTemplate");
-//const updateTableReservationEmailTemplate = require("../util/email_templates/updateTableReservationEmailTemplate");
-//const cancelReservationEmailTemplate = require("../util/email_templates/cancelReservationEmailTemplate");
+const updateTableReservationEmailTemplate = require("../util/email_templates/updateTableReservationEmailTemplate");
+const cancelReservationEmailTemplate = require("../util/email_templates/cancelReservationEmailTemplate");
 //const cron = require('node-cron');
 
 
@@ -46,9 +46,9 @@ router.post("/create", async (req, res) => {
       const reservationId = await generateReservationId(); // Generate reservation ID
       const newTableReservation = new TableReservation({ ...req.body, reservationId });
       await newTableReservation.save();
-      const { name, email, date, time, tableNo } = req.body;
-
+      
       // Send confirmation email to the customer
+      const { name, email, date, time, tableNo } = req.body;
       const emailTemplate = createTableReservationEmailTemplate(name, reservationId, date, time, tableNo);
       sendEmail(email, "Table Reservation Confirmation", emailTemplate);
   
@@ -102,8 +102,9 @@ router.put("/update/:id", async (req, res) => {
         const updatedTableReservation = await TableReservation.findByIdAndUpdate(id, req.body, { new: true });
 
         // Send confirmation email to the customer
-        //const emailTemplate = updateTableReservationEmailTemplate(reservationId, date, time, tableNo);
-        //sendEmail(email, "Table Reservation Updated Confirmation", emailTemplate);
+        const { name, email, date, time, tableNo, reservationId } = req.body;
+        const emailTemplate = updateTableReservationEmailTemplate(name, reservationId, date, time, tableNo);
+        sendEmail(email, "Table Reservation Updated Confirmation", emailTemplate);
 
         res.json({ status: "Table Reservation updated", tableReservation: updatedTableReservation });
     } catch (error) {
@@ -116,12 +117,12 @@ router.put("/update/:id", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
     const id = req.params.id;
     try {
-        await TableReservation.findByIdAndDelete(id);
-
+        const deletedReservation = await TableReservation.findByIdAndDelete(id);
         
         // Send confirmation email to the customer
-        //const emailTemplate = cancelReservationEmailTemplate(reservationId);
-        //sendEmail(email, "Table Reservation Cancellation", emailTemplate);
+        const { name, email, reservationId } = deletedReservation;
+        const emailTemplate = cancelReservationEmailTemplate(name, reservationId);
+        sendEmail(email, "Table Reservation Cancellation", emailTemplate);
 
         res.json({ status: "Table Reservation deleted" });
     } catch (error) {
