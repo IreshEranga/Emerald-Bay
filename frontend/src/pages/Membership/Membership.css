@@ -10,7 +10,7 @@
 
 }
 
-.image {
+.imagemem {
     background-image: url(../../assets/membership_card.jpg);
     background-color: rgba(238, 241, 243, 0.5); /* Adjust the last value (0.5) for opacity */
     background-blend-mode: overlay; /* Apply the overlay blend mode to mix the background color with the image */

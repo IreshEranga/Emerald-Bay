@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast'; // Import toast function from react-hot-toast
 import axios from 'axios';
-
+import { handleUpload } from '../../../utils/HandleUpload';
 
 const Items = () => {
     const [errors, setErrors] = useState({});
+    const [image, setImage] = useState(null);
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -17,6 +18,11 @@ const Items = () => {
     
     useEffect(() => {
     }, [formData]);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        handleUpload({ file, setPercent: () => {}, setImage });
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -92,7 +98,7 @@ const Items = () => {
                             <option value="Side Dishes">Side Dishes</option>
                             <option value="Soups">Soups</option>
                             <option value="Salads">Salads</option>
-                            <option value="Rices">Rices</option>
+                            <option value="Rices">Rice</option>
                             <option value="Desserts">Desserts</option>
                         </select>
                         {errors.category && <span className="error">{errors.category}</span>}
@@ -101,6 +107,10 @@ const Items = () => {
                         <label>Price :</label>
                         <input type="text" name="price" value={formData.price} onChange={handleChange} required />
                         {errors.price && <span className="error">{errors.price}</span>}
+                    </div>
+                    <div className="form-group">
+                        <label>Image :</label>
+                        <input type="file" name="image" value={formData.image} onChange={handleImageChange} accept="image/*" />
                     </div>                   
                     <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Add Item</button>                   
                 </form>        

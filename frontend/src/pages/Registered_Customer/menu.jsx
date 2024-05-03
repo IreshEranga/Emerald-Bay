@@ -64,8 +64,9 @@ const Customer_Menu = () => {
                             <h2 className="center-heading1" style={{fontSize:'32px', color:'beige', fontFamily:'cursive'}}>{category}</h2><br></br>
                             <div className="menu-items-container" style={{display:'flex'}}> 
                                 {items && items.map((item, index) => (
-                                    <div className="menu-item-container" key={index} style={{ marginRight: '20px', position: 'relative', border: '1px solid white', padding: '10px', width: '150px', height: '170px'}}>
+                                    <div className="menu-item-container" key={index} style={{ marginRight: '20px', position: 'relative', border: '1px solid white', padding: '10px', width: '150px', height: '200px'}}>
                                         <div className="menu-item-details">
+                                            <img src={item.image} style={{ width: '100%', height: '80px', objectFit: 'cover' }} />                  
                                             <h3 className="menu-item-name" style={{color:'white', fontSize:'18px', fontFamily:'inherit'}}>{item.name}</h3>
                                             <p className="menu-item-description" style={{color:'white', fontSize:'15px'}}>{item.description}</p>
                                             <span className="menu-item-price" style={{color:'white', fontSize:'15px'}}>Rs. {item.price}</span>
