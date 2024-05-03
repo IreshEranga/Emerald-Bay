@@ -3,7 +3,7 @@
 
 
 ## Visit the following URL to see the application running
-http://localhost:5173/
+http://localhost:3000/
 
 ## Backend API
 http://localhost:8000/

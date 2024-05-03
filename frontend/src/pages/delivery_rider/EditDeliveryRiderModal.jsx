@@ -149,6 +149,7 @@ const EditDeliveryRiderrModal = () => {
             id="email"
             name="email"
             {...register("email", { required: true })}
+            readOnly
           />
           {errors.email && (
             <small className="form-text text-danger">Email is required</small>
