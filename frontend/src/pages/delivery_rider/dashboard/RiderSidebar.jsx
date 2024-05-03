@@ -5,7 +5,8 @@ import { useAuthStore } from "../../../store/useAuthStore";
 import RiderProfile from "./RiderProfile";
 import Dashboard from "./Dashboard";
 import RiderViewProfile from "./RiderViewProfile";
-//
+import Attendance from "../../Attendance/Attendance"
+
 const RiderSidebar = () => {
   const [activeContent, setActiveContent] = useState("Dashboard");
   //
@@ -35,6 +36,12 @@ const RiderSidebar = () => {
         return (
           <>
             <RiderProfile />
+          </>
+        );
+        case "Attendance":
+        return (
+          <>
+            <Attendance />
           </>
         );
       case "Account":
@@ -103,6 +110,17 @@ const RiderSidebar = () => {
               onClick={() => handleLinkClick("Profile")}
             >
               Edit Profile
+            </a>
+          </li>
+          <li>
+            <a
+              href="#Attendance"
+              className={`nav-link ${
+                activeContent === "Attendance" ? "active" : "link-dark"
+              }`}
+              onClick={() => handleLinkClick("Attendance")}
+            >
+              Attendance
             </a>
           </li>
         </ul>
