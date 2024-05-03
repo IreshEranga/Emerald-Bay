@@ -44,38 +44,9 @@ const index = () => {
   }, []);
   
   
-  // Create a chart after fetching data
-  /*useEffect(() => {
-    if (data && data.data.riders) {
-      const ctx = document.getElementById("riderChart");
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: data && data.data.riders.map((rider) => rider.name),
-          datasets: [
-            {
-              label: "Rides",
-              data: data && data.data.riders.map((rider) => rider.rides),
-              backgroundColor: "rgba(75, 192, 192, 0.2)",
-              borderColor: "rgba(75, 192, 192, 1)",
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
-    }
-  }, [riderData]);*/
-
   useEffect(() => {
     if (riderDetails) {
-      // Process rider data here
+      // Process rider data 
       console.log("Rider data:", riderDetails);
       createChart(riderDetails.data.riders);
     }
@@ -161,7 +132,7 @@ const index = () => {
           </div>
         </div>
         <div className="col-md-12 mb-4" style={{marginTop:'50px', border:'3px solid black',padding:'10px'}}>
-            <canvas id="riderChart" width="400" height="200"></canvas>
+            <canvas id="riderChart" width="400" height="150"></canvas>
         </div>
       </div>
     </div>
