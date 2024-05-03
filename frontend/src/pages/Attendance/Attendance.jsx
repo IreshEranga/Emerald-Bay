@@ -5,8 +5,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useEmployee } from '../../hooks/useEmployeeData';
+import { useRider } from '../../hooks/useRiderData';
+
 
 const Attendance = () => {
+
+    const {user} = useAuthStore();
+    const { data: employee, refetch } = useEmployee(user && user._id);
+    const { data: rider, refetchRider } = useRider(user && user._id);
+
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         EmpID: '',
@@ -59,20 +68,20 @@ const Attendance = () => {
         const errors = {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!data.EmpID.trim()) {
+        /*if (!((employee && employee.data && employee.data.employee && employee.data.employee.employeeid)||(rider && rider.data && rider.data.rider && rider.data.rider.employeeid)).trim()) {
             errors.EmpID = "Employee ID is required";
         }
-        if (!data.name.trim()) {
+        if (!((employee && employee.data && employee.data.employee && employee.data.employee.name)||(rider && rider.data && rider.data.rider && rider.data.rider.name)).trim()) {
             errors.name = "Name is required";
         }
-        if (!data.email.trim()) {
+        if (!(employee && employee.data && employee.data.employee && employee.data.employee.email).trim()) {
             errors.email = "Email is required";
-        } else if (!emailRegex.test(data.email.trim())) {
+        } else if (!emailRegex.test((employee && employee.data && employee.data.employee && employee.data.employee.email).trim())) {
             errors.email = "Invalid email address";
         }
-        if (!data.role) {
+        if (!(employee && employee.data && employee.data.employee && employee.data.employee.role)) {
             errors.role = "Role is required";
-        }
+        }*/
         return errors;
     };
 
@@ -96,6 +105,26 @@ const Attendance = () => {
         }
     };
 
+    
+  // Fetch the actual values for name, email, and role
+  useEffect(() => {
+    if (employee) {
+      setFormData((prevState) => ({
+        ...prevState,
+        name: employee.data.employee.name,
+        email: employee.data.employee.email,
+        role: employee.data.employee.category,
+      }));
+    } else if (rider) {
+      setFormData((prevState) => ({
+        ...prevState,
+        name: rider.data.rider.name,
+        email: rider.data.rider.email,
+        role: rider.data.rider.role,
+      }));
+    }
+  }, [employee, rider]);
+
     return (
         <div className="outer-container1">
             <br />
@@ -106,27 +135,26 @@ const Attendance = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Emp ID :</label>
-                        <input type="text" name="EmpID" value={formData.EmpID} onChange={handleChange} required />
+                        <input type="text" name="EmpID" value={formData.EmpID}
+                        /*value={(employee && employee.data && employee.data.employee && employee.data.employee.employeeid)|| (rider && rider.data && rider.data.rider && rider.data.rider.employeeid)}*/ onChange={handleChange} 
+                        readOnly />
                         {errors.EmpID && <span className="error">{errors.EmpID}</span>}
+                        
                     </div>
                     <div className="form-group">
                         <label>Name :</label>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                        <input type="text" name="name" /*value={(employee && employee.data && employee.data.employee && employee.data.employee.name)|| (rider && rider.data && rider.data.rider && rider.data.rider.name)}*/ value={formData.name} onChange={handleChange}  readOnly/>
                         {errors.name && <span className="error">{errors.name}</span>}
                     </div>
                     <div className="form-group">
                         <label>Email :</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                        <input type="email" name="email" /*value={(employee && employee.data && employee.data.employee && employee.data.employee.email)|| (rider && rider.data && rider.data.rider && rider.data.rider.email)}*/ value={formData.email} onChange={handleChange}  readOnly/>
                         {errors.email && <span className="error">{errors.email}</span>}
                     </div>
                     <div className="form-group">
                         <label>Select Role:</label>
-                        <select name="role" value={formData.role} onChange={handleChange} required>
-                            <option value="">Select Role</option>
-                            <option value="chef">Chef</option>
-                            <option value="driver">Driver</option>
-                            <option value="waiter">Waiter</option>
-                        </select>
+                        <input type="email" name="email" value={formData.role} /*value={(employee && employee.data && employee.data.employee && employee.data.employee.category)|| (rider && rider.data && rider.data.rider && rider.data.rider.role)}*/ onChange={handleChange}   readOnly/>
+                        
                         {errors.role && <span className="error">{errors.role}</span>}
                     </div>
                     <div className="form-group">
