@@ -7,11 +7,11 @@ const generateItemId = async () => {
   try {
     const latestItem = await Item.findOne().sort({ createdAt: -1 });
     if (!latestItem) {
-      return '01';
+      return 'A01';
     } else {
       const latestId = parseInt(latestItem.itemId.slice(1)); // Extract numeric part of the ID
       const newId = latestId + 1;
-      return newId.toString().padStart(2, '0'); // Ensure two-digit padding
+      return "A" + newId.toString().padStart(2, '0'); // Ensure two-digit padding
     }
   } catch (error) {
     console.error('Error generating Item ID:', error);
