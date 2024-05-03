@@ -78,10 +78,10 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-        {activeSection === 'pending' && (
-            <section className='pendingOrders'>
-              <div className="pendingordertable">
-                    {pendingOrders.map((order) => (
+        
+            
+              
+                    {orders.map((order) => (
                       <tr key={order._id}>
                         <td>{order.orderid}</td>
                         <td>{order.customerid}</td>
@@ -93,9 +93,9 @@ const Orders = () => {
                       </tr>
                     ))
                   }
-              </div>
-            </section>
-          )}
+              
+            
+         
         </tbody>
       </Table>
     </div>

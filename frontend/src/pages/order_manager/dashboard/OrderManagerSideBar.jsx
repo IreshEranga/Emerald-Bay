@@ -39,12 +39,7 @@ const OrderManagerSideBar = () => {
             <Orders />
           </>
         );
-      case "StockRequest":
-        return (
-          <>
-            <StockRequest />
-          </>
-        );
+      
       case "Account":
         return <p>This is the Account page content.</p>;
       default:
@@ -113,17 +108,7 @@ const OrderManagerSideBar = () => {
               Orders
             </a>
           </li>
-          <li>
-            <a
-              href="#stock-requests"
-              className={`nav-link ${
-                activeContent === "StockRequest" ? "active" : "link-dark"
-              }`}
-              onClick={() => handleLinkClick("StockRequest")}
-            >
-              Stock Requests
-            </a>
-          </li>
+          
         </ul>
         <div className="mt-auto">
           <button
