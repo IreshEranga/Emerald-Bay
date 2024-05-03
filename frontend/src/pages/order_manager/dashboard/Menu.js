@@ -4,7 +4,7 @@ import { Button, Table, Form } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
 import toast from 'react-hot-toast'; // Import toast function from react-hot-toast
 import axios from "axios";
-
+import { handleUpload } from '../../../utils/HandleUpload';
 
 const Menu_Items = () => {
   const [items, setItems] = useState([]);
@@ -12,11 +12,12 @@ const Menu_Items = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [editItem, setEditItem] = useState(null);
   const [errors, setErrors] = useState({});
+  const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     category: "",
-    price: ""
+    price: "",
   });
 
   useEffect(() => {
@@ -42,6 +43,11 @@ const Menu_Items = () => {
         ...prevState,
         [name]: value
     }));
+  };
+
+  const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        handleUpload({ file, setPercent: () => {}, setImage });
   };
 
   //form validation
@@ -71,33 +77,35 @@ const Menu_Items = () => {
       description: item.description,
       category: item.category,
       price: item.price,
+      image: item.image,
     });
   };
-  
-  // Function to handle form submission (for update)
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (editItem) {
-      // Update item
-      try {
-        const updatedItem = {
-          ...editItem,
-          name: formData.name,
-          description: formData.description,
-          category: formData.category,
-          price: formData.price
-        };
-        await axios.put(`http://localhost:8000/item/update/${editItem._id}`, updatedItem);
-        toast.success('Item updated successfully!');
-        setEditItem(null);
-        fetchItems();
-      } catch (error) {
-        console.error("Error updating item:", error);
-      }
-    } else {
-      // Logic for creating a new item
+
+// Function to handle form submission (for update)
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  if (editItem) {
+    // Update item
+    try {
+      const updatedItem = {
+        ...editItem,
+        name: formData.name,
+        description: formData.description,
+        category: formData.category,
+        price: formData.price,
+        image: formData.image,
+      };
+      await axios.put(`http://localhost:8000/item/update/${editItem._id}`, updatedItem);
+      toast.success('Item updated successfully!');
+      setEditItem(null);
+      fetchItems();
+    } catch (error) {
+      console.error("Error updating item:", error);
     }
-  };
+  } else {
+    // Logic for creating a new item
+  }
+};
 
   // Function to delete
   const handleDelete = async (id) => {
@@ -137,7 +145,7 @@ const Menu_Items = () => {
         Items
       </h1>
 
-      {/* Add reservation */}
+      {/* Add item */}
       <Link to="/add-item">
         <Button variant="primary" className="m-1">
           <IoMdAddCircleOutline className="mb-1" /> <span>Add Item</span>
@@ -166,6 +174,7 @@ const Menu_Items = () => {
         <thead>
           <tr align='center'>
             <th>Item ID</th>
+            <th>Image</th>
             <th>Name</th>
             <th>Description</th>
             <th>Category</th>
@@ -177,10 +186,11 @@ const Menu_Items = () => {
           {filteredItems.map((item) => (
             <tr key={item._id}>
               <td>{item.itemId}</td>
+              <td><img src={item.image} style={{ width: '50px', height: '50px' }} /></td>
               <td>{item.name}</td>
               <td>{item.description}</td>
               <td>{item.category}</td>
-              <td>{item.price}</td>
+              <td>Rs. {item.price}</td>
               <td style={{ display: "flex" }}>
                 {/* Edit button */}
                 <Button variant="info" className="mr-2" onClick={() => handleEdit(item)} style={{marginRight:'10px', marginLeft:'20px'}}>
@@ -220,7 +230,7 @@ const Menu_Items = () => {
                             <option value="Side Dishes">Side Dishes</option>
                             <option value="Soups">Soups</option>
                             <option value="Salads">Salads</option>
-                            <option value="Rices">Rices</option>
+                            <option value="Rices">Rice</option>
                             <option value="Desserts">Desserts</option>
                         </select>
                         {errors.category && <span className="error">{errors.category}</span>}
@@ -229,6 +239,10 @@ const Menu_Items = () => {
                         <label>Price :</label>
                         <input type="text" name="price" value={formData.price} onChange={handleChange} required />
                         {errors.price && <span className="error">{errors.price}</span>}
+                    </div>
+                    <div className="form-group">
+                        <label>Image :</label>
+                        <input type="file" name="image" value={formData.image} accept="image/*" onChange={handleImageChange}/>
                     </div>                   
                     <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Update Item</button>                   
                 </form>
