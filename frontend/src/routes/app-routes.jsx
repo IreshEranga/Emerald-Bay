@@ -143,7 +143,7 @@ const AppRoutes = () => {
           </Route>
           
           {/* Order Manager Private Routes */}
-          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ORDERMANAGER]} />}>
             <Route path="/orderManager" element={<OrderManagerSideBar />} />
             <Route path="/orderManager/menu" element={<Menu_Items />} /> 
             <Route path="/add-item" element={<Items />} />
@@ -151,14 +151,14 @@ const AppRoutes = () => {
           </Route>
 
           {/* Employee Manager Private Routes */}
-          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.EMPLOYEEMANAGER]} />}>
             <Route path="/employeeManager" element={<EmployeeManagerSideBar />} />
             <Route path="/employeeManager/employees" element={<Employee />} />
            
           </Route>
 
           {/* Customer Manager Private Routes */}
-          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.CUSTOMERMANAGER]} />}>
             <Route path="/customerManager" element={<CustomerManagerSideBar />} />
             <Route path="/customerManager/customers" element={<Customers />} />
           </Route>
