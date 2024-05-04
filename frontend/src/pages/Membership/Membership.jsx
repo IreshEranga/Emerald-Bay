@@ -16,9 +16,9 @@ const Membership = () => {
         
       <Navbar_customer />
 
-      <button className='button' onClick={handleButtonClick}>Apply for Membership</button>
-      <div className='imagemem'>
-        <p className='topic'>"Unveiling the Secret Society: Unlock Hidden Treasures with Our Exclusive Membership Card!" It 
+      <button className='button' style={{padding:'20px', marginLeft:'1300px'}} onClick={handleButtonClick}>Apply for Membership</button>
+      <div className='imagemem'><br /><br />
+        <p className='topic'>"Unveiling the Secret Society 👨‍👩‍👧‍👦 Unlock Hidden Treasures with Our Exclusive Membership Card!" It 
         hints at the allure of belonging to an exclusive 
         community and promises members access to unique perks and experiences.</p>
 

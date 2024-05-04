@@ -4,7 +4,7 @@
     margin-left: 100px;
     margin-right: 100px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 50px;
+    font-size: 30px;
     text-shadow: black;
 
 
@@ -22,16 +22,4 @@
     height: 100vh; /* Ensure the body covers the entire viewport height */
 }
 
-.button{
-background-color: #efdfdf;
-    width: 328px;
-    height: 100px;
-    font-size: 25px;
-    margin-left: 1500px;
-    margin-top: 20px;
 
-  
-    font-weight: bolder;
-  
-
-}

@@ -77,21 +77,7 @@ const EditOngoingOrderForm = ({ order = {}, onClose }) => {
     <Form style={{ border: '1px solid black', width: '50%', marginLeft: '30px', padding: '10px', height
     :'250px', marginTop:'100px' }} onSubmit={handleSubmit}>
       <Form.Label>Update Order Status: {order.orderid}</Form.Label><br/><br/>
-      {/*<Form.Group controlId="riderSelect">
-        <Form.Label>Update Order:${order.orderid}</Form.Label>
-        <Form.Control
-          as="select"
-          value={selectedRider}
-          onChange={(event) => setSelectedRider(event.target.value)}
-        >
-          <option value="">Select a rider</option>
-          {riders.map((rider) => (
-            <option key={rider._id} value={rider._id}>
-              {rider.name}
-            </option>
-          ))}
-        </Form.Control>
-        </Form.Group>*/}
+      
       <Form.Group controlId="statusInput">
         <Form.Label>Status:</Form.Label>
         <Form.Control
