@@ -6,7 +6,6 @@ import { useLeavesStore } from "../../store/useLeavesStore";
 import leavesAPI from "../../api/leavesAPI";
 import { confirmMessage } from "../../utils/Alert";
 import { BootstrapTable } from "../../components";
-import EditLeaveRequestModal from "./EditLeaveRequestModal";
 import { useMutation } from "@tanstack/react-query";
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { MdEditSquare } from 'react-icons/md';
@@ -65,7 +64,7 @@ const Leaves = () => {
 
   return (
     <div className="container mt-5">
-      <EditLeaveRequestModal />
+    
       <hr />
       <h1 className="mb-5">Leave Requests</h1>
       <div className="mt-5">
