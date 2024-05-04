@@ -9,10 +9,21 @@ function Footer() {
         <footer>
             <div className="footer-container">
                 <div className="footer-contact-info">
+<<<<<<< Updated upstream
                     <h3>Contact Us</h3>
                     <p>123 Delicious St, Cityville, Country</p>
                     <p><FaPhone className="icon" /> : <a href="tel:+1234567890">+1 234 567 890</a></p>
                     <p><FaEnvelope className="icon" /> : <a href="mailto:info@restaurant.com">info@restaurant.com</a></p>
+=======
+                    <center><h3>Contact Us</h3></center>
+                    <center><p>Badugoda Junction, Harbour Road, Mirissa.</p></center>
+                   <div className="dataz" style={{marginLeft:'80px'}}>
+                   <p><FaPhone className="icon" /> : <a href="tel:+94772120231">+94 772120231</a></p>
+                    <p><FaEnvelope className="icon" /> : <a href="mailto:emeraldbayresortmirissa@gmail.com">emeraldbayresortmirissa@gmail.com</a></p>
+
+                </div>
+                    <center><h3>FAQ</h3></center>
+>>>>>>> Stashed changes
                 </div>
                 <div className="footer-social-links">
                     <h3>Follow Us On</h3>
