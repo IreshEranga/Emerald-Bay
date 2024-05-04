@@ -12,36 +12,39 @@ const index = () => {
   const { data: riderData } = useRiderCount();
   const { data: riderDetails, refetch: refetchRiderData } = useRiderData();
 
-  const [completedOrderCount, setCompletedOrderCount] = useState(0);
-  const [pendingOrderCount, setPendingOrderCount] = useState(0);
+  // const [completedOrderCount, setCompletedOrderCount] = useState(0);
+  // const [pendingOrderCount, setPendingOrderCount] = useState(0);
 
-  const fetchOrderCounts = async () => {
-    try {
-      const responseCompleted = await fetch("/api/orders/completed/count");
-      if (!responseCompleted.ok) {
-        throw new Error("Network response was not ok for completed orders");
-      }
-      const completedData = await responseCompleted.json();
-      setCompletedOrderCount(completedData.count);
-    } catch (error) {
-      console.error("Error fetching completed order count:", error);
-    }
+  // const fetchOrderCounts = async () => {
+  //   try {
+  //     const responseCompleted = await fetch("/api/orders/completed/count");
+  //     if (!responseCompleted.ok) {
+  //       throw new Error("Network response was not ok for completed orders");
+  //     }
+  //     const completedData = await responseCompleted.json();
+  //     setCompletedOrderCount(completedData.count);
+  //     console.log("completed:",completedOrderCount)
+  //   } catch (error) {
+  //     console.error("Error fetching completed order count:", error);
+  //   }
 
-    try {
-      const responsePending = await fetch("/api/orders/pending/count");
-      if (!responsePending.ok) {
-        throw new Error("Network response was not ok for pending orders");
-      }
-      const pendingData = await responsePending.json();
-      setPendingOrderCount(pendingData.count);
-    } catch (error) {
-      console.error("Error fetching pending order count:", error);
-    }
-  };
+  //   try {
+  //     const responsePending = await fetch("/api/orders/pending/count");
+  //     if (!responsePending.ok) {
+  //       throw new Error("Network response was not ok for pending orders");
+  //     }
+  //     const pendingData = await responsePending.json();
+      
+  //     setPendingOrderCount(pendingData.count);
+  //     console.log("count order: ",pendingOrderCount)
+  //   } catch (error) {
+  //     console.error("Error fetching pending order count:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchOrderCounts();
-  }, []);
+  // useEffect(() => {
+  //   fetchOrderCounts();
+  // }, []);
   
   
   useEffect(() => {
@@ -111,26 +114,26 @@ const index = () => {
             </div>
           </div>
         </div>
-        <div key={index} className="col-md-3 mb-4">
+        {/* <div key={index} className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
               <h5 className="card-title">📦 Total Completed Deliveries</h5>
               <p className="card-text fs-4 fw-bold">
-                {completedOrderCount}
+                
               </p>
             </div>
           </div>
-        </div>
-        <div key={index} className="col-md-3 mb-4">
+        </div> */}
+        {/* <div key={index} className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
               <h5 className="card-title">💢 Total Pending Orders</h5>
               <p className="card-text fs-4 fw-bold">
-                {pendingOrderCount}
+                
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="col-md-12 mb-4" style={{marginTop:'50px', border:'3px solid black',padding:'10px'}}>
             <canvas id="riderChart" width="400" height="150"></canvas>
         </div>

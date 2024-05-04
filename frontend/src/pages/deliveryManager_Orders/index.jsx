@@ -290,7 +290,7 @@ const Index = () => {
             <section className='ongoingOrders'>
               <div className="ongoingOrdertable">
                 <BootstrapTable
-                  headers={["Order ID","Customer ID","Customer Name","Address","Rider","Action"]}
+                  headers={["Order ID","Customer ID","Customer Name","Address","Rider"]}
                   children={ongoingOrders.map((order) => (
                       <tr key={order._id}>
                         <td>{order.orderid}</td>
@@ -298,7 +298,7 @@ const Index = () => {
                         <td>{order.customername}</td>
                         <td>{order.deliveryaddress}</td>
                         <td>{order.rider}</td>
-                        <td>
+                        {/* <td>
                           <Button
                             className="m-1 px-3"
                             variant="info"
@@ -308,7 +308,7 @@ const Index = () => {
                             <MdEditSquare className="mb-1 mx-1" />
                             <span>Edit</span>
                           </Button>
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   }

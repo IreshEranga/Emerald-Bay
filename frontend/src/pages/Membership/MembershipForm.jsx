@@ -70,7 +70,9 @@ const MembershipForm = () => {
   };
 
   return (
-    <div className="membership-form-page">
+    <div className="membership-form-page" style={{
+      marginLeft:'55px', marginTop:'40px'
+    }}>
       <div className="membership-form-container">
         <h2 className='title'>Membership Form</h2>
         {isLoading ? (
