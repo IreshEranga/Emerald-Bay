@@ -10,6 +10,7 @@ import { useEmployee } from '../../hooks/useEmployeeData';
 import { useRider } from '../../hooks/useRiderData';
 
 
+
 const Attendance = () => {
 
     const {user} = useAuthStore();
@@ -111,6 +112,7 @@ const Attendance = () => {
     if (employee) {
       setFormData((prevState) => ({
         ...prevState,
+        EmpID:employee.data.employee.employeeid,
         name: employee.data.employee.name,
         email: employee.data.employee.email,
         role: employee.data.employee.category,
@@ -118,6 +120,7 @@ const Attendance = () => {
     } else if (rider) {
       setFormData((prevState) => ({
         ...prevState,
+        EmpID:rider.data.rider.employeeid,
         name: rider.data.rider.name,
         email: rider.data.rider.email,
         role: rider.data.rider.role,
@@ -126,7 +129,7 @@ const Attendance = () => {
   }, [employee, rider]);
 
     return (
-        <div className="outer-container1">
+        <div className="outer-container15">
             <br />
             <div className="attendance">
                 {/* <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} /> */}

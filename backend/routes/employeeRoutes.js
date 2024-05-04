@@ -11,22 +11,22 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 //router.post("/add", authMiddleware(["ADMIN"]), deliveryRiderController.createRiders);
-router.get("/", authMiddleware(["ADMIN"]), employeeController.getEmployees);
+router.get("/", authMiddleware(["EMPLOYEEMANAGER"]), employeeController.getEmployees);
 
-router.get("/:id", authMiddleware(["ADMIN", "EMPLOYEE"]), employeeController.getEmployeeById);
+router.get("/:id", authMiddleware(["EMPLOYEEMANAGER", "EMPLOYEE"]), employeeController.getEmployeeById);
 router.patch(
   "/:id",
-  authMiddleware(["ADMIN", "EMPLOYEE"]),
+  authMiddleware(["EMPLOYEEMANAGER", "EMPLOYEE"]),
   employeeController.updateEmployee
 );
 router.delete(
   "/:id",
-  authMiddleware(["ADMIN"]),
+  authMiddleware(["EMPLOYEEMANAGER"]),
   employeeController.deleteEmployee
 );
 router.get(
   "/get/count",
-  authMiddleware(["ADMIN"]),
+  authMiddleware(["EMPLOYEEMANAGER"]),
   employeeController.getEmployeeCount
 );
 

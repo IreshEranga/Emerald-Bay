@@ -31,6 +31,10 @@ const CheckLoginStatus = () => {
   }
   if (permissionLevel === USER_ROLES.EMPLOYEE) {
     return <Navigate to="/employee" />;
+  }if (permissionLevel === USER_ROLES.CUSTOMERMANAGER) {
+    return <Navigate to="/customerManager" />;
+  }if (permissionLevel === USER_ROLES.CUSTOMERAFFAIRSMANAGER) {
+    return <Navigate to="/CustomerAffairsManager" />;
   }else{
     return <Outlet />;
   }
