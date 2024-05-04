@@ -25,8 +25,7 @@ class leavesAPI {
   }
 
   // Update leave
-   static update(values) {
-     const { id, data } = values;
+   static approve(id, data) {
      return api.patch(`/api/leaves/${id}`, data);
    }
 
@@ -35,10 +34,7 @@ class leavesAPI {
     return api.delete(`/api/leaves/${id}`);
   }
 
-  // Approve leave
-  static approve(id) {
-    return api.patch(`/api/leaves/${id}/approve`);
-  }
+
 
   // Reject leave
   static reject(id) {
