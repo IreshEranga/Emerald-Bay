@@ -8,7 +8,7 @@ const Event = require("../models/Event");
 const sendEmail = require("../util/sendEmail");
 const customerRegistrationEmailTemplate = require("../util/email_templates/customerRegistrationEmailTemplate");
 const LoyaltyCustomers = require("../models/LoyaltyCustomers");
-
+const Order =  require("../models/Order")
 
 //add customers
 router.route("/add").post(async (req,res)=>{
@@ -183,6 +183,24 @@ router.get("/events/:email", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error retrieving events" });
+  }
+});
+
+// Fetch orders by customer id
+router.get("/orders/:_id", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const customer = await Customer.findOne({ _id });
+
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+
+    const orders = await Order.find({ _id: customer._id });
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error retrieving orders" });
   }
 });
 

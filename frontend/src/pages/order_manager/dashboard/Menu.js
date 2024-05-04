@@ -5,8 +5,10 @@ import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react
 import toast from 'react-hot-toast'; // Import toast function from react-hot-toast
 import axios from "axios";
 import { handleUpload } from '../../../utils/HandleUpload';
+import { generatePDF } from '../../../utils/GeneratePDF';
 
-const Menu_Items = () => {
+
+const Menu = () => {
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
@@ -135,9 +137,25 @@ const handleSubmit = async (event) => {
   };
 
   // Function to download PDF report
-  const downloadPDF = () => {
-    console.log("Downloading PDF report...");
-  };
+// Function to download PDF report
+const downloadPDF = () => {
+  // Prepare title, columns, and data for the PDF
+  const title = "Items Report";
+  const columns = ["Item ID", "Image", "Name", "Description", "Category", "Price"];
+  const data = filteredItems.map(item => ({
+    "Item ID": item.itemId,
+    "Image": item.image, // You may need to adjust this based on your data structure
+    "Name": item.name,
+    "Description": item.description,
+    "Category": item.category,
+    "Price": `Rs. ${item.price}`
+  }));
+  const fileName = "items_report";
+
+  // Generate and download the PDF
+  generatePDF(title, columns, data, fileName);
+};
+
 
   return (
     <div className="container mt-5">
@@ -253,4 +271,4 @@ const handleSubmit = async (event) => {
   );
 };
 
-export default Menu_Items;
+export default Menu;

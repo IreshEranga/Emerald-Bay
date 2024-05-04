@@ -1,71 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import Navbar_customer from "../../components/Navbar_customer";
 import { useAuthStore } from '../../store/useAuthStore';
-
+import { Table } from 'react-bootstrap';
+import axios from 'axios';
 
 const User_Orders = () => {
   const { user } = useAuthStore(); // Assuming useAuthStore provides user information
-  const [profileData, setProfileData] = useState(null);
+  const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  console.log("user ",user._id);
   useEffect(() => {
-    const fetchProfileData = async () => {
+    const fetchOrdersByCustomerId = async () => {
       try {
-        console.log('User ID:', user._id);
-    
-        if (!user || !user._id) {
-          throw new Error('User ID not available');
-        }
-    
-        const response = await fetch(`http://localhost:8000/customer/get/${user._id}`, {
-          method: 'GET',
-        });
-    
-        console.log('Response status:', response.status); // Log response status
-    
-        if (!response.ok) {
-          throw new Error('Failed to fetch profile data');
-        }
-    
-        const data = await response.json();
-        console.log('Data from backend:', data); // Log data received from backend
-        setProfileData(data.user); // Assuming the data structure has a 'user' property
-        setIsLoading(false); // Set loading to false after data is fetched
+        const response = await axios.get(`http://localhost:8000/customer/orders/${user._id}`);
+        setOrders(response.data);
+        setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching user profile:', error);
+        console.error('Error fetching orders:', error);
         setError(error.message);
-        setIsLoading(false); // Set loading to false in case of error
+        setIsLoading(false);
       }
     };
 
-    if (user) {
-      fetchProfileData();
-    }
-  }, [user]);
+    fetchOrdersByCustomerId();
+  }, [user._id]);
 
   if (isLoading) {
-    return <p>Loading user profile...</p>;
+    return <p>Loading orders...</p>;
   }
 
   if (error) {
-    return <p>Error fetching user profile: {error}</p>;
-  }
-
-  if (!profileData) {
-    return <p>No profile data available</p>;
+    return <p>Error fetching orders: {error}</p>;
   }
 
   return (
-    <div style={{backgroundColor:'white'}}>
-    <Navbar_customer />
-    <div className="profile-container">
-      <h1 className='userprofile' style={{paddingLeft:'220px', paddingRight:'220px', color:'maroon', fontFamily:'Times New Roman, Times, serif'}}>My Orders</h1>
-
+    <div style={{ backgroundColor: 'white' }}>
+      <Navbar_customer />
+      <div className="profile-container">
+        <h1 style={{ paddingLeft: '140px', paddingRight: '10px', color: 'maroon', fontFamily: 'Times New Roman, Times, serif', fontSize:'70px' }}>My Orders</h1><br/><br/>
+        <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total Price</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order._id}>
+              <td>{order.orderid}</td>
+              <td>{order.createdAt.split('T')[0]}</td>
+              <td>{order.totalprice}</td>
+              <td>{order.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      </div>
     </div>
-  </div>
-  
   );
-}
+};
 
 export default User_Orders;

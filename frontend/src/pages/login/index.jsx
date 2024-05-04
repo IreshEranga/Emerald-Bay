@@ -65,6 +65,12 @@ const index = () => {
       navigate("/employee");
     } else if (res.data.user.role === USER_ROLES.CUSTOMERAFFAIRSMANAGER) {
       navigate("/customer-affairs-manager");  
+    }else if (res.data.user.role === USER_ROLES.CUSTOMERMANAGER) {
+      navigate("/customerManager");
+    }else if (res.data.user.role === USER_ROLES.ORDERMANAGER) {
+      navigate("/orderManager");
+    }else if (res.data.user.role === USER_ROLES.EMPLOYEEMANAGER) {
+      navigate("/employeeManager");
     }else {
       navigate("/");
     }
