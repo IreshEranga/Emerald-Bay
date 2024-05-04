@@ -124,36 +124,36 @@ const CustomerAffairsManagerDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="col-md-3 mb-4">
+        {/* <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
               <h5 className="card-title">📖 FAQ</h5>
               <p className="card-text fs-4 fw-bold">
                   {/* {eventsCount}  Display events count */}
-              </p>
+              {/* </p>
             </div>
           </div>
-        </div>
-        <div className="col-md-3 mb-4">
+        </div> */} 
+        {/* <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
               <h5 className="card-title">📞 Contact Us</h5>
               <p className="card-text fs-4 fw-bold">
                   {/* {eventsCount}  Display events count */}
-              </p>
+              {/* </p>
             </div>
           </div>
-        </div>
-        <div className="col-md-3 mb-4">
+        </div> */} 
+        {/* <div className="col-md-3 mb-4">
           <div className="card text-center h-100">
             <div className="card-body">
               <h5 className="card-title">⭐ Rating and Review</h5>
               <p className="card-text fs-4 fw-bold">
                   {/* {eventsCount}  Display events count */}
-              </p>
+              {/* </p>
             </div>
           </div>
-        </div>
+        </div> */} 
       </div>
     </div>
     

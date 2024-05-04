@@ -5,8 +5,7 @@ import { useAuthStore } from "../../../store/useAuthStore";
 import CustomerAffairsManagerDashboard from "./CustomerAffairsManagerDashboard";
 import FeedbackComponent from "./FeedbackComponent";
 import FAQComponent from "./FAQComponent";
-import ContactUsComponent from "./ContactUsComponent";
-import RatingAndReviewComponent from "./RatingAndReviewComponent";
+
 
 //
 const CustomerAffairsManagerSideBar = () => {
@@ -41,22 +40,7 @@ const CustomerAffairsManagerSideBar = () => {
             <FAQComponent />
           </>
         );
-      case "Contact_Us":
-        return (
-          <>
-            <ContactUsComponent />
-          </>
-        );
-      case "Rating_And_Review":
-        return (
-          <>
-            <RatingAndReviewComponent />
-          </>
-        );
-
-      case "Account":
-        return <p>This is the Account page content.</p>;
-      default:
+      
         return (
           <p>
             Welcome to the application. Please select a link from the sidebar.
@@ -123,7 +107,7 @@ const CustomerAffairsManagerSideBar = () => {
             </a>
           </li>
           <li>
-            <a
+            {/* <a
               href="#contact"
               className={`nav-link ${
                 activeContent === "Contact_Us" ? "active" : "link-dark"
@@ -131,10 +115,10 @@ const CustomerAffairsManagerSideBar = () => {
               onClick={() => handleLinkClick("Contact_Us")}
             >
               Contact Us
-            </a>
+            </a> */}
           </li>
           <li>
-            <a
+            {/* <a
               href="#rating"
               className={`nav-link ${
                 activeContent === "Rating_And_Review" ? "active" : "link-dark"
@@ -142,7 +126,7 @@ const CustomerAffairsManagerSideBar = () => {
               onClick={() => handleLinkClick("Rating_And_Review")}
             >
               Rating and Review
-            </a>
+            </a> */}
           </li>
         </ul>
         <div className="mt-auto">
