@@ -5,7 +5,7 @@ export default class FeedbackComponent extends Component {
   render() {
     return (
       <div>
-        <h1>Feedbacks</h1>
+        <h1>Feedback Management</h1>
         <Feedbacklist />
       </div>
     )
