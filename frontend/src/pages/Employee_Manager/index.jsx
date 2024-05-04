@@ -40,9 +40,19 @@ const Leaves = () => {
     });
   };
 
-  const handleEdit = (leaves) => {
-    setSelectedLeaves(leaves);
-    openEditLeaves();
+    // Approve mutation
+ 
+  
+
+  const handleApprove = (leaves) => {
+    confirmMessage("Are you sure to approve?", "This action cannot be undone.", () => {
+    console.log(leaves);
+    leaves.leaveStatus = "APPROVED";
+    const response =   leavesAPI.approve(leaves._id , leaves).then(() => {
+      refetch();
+    });
+    
+  });
   };
 
   useEffect(() => {
@@ -95,15 +105,19 @@ const Leaves = () => {
                     <AiTwotoneDelete className="mb-1 mx-1" />
                     <span>Reject</span>
                   </Button>
+                  {leaves.leaveStatus === "PENDING" ? <>
                   <Button
                     className="m-1 px-3"
                     variant="info"
-                    onClick={() => handleEdit(leaves)}
+                    onClick={() => handleApprove(leaves)}
                     size="sm"
                   >
                     <MdEditSquare className="mb-1 mx-1" />
                     <span>Approve</span>
                   </Button>
+                  </>:
+                  <></>
+                  }
                 </td> 
               </tr>
             ))

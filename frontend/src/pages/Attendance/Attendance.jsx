@@ -10,6 +10,7 @@ import { useEmployee } from '../../hooks/useEmployeeData';
 import { useRider } from '../../hooks/useRiderData';
 
 
+
 const Attendance = () => {
 
     const {user} = useAuthStore();
@@ -126,7 +127,7 @@ const Attendance = () => {
   }, [employee, rider]);
 
     return (
-        <div className="outer-container1">
+        <div className="outer-container15">
             <br />
             <div className="attendance">
                 {/* <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={() => window.history.back()} /> */}

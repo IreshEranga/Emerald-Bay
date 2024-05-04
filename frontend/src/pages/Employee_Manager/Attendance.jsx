@@ -133,99 +133,7 @@ const Attendance = () => {
     return errors;
   };
 
-  //function to check availability
-//   const handleCheckAvailability = async (e) => {
-//     e.preventDefault();
-//     setShowAvailabilityMessage(false);
-//     setLoading(true);
-//     const errorsObj = validateForm(formData);
-//     if (Object.keys(errorsObj).length === 0) {
-//       try {
-//         const response = await axios.post('http://localhost:8000/tableReservation/checkAvailability', formData);
-//         console.log(response.data); // Assuming the backend responds with data
-//         setAvailability(response.data.available);
-//         setShowAvailabilityMessage(!response.data.available); // Show message only if not available
-//       } catch (error) {
-//         console.error('Error checking availability:', error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     } else {
-//       setErrors(errorsObj);
-//     }
-//   };
-
-  // Function to handle edit
-//   const handleEdit = (reservation) => {
-//     setEditReservation(reservation);
-//     setFormData({
-//       name: reservation.name,
-//       phone: reservation.phone,
-//       email: reservation.email,
-//       tableNo: reservation.tableNo,
-//       date: reservation.date,
-//       time: reservation.time
-//     });
-//   };
-  
-  // Function to handle form submission (for update)
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-//     if (editReservation) {
-//       // Update reservation
-//       try {
-//         const updatedReservation = {
-//           ...editReservation,
-//           name: formData.name,
-//           phone: formData.phone,
-//           email: formData.email,
-//           tableNo: formData.tableNo,
-//           date: formData.date,
-//           time: formData.time
-//         };
-        
-//         await axios.put(`http://localhost:8000/tableReservation/update/${editReservation._id}`, updatedReservation);
-//         toast.success('Reservation updated successfully!');
-//         setEditReservation(null); // Reset editReservation state
-//         fetchTableReservations(); // Refresh data after update
-//       } catch (error) {
-//         console.error("Error updating table reservation:", error);
-//         toast.error('Error updating reservation!');
-//       }
-//     } else {
-//       setErrors(errorsObj);
-//     }
-//   };
-
-  // Function to handle delete
-//   const handleDelete = async (id) => {
-//     try {
-//       await axios.delete(`http://localhost:8000/tableReservation/delete/${id}`);
-//       fetchTableReservations();
-//       toast.success('Reservation deleted successfully!');
-//     } catch (error) {
-//       console.error("Error deleting table reservation:", error);
-//       toast.error('Error deleting reservation!');
-//     }
-//   };
  
-  // Function to handle opening confirmation modal
-//   const handleOpenConfirmationModal = (id) => {
-//     setReservationToDelete(id);
-//     setShowConfirmationModal(true);
-//   };
-
-  // Function to handle closing confirmation modal
-//   const handleCloseConfirmationModal = () => {
-//     setShowConfirmationModal(false);
-//     setReservationToDelete(null);
-//   };
-
-  // Function to handle confirmed deletion
-//   const handleConfirmDeletion = () => {
-//     handleDelete(reservationToDelete);
-//     setShowConfirmationModal(false);
-//   };
 
   // Function to handle search
   const handleSearch = (event) => {
@@ -450,16 +358,7 @@ const Attendance = () => {
                   <td>{attendance.role}</td>
                   <td>{attendance.date.split('T')[0]}</td>
                   <td>{attendance.time}</td>
-                  <td style={{display:'flex'}}>
-                    {/* Edit button */}
-                    {/* <Button variant="info" className="mr-2" onClick={() => handleEdit(attendance)} style={{marginRight:'10px', marginLeft:'15px'}}>
-                      <IoMdCreate />
-                    </Button> */}
-                    {/* Delete button */}
-                    {/* <Button variant="danger" onClick={() => handleOpenConfirmationModal(attendance._id)} style={{marginRight:'15px'}}>
-                      <IoMdTrash />
-                    </Button> */}
-                  </td>
+                  
                 </tr>
               ))}
             </tbody>
@@ -467,81 +366,7 @@ const Attendance = () => {
         </div>
       ))}
 
-      {/* Reservation Form (to display when editing) */}
-      {/* {editReservation && (
-        <div className="outer-container1"><br></br>
-          <div className="table-reservation">
-            <FontAwesomeIcon icon={faArrowLeft} className="back-icon" onClick={handleCloseForm} />               
-            <h2 className="center-heading">Edit Reservation</h2>
-            <img src={TableSeatsReservation} style={{ width: '360px', alignContent: 'center' }} alt="TableSeatsReservation" /><br /><br />
-            <form onSubmit={handleCheckAvailability}>
-                <div className="form-group">
-                    <label>Name :</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-                    {errors.name && <span className="error">{errors.name}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Contact Number :</label>
-                    <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
-                    {errors.phone && <span className="error">{errors.phone}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Email :</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-                    {errors.email && <span className="error">{errors.email}</span>}
-                </div>
-                <div className="form-group">
-                    <label>Table Number : </label>
-                    <select name="tableNo" value={formData.tableNo} onChange={handleChange} required>
-                        <option value=""> Select Table No </option>
-                        {[...Array(13).keys()].map(num => (
-                            <option key={num + 1} value={num + 1}>{num + 1}</option>
-                        ))}
-                    </select>
-                    {errors.tableNo && <span className="error">{errors.tableNo}</span>}
-                    <p style={{ color: 'green' }}>Please select a table using table layout.</p>
-                </div>
-                <div className="form-group">
-                    <label>Date :</label>
-                    <input type="date" name="date" value={formData.date} min={getTodayDate()} onChange={handleChange} required />
-                </div>
-                <div className="form-group">
-                    <label>Time : </label>
-                    <select name="time" value={formData.time} onChange={handleChange} required>
-                        <option value=""> Select Time </option>
-                        {availableTimeSlots.map((slot, index) => (
-                            <option key={index} value={slot}>{slot}</option>
-                        ))}
-                    </select>
-                    <p style={{ color: 'green' }}>One reservation is only available for 30 minutes.</p>
-                </div>
-                <button className='btn' type="submit" style={{ width: '250px', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginLeft: '55px' }}>{loading ? 'Checking...' : 'Check Availability'}</button>
-                {availability &&
-                <button className='btn' onClick={handleSubmit} style={{ width: '250px', padding: '10px', backgroundColor: '#28a745', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', marginLeft: '55px'}}>Update Reservation</button>
-                }
-                {showAvailabilityMessage && !loading &&
-                    <p style={{ color: 'red' }}>This table is not available. Please select another table or try a different date/time.</p>
-                 }
-            </form>        
-          </div><br></br>
-        </div>
-      )} */}
-
-      {/* Confirmation Modal */}
-      {/* <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this reservation?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseConfirmationModal}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleConfirmDeletion}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
+     
     </div>
   );
 };
