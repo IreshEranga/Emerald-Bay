@@ -30,8 +30,11 @@ const CheckLoginStatus = () => {
     return <Navigate to="/inventory-manager" />;
   }
   if (permissionLevel === USER_ROLES.EMPLOYEE) {
-    return <Navigate to="/employee" />;
-  }else{
+    return <Navigate to="/employee" />;ßß
+  }
+  if (permissionLevel === USER_ROLES.CUSTOMERAFFAIRSMANAGER) {
+    return <Navigate to="/customer-affairs-manager" />;
+  } else {
     return <Outlet />;
   }
 };

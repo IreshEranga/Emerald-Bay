@@ -3,6 +3,8 @@ import PrivateRoute from "./PrivateRoute";
 import CheckLoginStatus from "./CheckLoginStatus";
 import { USER_ROLES } from "../constants/roles";
 
+
+
 import {
   Home,
   Login,
@@ -49,7 +51,7 @@ import Cart from "../pages/Cart/Cart"
 import Employee from "../pages/employee";
 import EmployeeViewProfile from "../pages/employee/dashboard/EmployeeViewProfile.jsx";
 import Attendance from "../pages/Attendance/Attendance.jsx";
-
+import FAQPage from "../pages/customerAffairs/FAQPage.js";
 
 
 
@@ -58,7 +60,6 @@ import Payment from "../pages/Payment/Payment"
 
 import Membership from "../pages/Membership/Membership"
 import MembershipForm from "../pages/Membership/MembershipForm.jsx"
-
 
 
 
@@ -79,7 +80,8 @@ const AppRoutes = () => {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/attendance" element={<Attendance />} />
+          <Route path ="/faq" element={<FAQPage/>} />
+          
           
 
           {/* Check Login Status */}
@@ -87,12 +89,7 @@ const AppRoutes = () => {
             <Route path="/login" element={<Login />} />
           </Route>
 
-          {/* Customer Affairs Manager Private Routes */}
-          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.ADMIN]} />}>
-            <Route path="/CustomerAffairsManager" element={<CustomerAffairsManagerSideBar />} />
-           
-            
-          </Route>
+
 
           {/* Customer Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.CUSTOMER]} />}>
@@ -166,6 +163,11 @@ const AppRoutes = () => {
           {/* Inventory Manager Private Routes */}
           <Route element={<PrivateRoute permissionLevel={[USER_ROLES.INVENTORYMANAGER]} />}>
             <Route path="/inventory-manager" element={<InventoryManagerDashboard />} />
+          </Route>
+
+          {/* Inventory Manager Private Routes */}
+          <Route element={<PrivateRoute permissionLevel={[USER_ROLES.CUSTOMERAFFAIRSMANAGER]} />}>
+            <Route path="/customer-affairs-manager" element={<CustomerAffairsManagerSideBar />} />
           </Route>
 
           {/* Delivery Rider Private Routes */}

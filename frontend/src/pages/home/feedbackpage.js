@@ -4,7 +4,12 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios'
 
+
 const FeedbackForm = () => {
+
+
+
+
     const [feedback, setFeedback] = useState({
         name: '',
         email: '',
@@ -25,6 +30,9 @@ const FeedbackForm = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
+
+        if(localStorage.getItem('customerLogin') === 'true'){
+         
 
         const formErrors = {};
         if (!feedback.name.trim()) {
@@ -50,7 +58,7 @@ const FeedbackForm = () => {
         if (!feedback.message.trim()) {
             formErrors.message = 'Message is required';
         }
-        console.log("🚀 ~ FeedbackForm ~ feedback:", feedback)
+       
         
         const response = await axios.post("http://localhost:8000/api/feedback/add",feedback)
         if(response.status === 200){
@@ -65,9 +73,15 @@ const FeedbackForm = () => {
                 message: ''
             });
         }
-        else if(response.status === 304){
+        else if(response.status === 304
+            
+        ){
             alert("Failed to add feedback")
         }
+    }else{
+        alert("Please login to add feedback")
+        window.location.href = "/login";
+    }
     };
 
     return (

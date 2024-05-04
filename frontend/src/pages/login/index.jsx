@@ -63,6 +63,8 @@ const index = () => {
       navigate("/inventory-manager");
     } else if (res.data.user.role === USER_ROLES.EMPLOYEE) {
       navigate("/employee");
+    } else if (res.data.user.role === USER_ROLES.CUSTOMERAFFAIRSMANAGER) {
+      navigate("/customer-affairs-manager");  
     }else {
       navigate("/");
     }
