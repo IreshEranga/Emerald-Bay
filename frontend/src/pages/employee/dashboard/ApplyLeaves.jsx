@@ -103,9 +103,10 @@ const  ApplyLeaves = (req, res, nxt) => {
           type="text"
           className="form-control"
           id="role"
-          value = {employee && employee.data && employee.data.employee && employee.data.employee.role}
+          value = {employee && employee.data && employee.data.employee && employee.data.employee.category}
           {...register("role", { required: true })}
           />
+          
           {errors.role && (
             <small className="form-text text-danger">Role is required</small>
           )}

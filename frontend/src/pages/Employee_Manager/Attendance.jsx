@@ -4,7 +4,6 @@ import { Button, Table, Form, Modal } from "react-bootstrap";
 import { IoMdAddCircleOutline, IoMdDownload, IoMdCreate, IoMdTrash } from "react-icons/io";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-//import TableSeatsReservation from '../../../assets/restaurant seat reservation.png';
 import { generatePDF } from "../../utils/GeneratePDF";
 import toast from 'react-hot-toast';
 import axios from "axios";
@@ -16,12 +15,7 @@ const Attendance = () => {
   const [errors, setErrors] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredAttendance, setFilteredAttendance] = useState([]);
-  //const [editReservation, setEditReservation] = useState(null);
- // const [availability, setAvailability] = useState(false);
-  //const [showAvailabilityMessage, setShowAvailabilityMessage] = useState(false);
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
-  //const [showConfirmationModal, setShowConfirmationModal] = useState(false);
- // const [reservationToDelete, setReservationToDelete] = useState(null);
   const [showAdditionalButtons, setShowAdditionalButtons] = useState(false);
   const [formData, setFormData] = useState({
     EmpID:"",
@@ -33,9 +27,9 @@ const Attendance = () => {
   });
 
   useEffect(() => {
-    // Fetch table reservations data when component mounts
+   
     fetchAttendance();
-    //setAvailability(false); // Reset availability state on form change
+
   }, []);
 
   useEffect(() => {
@@ -43,12 +37,12 @@ const Attendance = () => {
     setAvailableTimeSlots(generateTimeSlots(formData.date));
   }, [formData.date]);
 
-  // Function to fetch table reservations data
+  // Function to fetch attendance data
   const fetchAttendance = async () => {
     try {
       const response = await axios.get("http://localhost:8000/attendance");
       setAttendance(response.data);
-      // Initially setting filteredReservations to all reservations
+      // Initially setting filteredattendance
       setFilteredAttendance(response.data);
     } catch (error) {
       console.error("Error fetching attendance:", error);
@@ -63,14 +57,11 @@ const Attendance = () => {
         }));
   };
 
-  // Function to handle closing the form
-//   const handleCloseForm = () => {
-//     setEditReservation(null); // Reset editReservation state
-//   };
+  
 
-  //Function to group reservations by date and sort them in descending order
+  //Function to group attendance by date and sort them in descending order
   const groupAttendanceByDate = () => {
-    // Sort reservations by date in descending order
+    // Sort attendance by date in descending order
     const sortedAttendance = filteredAttendance.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
   
     const groupedAttendance = {};
@@ -333,7 +324,7 @@ const Attendance = () => {
         </div>
       )}
 
-      {/* Grouped reservations */}
+      {/* Grouped attendance */}
       {Object.entries(groupAttendanceByDate()).map(([date, attendance]) => (
         <div key={date}>
           <h2 className="mt-4" style={{backgroundColor:'wheat', width:'155px', padding:'8px', borderRadius:'40px', paddingLeft:'22px', fontSize:'22px'}}>{date.split('T')[0]}</h2>
