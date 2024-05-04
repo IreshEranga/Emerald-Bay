@@ -8,6 +8,7 @@ const EmployeeViewProfile = () => {
 
   const { user } = useAuthStore();
   const { data: employee, refetch } = useEmployee(user && user._id);
+ 
 
 
   return (
@@ -25,7 +26,7 @@ const EmployeeViewProfile = () => {
               <label className="first">Address <span className="dot">:</span> <span className="inputdata">{employee.data.employee.address}</span></label>
               <label className="first">Contact <span className="dot">:</span> <span className="inputdata">{employee.data.employee.phone}</span></label>
               <label className="first">Role <span className="dot">:</span> <span className="inputdata">{employee.data.employee.role}</span></label>
-              <label className="first">Status <span className="dot">:</span> <span className="inputdata">{employee.data.employee.leaveStatus}</span></label>
+             
               
             </>
           )}

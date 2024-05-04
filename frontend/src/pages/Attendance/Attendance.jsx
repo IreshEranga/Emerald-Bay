@@ -155,7 +155,7 @@ const Attendance = () => {
                         {errors.email && <span className="error">{errors.email}</span>}
                     </div>
                     <div className="form-group">
-                        <label>Select Role:</label>
+                        <label> Role:</label>
                         <input type="email" name="email" value={formData.role} /*value={(employee && employee.data && employee.data.employee && employee.data.employee.category)|| (rider && rider.data && rider.data.rider && rider.data.rider.role)}*/ onChange={handleChange}   readOnly/>
                         
                         {errors.role && <span className="error">{errors.role}</span>}

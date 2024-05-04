@@ -79,8 +79,8 @@ const Leaves = () => {
                 <td>{leaves.name}</td>
                 <td>{leaves.role}</td>
                 <td>{leaves.leaveType}</td>
-                <td>{leaves.leaveFrom}</td>
-                <td>{leaves.leaveTo}</td>
+                <td>{leaves.leaveFrom.split('T')[0]}</td>
+                <td>{leaves.leaveTo.split('T')[0]}</td>
                 {/* <td>{leaves.leaveStatus}</td> */}
                 <td>
                   <span
