@@ -21,39 +21,6 @@ const index = () => {
           You are logged in as <strong>{user.role}</strong>
         </div>
       )}
-
-      <div className="row">
-        <div key={index} className="col-md-3 mb-4">
-          <div className="card text-center h-100">
-            <div className="card-body">
-              <h5 className="card-title">🚵 Total Orders</h5>
-              <p className="card-text fs-4 fw-bold">
-                {supplierData?.data?.supplierCount}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div key={index} className="col-md-3 mb-4">
-          <div className="card text-center h-100">
-            <div className="card-body">
-              <h5 className="card-title">📦 Cancel Orders</h5>
-              <p className="card-text fs-4 fw-bold">
-                {categoryData?.data?.categoryCount}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div key={index} className="col-md-3 mb-4">
-          <div className="card text-center h-100">
-            <div className="card-body">
-              <h5 className="card-title">💢 Total Order Requests</h5>
-              <p className="card-text fs-4 fw-bold">
-                {stockRequestData?.data?.stockRequestCount}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
