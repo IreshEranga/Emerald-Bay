@@ -1,7 +1,7 @@
 /* EmployeeLeaves.css */
 
 .employee-leaves-container {
-  background-image: url('/Users/tharushisewwandi/Documents/GitHub/Emerald Bay New/frontend/src/assets/Img_leave.jpeg'); /* Replace 'your-background-image-url.jpg' with your image URL */
+  background-image: url('../../../assets/Img_leave.jpeg'); /* Replace 'your-background-image-url.jpg' with your image URL */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
