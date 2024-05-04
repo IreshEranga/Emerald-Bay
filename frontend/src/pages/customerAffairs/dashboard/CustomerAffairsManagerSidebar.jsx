@@ -8,8 +8,6 @@ import FAQComponent from "./FAQComponent";
 import ContactUsComponent from "./ContactUsComponent";
 import RatingAndReviewComponent from "./RatingAndReviewComponent";
 
-
-
 //
 const CustomerAffairsManagerSideBar = () => {
   const [activeContent, setActiveContent] = useState("Dashboard");
@@ -28,34 +26,34 @@ const CustomerAffairsManagerSideBar = () => {
       case "Dashboard":
         return (
           <>
-            <CustomerAffairsManagerDashboard/>
+            <CustomerAffairsManagerDashboard />
           </>
         );
-        case "Feedback":
-            return (
-              <>
-                <FeedbackComponent />
-              </>
-            );
-          case "FAQ":
-            return (
-              <>
-                <FAQComponent />
-              </>
-            );
-          case "Contact_Us":
-            return (
-              <>
-                <ContactUsComponent />
-              </>
-            );
-          case "Rating_And_Review":
-            return (
-              <>
-                <RatingAndReviewComponent />
-              </>
-            );
-          
+      case "Feedback":
+        return (
+          <>
+            <FeedbackComponent />
+          </>
+        );
+      case "FAQ":
+        return (
+          <>
+            <FAQComponent />
+          </>
+        );
+      case "Contact_Us":
+        return (
+          <>
+            <ContactUsComponent />
+          </>
+        );
+      case "Rating_And_Review":
+        return (
+          <>
+            <RatingAndReviewComponent />
+          </>
+        );
+
       case "Account":
         return <p>This is the Account page content.</p>;
       default:

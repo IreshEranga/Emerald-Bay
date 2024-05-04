@@ -23,6 +23,7 @@ const FAQController = {
         }
         try {
             const newFAQ = new FAQ({ question, answer });
+            
             await newFAQ.save();
             res.status(201).json({ message: "FAQ added successfully" });
         } catch (error) {

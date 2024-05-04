@@ -14,6 +14,7 @@ function Navbar_customer({ isAuthenticated, user }) {
     logout: state.logout,
   }));
   const handleLogout = () => {
+    localStorage.removeItem('customerLogin');
     logout();
     window.location.href = "/login";
   };

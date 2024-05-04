@@ -15,6 +15,7 @@ router.route("/count").get(feedbackController.getFeedbackCount);
 router.route("/pending").get(feedbackController.getPendingFeedbacks);
 router.route("/approved").get(feedbackController.getApprovedFeedbacks);
 router.route("/rejected").get(feedbackController.getRejectedFeedbacks);
+router.route("/approved-list").get(feedbackController.getApprovedFeedbacksList);
 
 
 

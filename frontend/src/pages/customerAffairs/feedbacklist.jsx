@@ -7,6 +7,8 @@ import { Form, Button } from 'react-bootstrap';
 import { IoMdDownload } from 'react-icons/io';
 import { generatePDF } from '../../utils/GeneratePDF';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
+import { IoMdAddCircleOutline, IoMdCreate, IoMdTrash } from 'react-icons/io';
 
 
 
@@ -69,32 +71,34 @@ const Feedbacklist = () => {
   }, []);
 
   // Function to prepare data for PDF report
-  const preparePDFData = () => {
-    const title = "feedback Report";
-    const columns = [ "Name", "Email", "Message", "Customer Service", "Delivery", "Overall Experience", "Prices", "Taste", "Status"];
-    
-    console.log("🚀 ~ data ~ filteredFeedback:", filteredFeedback)
-    const data = filteredFeedback.map(feedback => ({
-      "Feedback ID": feedback.id,
-      "Name": feedback.name,
-      "Email": feedback.email,
-      "Message": feedback.message,
-      "Customer Service": feedback.customerService,
-      "Delivery": feedback.delivery,
-      "Overall Experience": feedback.overallExperience,
-      "Prices": feedback.prices,
-      "Taste": feedback.taste,
-      "Status": feedback.status === "REJECTED" ? "Rejected" : feedback.status === "PENDING" ? "Pending" : "A"
-    }));
-    const fileName = "feedback_report";
-    return { title, columns, data, fileName};
-  };
+const preparePDFData = () => {
+  const title = `Feedback Report - ${new Date().toLocaleDateString()}`; // Add current date to title
+  const columns = [ "Name", "Email", "Message", "Customer Service", "Delivery", "Overall Experience", "Prices", "Taste", "Status", ];
 
-  // Function to handle downloading PDF report
-  const downloadPDF = () => {
-    const { title, columns, data, fileName } = preparePDFData();
-    generatePDF(title, columns, data, fileName, );
-  };
+  console.log("🚀 ~ data ~ filteredFeedback:", filteredFeedback);
+  const data = filteredFeedback.map((feedback) => ({
+    "Feedback ID": feedback.id,
+    "Name": feedback.name,
+    "Email": feedback.email,
+    "Message": feedback.message,
+    "Customer Service": feedback.customerService,
+    "Delivery": feedback.delivery,
+    "Overall Experience": feedback.overallExperience,
+    "Prices": feedback.prices,
+    "Taste": feedback.taste,
+    "Status": feedback.status === "REJECTED" ? "Rejected" : feedback.status === "PENDING" ? "Pending" : "A",
+   
+  }));
+  const fileName = "feedback_report";
+  return { title, columns, data, fileName };
+};
+
+// Function to handle downloading PDF report
+const downloadPDF = () => {
+  const { title, columns, data, fileName } = preparePDFData();
+  generatePDF(title, columns, data, fileName);
+};
+
 
   const handleApprov = async(feedback)=>{
   
@@ -191,8 +195,9 @@ const handleReject = async(feedback)=>{
 }
 
   return (
+    
     <div>
-      {/* Download PDF report */}
+       {/* Download PDF report */}
       <Button variant="success" className="m-1" onClick={downloadPDF}>
         <IoMdDownload className="mb-1" /> <span>Download Report</span>
       </Button>

@@ -1,6 +1,6 @@
-import React from "react";
+import { useEffect , useState} from "react";
 import { useAuthStore } from "../../store/useAuthStore";
-import NavBar from '../../components/Navbar'; 
+import NavBar from '../../components/Navbar';
 import ImageSlider from "./ImageSlider";
 import { SliderData } from "./sliderData.js";
 import './home.css';
@@ -11,9 +11,29 @@ import FormExample from './contactForm';
 import Feedback from "react-bootstrap/esm/Feedback.js";
 import FeedbackForm from "./feedbackpage.js";
 import Footer from "../../components/Footer.js";
-
+import App from "./FeedbackCarousel.jsx";
+import axios from 'axios';
 
 const Home = () => {
+ 
+  const [feedbackList, setFeedbackList] = useState([]);
+  const getAllFeedbacks = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/feedback/approved-list");
+        setFeedbackList(response.data.feedbacks)
+      console.log("@@@@@@@")
+      console.log(response.data.feedbacks)
+      console.log("@@@@@@@")
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+  
+    useEffect(() => {
+      getAllFeedbacks();
+    }, []);
+
   return (
     <div style={{backgroundColor:'black'}}>
       <NavBar />
@@ -65,14 +85,7 @@ const Home = () => {
         <div className="container">
           <img src={foodimg} alt="foodimg" />
           <div>
-            <div>
-              <h2>Jennie Fernando</h2>
-            </div><br></br>
-            <div>
-              <p>
-              Emerald Bay Restaurant sets the standard for fine dining. With exquisite food, impeccable service, and a captivating environment, it's a culinary gem not to be missed. We can't wait to return for another unforgettable dining experience.
-              </p>
-            </div>
+          <App feedbackDataList={feedbackList}/>
           </div>
         </div>
       </div>
@@ -94,12 +107,10 @@ const Home = () => {
     <FeedbackForm />
 
     
-</div><br/><br/>
+</div>
 <Footer />
 </div>
   );
 }
-
-
 
 export default Home;

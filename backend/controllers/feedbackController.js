@@ -190,7 +190,25 @@ getRejectedFeedbacks : async(req,res)=>{
         console.error('Error fetching count:', error);
         res.status(500).json({ error: 'Error fetching count' });
       }
-    }
+    },
+
+    getApprovedFeedbacksList : async(req,res)=>{
+        try {
+            const feedbacks = await Feedback.find({status:"APPROVED"}); 
+            if(feedbacks){
+                res.status(200).json({
+                    feedbacks
+                });
+            }else{
+                console.log("Error fetching feedbacks");
+                res.status(401);
+                throw new error("Error fetching feedbacks");
+            }
+          } catch (error) {
+            console.error('Error fetching count:', error);
+            res.status(500).json({ error: 'Error fetching count' });
+          }
+    }   
 
 
 }

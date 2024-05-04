@@ -3,7 +3,7 @@ import { useAuthStore } from "../../store/useAuthStore";
 import Navbar_customer from '../../components/Navbar_customer'; 
 import restaurantImage from '../../assets/IMG_9995.jpg';
 import Footer from "../../components/Footer.js";
-
+import FeedbackForm from "../home/feedbackpage.js"
 
 const Customer_Home= () => {
     /*const { isAuthenticated, logout, user } = useAuthStore((state) => ({
@@ -12,7 +12,7 @@ const Customer_Home= () => {
         user: state.user,
       }));
       //*/
-      
+      localStorage.setItem('customerLogin', 'true');
       return (
     
         <div style={{backgroundColor:'black'}}>
@@ -31,7 +31,7 @@ const Customer_Home= () => {
                     At our restaurant, we believe in creating memorable moments for our customers, whether it's a romantic dinner for two or a lively gathering with friends and family.
                     Come join us and embark on a culinary journey that promises to delight your senses.</p>
                 </div><br></br>
-                
+                <FeedbackForm/>
             </div>           
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />      
         </div><br/><br/>
