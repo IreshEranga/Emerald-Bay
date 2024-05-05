@@ -222,7 +222,7 @@ const AddEmployeeModal = () => {
             
                 <option key="CHEF" value="CHEF">Chef</option>
                 <option key="WAITER" value="WAITER">Waiter</option>
-                <option key="WAITER" value="WAITER">Delivery Rider</option>
+                
                 
           </select>
           {errors.category && (
