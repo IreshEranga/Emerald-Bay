@@ -4,6 +4,7 @@ import { IoMdDownload } from "react-icons/io";
 import toast from 'react-hot-toast';
 import axios from "axios";
 import { generatePDF } from "../../../utils/GeneratePDF";
+import Swal from 'sweetalert2';
 
 const LoyaltyCustomers = () => {
   const [loyaltyCustomers, setLoyaltyCustomers] = useState([]);
@@ -37,49 +38,56 @@ const LoyaltyCustomers = () => {
   };
 
   const preparePDFData = () => {
-    const title = "Loyalty Customer Report";
-    const columns = [ "Name", "Phone", "Email", "Membership Type" ,"Status"];
+    const currentDate = new Date();
+    const title = `Loyalty Customer Report - ${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
+    const columns = ["Name", "Phone", "Email", "Membership Type", "Status"];
     const data = filteredLoyaltyCustomers.map(loyaltyCustomer => ({
-      "Name": loyaltyCustomer.name,
-      "Phone": loyaltyCustomer.mobile,
-      "Email": loyaltyCustomer.email,
-      "Membership Type": loyaltyCustomer.membershipType,
-      "Status":loyaltyCustomer.status
+        "Name": loyaltyCustomer.name,
+        "Phone": loyaltyCustomer.mobile,
+        "Email": loyaltyCustomer.email,
+        "Membership Type": loyaltyCustomer.membershipType,
+        "Status": loyaltyCustomer.status
     }));
     const fileName = "LoyaltyCustomer_Report";
     return { title, columns, data, fileName };
-  };
+};
 
-  const downloadPDF = () => {
+const downloadPDF = () => {
     const { title, columns, data, fileName } = preparePDFData();
     generatePDF(title, columns, data, fileName);
-  };
+};
+
 
   const handleAcceptReject = async (id, shouldAccept) => {
     try {
-      if (shouldAccept) {
-        // Send a PUT request to update the loyalty customer status to 'vip'
-        await axios.put(`http://localhost:8000/loyaltycustomers/accept/${id}`);
-        fetchLoyaltyCustomers();
-        toast.success('Loyalty customer accepted and status updated to vip.');
-        
-      } else {
-        // Send a DELETE request to remove the loyalty customer entry
-        await axios.delete(`http://localhost:8000/loyaltycustomers/reject/${id}`);
-        fetchLoyaltyCustomers();
-        toast.success('Loyalty customer request rejected and deleted.');
-        
-        // Filter out the rejected customer from the table
-        
+      let message = shouldAccept ? 'Accept' : 'Reject';
+      const result = await Swal.fire({
+        title: `Are you sure you want to ${message}?`,
+        text: "You will not be able to undo this operation!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: `Yes, ${message} it!`
+      });
+  
+      if (result.isConfirmed) {
+        // Handle accept or reject action here
+        if (shouldAccept) {
+          await axios.put(`http://localhost:8000/loyaltycustomers/accept/${id}`);
+          fetchLoyaltyCustomers();
+          toast.success('Loyalty customer accepted and status updated to vip.');
+        } else {
+          await axios.delete(`http://localhost:8000/loyaltycustomers/reject/${id}`);
+          fetchLoyaltyCustomers();
+          toast.success('Loyalty customer request rejected and deleted.');
+        }
       }
-      // Refetch loyalty customers after action
-      
     } catch (error) {
       console.error('Error handling loyalty customer request:', error);
       toast.error('Error handling loyalty customer request.');
     }
   };
-  
   
 
   return (
@@ -123,23 +131,22 @@ const LoyaltyCustomers = () => {
               <td>{loyaltyCustomer.membershipType}</td>
               <td>{loyaltyCustomer.status}</td>
               <td>
-  <div className="d-flex justify-content-between">
-    <Button 
-      variant="success" 
-      onClick={() => handleAcceptReject(loyaltyCustomer._id, true)}
-    >
-      Accept
-    </Button>
+                <div className="d-flex justify-content-between">
+                  <Button 
+                    variant="success" 
+                    onClick={() => handleAcceptReject(loyaltyCustomer._id, true)}
+                  >
+                    Accept
+                  </Button>
   
-    <Button 
-      variant="danger" 
-      onClick={() => handleAcceptReject(loyaltyCustomer._id, false)}
-    >
-      Reject
-    </Button>
-  </div>
-</td>
-
+                  <Button 
+                    variant="danger" 
+                    onClick={() => handleAcceptReject(loyaltyCustomer._id, false)}
+                  >
+                    Reject
+                  </Button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
