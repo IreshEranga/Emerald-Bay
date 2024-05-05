@@ -10,14 +10,14 @@ function Footer() {
             <div className="footer-container">
                 <div className="footer-contact-info">
                     <h3>Contact Us</h3>
-                    <p>123 Delicious St, Cityville, Country</p>
-                    <p><FaPhone className="icon" /> : <a href="tel:+1234567890">+1 234 567 890</a></p>
-                    <p><FaEnvelope className="icon" /> : <a href="mailto:info@restaurant.com">info@restaurant.com</a></p>
+                    <p>Badugoda Junction, Harbour Road, Mirissa, Sri Lanka.</p>
+                    <p><FaPhone className="icon" /> : <a href="tel:+1234567890">+94 772120231</a></p>
+                    <p style={{display:'flex'}}><FaEnvelope className="icon" /> : <a href="mailto:emeraldbayresortmirissa@gmail.com">emeraldbayresortmirissa@gmail.com</a></p>
                 </div>
                 <div className="footer-social-links">
                     <h3>Follow Us On</h3>
                     <ul>
-                        <li><a href="https://www.facebook.com/restaurant">Facebook</a></li>
+                        <li><a href="https://www.facebook.com/profile.php?id=61552540748705&mibextid=LQQJ4d">Facebook</a></li>
                         <li><a href="https://twitter.com/restaurant">Twitter</a></li>
                         <li><a href="https://www.instagram.com/restaurant">Instagram</a></li>
                     </ul>
@@ -32,7 +32,7 @@ function Footer() {
                 </div>
             </div>
             <div className="footer-bottom">
-                <p>&copy; {new Date().getFullYear()} Restaurant Name. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} Emerald Bay Restaurant. All rights reserved.</p>
             </div>
         </footer>
     );
