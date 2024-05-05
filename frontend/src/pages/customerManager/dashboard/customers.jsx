@@ -4,6 +4,7 @@ import { IoMdDownload, IoMdTrash } from "react-icons/io";
 import toast from 'react-hot-toast';
 import axios from "axios";
 import { generatePDF } from "../../../utils/GeneratePDF";
+import Swal from 'sweetalert2';
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -26,9 +27,22 @@ const Customers = () => {
 
   const handleDelete = async (_id) => {
     try {
-      await axios.delete(`http://localhost:8000/customer/delete/${_id}`);
-      fetchCustomers();
-      toast.success('Customer deleted successfully!');
+      // Use SweetAlert for confirmation
+      const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this customer data!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      });
+
+      if (result.isConfirmed) {
+        await axios.delete(`http://localhost:8000/customer/delete/${_id}`);
+        fetchCustomers();
+        toast.success('Customer deleted successfully!');
+      }
     } catch (error) {
       console.error("Error deleting customer:", error);
       toast.error('Error deleting customer!');
@@ -48,7 +62,9 @@ const Customers = () => {
   };
 
   const preparePDFData = () => {
-    const title = "Customer Report";
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
+    const title = `Customer Report - ${formattedDate}`;
     const columns = ["Customer ID", "Name", "Phone", "Email", "Address", "Status"];
     const data = filteredCustomers.map(customer => ({
       "Customer ID": customer.customerId,
@@ -61,11 +77,12 @@ const Customers = () => {
     const fileName = "Customer_Report";
     return { title, columns, data, fileName };
   };
-
+  
   const downloadPDF = () => {
     const { title, columns, data, fileName } = preparePDFData();
     generatePDF(title, columns, data, fileName);
   };
+  
 
   return (
     <div className="container mt-5">
