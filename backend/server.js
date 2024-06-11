@@ -30,6 +30,8 @@ const attendanceRoutes = require("./routes/attendanceRoute");
 // express app
 const app = express();
 
+
+const port = process.env.PORT || 4000;
 // middleware
 app.use(express.json());
 
@@ -71,9 +73,12 @@ mongoose
   .then(() => {
     console.log("connected to mongodb database");
     // listen to port
-    app.listen(process.env.PORT, () => {
-      console.log("listening for requests on port", process.env.PORT);
-    });
+    // app.listen(process.env.PORT, () => {
+    //   console.log("listening for requests on port", process.env.PORT);
+    // });
+    app.listen(port, () => {
+      console.log(`Example app listening on port ${port}`)
+    })
   })
   .catch((err) => {
     console.log(err);
