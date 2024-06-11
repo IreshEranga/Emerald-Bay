@@ -1,6 +1,7 @@
 [![wakatime](https://wakatime.com/badge/user/f9739902-7539-4da9-8836-8c1a4cd952fc/project/018e2bc9-1299-43e6-974b-4ba07ccc43c5.svg)](https://wakatime.com/badge/user/f9739902-7539-4da9-8836-8c1a4cd952fc/project/018e2bc9-1299-43e6-974b-4ba07ccc43c5)
 
-
+##Visit Web Application On
+https://emerald-bay-resort.pages.dev
 
 ## Visit the following URL to see the application running
 http://localhost:3000/
