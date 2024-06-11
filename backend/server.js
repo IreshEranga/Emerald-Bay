@@ -31,7 +31,7 @@ const attendanceRoutes = require("./routes/attendanceRoute");
 const app = express();
 
 
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8001;
 // middleware
 app.use(express.json());
 
@@ -76,8 +76,8 @@ mongoose
     // app.listen(process.env.PORT, () => {
     //   console.log("listening for requests on port", process.env.PORT);
     // });
-    app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`)
+    app.listen(PORT, () => {
+      console.log(`Example app listening on port ${PORT}`)
     })
   })
   .catch((err) => {
