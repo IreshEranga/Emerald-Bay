@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const FAQ = require("../models/FAQ");
+const FAQ = require("../models/faq");
 
 const FAQController = {
     getFAQs: async (req, res) => {
