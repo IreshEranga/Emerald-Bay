@@ -52,8 +52,8 @@ http://localhost:8000/
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/IT22350428">
-            <img src="https://github.com/IT22350428.png" width="100(px);" alt="ShanelkaPramuditha"/>
+        <a href="https://github.com/IsuruUdara2001">
+            <img src="https://github.com/IsuruUdara2001.png" width="100(px);" alt="ShanelkaPramuditha"/>
             <br />
             <sub><b>Isuru Udara</b></sub>
         </a>
